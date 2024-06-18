@@ -26,7 +26,6 @@
       "pre-commit": "npm run lint && npm test"
     }
   },
-  "author": "Moses Wejuli <mwejuli@companieshouse.gov.uk>",
   "license": "MIT",
   "dependencies": {
     "@companieshouse/api-sdk-node": "^2.0.71",
