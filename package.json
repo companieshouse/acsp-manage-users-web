@@ -1,7 +1,7 @@
 {
-  "name": "node-web-starter-ts",
+  "name": "acsp-manage-users-web",
   "version": "1.0.0",
-  "description": "A starter web application for Node.js with Typescript",
+  "description": "A web application for ACSP Manage Users journey",
   "main": "dist/server.js",
   "engines": {
     "node": ">=18.0.0",
