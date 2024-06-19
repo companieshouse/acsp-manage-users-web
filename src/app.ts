@@ -3,6 +3,7 @@ import nunjucks from "nunjucks";
 import path from "path";
 import logger from "./lib/Logger";
 import routerDispatch from "./router.dispatch";
+import { enableI18next } from "./middleware/i18next.language";
 
 const app = express();
 
@@ -44,6 +45,9 @@ app.use((err: any, req: Request, res: Response, _next: NextFunction) => {
     logger.error(`${err.name} - appError: ${err.message} - ${err.stack}`);
     res.render("partials/error");
 });
+
+// Add i18next middleware
+enableI18next(app);
 
 // Channel all requests through router dispatch
 routerDispatch(app);
