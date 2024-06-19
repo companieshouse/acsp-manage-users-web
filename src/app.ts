@@ -4,6 +4,7 @@ import path from "path";
 import logger from "./lib/Logger";
 import routerDispatch from "./router.dispatch";
 import { enableI18next } from "./middleware/i18next.language";
+import cookieParser from "cookie-parser";
 import * as constants from "./lib/constants";
 import { authenticationMiddleware } from "./middleware/authentication.middleware";
 import { sessionMiddleware } from "./middleware/session.middleware";
@@ -42,6 +43,8 @@ app.enable("trust proxy");
 // parse body into req.body
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
+app.use(cookieParser());
 
 app.use(`${constants.LANDING_URL}*`, sessionMiddleware);
 app.use(`${constants.LANDING_URL}*`, authenticationMiddleware);
