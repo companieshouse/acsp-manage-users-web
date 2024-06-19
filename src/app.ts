@@ -6,6 +6,7 @@ import routerDispatch from "./router.dispatch";
 import { enableI18next } from "./middleware/i18next.language";
 import * as constants from "./lib/constants";
 import { authenticationMiddleware } from "./middleware/authentication.middleware";
+import { sessionMiddleware } from "./middleware/session.middleware";
 
 const app = express();
 
@@ -42,6 +43,7 @@ app.enable("trust proxy");
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+app.use(`${constants.LANDING_URL}*`, sessionMiddleware);
 app.use(`${constants.LANDING_URL}*`, authenticationMiddleware);
 
 // Add i18next middleware

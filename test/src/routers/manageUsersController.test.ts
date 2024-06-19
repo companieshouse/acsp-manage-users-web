@@ -12,8 +12,9 @@ describe("GET /acsp-manage-users", () => {
         jest.clearAllMocks();
     });
 
-    it("should check user auth before returning the page", async () => {
+    it("should check session and user auth before returning the page", async () => {
         await router.get(url);
+        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
     });
 
