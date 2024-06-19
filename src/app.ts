@@ -4,6 +4,8 @@ import path from "path";
 import logger from "./lib/Logger";
 import routerDispatch from "./router.dispatch";
 import { enableI18next } from "./middleware/i18next.language";
+import * as constants from "./lib/constants";
+import { authenticationMiddleware } from "./middleware/authentication.middleware";
 
 const app = express();
 
@@ -40,17 +42,19 @@ app.enable("trust proxy");
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-// Unhandled errors
-app.use((err: any, req: Request, res: Response, _next: NextFunction) => {
-    logger.error(`${err.name} - appError: ${err.message} - ${err.stack}`);
-    res.render("partials/error");
-});
+app.use(`${constants.LANDING_URL}*`, authenticationMiddleware);
 
 // Add i18next middleware
 enableI18next(app);
 
 // Channel all requests through router dispatch
 routerDispatch(app);
+
+// Unhandled errors
+app.use((err: any, req: Request, res: Response, _next: NextFunction) => {
+    logger.error(`${err.name} - appError: ${err.message} - ${err.stack}`);
+    res.render("partials/error");
+});
 
 // Unhandled exceptions
 process.on("uncaughtException", (err: any) => {
