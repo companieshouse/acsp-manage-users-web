@@ -1,0 +1,6 @@
+app_name: acsp-manage-users-web
+group: web
+
+weight: 100
+routes:
+  1: ^/acsp-manage-users/*

@@ -1,15 +1,12 @@
 // Do Router dispatch here, i.e. map incoming routes to appropriate router
 import { Application, Request, Response } from "express";
-import indexRouter from "./routers/indexRouter";
-import userRouter from "./routers/userRouter";
-import companyRouter from "./routers/companyRouter";
+import router from "./routers/router";
+import * as constants from "./lib/constants";
 
 const routerDispatch = (app: Application) => {
-    app.use("/", indexRouter);
-    app.use("/user", userRouter);
-    app.use("/company", companyRouter);
+    app.use(constants.LANDING_URL, router);
     app.use("*", (req: Request, res: Response) => {
-        res.status(404).render("partials/error_400");
+        res.status(404).render("partials/error");
     });
 };
 

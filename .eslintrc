@@ -5,7 +5,11 @@
         "sourceType": "module",
         "ecmaFeatures": {}
     },
-    "extends": ["standard"],
+    "extends": [
+        "standard",
+        "eslint:recommended",
+        "plugin:@typescript-eslint/recommended"
+      ],
     "parser": "@typescript-eslint/parser",
     "overrides": [
          {
@@ -28,7 +32,7 @@
     "env": {
         "node": true,
         "commonjs": true,
-        "mocha": true,
+        "jest": true,
         "es6": true
     }
 }
