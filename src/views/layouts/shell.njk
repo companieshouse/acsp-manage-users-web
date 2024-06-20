@@ -15,15 +15,17 @@
                 : 'js-enabled');
         </script>
         {% include "partials/cookie_consent_banner.njk" %}
-        <a href="#main-page-content" class="govuk-skip-link">Skip to main content</a>
+        <div role="navigation" aria-label="{{lang.skip_to_main_content}}">
+            <a href="#main-page-content" class="govuk-skip-link">{{lang.skip_to_main_content}}</a>
+        </div>
         {% include "partials/__header.njk" %}
 
         <div class="govuk-width-container ">
-            <main class="govuk-main-wrapper " id="main-content">
+            {% include "partials/nav/top.njk" %}
+            <main role="main" class="govuk-main-wrapper " id="main-content">
                 <div class="govuk-grid-row">
                     {% block main_content %}{% endblock %}
                 </div>
-
             </main>
         </div>
 
