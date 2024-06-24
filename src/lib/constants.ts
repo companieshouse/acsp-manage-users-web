@@ -3,6 +3,9 @@ import { getEnvironmentValue } from "./utils/environmentValue";
 // English and Welsh translation files AND Nunjucks template files for pages
 export const MANAGE_USERS_PAGE = "acsp-manage-users";
 
+// Other Nunjucks template files
+export const SERVICE_UNAVAILABLE_TEMPLATE = "partials/service_unavailable";
+
 // Other English and Welsh translation files
 export const COMMON = "common";
 
