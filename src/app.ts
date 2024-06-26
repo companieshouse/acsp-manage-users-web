@@ -8,6 +8,7 @@ import cookieParser from "cookie-parser";
 import * as constants from "./lib/constants";
 import { authenticationMiddleware } from "./middleware/authentication.middleware";
 import { sessionMiddleware } from "./middleware/session.middleware";
+import { getTranslationsForView } from "./lib/utils/translationUtils";
 
 const app = express();
 
@@ -56,19 +57,20 @@ enableI18next(app);
 routerDispatch(app);
 
 // Unhandled errors
-app.use((err: any, req: Request, res: Response, _next: NextFunction) => {
+app.use((err: Error, req: Request, res: Response, _next: NextFunction) => {
     logger.error(`${err.name} - appError: ${err.message} - ${err.stack}`);
-    res.render("partials/error");
+    const translations = getTranslationsForView(req.t, constants.SERVICE_UNAVAILABLE);
+    res.render(constants.SERVICE_UNAVAILABLE_TEMPLATE, { lang: translations });
 });
 
 // Unhandled exceptions
-process.on("uncaughtException", (err: any) => {
+process.on("uncaughtException", (err: Error) => {
     logger.error(`${err.name} - uncaughtException: ${err.message} - ${err.stack}`);
     process.exit(1);
 });
 
 // Unhandled promise rejections
-process.on("unhandledRejection", (err: any) => {
+process.on("unhandledRejection", (err: Error) => {
     logger.error(`${err.name} - unhandledRejection: ${err.message} - ${err.stack}`);
     process.exit(1);
 });
