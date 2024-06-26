@@ -11,7 +11,7 @@ export const COMMON = "common";
 export const SERVICE_UNAVAILABLE = "service-unavailable";
 
 // Routing paths
-export const LANDING_URL = `/${MANAGE_USERS_PAGE}`;
+export const LANDING_URL = `/authorised-agent`;
 export const MANAGE_USERS_URL = "/";
 
 export const HEALTHCHECK = "/healthcheck";
