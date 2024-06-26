@@ -8,6 +8,7 @@ import cookieParser from "cookie-parser";
 import * as constants from "./lib/constants";
 import { authenticationMiddleware } from "./middleware/authentication.middleware";
 import { sessionMiddleware } from "./middleware/session.middleware";
+import { getTranslationsForView } from "./lib/utils/translationUtils";
 
 const app = express();
 
@@ -58,7 +59,8 @@ routerDispatch(app);
 // Unhandled errors
 app.use((err: Error, req: Request, res: Response, _next: NextFunction) => {
     logger.error(`${err.name} - appError: ${err.message} - ${err.stack}`);
-    res.render(constants.SERVICE_UNAVAILABLE_TEMPLATE);
+    const translations = getTranslationsForView(req.t, constants.SERVICE_UNAVAILABLE);
+    res.render(constants.SERVICE_UNAVAILABLE_TEMPLATE, { lang: translations });
 });
 
 // Unhandled exceptions

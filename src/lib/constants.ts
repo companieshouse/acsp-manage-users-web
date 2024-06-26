@@ -8,6 +8,7 @@ export const SERVICE_UNAVAILABLE_TEMPLATE = "partials/service_unavailable";
 
 // Other English and Welsh translation files
 export const COMMON = "common";
+export const SERVICE_UNAVAILABLE = "service-unavailable";
 
 // Routing paths
 export const LANDING_URL = `/${MANAGE_USERS_PAGE}`;
