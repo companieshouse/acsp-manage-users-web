@@ -13,7 +13,7 @@ clean:
 
 .PHONY: build
 build:  npm ci
-		npm run build
+	npm run build
 
 .PHONY: lint
 lint:
@@ -23,12 +23,13 @@ lint:
 sonar:
 	npm run sonarqube
 
-.PHONY: test-unit
-test-unit:
+.PHONY: test
+test:
 	npm run test:coverage
 
-.PHONY: test
-test: test-unit 
+.PHONY: test-unit
+test-unit:
+	npm run test
 
 .PHONY: security-check
 security-check:
@@ -50,4 +51,4 @@ endif
 	rm -rf $(tmpdir)
 
 .PHONY: dist
-dist: lint test-unit clean package
+dist: lint test clean package
