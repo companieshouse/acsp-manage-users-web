@@ -1,4 +1,4 @@
-import express, { Request, Response, NextFunction } from "express";
+import express, { Request, Response } from "express";
 import nunjucks from "nunjucks";
 import path from "path";
 import logger from "./lib/Logger";
@@ -57,7 +57,7 @@ enableI18next(app);
 routerDispatch(app);
 
 // Unhandled errors
-app.use((err: Error, req: Request, res: Response, _next: NextFunction) => {
+app.use((err: Error, req: Request, res: Response) => {
     logger.error(`${err.name} - appError: ${err.message} - ${err.stack}`);
     const translations = getTranslationsForView(req.t, constants.SERVICE_UNAVAILABLE);
     res.render(constants.SERVICE_UNAVAILABLE_TEMPLATE, { lang: translations });

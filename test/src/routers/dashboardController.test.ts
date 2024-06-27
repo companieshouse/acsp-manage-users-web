@@ -18,13 +18,10 @@ describe(`GET ${url}`, () => {
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
     });
 
-    it("should return status 200", async () => {
-        await router.get(url).expect(200);
-    });
-
     it("should have a page title and 4 boxes, file as an auth agent, manage people, verify and update", async () => {
         // When
         const encodedResponse = await router.get(url);
+        expect(encodedResponse.status).toEqual(200);
         const decodedResponse = encodedResponse.text.replace(/&#39;/g, "'");
         // Then
         expect(decodedResponse).toContain(en.page_header);
