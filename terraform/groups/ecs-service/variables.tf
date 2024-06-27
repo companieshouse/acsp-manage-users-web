@@ -110,5 +110,5 @@ variable "log_level" {
 
 variable "acsp_manage_users_web_version" {
   type        = string
-  description = "The version of the accounts-association-api container to run."
+  description = "The version of the acsp-manage-users-web_version container to run."
 }
