@@ -41,7 +41,7 @@ gulp.task("sass", () => {
 // Build and minify all .js files into app.min.js
 gulp.task("js", () => {
     return gulp
-        .src([`${srcDirJs}/*.js`, "node_modules/govuk-frontend/govuk/all.js"])
+        .src([`${srcDirJs}/*.js`, "node_modules/govuk-frontend/dist/govuk/govuk-frontend.min.js"])
         .pipe(concat("app.min.js"))
         .pipe(uglify())
         .pipe(gulp.dest(dstDirJs));
@@ -50,7 +50,7 @@ gulp.task("js", () => {
 // Copy the fonts and images from the govuk-frontend package to the public directory
 gulp.task("govuk-assets", () => {
     return gulp
-        .src(["./node_modules/govuk-frontend/govuk/assets/**/*"])
+        .src(["./node_modules/govuk-frontend/dist/govuk/assets/**/*"])
         .pipe(gulp.dest(dstDirAssets));
 });
 

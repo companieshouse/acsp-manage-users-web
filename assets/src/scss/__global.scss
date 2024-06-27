@@ -6,10 +6,14 @@ $govuk-global-styles: true;
 
 $govuk-font-url-function: 'custom-url-handler';
 
-@import "node_modules/govuk-frontend/govuk/all";
+@import "node_modules/govuk-frontend/dist/govuk/all";
 
 * {
     font-family: "GDS Transport", Arial, sans-serif;
+}
+
+#footer ul li {
+    margin-bottom: 10px;
 }
 
 /* styling from https://github.com/companieshouse/find-update-company-info-prototype/blob/main/app/assets/sass/custom.scss */
