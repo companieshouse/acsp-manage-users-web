@@ -9,9 +9,6 @@ export const ADD_USER_PAGE = "add-user";
 // Other Nunjucks template files
 export const SERVICE_UNAVAILABLE_TEMPLATE = "partials/service_unavailable";
 
-// Other Nunjucks template files
-export const SERVICE_UNAVAILABLE_TEMPLATE = "partials/service_unavailable";
-
 // Other English and Welsh translation files
 export const COMMON = "common";
 export const SERVICE_UNAVAILABLE = "service-unavailable";

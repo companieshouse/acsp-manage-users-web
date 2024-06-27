@@ -3,7 +3,7 @@ import * as constants from "../../lib/constants";
 import { getTranslationsForView } from "../../lib/utils/translationUtils";
 import { toReadableFormat } from "../../lib/utils/date";
 
-export const dashboardGet:RequestHandler = async (req: Request, res: Response) => {
+export const dashboardControllerGet:RequestHandler = async (req: Request, res: Response) => {
     res.render(constants.DASHBOARD_PAGE,
         {
             lang: getTranslationsForView(req.t, constants.DASHBOARD_PAGE),
