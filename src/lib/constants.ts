@@ -1,7 +1,10 @@
 import { getEnvironmentValue } from "./utils/environmentValue";
 
 // English and Welsh translation files AND Nunjucks template files for pages
+export const DASHBOARD_PAGE = "dashboard";
 export const MANAGE_USERS_PAGE = "manage-users";
+export const REMOVE_USER_PAGE = "remove-user";
+export const ADD_USER_PAGE = "add-user";
 
 // Other Nunjucks template files
 export const SERVICE_UNAVAILABLE_TEMPLATE = "partials/service_unavailable";
@@ -12,7 +15,13 @@ export const SERVICE_UNAVAILABLE = "service-unavailable";
 
 // Routing paths
 export const LANDING_URL = `/authorised-agent`;
+export const DASHBOARD_URL = `/${DASHBOARD_PAGE}`;
+export const DASHBOARD_FULL_URL = `${LANDING_URL}${DASHBOARD_URL}`;
 export const MANAGE_USERS_URL = `/${MANAGE_USERS_PAGE}`;
+export const REMOVE_USER_URL = `/${REMOVE_USER_PAGE}`;
+export const REMOVE_USER_FULL_URL = `${LANDING_URL}${REMOVE_USER_URL}`;
+export const ADD_USER_URL = `/${ADD_USER_PAGE}`;
+export const ADD_USER_FULL_URL = `${LANDING_URL}${ADD_USER_URL}`;
 
 export const HEALTHCHECK = "/healthcheck";
 
