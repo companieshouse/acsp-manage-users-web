@@ -53,6 +53,11 @@ app.use(`${constants.LANDING_URL}*`, authenticationMiddleware);
 // Add i18next middleware
 enableI18next(app);
 
+app.use((req: Request, res: Response, next: NextFunction) => {
+    njk.addGlobal("feedbackSource", req.originalUrl);
+    next();
+});
+
 // Channel all requests through router dispatch
 routerDispatch(app);
 
