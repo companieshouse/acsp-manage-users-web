@@ -10,6 +10,7 @@ export const dashboardControllerGet:RequestHandler = async (req: Request, res: R
             date1: toReadableFormat(new Date().toISOString(), req.language),
             date2: toReadableFormat(new Date().toISOString(), req.language),
             agentNumber: "06254821",
-            companyName: "MORRIS ACCOUNTING LTD"
+            companyName: "MORRIS ACCOUNTING LTD",
+            managePeopleLink: constants.MANAGE_USER_FULL_URL
         });
 };
