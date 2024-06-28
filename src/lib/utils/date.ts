@@ -1,4 +1,5 @@
 import { DateTime } from "luxon";
+import { createAndLogError } from "../Logger";
 
 export const toReadableFormat = (dateToConvert: string, lang = "en"): string => {
     if (!dateToConvert) {
@@ -17,7 +18,9 @@ export const toReadableFormat = (dateToConvert: string, lang = "en"): string => 
         break;
     }
     if (convertedDate === "Invalid DateTime") {
-        throw new Error(`Unable to convert provided date ${dateToConvert}`);
+        throw createAndLogError(
+            `Unable to convert provided date ${dateToConvert}`
+        );
     }
     return convertedDate;
 };
