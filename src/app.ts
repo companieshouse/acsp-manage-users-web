@@ -62,7 +62,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 routerDispatch(app);
 
 // Unhandled errors
-app.use((err: Error, req: Request, res: Response, _next: NextFunction) => {
+app.use((err: Error, req: Request, res: Response) => {
     logger.error(`${err.name} - appError: ${err.message} - ${err.stack}`);
     const translations = getTranslationsForView(req.t, constants.SERVICE_UNAVAILABLE);
     res.render(constants.SERVICE_UNAVAILABLE_TEMPLATE, { lang: translations });

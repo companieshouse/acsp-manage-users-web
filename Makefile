@@ -46,7 +46,10 @@ endif
 	cp -r ./dist/* $(tmpdir)
 	cp -r ./package.json $(tmpdir)
 	cp -r ./package-lock.json $(tmpdir)
-	cd $(tmpdir) && npm ci --omit=dev --ignore-scripts
+	cp -r ./.git $(tmpdir)
+	cp ./routes.yaml $(tmpdir)
+	cp ./start.sh $(tmpdir)
+	cd $(tmpdir) && export GIT_SSH_COMMAND="ssh" && npm ci --production
 	rm $(tmpdir)/package.json $(tmpdir)/package-lock.json
 	cd $(tmpdir) && zip -r ../$(artifact_name)-$(version).zip .
 	rm -rf $(tmpdir)
