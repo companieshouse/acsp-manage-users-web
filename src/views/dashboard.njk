@@ -1,0 +1,24 @@
+{% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+{% from "govuk/components/inset-text/macro.njk" import govukInsetText %}
+
+{% extends "layouts/default.njk" %}
+
+{% block main_content %}
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <h1 class="govuk-heading-l">
+                <span class="govuk-caption-l">
+                    {{companyName}}
+                </span>
+                {{lang.page_header}}
+            </h1>
+
+            {% include "partials/dashboard/file_as_an_authorised_agent.njk" %}
+            {% include "partials/dashboard/manage_people.njk" %}
+            {% include "partials/dashboard/verify_someones_identity.njk" %}
+            {% include "partials/dashboard/update_authorised_agent_details.njk" %}
+
+        </div>
+    </div>
+
+{% endblock %}

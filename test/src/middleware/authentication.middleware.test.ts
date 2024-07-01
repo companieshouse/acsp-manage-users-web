@@ -14,7 +14,7 @@ const mockAuthReturnedFunction = jest.fn();
 // when the mocked authMiddleware is called, make it return a mocked function so we can verify it gets called
 mockAuthMiddleware.mockReturnValue(mockAuthReturnedFunction);
 
-const URL = "/acsp-manage-users/something";
+const URL = "/authorised-agent/something";
 const req: Request = { originalUrl: URL } as Request;
 const res: Response = {} as Response;
 const next = jest.fn();
