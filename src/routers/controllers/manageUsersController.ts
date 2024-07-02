@@ -3,7 +3,7 @@ import * as constants from "../../lib/constants";
 import { getTranslationsForView } from "../../lib/utils/translationUtils";
 import { AnyRecord } from "types/utilTypes";
 import { TableEntry } from "../../types/viewTypes";
-import { getLink } from "../../lib/utils/viewUtils";
+import { getHiddenText, getLink } from "../../lib/utils/viewUtils";
 
 export const manageUsersControllerGet = async (req: Request, res: Response): Promise<void> => {
     const viewData = getViewData(req);
@@ -22,7 +22,7 @@ const getViewData = (req: Request): AnyRecord => {
         [
             { text: userEmailAddress },
             { text: userName },
-            { html: getLink(constants.REMOVE_USER_FULL_URL, translations.remove as string) }
+            { html: getLink(`${constants.REMOVE_USER_FULL_URL} ${getHiddenText(userEmailAddress)}`, translations.remove as string) }
         ]
     ];
 

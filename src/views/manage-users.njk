@@ -36,6 +36,9 @@
     {% set accountOwnersTabContent %}
     <h2 class="govuk-heading-l">{{lang.account_owners}}</h2>
     {{ govukTable({
+            caption: lang.account_owners,
+            captionClasses: "govuk-table__caption--m govuk-visually-hidden",
+            firstCellIsHeader: true,
             head: headers,
             rows: accountOwnersTableData
         })
@@ -46,6 +49,9 @@
     <h2 class="govuk-heading-l">{{lang.administrators}}</h2>
     {% if administratorsTableData %}
         {{ govukTable({
+            caption: lang.administrators,
+            captionClasses: "govuk-table__caption--m govuk-visually-hidden",
+            firstCellIsHeader: true,
             head: headers,
             rows: administratorsTableData
         })
@@ -59,6 +65,9 @@
     <h2 class="govuk-heading-l">{{lang.standard_users}}</h2>
     {% if standardUsersTableData %}
         {{ govukTable({
+            caption: lang.standard_users,
+            captionClasses: "govuk-table__caption--m govuk-visually-hidden",
+            firstCellIsHeader: true,
             head: headers,
             rows: standardUsersTableData
         })
