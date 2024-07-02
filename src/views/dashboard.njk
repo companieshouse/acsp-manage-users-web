@@ -7,14 +7,14 @@
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
             <h1 class="govuk-heading-l">
-                <span class="govuk-caption-l">
-                    {{companyName}}
-                </span>
                 {{lang.page_header}}
             </h1>
-
+            {% include "partials/dashboard/account_owner_detail.njk" %}
+            <h2 class="govuk-heading-m govuk-!-margin-bottom-6 govuk-!-margin-top-8">
+                {{lang.authorised_agent_services}}
+            </h2>
             {% include "partials/dashboard/file_as_an_authorised_agent.njk" %}
-            {% include "partials/dashboard/manage_people.njk" %}
+            {% include "partials/dashboard/manage_users.njk" %}
             {% include "partials/dashboard/verify_someones_identity.njk" %}
             {% include "partials/dashboard/update_authorised_agent_details.njk" %}
 

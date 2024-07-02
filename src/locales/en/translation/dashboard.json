@@ -1,12 +1,14 @@
 {
-    "page_header":"Authorised agent services",
-    "manage_people": "Manage people",
-    "view_and_manage_peope": "View and manage people who have been added to ",
-    "add_employees_if": "Add employees if they need to file with Companies House. You can choose if they need to access other authorised agent services.",
-    "you_can_remove_people": "You can remove people from the account at any time.",
+    "page_header":"Authorised agent",
+    "authorised_agent_services":"Authorised agent services",
+    "manage_users": "Manage users",
+    "view_users_who": "View users who have been added to ",
+    "you_can":"You can:",
+    "bullet_1": "add people who work for the business if they need to use services for authorised agents",
+    "bullet_2": "remove users if they no longer work for the business",
     "file_as_an_authorised_agent": "File as an authorised agent",
     "coming_soon": "COMING SOON",
-    "you_can_file_as": ", you can file as ",
+    "in_the_future_youll_be":"In the future, you'll be able to file as ",
     "authorised_agent_number": "Authorised agent number:",
     "you_will_need_to_use": "You will need to use this to file on paper or using software.",
     "update_authorised_agent": "Update authorised agent's details",
@@ -15,7 +17,9 @@
     "tell_us_about_aml": "You must tell us about any changes to the Anti-Money-Laundering (AML) registration within 14 days.",
     "update_agent_details": "Update the authorised agent's details",
     "verify_someones_id": "Verify someone's identity",
-    "from": "From ",
-    "you_can_use_this": ", you can use this service to tell us about a person whose identity you have verified.",
-    "tell_companies_house_id": "Tell Companies House you have verified someone's identity"
+    "in_the_future_you_can_use":"In the future, you can use this service to tell us you've verified a person's identity.",
+    "tell_companies_house_id": "Tell Companies House you have verified someone's identity",
+    "account_owner":"ACCOUNT OWNER",
+    "auth_agent_status":"Authorised agent status is ",
+    "auth_agent_number":"Authorised agent number is "
 }

@@ -26,7 +26,7 @@ describe(`GET ${url}`, () => {
         // Then
         expect(decodedResponse).toContain(en.page_header);
         expect(decodedResponse).toContain(en.file_as_an_authorised_agent);
-        expect(decodedResponse).toContain(en.manage_people);
+        expect(decodedResponse).toContain(en.manage_users);
         expect(decodedResponse).toContain(en.verify_someones_id);
         expect(decodedResponse).toContain(en.update_agent_details);
     });
