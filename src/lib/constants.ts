@@ -1,3 +1,4 @@
+import { verify } from "crypto";
 import { getEnvironmentValue } from "./utils/environmentValue";
 
 // English and Welsh translation files AND Nunjucks template files for pages
@@ -5,6 +6,8 @@ export const DASHBOARD_PAGE = "dashboard";
 export const MANAGE_USERS_PAGE = "manage-users";
 export const REMOVE_USER_PAGE = "remove-user";
 export const ADD_USER_PAGE = "add-user";
+export const VERIFY_SOMEONES_IDENTITY_PAGE = "verify-identity";
+export const UPDATE_AUTHORISED_AGENT_DETAILS_PAGE = "update-agent-details";
 
 // Other Nunjucks template files
 export const SERVICE_UNAVAILABLE_TEMPLATE = "partials/service_unavailable";
@@ -23,6 +26,10 @@ export const REMOVE_USER_FULL_URL = `${LANDING_URL}${REMOVE_USER_URL}`;
 export const ADD_USER_URL = `/${ADD_USER_PAGE}`;
 export const ADD_USER_FULL_URL = `${LANDING_URL}${ADD_USER_URL}`;
 export const MANAGE_USER_FULL_URL = `${LANDING_URL}${MANAGE_USERS_URL}`;
+export const VERIFY_SOMEONES_IDENTITY_URL = `/${VERIFY_SOMEONES_IDENTITY_PAGE}`;
+export const VERIFY_SOMEONES_IDENTITY_FULL_URL = `${LANDING_URL}${VERIFY_SOMEONES_IDENTITY_URL}`;
+export const UPDATE_AUTHORISED_AGENT_DETAILS_URL = `/${UPDATE_AUTHORISED_AGENT_DETAILS_PAGE}`;
+export const UPDATE_AUTHORISED_AGENT_DETAILS_FULL_URL = `${LANDING_URL}${UPDATE_AUTHORISED_AGENT_DETAILS_URL}`;
 
 export const HEALTHCHECK = "/healthcheck";
 
