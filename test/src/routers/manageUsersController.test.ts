@@ -4,9 +4,9 @@ import app from "../../../src/app";
 
 const router = supertest(app);
 
-const url = "/acsp-manage-users";
+const url = "/authorised-agent/manage-users";
 
-describe("GET /acsp-manage-users", () => {
+describe("GET /authorised-agent/manage-users", () => {
 
     beforeEach(() => {
         jest.clearAllMocks();
