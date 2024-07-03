@@ -8,7 +8,6 @@ export const dashboardControllerGet:RequestHandler = async (req: Request, res: R
             lang: getTranslationsForView(req.t, constants.DASHBOARD_PAGE),
             agentStatus: "active",
             agentNumber: "06254821",
-            companyName: "MORRIS ACCOUNTING LTD",
-            managePeopleLink: constants.MANAGE_USER_FULL_URL
+            companyName: "MORRIS ACCOUNTING LTD"
         });
 };

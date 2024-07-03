@@ -24,6 +24,7 @@ describe(`GET ${url}`, () => {
         expect(encodedResponse.status).toEqual(200);
         const decodedResponse = encodedResponse.text.replace(/&#39;/g, "'");
         // Then
+        expect(decodedResponse).toContain(en.auth_agent_status);
         expect(decodedResponse).toContain(en.page_header);
         expect(decodedResponse).toContain(en.file_as_an_authorised_agent);
         expect(decodedResponse).toContain(en.manage_users);
