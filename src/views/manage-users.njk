@@ -1,5 +1,108 @@
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/table/macro.njk" import govukTable %}
+{% from "govuk/components/tabs/macro.njk" import govukTabs %}
+
 {% extends "layouts/default.njk" %}
 
+{% block back_link %}
+    {% include "partials/back_link.njk" %}
+{% endblock %}
+
 {% block main_content %}
-    <h1>{{lang.page_header}}</h1>
+    <span class="govuk-caption-l">{{companyName}} &#40;{{companyNumber}}&#41;</span>
+    <h1 class="govuk-heading-l">{{lang.page_header}}</h1>
+
+    {{ govukButton({
+            text: lang.add_a_user,
+            href: addUserUrl,
+            attributes: {
+                id: "add-a-user-button"
+            }
+        })
+    }}
+
+    <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+    {% set headers = [
+        {
+            text: lang.email_address
+        }, {
+            text: lang.users_name
+        }, {
+            text: lang.remove_user
+        }
+    ] %}
+
+    {% set accountOwnersTabContent %}
+    <h2 class="govuk-heading-l">{{lang.account_owners}}</h2>
+    {{ govukTable({
+            caption: lang.account_owners,
+            captionClasses: "govuk-table__caption--m govuk-visually-hidden",
+            firstCellIsHeader: true,
+            head: headers,
+            rows: accountOwnersTableData
+        })
+    }}
+    {% endset %}
+
+    {% set administratorsTabContent %}
+    <h2 class="govuk-heading-l">{{lang.administrators}}</h2>
+    {% if administratorsTableData %}
+        {{ govukTable({
+            caption: lang.administrators,
+            captionClasses: "govuk-table__caption--m govuk-visually-hidden",
+            firstCellIsHeader: true,
+            head: headers,
+            rows: administratorsTableData
+        })
+    }}
+    {% else %}
+        <p class="govuk-body">{{lang.you_have_no_admin_users}}</p>
+    {% endif %}
+    {% endset %}
+
+    {% set standardUsersTabContent %}
+    <h2 class="govuk-heading-l">{{lang.standard_users}}</h2>
+    {% if standardUsersTableData %}
+        {{ govukTable({
+            caption: lang.standard_users,
+            captionClasses: "govuk-table__caption--m govuk-visually-hidden",
+            firstCellIsHeader: true,
+            head: headers,
+            rows: standardUsersTableData
+        })
+    }}
+    {% else %}
+        <p class="govuk-body">{{lang.you_have_no_standard_users}}</p>
+    {% endif %}
+    {% endset %}
+
+    {{ govukTabs({
+            classes: "govuk-!-padding-top-6",
+            items: [
+                {
+                    label: lang.account_owners,
+                    id: "account-owners",
+                    panel: {
+                        html: accountOwnersTabContent
+                    }
+                },
+                {
+                    label: lang.administrators,
+                    id: "administrators",
+                    panel: {
+                        html: administratorsTabContent
+                    }
+                },
+                {
+                    label: lang.standard_users,
+                    id: "standard-users",
+                    panel: {
+                        html: standardUsersTabContent
+                    }
+                }
+            ]
+        })
+    }}
+
 {% endblock %}
