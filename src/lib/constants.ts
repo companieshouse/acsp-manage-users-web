@@ -5,6 +5,7 @@ export const DASHBOARD_PAGE = "dashboard";
 export const MANAGE_USERS_PAGE = "manage-users";
 export const REMOVE_USER_PAGE = "remove-user";
 export const ADD_USER_PAGE = "add-user";
+export const CHECK_MEMBER_DETAILS_PAGE = "check-member-details";
 
 // Other Nunjucks template files
 export const SERVICE_UNAVAILABLE_TEMPLATE = "partials/service_unavailable";
@@ -23,6 +24,10 @@ export const REMOVE_USER_URL = `/${REMOVE_USER_PAGE}`;
 export const REMOVE_USER_FULL_URL = `${LANDING_URL}${REMOVE_USER_URL}`;
 export const ADD_USER_URL = `/${ADD_USER_PAGE}`;
 export const ADD_USER_FULL_URL = `${LANDING_URL}${ADD_USER_URL}`;
+export const CHECK_MEMBER_DETAILS_URL = `/${CHECK_MEMBER_DETAILS_PAGE}`;
+export const CHECK_MEMBER_DETAILS_FULL_URL = `${LANDING_URL}${CHECK_MEMBER_DETAILS_URL}`;
+export const TRY_ADDING_USER_URL = "/try-adding-user";
+export const TRY_ADDING_USER_FULL_URL = `${LANDING_URL}${TRY_ADDING_USER_URL}`;
 
 export const HEALTHCHECK = "/healthcheck";
 
@@ -37,3 +42,4 @@ export const COOKIE_SECRET = getEnvironmentValue("COOKIE_SECRET");
 
 // various
 export const VALIDATION_ERRORS = "VALIDATION_ERRORS";
+export const EMAIL_OF_USER_TO_ADD = "emailOfUserToAdd";

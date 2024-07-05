@@ -1,0 +1,67 @@
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+{% from "govuk/components/tag/macro.njk" import govukTag %}
+
+{% extends "layouts/default.njk" %}
+
+{% block back_link %}
+    {% include "partials/back_link.njk" %}
+{% endblock %}
+
+{% block main_content %}
+    <div class="govuk-grid-column-two-thirds">
+        <span class="govuk-caption-l">{{companyName}}</span>
+        <h1 class="govuk-heading-l">{{lang.page_header}}</h1>
+
+        {% if userRole === "Account owner" %}
+            {% set tag_colour = "govuk-tag--blue" %}
+        {% elif userRole === "Administrator"%}
+            {% set tag_colour = "govuk-tag--green" %}
+        {% else %}
+            {% set tag_colour = "govuk-tag--yellow" %}
+        {% endif %}
+
+        {% set tag %}
+        {{ govukTag({
+                text: userRole,
+                classes: tag_colour
+                })
+            }}
+        {% endset %}
+
+        {{ govukSummaryList({
+            rows: [
+                    {
+                        key: {
+                            text: lang.email_address
+                        },
+                        value: {
+                            text: userEmailAddress
+                        }
+                    },
+                    {
+                        key: {
+                            text: lang.role
+                        },
+                        value: {
+                            html: tag
+                        }
+                    }
+                ]
+            })
+        }}
+
+        {{ govukButton({
+                text: lang.confirm_and_add_user,
+                href: tryAddingUserUrl,
+                attributes: {
+                    id: "confirm-and-add-user-button"
+                }
+            })
+        }}
+
+        <p class="govuk-body">
+            <a class="govuk-link" href="{{backLinkUrl}}">{{lang.change_details}}</a>
+        </p>
+    </div>
+{% endblock %}
