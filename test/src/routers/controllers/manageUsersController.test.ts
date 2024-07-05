@@ -1,8 +1,8 @@
-import mocks from "../../mocks/all.middleware.mock";
+import mocks from "../../../mocks/all.middleware.mock";
 import supertest from "supertest";
-import app from "../../../src/app";
-import * as en from "../../../src/locales/en/translation/manage-users.json";
-import * as enCommon from "../../../src/locales/en/translation/common.json";
+import app from "../../../../src/app";
+import * as en from "../../../../src/locales/en/translation/manage-users.json";
+import * as enCommon from "../../../../src/locales/en/translation/common.json";
 
 const router = supertest(app);
 
