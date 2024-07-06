@@ -17,5 +17,8 @@
     "option_2_hint_bullet_1":"administrators",
     "option_2_hint_bullet_2":"standard users",
     "option_3":"Standard user",
-    "option_3_hint":"They will not be able to add or remove other users."
+    "option_3_hint":"They will not be able to add or remove other users.",
+    "errors_email_required": "Enter an email address",
+    "errors_email_invalid": "Enter an email address in the correct format, like name@example.com",
+    "errors_select_user_role":"Select the user’s role"
 }

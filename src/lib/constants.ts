@@ -37,3 +37,6 @@ export const COOKIE_SECRET = getEnvironmentValue("COOKIE_SECRET");
 
 // various
 export const VALIDATION_ERRORS = "VALIDATION_ERRORS";
+export const ERRORS_EMAIL_REQUIRED = "errors_email_required";
+export const ERRORS_EMAIL_INVALID = "errors_email_invalid";
+export const ERRORS_SELECT_USER_ROLE = "errors_select_user_role";

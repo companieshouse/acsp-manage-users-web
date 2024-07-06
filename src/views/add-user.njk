@@ -6,13 +6,22 @@
 {% extends "layouts/default.njk" %}
 
 {% set message = null %}
+{% set roleMessage = null %}
+{% set emailMessage = null %}
+{% set title = lang.page_header + lang.title_end %}
 
 {% for key, value in errors %}
     {% if key == "email" %}
-        {% set message = {
+        {% set emailMessage = {
             text: lang[value.text]
         } %}
-        {% set title = lang.title_error + lang.title_add_presenter %}
+        {% set title = lang.title_error + lang.page_header + lang.title_end %}
+    {% endif %}
+    {% if key == "role" %}
+        {% set roleMessage = {
+            text: lang[value.text]
+        } %}
+        {% set title = lang.title_error + lang.page_header + lang.title_end %}
     {% endif %}
 {% endfor %}
 
@@ -57,8 +66,8 @@
                         name: "email",
                         type: "email",
                         spellcheck: "false",
-                        errorMessage: message,
-                        value: emailOfUserToAdd
+                        errorMessage: emailMessage,
+                        value: email
                     })
                 }}
     {% set option_1_html %}
@@ -108,6 +117,7 @@
                     {
                         value: "accountOwner",
                         html: option_1_html,
+                        checked: role === "accountOwner",
                         hint: {
                              html: option_1_hint
                         }
@@ -115,6 +125,7 @@
                     {
                         value: "administrator",
                         html: option_2_html,
+                        checked: role === "administrator",
                         hint: {
                              html: option_2_hint
                         }
@@ -122,11 +133,13 @@
                     {
                         value: "standardUser",
                         html: option_3_html,
+                        checked: role === "standardUser",
                         hint: {
                              html: option_3_hint
                         }
                     }
-                    ]
+                    ],
+                    errorMessage: roleMessage
                     }) }}
 
                 {% set button_attributes = {
