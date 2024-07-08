@@ -5,6 +5,7 @@ export const DASHBOARD_PAGE = "dashboard";
 export const MANAGE_USERS_PAGE = "manage-users";
 export const REMOVE_USER_PAGE = "remove-user";
 export const ADD_USER_PAGE = "add-user";
+export const USER_REMOVE_CONFIRMATION_PAGE = "confirmation-member-removed";
 
 // Other Nunjucks template files
 export const SERVICE_UNAVAILABLE_TEMPLATE = "partials/service_unavailable";
@@ -23,6 +24,8 @@ export const REMOVE_USER_URL = `/${REMOVE_USER_PAGE}`;
 export const REMOVE_USER_FULL_URL = `${LANDING_URL}${REMOVE_USER_URL}`;
 export const ADD_USER_URL = `/${ADD_USER_PAGE}`;
 export const ADD_USER_FULL_URL = `${LANDING_URL}${ADD_USER_URL}`;
+export const CONFIRMATION_MEMBER_REMOVED_URL = `/${USER_REMOVE_CONFIRMATION_PAGE}`;
+export const CONFIRMATION_MEMBER_REMOVED_FULL_URL = `${LANDING_URL}${CONFIRMATION_MEMBER_REMOVED_URL}`;
 
 export const HEALTHCHECK = "/healthcheck";
 
