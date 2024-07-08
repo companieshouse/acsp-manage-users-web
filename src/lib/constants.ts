@@ -40,3 +40,7 @@ export const VALIDATION_ERRORS = "VALIDATION_ERRORS";
 export const ERRORS_EMAIL_REQUIRED = "errors_email_required";
 export const ERRORS_EMAIL_INVALID = "errors_email_invalid";
 export const ERRORS_SELECT_USER_ROLE = "errors_select_user_role";
+
+// query params
+export const CLEAR_FORM = "cf";
+export const CLEAR_FORM_TRUE = "?cf=true";
