@@ -5,7 +5,7 @@ import { setExtraData, getExtraData } from "../../lib/utils/sessionUtils";
 import { ViewData } from "../../types/utilTypes";
 import { clearFormSessionValues } from "../../lib/validation/clear.form.validation";
 import { validateAndSetErrors } from "../../lib/validation/add.user.validation";
-import { AddUser } from "../../types/userRole";
+import { NewUserDetails } from "../../types/user";
 
 export const addUserControllerGet = async (req: Request, res: Response): Promise<void> => {
     const viewData: ViewData = {
@@ -13,43 +13,43 @@ export const addUserControllerGet = async (req: Request, res: Response): Promise
         companyName: "MORRIS ACCOUNTING LTD",
         backLinkUrl: constants.MANAGE_USER_FULL_URL
     };
-    clearFormSessionValues(req, "userAndRole");
-    const savedUserAndRole: AddUser = getExtraData(
+    clearFormSessionValues(req, constants.DETAILS_OF_USER_TO_ADD);
+    const savedNewUserDetails = getExtraData(
         req.session,
-        "userAndRole"
+        constants.DETAILS_OF_USER_TO_ADD
     );
 
-    if (savedUserAndRole) {
+    if (savedNewUserDetails) {
         validateAndSetErrors(
-            savedUserAndRole.email,
-            savedUserAndRole.userRole,
+            savedNewUserDetails?.email,
+            savedNewUserDetails?.userRole,
             viewData
         );
-        viewData.email = savedUserAndRole.email;
-        viewData.role = savedUserAndRole.userRole;
+        viewData.email = savedNewUserDetails?.email;
+        viewData.userRole = savedNewUserDetails?.userRole;
     }
     res.render(constants.ADD_USER_PAGE, viewData);
 };
 
 export const addUserControllerPost = async (req: Request, res: Response): Promise<void> => {
     const email = req.body.email.trim();
-    const role = req.body.role;
+    const userRole = req.body.userRole;
 
     const viewData: ViewData = {
         lang: getTranslationsForView(req.t, constants.ADD_USER_PAGE),
         companyName: "MORRIS ACCOUNTING LTD",
         backLinkUrl: constants.MANAGE_USER_FULL_URL,
         email,
-        role
+        userRole
     };
 
-    validateAndSetErrors(email, role, viewData);
+    validateAndSetErrors(email, userRole, viewData);
 
     if (viewData.errors) {
-        setExtraData(req.session, "userAndRole", { email, role, isValid: false } as unknown as AddUser);
+        setExtraData(req.session, constants.DETAILS_OF_USER_TO_ADD, { email, userRole, isValid: false } as unknown as NewUserDetails);
         return res.render(constants.ADD_USER_PAGE, viewData);
     } else {
-        setExtraData(req.session, "userAndRole", { email, role, isValid: true } as unknown as AddUser);
+        setExtraData(req.session, constants.DETAILS_OF_USER_TO_ADD, { email, userRole, isValid: true } as unknown as NewUserDetails);
         return res.redirect(constants.DASHBOARD_FULL_URL);
     }
 };

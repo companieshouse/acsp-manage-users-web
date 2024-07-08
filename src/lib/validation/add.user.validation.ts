@@ -3,6 +3,11 @@ import { validateEmailString } from "../../lib/validation/email.validation";
 import { validateRole } from "./user.role.validation";
 import * as constants from "../constants";
 
+const FormInputNames = {
+    EMAIL: "email",
+    USER_ROLE: "userRole"
+} as const;
+
 export const addErrorToViewData = (
     errProp: string,
     errorMsg: string,
@@ -23,11 +28,11 @@ export const validateAndSetErrors = (
 ): void => {
     const emailErrorMessage = validateAddUserEmail(email);
     if (emailErrorMessage) {
-        addErrorToViewData("email", emailErrorMessage, viewData);
+        addErrorToViewData(FormInputNames.EMAIL, emailErrorMessage, viewData);
     }
     const roleErrorMessage = validateRole(role);
     if (roleErrorMessage) {
-        addErrorToViewData("role", roleErrorMessage, viewData);
+        addErrorToViewData(FormInputNames.USER_ROLE, roleErrorMessage, viewData);
     }
 };
 

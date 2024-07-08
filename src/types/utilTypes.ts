@@ -12,5 +12,5 @@ export type ViewData = {
       companyName?: string;
       backLinkUrl?:string;
       email?:string;
-      role?:string;
+      userRole?:string;
   };

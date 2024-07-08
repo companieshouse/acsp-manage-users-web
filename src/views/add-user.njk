@@ -17,7 +17,7 @@
         } %}
         {% set title = lang.title_error + lang.page_header + lang.title_end %}
     {% endif %}
-    {% if key == "role" %}
+    {% if key == "userRole" %}
         {% set roleMessage = {
             text: lang[value.text]
         } %}
@@ -106,7 +106,7 @@
     {% endset %}
 
                 {{ govukRadios({
-                name: "role",
+                name: "userRole",
                 fieldset: {
                     legend: {
                     text: lang.radio_btns_header,
@@ -115,25 +115,25 @@
                 },
                 items: [
                     {
-                        value: "accountOwner",
+                        value: "owner",
                         html: option_1_html,
-                        checked: role === "accountOwner",
+                        checked: role === "owner",
                         hint: {
                              html: option_1_hint
                         }
                     },
                     {
-                        value: "administrator",
+                        value: "admin",
                         html: option_2_html,
-                        checked: role === "administrator",
+                        checked: role === "admin",
                         hint: {
                              html: option_2_hint
                         }
                     },
                     {
-                        value: "standardUser",
+                        value: "standard",
                         html: option_3_html,
-                        checked: role === "standardUser",
+                        checked: role === "standard",
                         hint: {
                              html: option_3_hint
                         }

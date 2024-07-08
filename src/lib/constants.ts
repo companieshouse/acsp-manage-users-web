@@ -44,3 +44,6 @@ export const ERRORS_SELECT_USER_ROLE = "errors_select_user_role";
 // query params
 export const CLEAR_FORM = "cf";
 export const CLEAR_FORM_TRUE = "?cf=true";
+
+// session.extra_data
+export const DETAILS_OF_USER_TO_ADD = "detailsOfUserToAdd";
