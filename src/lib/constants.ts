@@ -6,6 +6,8 @@ export const MANAGE_USERS_PAGE = "manage-users";
 export const REMOVE_USER_PAGE = "remove-user";
 export const ADD_USER_PAGE = "add-user";
 export const CHECK_MEMBER_DETAILS_PAGE = "check-member-details";
+export const CONFIRMATION_MEMBER_ADDED_PAGE = "confirmation-member-added";
+export const MEMBER_ALREADY_ADDED_PAGE = "member-already-added";
 
 // Other Nunjucks template files
 export const SERVICE_UNAVAILABLE_TEMPLATE = "partials/service_unavailable";
@@ -28,6 +30,10 @@ export const CHECK_MEMBER_DETAILS_URL = `/${CHECK_MEMBER_DETAILS_PAGE}`;
 export const CHECK_MEMBER_DETAILS_FULL_URL = `${LANDING_URL}${CHECK_MEMBER_DETAILS_URL}`;
 export const TRY_ADDING_USER_URL = "/try-adding-user";
 export const TRY_ADDING_USER_FULL_URL = `${LANDING_URL}${TRY_ADDING_USER_URL}`;
+export const CONFIRMATION_MEMBER_ADDED_URL = `/${CONFIRMATION_MEMBER_ADDED_PAGE}`;
+export const CONFIRMATION_MEMBER_ADDED_FULL_URL = `${LANDING_URL}${CONFIRMATION_MEMBER_ADDED_URL}`;
+export const MEMBER_ALREADY_ADDED_URL = `/${MEMBER_ALREADY_ADDED_PAGE}`;
+export const MEMBER_ALREADY_ADDED_FULL_URL = `${LANDING_URL}${MEMBER_ALREADY_ADDED_URL}`;
 
 export const HEALTHCHECK = "/healthcheck";
 
@@ -43,3 +49,6 @@ export const COOKIE_SECRET = getEnvironmentValue("COOKIE_SECRET");
 // various
 export const VALIDATION_ERRORS = "VALIDATION_ERRORS";
 export const EMAIL_OF_USER_TO_ADD = "emailOfUserToAdd";
+
+// errors
+export const MEMBER_ALREADY_ADDED_ERROR = "Mamber already added";
