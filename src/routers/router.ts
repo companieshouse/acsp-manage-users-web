@@ -5,6 +5,7 @@ import { dashboardControllerGet } from "./controllers/dashboardController";
 import { healthCheckController } from "./controllers/healthCheckController";
 import { addUserControllerGet, addUserControllerPost } from "./controllers/addUserController";
 import { checkMemberDetailsControllerGet } from "./controllers/checkMemberDetailsController";
+import { tryAddingUserControllerGet } from "./controllers/tryAddingUserController";
 
 const router: Router = Router();
 
@@ -16,6 +17,8 @@ router.get(constants.ADD_USER_URL, addUserControllerGet);
 router.post(constants.ADD_USER_URL, addUserControllerPost);
 
 router.get(constants.CHECK_MEMBER_DETAILS_URL, checkMemberDetailsControllerGet);
+
+router.get(constants.TRY_ADDING_USER_URL, tryAddingUserControllerGet);
 
 router.get(constants.HEALTHCHECK, healthCheckController);
 
