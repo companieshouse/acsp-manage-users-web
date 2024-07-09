@@ -1,4 +1,4 @@
-import { UserRole } from "./userRole";
+import { UserRole } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
 
 export interface NewUserDetails {
     userRole: UserRole;
