@@ -5,5 +5,5 @@ export interface NewUserDetails {
     userId: string;
     isValid: boolean;
     email: string;
-    userName?: string
+    userName?: string;
 }

@@ -5,10 +5,13 @@ import { dashboardControllerGet } from "./controllers/dashboardController";
 import { healthCheckController } from "./controllers/healthCheckController";
 import { checkMemberDetailsControllerGet } from "./controllers/checkMemberDetailsController";
 import { tryAddingUserControllerGet } from "./controllers/tryAddingUserController";
+import { confirmationMemberAddedControllerGet } from "./controllers/confirmationMemberAddedController";
 
 const router: Router = Router();
 
 router.get(constants.MANAGE_USERS_URL, manageUsersControllerGet as RequestHandler);
+
+router.get(constants.CONFIRMATION_MEMBER_ADDED_URL, confirmationMemberAddedControllerGet as RequestHandler);
 
 router.get(constants.DASHBOARD_URL, dashboardControllerGet);
 
