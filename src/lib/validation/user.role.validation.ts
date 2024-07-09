@@ -1,8 +1,8 @@
 import * as constants from "../constants";
-import { USER_ROLE } from "../../types/userRole";
+import { UserRole } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
 
 export const validateRole = (role:string|undefined):string|undefined => {
-    if (role === USER_ROLE.OWNER || role === USER_ROLE.ADMIN || role === USER_ROLE.STANDARD) {
+    if (role === UserRole.OWNER || role === UserRole.ADMIN || role === UserRole.STANDARD) {
         return undefined;
     }
     return constants.ERRORS_SELECT_USER_ROLE;
