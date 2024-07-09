@@ -5,5 +5,8 @@
     "customer_insights": "Customer insights",
     "back_link_to_the_previous_page": "Back link to the previous page",
     "email_address": "Email address",
-    "go_to_manage_users": "Go to manage users"
+    "go_to_manage_users": "Go to manage users",
+    "continue": "Continue",
+    "continue_button_to_proceed_to_the_next_page": "Continue button to proceed to the next page",
+    "title_error": "Error: "
 }

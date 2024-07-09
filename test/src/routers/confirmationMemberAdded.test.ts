@@ -6,9 +6,9 @@ import * as enCommon from "../../../src/locales/en/translation/common.json";
 import * as constants from "../../../src/lib/constants";
 import { setExtraData } from "../../../src/lib/utils/sessionUtils";
 import { NewUserDetails } from "../../../src/types/user";
-import { UserRole } from "../../../src/types/userRole";
 import { NextFunction, Request, Response } from "express";
 import { Session } from "@companieshouse/node-session-handler";
+import { UserRole } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
 
 const router = supertest(app);
 

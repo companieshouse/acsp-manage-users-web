@@ -30,7 +30,7 @@ const getViewData = (req: Request): AnyRecord => {
         lang: translations,
         backLinkUrl: constants.DASHBOARD_FULL_URL,
         removeUserLinkUrl: constants.REMOVE_USER_FULL_URL,
-        addUserUrl: constants.ADD_USER_FULL_URL,
+        addUserUrl: constants.ADD_USER_FULL_URL + constants.CLEAR_FORM_TRUE,
         companyName,
         companyNumber,
         accountOwnersTableData

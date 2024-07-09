@@ -1,0 +1,161 @@
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+
+{% extends "layouts/default.njk" %}
+
+{% set message = null %}
+{% set roleMessage = null %}
+{% set emailMessage = null %}
+{% set title = lang.page_header + lang.title_end %}
+
+{% for key, value in errors %}
+    {% if key == "email" %}
+        {% set emailMessage = {
+            text: lang[value.text]
+        } %}
+        {% set title = lang.title_error + lang.page_header + lang.title_end %}
+    {% endif %}
+    {% if key == "userRole" %}
+        {% set roleMessage = {
+            text: lang[value.text]
+        } %}
+        {% set title = lang.title_error + lang.page_header + lang.title_end %}
+    {% endif %}
+{% endfor %}
+
+{% block back_link %}
+    <div role="navigation" aria-label="{{lang.back_link_to_the_previous_page}}">
+    {{ govukBackLink({
+            text: lang.back_link_to_manage_users,
+            href: backLinkUrl,
+            attributes: {
+                id: "back-link-to-previous-page"
+            }
+        })
+    }}
+</div>
+{% endblock %}
+
+{% block main_content %}
+
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <span class="govuk-caption-l">{{companyName}}</span>
+            <h1 class="govuk-heading-l govuk-!-margin-bottom-6">
+                {{ lang.page_header }}
+            </h1>
+
+            <p class="govuk-body">{{ lang.p1 }}</p>
+            <ul class="govuk-list govuk-list--bullet govuk-!-margin-bottom-6">
+                <li>{{ lang.bullet_1 }}</li>
+                <li>{{ lang.bullet_2 }}</li>
+            </ul>
+
+            <form method="post" novalidate="novalidate">
+                {{ govukInput({
+                        label: {
+                            text: lang.email_input_label,
+                            classes: "govuk-label--m"
+                        },
+                        hint: {
+                            text: lang.email_hint_text
+                        },
+                        id: "email",
+                        name: "email",
+                        type: "email",
+                        spellcheck: "false",
+                        errorMessage: emailMessage,
+                        value: email
+                    })
+                }}
+    {% set option_1_html %}
+        <span class="govuk-body govuk-!-font-weight-bold"> {{lang.option_1}}</span>
+    {% endset %}
+    {% set option_2_html %}
+        <span class="govuk-body govuk-!-font-weight-bold"> {{lang.option_2}}</span>
+    {% endset %}
+    {% set option_3_html %}
+        <span class="govuk-body govuk-!-font-weight-bold"> {{lang.option_3}}</span>
+    {% endset %}
+    
+    {% set option_1_hint %}
+        <p class="govuk-body">
+            {{lang.option_1_hint_p}}
+        </p>
+
+        <ul class="govuk-body">
+            <li>{{ lang.option_1_hint_bullet_1 }}</li>
+            <li>{{ lang.option_1_hint_bullet_2 }}</li>
+            <li>{{ lang.option_1_hint_bullet_3 }}</li>
+        </ul>
+    {% endset %}
+
+    {% set option_2_hint %}
+        <p class="govuk-body">
+            {{lang.option_2_hint_p}}
+        </p>
+        <ul class="govuk-body">
+            <li>{{ lang.option_2_hint_bullet_1 }}</li>
+            <li>{{ lang.option_2_hint_bullet_2 }}</li>
+        </ul>
+    {% endset %}
+    {% set option_3_hint %}
+        <p class="govuk-body"> {{lang.option_3_hint}} </p>
+    {% endset %}
+
+                {{ govukRadios({
+                name: "userRole",
+                fieldset: {
+                    legend: {
+                    text: lang.radio_btns_header,
+                    classes: "govuk-fieldset__legend--m govuk-!-static-padding-top-3"
+                    }
+                },
+                items: [
+                    {
+                        value: "owner",
+                        html: option_1_html,
+                        checked: userRole === "owner",
+                        hint: {
+                             html: option_1_hint
+                        }
+                    },
+                    {
+                        value: "admin",
+                        html: option_2_html,
+                        checked: userRole === "admin",
+                        hint: {
+                             html: option_2_hint
+                        }
+                    },
+                    {
+                        value: "standard",
+                        html: option_3_html,
+                        checked: userRole === "standard",
+                        hint: {
+                             html: option_3_hint
+                        }
+                    }
+                    ],
+                    errorMessage: roleMessage
+                    }) }}
+
+                {% set button_attributes = {
+                    role: "button",
+                    "aria-label": lang.continue_button_to_proceed_to_the_next_page,
+                    id: "continue-button"              
+                } %}
+
+                {{ govukButton({text: lang.continue,
+                    type: "submit",
+                    attributes: button_attributes,
+                    classes: 'govuk-!-margin-top-3'
+                }) }}
+
+            </form>
+        </div>
+    </div>
+
+{% endblock %}
