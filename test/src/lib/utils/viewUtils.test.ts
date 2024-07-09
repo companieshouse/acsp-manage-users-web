@@ -28,7 +28,7 @@ describe("getHiddenText", () => {
 
 describe("addErrorToViewData", () => {
     test("adds error key and error message to view data object", () => {
-        const viewDataOriginal:ViewData = {
+        const viewDataOriginal: ViewData = {
             lang: {},
             companyName: "Acme"
         };
@@ -46,8 +46,9 @@ describe("addErrorToViewData", () => {
         addErrorToViewData(errorKey, errorMessage, viewDataOriginal);
         expect(viewDataOriginal).toEqual(expectedViewData);
     });
+
     test("should add error key and error message to view data which already contains an error", () => {
-        const viewDataOriginal:ViewData = {
+        const viewDataOriginal: ViewData = {
             lang: {},
             companyName: "Acme",
             errors: {

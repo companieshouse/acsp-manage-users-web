@@ -1,14 +1,14 @@
 export type AnyRecord = Record<string, unknown>;
 
 export type ViewData = {
-  lang: AnyRecord;
-  errors?:{
+    lang: AnyRecord;
+    errors?: {
         [key: string]: {
-          text: string;
+            text: string;
         };
-      }
-  companyName?: string;
-  backLinkUrl?: string;
-  email?: string;
-  userRole?: string;
+    };
+    companyName?: string;
+    backLinkUrl?: string;
+    email?: string;
+    userRole?: string;
 };
