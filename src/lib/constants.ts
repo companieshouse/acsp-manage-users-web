@@ -5,6 +5,7 @@ export const DASHBOARD_PAGE = "dashboard";
 export const MANAGE_USERS_PAGE = "manage-users";
 export const REMOVE_USER_PAGE = "remove-user";
 export const ADD_USER_PAGE = "add-user";
+export const CONFIRMATION_MEMBER_ADDED_PAGE = "confirmation-member-added";
 
 // Other Nunjucks template files
 export const SERVICE_UNAVAILABLE_TEMPLATE = "partials/service_unavailable";
@@ -23,6 +24,8 @@ export const REMOVE_USER_URL = `/${REMOVE_USER_PAGE}`;
 export const REMOVE_USER_FULL_URL = `${LANDING_URL}${REMOVE_USER_URL}`;
 export const ADD_USER_URL = `/${ADD_USER_PAGE}`;
 export const ADD_USER_FULL_URL = `${LANDING_URL}${ADD_USER_URL}`;
+export const CONFIRMATION_MEMBER_ADDED_URL = `/${CONFIRMATION_MEMBER_ADDED_PAGE}`;
+export const CONFIRMATION_MEMBER_ADDED_FULL_URL = `${LANDING_URL}${CONFIRMATION_MEMBER_ADDED_URL}`;
 
 export const HEALTHCHECK = "/healthcheck";
 
@@ -37,3 +40,6 @@ export const COOKIE_SECRET = getEnvironmentValue("COOKIE_SECRET");
 
 // various
 export const VALIDATION_ERRORS = "VALIDATION_ERRORS";
+
+// session.extra_data
+export const DETAILS_OF_USER_TO_ADD = "detailsOfUserToAdd";
