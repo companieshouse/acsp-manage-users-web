@@ -46,11 +46,8 @@ export const COOKIE_DOMAIN = getEnvironmentValue("COOKIE_DOMAIN");
 export const COOKIE_NAME = getEnvironmentValue("COOKIE_NAME");
 export const COOKIE_SECRET = getEnvironmentValue("COOKIE_SECRET");
 
-// various
-export const VALIDATION_ERRORS = "VALIDATION_ERRORS";
-export const EMAIL_OF_USER_TO_ADD = "emailOfUserToAdd";
-
 // errors
+export const VALIDATION_ERRORS = "VALIDATION_ERRORS";
 export const MEMBER_ALREADY_ADDED_ERROR = "Mamber already added";
 export const ERRORS_EMAIL_REQUIRED = "errors_email_required";
 export const ERRORS_EMAIL_INVALID = "errors_email_invalid";
