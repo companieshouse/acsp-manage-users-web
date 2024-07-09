@@ -50,6 +50,6 @@ export const addUserControllerPost = async (req: Request, res: Response): Promis
         return res.render(constants.ADD_USER_PAGE, viewData);
     } else {
         setExtraData(req.session, constants.DETAILS_OF_USER_TO_ADD, { email, userRole, isValid: true } as unknown as NewUserDetails);
-        return res.redirect(constants.DASHBOARD_FULL_URL);
+        return res.redirect(constants.CHECK_MEMBER_DETAILS_FULL_URL);
     }
 };
