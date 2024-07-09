@@ -7,5 +7,6 @@
     "continue": "[CY] Continue",
     "continue_button_to_proceed_to_the_next_page": "[CY] Continue button to proceed to the next page",
     "title_error": "[CY] Error: ",
-    "email_address": "[CY] Email address"
+    "email_address": "[CY] Email address",
+    "go_to_manage_users": "[CY] Go to manage users"
 }
