@@ -1,5 +1,6 @@
 import { ViewData } from "../../types/utilTypes";
-import { UserRole, UserRoleTag } from "../../types/userRole";
+import { UserRole } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
+import { UserRoleTag } from "../../types/userRoleTag";
 
 export const getLink = (href: string, displayText: string): string => {
     return `<a href="${href}">${displayText}</a>`;
