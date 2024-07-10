@@ -9,6 +9,8 @@ export const CHECK_MEMBER_DETAILS_PAGE = "check-member-details";
 export const CONFIRMATION_MEMBER_ADDED_PAGE = "confirmation-member-added";
 export const MEMBER_ALREADY_ADDED_PAGE = "member-already-added";
 export const VIEW_USERS_PAGE = "view-users";
+export const REMOVE_MEMBER_PAGE = "remove-member";
+export const USER_REMOVE_CONFIRMATION_PAGE = "confirmation-member-removed";
 
 // Other Nunjucks template files
 export const SERVICE_UNAVAILABLE_TEMPLATE = "partials/service_unavailable";
@@ -37,6 +39,10 @@ export const MEMBER_ALREADY_ADDED_URL = `/${MEMBER_ALREADY_ADDED_PAGE}`;
 export const MEMBER_ALREADY_ADDED_FULL_URL = `${LANDING_URL}${MEMBER_ALREADY_ADDED_URL}`;
 export const VIEW_USERS_URL = `/${VIEW_USERS_PAGE}`;
 export const VIEW_USERS_FULL_URL = `${LANDING_URL}${VIEW_USERS_URL}`;
+export const REMOVE_MEMBER_CHECK_DETAILS_URL = `/${REMOVE_MEMBER_PAGE}`;
+export const REMOVE_MEMBER_CHECK_DETAILS_FULL_URL = `${LANDING_URL}${REMOVE_MEMBER_CHECK_DETAILS_URL}`;
+export const CONFIRMATION_MEMBER_REMOVED_URL = `/${USER_REMOVE_CONFIRMATION_PAGE}`;
+export const CONFIRMATION_MEMBER_REMOVED_FULL_URL = `${LANDING_URL}${CONFIRMATION_MEMBER_REMOVED_URL}`;
 
 export const HEALTHCHECK = "/healthcheck";
 
@@ -66,3 +72,4 @@ export const CLEAR_FORM_TRUE = "?cf=true";
 
 // session.extra_data
 export const DETAILS_OF_USER_TO_ADD = "detailsOfUserToAdd";
+export const DETAILS_OF_USER_TO_REMOVE = "detailsOfUserToRemove";
