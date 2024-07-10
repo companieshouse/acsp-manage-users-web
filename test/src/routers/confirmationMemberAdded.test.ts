@@ -22,7 +22,7 @@ mocks.mockSessionMiddleware.mockImplementation((req: Request, res: Response, nex
     next();
 });
 
-describe("GET /authorised-agent/confirmation-member-removed", () => {
+describe("GET /authorised-agent/confirmation-member-added", () => {
 
     beforeEach(() => {
         jest.clearAllMocks();
@@ -38,7 +38,7 @@ describe("GET /authorised-agent/confirmation-member-removed", () => {
         await router.get(url).expect(200);
     });
 
-    it("should return expected English content if person has been removed and if userName is provided", async () => {
+    it("should return expected English content if person has been added and if userName is provided", async () => {
 
         // Given
         const userRole: UserRole = UserRole.STANDARD;
@@ -58,7 +58,7 @@ describe("GET /authorised-agent/confirmation-member-removed", () => {
         expect(response.text).toContain(`${enCommon.go_to_manage_users}`);
     });
 
-    it("should return expected English content if person has been removed and if userName is not provided", async () => {
+    it("should return expected English content if person has been added and if userName is not provided", async () => {
 
         // Given
         const userRole: UserRole = UserRole.STANDARD;
