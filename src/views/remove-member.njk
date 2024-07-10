@@ -1,0 +1,37 @@
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
+{% extends "layouts/default.njk" %}
+
+{% set userDetails = newUserDetails.userName if newUserDetails.userName else newUserDetails.email %}
+
+{% set title = lang.remove + userDetails + lang.title_end %}
+
+{% block back_link %}
+    {% include "partials/back_link.njk" %}
+{% endblock %}
+
+{% block main_content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+        <span class="govuk-caption-xl">{{companyName}}</span>
+        <h1 class="govuk-heading-xl">{{lang.remove}}{{userDetails}}</h1>
+
+        <p class="govuk-body">{{lang.if_you_remove}}{{userDetails}}{{lang.they_will_not_be_able_to_use}}{{companyName}}.</p>
+
+        <form method = "post">
+            <div class="govuk-button-group">
+                {{ govukButton({
+                        text: lang.remove_user,
+                        classes: "govuk-button--warning",
+                        href: removeButtonHref
+                    })
+                }}
+                <a class="govuk-link" href="{{cancelLinkHref}}" id="cancel-link">{{lang.cancel}}</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

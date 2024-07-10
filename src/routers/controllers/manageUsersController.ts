@@ -22,14 +22,14 @@ const getViewData = (req: Request): AnyRecord => {
         [
             { text: userEmailAddress },
             { text: userName },
-            { html: getLink(constants.REMOVE_USER_FULL_URL, `${translations.remove as string} ${getHiddenText(userEmailAddress)}`) }
+            { html: getLink(constants.REMOVE_MEMBER_CHECK_DETAILS_FULL_URL, `${translations.remove as string} ${getHiddenText(userEmailAddress)}`) }
         ]
     ];
 
     return {
         lang: translations,
         backLinkUrl: constants.DASHBOARD_FULL_URL,
-        removeUserLinkUrl: constants.REMOVE_USER_FULL_URL,
+        removeUserLinkUrl: constants.REMOVE_MEMBER_CHECK_DETAILS_FULL_URL,
         addUserUrl: constants.ADD_USER_FULL_URL,
         companyName,
         companyNumber,
