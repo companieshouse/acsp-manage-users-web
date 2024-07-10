@@ -40,3 +40,6 @@ export const COOKIE_SECRET = getEnvironmentValue("COOKIE_SECRET");
 
 // various
 export const VALIDATION_ERRORS = "VALIDATION_ERRORS";
+
+// session.extra_data
+export const DETAILS_OF_USER_TO_REMOVE = "detailsOfUserToRemove";
