@@ -48,7 +48,7 @@ export const COOKIE_SECRET = getEnvironmentValue("COOKIE_SECRET");
 
 // errors
 export const VALIDATION_ERRORS = "VALIDATION_ERRORS";
-export const MEMBER_ALREADY_ADDED_ERROR = "Mamber already added";
+export const MEMBER_ALREADY_ADDED_ERROR = "Member already added";
 export const ERRORS_EMAIL_REQUIRED = "errors_email_required";
 export const ERRORS_EMAIL_INVALID = "errors_email_invalid";
 export const ERRORS_SELECT_USER_ROLE = "errors_select_user_role";
