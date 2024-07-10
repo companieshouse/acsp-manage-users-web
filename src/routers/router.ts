@@ -7,12 +7,14 @@ import { addUserControllerGet, addUserControllerPost } from "./controllers/addUs
 import { checkMemberDetailsControllerGet } from "./controllers/checkMemberDetailsController";
 import { tryAddingUserControllerGet } from "./controllers/tryAddingUserController";
 import { confirmationMemberAddedControllerGet } from "./controllers/confirmationMemberAddedController";
+import { removeUserCheckDetailsControllerGet } from "./controllers/removeUserCheckDetailsController";
 
 const router: Router = Router();
 
 router.get(constants.MANAGE_USERS_URL, manageUsersControllerGet as RequestHandler);
 
 router.get(constants.CONFIRMATION_MEMBER_ADDED_URL, confirmationMemberAddedControllerGet as RequestHandler);
+router.get(constants.REMOVE_MEMBER_CHECK_DETAILS_URL, removeUserCheckDetailsControllerGet as RequestHandler);
 
 router.get(constants.DASHBOARD_URL, dashboardControllerGet);
 
