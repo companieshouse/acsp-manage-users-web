@@ -2,7 +2,7 @@ import { z } from "zod";
 import { deleteExtraData } from "../utils/sessionUtils";
 import { Request } from "express";
 
-export function validateClearForm (clearForm:string): boolean {
+export function validateClearForm (clearForm: string): boolean {
 
     const clearFormSchema = z.literal("true");
     try {
@@ -13,7 +13,7 @@ export function validateClearForm (clearForm:string): boolean {
     }
 }
 
-export const clearFormSessionValues = (req:Request, sessionKey:string):void => {
+export const clearFormSessionValues = (req: Request, sessionKey: string): void => {
     if (validateClearForm(req.query.cf as string)) {
         deleteExtraData(req.session, sessionKey);
     }

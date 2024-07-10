@@ -41,6 +41,7 @@ describe(`GET ${url}`, () => {
         expect(decodedResponse).toContain(en.option_2);
         expect(decodedResponse).toContain(en.option_3);
     });
+
     it("should validate and display invalid input and error if input stored in session", async () => {
         const invalidEmail = "bad email";
         session.setExtraData(constants.DETAILS_OF_USER_TO_ADD, {
@@ -52,6 +53,7 @@ describe(`GET ${url}`, () => {
         expect(response.text).toContain("Enter an email address in the correct format");
         expect(response.text).toContain(invalidEmail);
     });
+
     it("should not display saved session values when url has cf query param - /authorised-agent/add-user?cf=true", async () => {
         const emailStoredInSession = "bob@bob.com";
         session.setExtraData(constants.DETAILS_OF_USER_TO_ADD, {
