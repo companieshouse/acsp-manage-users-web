@@ -1,4 +1,5 @@
-import { getHiddenText, getLink } from "../../../../src/lib/utils/viewUtils";
+import { UserRole } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
+import { getHiddenText, getLink, getUserRoleTag } from "../../../../src/lib/utils/viewUtils";
 
 describe("getLink", () => {
     it("should return a link when href and text provided", () => {
@@ -20,6 +21,28 @@ describe("getHiddenText", () => {
         const expectedDisplayText = "<span class=\"govuk-visually-hidden\">Mr Brown</span>";
         // When
         const result = getHiddenText(hiddenText);
+        // Then
+        expect(result).toEqual(expectedDisplayText);
+    });
+});
+
+describe("getUserRoleTag", () => {
+    it("should return an unmodified user role tag text when user role provided and isLowerCase false", () => {
+        // Given
+        const userRole = UserRole.ADMIN;
+        const expectedDisplayText = "Administrator";
+        // When
+        const result = getUserRoleTag(userRole, false);
+        // Then
+        expect(result).toEqual(expectedDisplayText);
+    });
+
+    it("should return a user role tag text in lower case when user role provided and isLowerCase true", () => {
+        // Given
+        const userRole = UserRole.ADMIN;
+        const expectedDisplayText = "administrator";
+        // When
+        const result = getUserRoleTag(userRole, true);
         // Then
         expect(result).toEqual(expectedDisplayText);
     });
