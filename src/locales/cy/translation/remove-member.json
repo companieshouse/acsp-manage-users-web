@@ -1,6 +1,6 @@
 {
-    "remove": "[CY] Remove ",
     "if_you_remove": "[CY] If you remove ",
-    "they_will_not_be_able_to_use": ", [CY] they will not be able to use authorised agent services for ",
-    "remove_user": "[CY] Remove user"
+    "remove": "[CY] Remove ",
+    "remove_user": "[CY] Remove user",
+    "they_will_not_be_able_to_use": ", [CY] they will not be able to use authorised agent services for "
 }
