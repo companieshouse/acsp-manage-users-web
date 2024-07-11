@@ -1,16 +1,26 @@
-import { Request, Response, RequestHandler } from "express";
+import { Request, Response } from "express";
 import * as constants from "../../lib/constants";
 import { getTranslationsForView } from "../../lib/utils/translationUtils";
-import { toReadableFormat } from "../../lib/utils/date";
+import { UserRole, UserStatus } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
+import { getUserRoleTag } from "../../lib/utils/viewUtils";
 
-export const dashboardControllerGet:RequestHandler = async (req: Request, res: Response) => {
+export const dashboardControllerGet = async (req: Request, res: Response): Promise<void> => {
+    const translations = getTranslationsForView(req.t, constants.DASHBOARD_PAGE);
+    // Hardcoded data will be replaced once relevant API calls available
+    const agentNumber = "06254821";
+    const agentStatus = UserStatus.ACTIVE;
+    const userRoleTag = getUserRoleTag(UserRole.OWNER, true);
+    const companyName = "MORRIS ACCOUNTING LTD";
+
     res.render(constants.DASHBOARD_PAGE,
         {
-            lang: getTranslationsForView(req.t, constants.DASHBOARD_PAGE),
-            date1: toReadableFormat(new Date().toISOString(), req.language),
-            date2: toReadableFormat(new Date().toISOString(), req.language),
-            agentNumber: "06254821",
-            companyName: "MORRIS ACCOUNTING LTD",
-            managePeopleLink: constants.MANAGE_USER_FULL_URL
+            lang: translations,
+            agentNumber,
+            companyName,
+            agentStatus,
+            userRoleTag,
+            managePeopleLink: constants.MANAGE_USER_FULL_URL,
+            youHaveVerifiedSomeonesIdentityLink: constants.YOU_HAVE_VERIFIED_SOMEONES_IDENTITY_URL,
+            updateAuthorisedAgentsDetailsLink: constants.UPDATE_AUTHORISED_AGENTS_DETAILS_URL
         });
 };

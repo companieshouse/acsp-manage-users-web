@@ -13,8 +13,22 @@
                 {{lang.page_header}}
             </h1>
 
+            <p class="govuk-body govuk-!-margin-bottom-1">{{lang.authorised_agent_status}}
+                <span class="govuk-!-font-weight-bold">{{agentStatus}}</span>
+            </p>
+            <p class="govuk-body govuk-!-margin-bottom-1">{{lang.authorised_agent_number}}
+                <span class="govuk-!-font-weight-bold">{{agentNumber}}</span>
+            </p>
+            <p class="govuk-body govuk-!-padding-bottom-3">{{lang.your_role}}
+                <span class="govuk-!-font-weight-bold">{{userRoleTag}}</span>
+            </p>
+
+            <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+            <h2 class="govuk-heading-m govuk-!-static-padding-top-5 govuk-!-static-padding-bottom-2">{{lang.authorised_agent_services}}</h2>
+
             {% include "partials/dashboard/file_as_an_authorised_agent.njk" %}
-            {% include "partials/dashboard/manage_people.njk" %}
+            {% include "partials/dashboard/manage_users.njk" %}
             {% include "partials/dashboard/verify_someones_identity.njk" %}
             {% include "partials/dashboard/update_authorised_agent_details.njk" %}
 
