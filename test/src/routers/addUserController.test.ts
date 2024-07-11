@@ -5,10 +5,13 @@ import * as constants from "../../../src/lib/constants";
 import * as en from "../../../src/locales/en/translation/add-user.json";
 import { Session } from "@companieshouse/node-session-handler";
 import { NextFunction, Request, Response } from "express";
+import * as userAccountService from "../../../src/services/userAccountService";
 
 const router = supertest(app);
 const url = "/authorised-agent/add-user";
 const session: Session = new Session();
+
+const mockUserAccService = jest.spyOn(userAccountService, "getUserDetails");
 
 mocks.mockSessionMiddleware.mockImplementation((req: Request, res: Response, next: NextFunction) => {
     req.session = session;
@@ -94,6 +97,11 @@ describe(`POST ${url}`, () => {
     });
 
     it("should redirect to the next page when form inputs are valid", async () => {
+        mockUserAccService.mockResolvedValueOnce([{
+            forename: "Bob",
+            surname: "McBob",
+            email: "bob@bob.com"
+        }]);
         const response = await router.post(url).send({ email: "bob@bob.com", userRole: "standard" });
         expect(response.status).toEqual(302);
         expect(response.header.location).toEqual(constants.CHECK_MEMBER_DETAILS_FULL_URL);

@@ -20,5 +20,6 @@
   "option_3_hint": "They will not be able to add or remove other users.",
   "errors_email_required": "Enter an email address",
   "errors_email_invalid": "Enter an email address in the correct format, like name@example.com",
-  "errors_select_user_role": "Select the user’s role"
+  "errors_select_user_role": "Select the user’s role",
+  "errors_email_already_added":"Enter an email address that has not already been added to the account"
 }

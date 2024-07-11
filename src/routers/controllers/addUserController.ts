@@ -20,7 +20,8 @@ export const addUserControllerGet = async (req: Request, res: Response): Promise
     );
 
     if (savedNewUserDetails) {
-        validateAndSetErrors(
+        await validateAndSetErrors(
+            req,
             savedNewUserDetails?.email,
             savedNewUserDetails?.userRole,
             viewData
@@ -43,7 +44,7 @@ export const addUserControllerPost = async (req: Request, res: Response): Promis
         userRole
     };
 
-    validateAndSetErrors(email, userRole, viewData);
+    await validateAndSetErrors(req, email, userRole, viewData);
 
     if (viewData.errors) {
         setExtraData(req.session, constants.DETAILS_OF_USER_TO_ADD, { email, userRole, isValid: false } as unknown as NewUserDetails);
