@@ -1,13 +1,14 @@
 {
-    "page_header": "Manage users",
-    "back_link": "Return to authorised agent services",
-    "add_a_user": "Add a user",
     "account_owners": "Account owners",
     "users_name": "User’s name",
     "remove_user": "Remove user",
     "remove": "Remove",
+    "add_a_user": "Add a user",
     "administrators": "Administrators",
-    "you_have_no_admin_users": "You have no admin users.",
+    "back_link": "Return to authorised agent services",
+    "email_address": "Email address",
+    "page_header": "Manage users",
     "standard_users": "Standard users",
+    "you_have_no_admin_users": "You have no admin users.",
     "you_have_no_standard_users": "You have no standard users."
 }

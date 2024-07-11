@@ -1,6 +1,6 @@
 {
-    "page_header": "Sorry, there is a problem with the service",
-    "try_again_later": "Try again later.",
     "contact_companies_house": "Contact Companies House",
-    "if_you_have_questions": " if you have any questions."
+    "if_you_have_questions": " if you have any questions.",
+    "page_header": "Sorry, there is a problem with the service",
+    "try_again_later": "Try again later."
 }

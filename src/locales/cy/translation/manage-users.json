@@ -1,13 +1,14 @@
 {
-    "page_header": "[CY] Manage users",
-    "back_link": "[CY] Return to authorised agent services",
-    "add_a_user": "[CY] Add a user",
     "account_owners": "[CY] Account owners",
     "users_name": "[CY] User’s name",
     "remove_user": "[CY] Remove user",
     "remove": "[CY] Remove",
+    "add_a_user": "[CY] Add a user",
     "administrators": "[CY] Administrators",
-    "you_have_no_admin_users": "[CY] You have no admin users.",
+    "back_link": "[CY] Return to authorised agent services",
+    "email_address": "[CY] Email address",
+    "page_header": "[CY] Manage users",
     "standard_users": "[CY] Standard users",
+    "you_have_no_admin_users": "[CY] You have no admin users.",
     "you_have_no_standard_users": "[CY] You have no standard users."
 }
