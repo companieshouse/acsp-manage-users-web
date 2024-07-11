@@ -1,5 +1,5 @@
 import { UserRole } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
-import { getHiddenText, getLink, addErrorToViewData, getUserRoleTag } from "../../../../src/lib/utils/viewUtils";
+import { addErrorToViewData, getHiddenText, getLink, getUserRoleTag } from "../../../../src/lib/utils/viewUtils";
 import { ViewData } from "../../../../src/types/utilTypes";
 
 describe("getLink", () => {
