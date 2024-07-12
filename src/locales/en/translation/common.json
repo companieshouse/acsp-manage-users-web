@@ -7,5 +7,6 @@
     "continue": "Continue",
     "continue_button_to_proceed_to_the_next_page": "Continue button to proceed to the next page",
     "title_error": "Error: ",
-    "email_address": "Email address"
+    "email_address": "Email address",
+    "go_to_manage_users": "Go to manage users"
 }
