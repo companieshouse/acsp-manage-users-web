@@ -4,6 +4,7 @@ import { getTranslationsForView } from "../../lib/utils/translationUtils";
 import { AnyRecord } from "types/utilTypes";
 import { getExtraData } from "../../lib/utils/sessionUtils";
 import { NewUserDetails } from "../../types/user";
+import { getUserRoleTag } from "../../lib/utils/viewUtils";
 
 export const confirmationMemberAddedControllerGet = async (req: Request, res: Response): Promise<void> => {
     const viewData = getViewData(req);
@@ -15,11 +16,13 @@ const getViewData = (req: Request): AnyRecord => {
 
     // Hardcoded data will be replaced once relevant API calls available
     const newUserDetails: NewUserDetails = getExtraData(req.session, constants.DETAILS_OF_USER_TO_ADD);
+    const userRole = getUserRoleTag(newUserDetails.email).toLowerCase();
     const companyName = "MORRIS ACCOUNTING LTD";
 
     return {
         lang: translations,
         newUserDetails,
+        userRole,
         companyName,
         buttonHref: constants.MANAGE_USER_FULL_URL
     };
