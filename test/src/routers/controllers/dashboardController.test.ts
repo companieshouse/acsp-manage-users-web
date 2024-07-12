@@ -1,7 +1,7 @@
-import mocks from "../../mocks/all.middleware.mock";
+import mocks from "../../../mocks/all.middleware.mock";
 import supertest from "supertest";
-import app from "../../../src/app";
-import * as en from "../../../src/locales/en/translation/dashboard.json";
+import app from "../../../../src/app";
+import * as en from "../../../../src/locales/en/translation/dashboard.json";
 
 const router = supertest(app);
 const url = "/authorised-agent/dashboard";

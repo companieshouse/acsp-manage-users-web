@@ -1,5 +1,5 @@
-import mocks from "../../mocks/all.middleware.mock";
-import app from "../../../src/app";
+import mocks from "../../../mocks/all.middleware.mock";
+import app from "../../../../src/app";
 import supertest from "supertest";
 
 const router = supertest(app);
