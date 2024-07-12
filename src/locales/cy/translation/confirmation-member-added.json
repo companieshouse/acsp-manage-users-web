@@ -1,7 +1,12 @@
 {
+    "account_owner": "[CY] account owner",
+    "administrator": "[CY] administrator",
+    "as_a": " [CY] as a ",
+    "as_an": " [CY] as an ",
+    "for": " [CY] for ",
+    "standard_user": "[CY] standard user",
+    "theyll_be_able_to_use_services": "[CY] They’ll be able to use services for authorised agents when they sign in to their Companies House account.",
     "user_added": "[CY] User added",
-    "you_have_added": "[CY] You have added ",
-    "as_an_administrator": " [CY] as an administrator for ",
     "what_happens_now": "[CY] What happens now they have been added",
-    "theyll_be_able_to_use_services": "[CY] They’ll be able to use services for authorised agents when they sign into their Companies House account."
+    "you_have_added": "[CY] You have added "
 }
