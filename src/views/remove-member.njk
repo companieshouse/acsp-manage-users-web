@@ -3,7 +3,7 @@
 
 {% extends "layouts/default.njk" %}
 
-{% set userDetails = newUserDetails.userName if newUserDetails.userName else newUserDetails.email %}
+{% set userDetails = removeUserDetails.displayUserName if removeUserDetails.displayUserName else removeUserDetails.userEmail %}
 
 {% set title = lang.remove + userDetails + lang.title_end %}
 
