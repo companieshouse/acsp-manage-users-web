@@ -4,12 +4,13 @@
 {% extends "layouts/default.njk" %}
 
 {% set userDetails = newUserDetails.userName if newUserDetails.userName else newUserDetails.email %}
+{% set roleText = lang.as_a + userRole if userRole == lang.standard_user else lang.as_an + userRole%}
 
 {% set bannerHtml %}
         <h3 class="govuk-notification-banner__heading">
             {{lang.user_added}}
         </h3>
-        <p class="govuk-body">{{lang.you_have_added}}<strong>{{userDetails}}</strong>{{lang.as_an_administrator}}{{companyName}}</p>
+        <p class="govuk-body">{{lang.you_have_added}}<strong>{{userDetails}}</strong>{{roleText}}{{lang.for}}{{companyName}}.</p>
 {% endset %}
 
 {% set title = lang.what_happens_now + lang.title_end %}
