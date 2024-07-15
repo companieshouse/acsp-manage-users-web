@@ -23,6 +23,7 @@ export const addErrorToViewData = (
     };
 };
 
+// Temporary function to be used until relevant API calls available
 export const getUserRoleTag = (userRole: UserRole, isLowerCase: boolean): string => {
     let tag = "";
 
