@@ -1,0 +1,40 @@
+{% from "govuk/components/notification-banner/macro.njk" import govukNotificationBanner %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
+{% extends "layouts/default.njk" %}
+
+{% set userDetails = newUserDetails.userName if newUserDetails.userName else newUserDetails.email %}
+
+{% set bannerHtml %}
+  <h3 class="govuk-notification-banner__heading">
+    {{lang.you_have_removed}}{{userDetails}}{{lang.from}}{{companyName}}
+  </h3>
+{% endset %}
+
+{% set title = lang.what_happens_now_they_have_been_removed + lang.title_end %}
+
+{% block main_content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    
+    {{ govukNotificationBanner({
+        html: bannerHtml,
+        type: "success"
+    }) }}
+
+    <span class="govuk-caption-l">{{companyName}}</span>
+    <h1 class="govuk-heading-l">{{lang.what_happens_now_they_have_been_removed}}</h1>
+
+    <p class="govuk-body">{{userDetails}}{{lang.will_no_longer_be_able_to_access}}{{companyName}}.</p>
+
+    {{ govukButton({
+        text: lang.go_to_manage_users,
+        href: buttonHref,
+        role: "button",
+        classes: 'govuk-!-margin-top-3'
+    }) }}
+
+  </div>
+</div>
+{% endblock %}
