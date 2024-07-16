@@ -45,7 +45,7 @@ describe("GET /authorised-agent/remove-member", () => {
             userId: "12345",
             userEmail: "james.morris@gmail.com",
             displayUserName: "James Morris",
-            AcspNumber: "B149YU"
+            acspNumber: "B149YU"
         } as Membership];
         setExtraData(session, constants.MANAGE_USERS_MEMBERSHIP, userDetails);
 
@@ -67,7 +67,7 @@ describe("GET /authorised-agent/remove-member", () => {
             id: "111111",
             userId: "12345",
             userEmail: "james.morris@gmail.com",
-            AcspNumber: "B149YU"
+            acspNumber: "B149YU"
         } as Membership];
 
         setExtraData(session, constants.MANAGE_USERS_MEMBERSHIP, userDetails);
@@ -90,13 +90,13 @@ describe("GET /authorised-agent/remove-member", () => {
             id: "999999",
             userId: "54321",
             displayUserName: "Jeremy Lloris",
-            AcspNumber: "P1399I"
+            acspNumber: "P1399I"
         } as Membership, {
             id: "111111",
             userId: "12345",
             userEmail: "james.morris@gmail.com",
             displayUserName: "James Morris",
-            AcspNumber: "B149YU"
+            acspNumber: "B149YU"
         } as Membership];
 
         setExtraData(session, constants.MANAGE_USERS_MEMBERSHIP, userDetails);
