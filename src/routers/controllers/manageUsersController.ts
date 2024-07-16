@@ -21,12 +21,12 @@ const getViewData = (req: Request): AnyRecord => {
         userId: "12345",
         userEmail: "james.morris@gmail.com",
         displayUserName: "James Morris",
-        AcspNumber: "B149YU"
+        acspNumber: "B149YU"
     } as Membership, {
         id: "999999",
         userId: "54321",
         userEmail: "jeremy.lloris@gmail.com",
-        AcspNumber: "P1399I"
+        acspNumber: "P1399I"
     } as Membership];
 
     setExtraData(req.session, constants.MANAGE_USERS_MEMBERSHIP, membership);
