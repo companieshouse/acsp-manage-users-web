@@ -3,5 +3,5 @@ export interface Membership {
     userId: string;
     userEmail: string;
     displayUserName: string;
-    AcspNumber: string;
+    acspNumber: string;
 }
