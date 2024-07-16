@@ -17,7 +17,7 @@ const getViewData = (req: Request): AnyRecord => {
 
     // Hardcoded data will be replaced once relevant API calls available
     const newUserDetails: NewUserDetails = getExtraData(req.session, constants.DETAILS_OF_USER_TO_ADD);
-    const userRole = getUserRoleTag(newUserDetails.userRole as UserRole).toLowerCase();
+    const userRole = getUserRoleTag(newUserDetails.userRole as UserRole, true);
     const companyName = "MORRIS ACCOUNTING LTD";
 
     return {
