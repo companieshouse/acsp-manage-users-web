@@ -23,14 +23,22 @@ export const addErrorToViewData = (
     };
 };
 
-// Temporary function to be used until relevant API calls available
-export const getUserRoleTag = (userRole: UserRole): string => {
+export const getUserRoleTag = (userRole: UserRole, isLowerCase: boolean): string => {
+    let tag = "";
+
     switch (userRole) {
     case UserRole.ADMIN:
-        return UserRoleTag.ADMIN.toString();
+        tag = UserRoleTag.ADMIN.toString();
+        break;
     case UserRole.OWNER:
-        return UserRoleTag.OWNER.toString();
+        tag = UserRoleTag.OWNER.toString();
+        break;
+    case UserRole.STANDARD:
+        tag = UserRoleTag.STANDARD.toString();
+        break;
     default:
-        return UserRoleTag.STANDARD.toString();
+        throw new Error(`Unknown user role: ${userRole}`);
     }
+
+    return isLowerCase ? tag.toLowerCase() : tag;
 };
