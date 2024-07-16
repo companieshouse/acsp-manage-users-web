@@ -6,12 +6,12 @@
 {% block main_content %}
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
-            <h1 class="govuk-heading-l">
-                <span class="govuk-caption-l">
-                    {{companyName}}
-                </span>
-                {{lang.page_header}}
-            </h1>
+            <span class="govuk-caption-l govuk-!-padding-bottom-0">
+                {{companyName}}
+                <h1 class="govuk-heading-l">
+                    {{lang.page_header}}
+                </h1>
+            </span>
 
             <p class="govuk-body govuk-!-margin-bottom-1">{{lang.authorised_agent_status}}
                 <span class="govuk-!-font-weight-bold">{{agentStatus}}</span>
