@@ -36,7 +36,7 @@ app.use(express.static(path.join(__dirname, "/../assets/public")));
 
 njk.addGlobal("cdnUrlCss", process.env.CDN_URL_CSS);
 njk.addGlobal("cdnUrlJs", process.env.CDN_URL_JS);
-njk.addGlobal("cdnHost", process.env.CDN_HOST);
+njk.addGlobal("cdnHost", process.env.ANY_PROTOCOL_CDN_HOST);
 njk.addGlobal("chsUrl", process.env.CHS_URL);
 
 // If app is behind a front-facing proxy, and to use the X-Forwarded-* headers to determine the connection and the IP address of the client
@@ -64,7 +64,7 @@ routerDispatch(app);
 
 // Unhandled errors
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-app.use((err: Error, req: Request, res: Response, next: NextFunction):void => {
+app.use((err: Error, req: Request, res: Response, next: NextFunction): void => {
     logger.error(`${err.name} - appError: ${err.message} - ${err.stack}`);
     const translations = getTranslationsForView(req.t, constants.SERVICE_UNAVAILABLE);
     res.render(constants.SERVICE_UNAVAILABLE_TEMPLATE, { lang: translations });

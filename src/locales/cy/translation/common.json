@@ -1,9 +1,13 @@
 {
     "back_link_to_the_previous_page": "[CY] Backlink to the previous page",
     "cancel": "[CY] Cancel",
+    "continue": "[CY] Continue",
+    "continue_button_to_proceed_to_the_next_page": "[CY] Continue button to proceed to the next page",
     "customer_insights": "[CY] Customer insights",
+    "email_address": "[CY] Email address",
+    "go_to_manage_users": "[CY] Go to manage users",
     "skip_to_main_content": "[CY] Skip to main content",
     "there_is_a_problem": "[CY] There is a problem",
     "title_end": "[CY] - Find and update company information - GOV.UK",
-    "go_to_manage_users": "[CY] Go to manage users"
+    "title_error": "[CY] Error: "
 }
