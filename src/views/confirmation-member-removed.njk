@@ -3,11 +3,11 @@
 
 {% extends "layouts/default.njk" %}
 
-{% set userDetails = newUserDetails.userName if newUserDetails.userName else newUserDetails.email %}
+{% set userDetails = newUserDetails.displayUserName if newUserDetails.displayUserName else newUserDetails.userEmail %}
 
 {% set bannerHtml %}
   <h3 class="govuk-notification-banner__heading">
-    {{lang.you_have_removed}}{{userDetails}}{{lang.from}}{{companyName}}
+    {{lang.you_have_removed}}{{userDetails}}{{lang.from}}{{companyName}}.
   </h3>
 {% endset %}
 
