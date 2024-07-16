@@ -8,6 +8,7 @@ import { checkMemberDetailsControllerGet } from "./controllers/checkMemberDetail
 import { tryAddingUserControllerGet } from "./controllers/tryAddingUserController";
 import { confirmationMemberAddedControllerGet } from "./controllers/confirmationMemberAddedController";
 import { removeUserCheckDetailsControllerGet } from "./controllers/removeUserCheckDetailsController";
+import { tryRemovingUserControllerGet } from "./controllers/tryRemovingUserController";
 
 const router: Router = Router();
 
@@ -24,6 +25,7 @@ router.post(constants.ADD_USER_URL, addUserControllerPost);
 router.get(constants.CHECK_MEMBER_DETAILS_URL, checkMemberDetailsControllerGet);
 
 router.get(constants.TRY_ADDING_USER_URL, tryAddingUserControllerGet);
+router.get(constants.TRY_REMOVING_USER_URL, tryRemovingUserControllerGet);
 
 router.get(constants.HEALTHCHECK, healthCheckController);
 

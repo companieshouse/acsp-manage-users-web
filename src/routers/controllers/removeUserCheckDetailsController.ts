@@ -34,6 +34,7 @@ const getViewData = (req: Request): AnyRecord => {
         companyName,
         cancelLinkHref: constants.MANAGE_USER_FULL_URL,
         backLinkUrl: constants.MANAGE_USER_FULL_URL,
-        removeButtonHref: constants.CONFIRMATION_MEMBER_REMOVED_FULL_URL
+        removeButtonHref: constants.CONFIRMATION_MEMBER_REMOVED_FULL_URL,
+        tryRemovingUserUrl: constants.TRY_REMOVING_USER_FULL_URL
     };
 };

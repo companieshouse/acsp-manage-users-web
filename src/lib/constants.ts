@@ -10,6 +10,7 @@ export const CONFIRMATION_MEMBER_ADDED_PAGE = "confirmation-member-added";
 export const MEMBER_ALREADY_ADDED_PAGE = "member-already-added";
 export const REMOVE_MEMBER_PAGE = "remove-member";
 export const USER_REMOVE_CONFIRMATION_PAGE = "confirmation-member-removed";
+export const MEMBER_ALREADY_REMOVED_PAGE = "member-already-removed";
 
 // Other Nunjucks template files
 export const SERVICE_UNAVAILABLE_TEMPLATE = "partials/service_unavailable";
@@ -40,6 +41,10 @@ export const REMOVE_MEMBER_CHECK_DETAILS_URL = `/${REMOVE_MEMBER_PAGE}/:id`;
 export const REMOVE_MEMBER_CHECK_DETAILS_FULL_URL = `${LANDING_URL}${REMOVE_MEMBER_CHECK_DETAILS_URL}`;
 export const CONFIRMATION_MEMBER_REMOVED_URL = `/${USER_REMOVE_CONFIRMATION_PAGE}`;
 export const CONFIRMATION_MEMBER_REMOVED_FULL_URL = `${LANDING_URL}${CONFIRMATION_MEMBER_REMOVED_URL}`;
+export const MEMBER_ALREADY_REMOVED_URL = `/${MEMBER_ALREADY_REMOVED_PAGE}`;
+export const MEMBER_ALREADY_REMOVED_FULL_URL = `${LANDING_URL}${MEMBER_ALREADY_REMOVED_URL}`;
+export const TRY_REMOVING_USER_URL = "/try-removing-user";
+export const TRY_REMOVING_USER_FULL_URL = `${LANDING_URL}${TRY_REMOVING_USER_URL}`;
 
 export const HEALTHCHECK = "/healthcheck";
 
@@ -58,6 +63,7 @@ export const MEMBER_ALREADY_ADDED_ERROR = "Member already added";
 export const ERRORS_EMAIL_REQUIRED = "errors_email_required";
 export const ERRORS_EMAIL_INVALID = "errors_email_invalid";
 export const ERRORS_SELECT_USER_ROLE = "errors_select_user_role";
+export const MEMBER_ALREADY_REMOVED_ERROR = "Member already removed";
 
 // query params
 export const CLEAR_FORM = "cf";
