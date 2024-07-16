@@ -25,7 +25,7 @@ const getViewData = (req: Request): AnyRecord => {
     } as Membership, {
         id: "999999",
         userId: "54321",
-        displayUserName: "Jeremy Lloris",
+        userEmail: "jeremy.lloris@gmail.com",
         AcspNumber: "P1399I"
     } as Membership];
 
