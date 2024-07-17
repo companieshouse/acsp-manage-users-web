@@ -3,12 +3,14 @@ import supertest from "supertest";
 import app from "../../../../src/app";
 import * as en from "../../../../src/locales/en/translation/manage-users.json";
 import * as enCommon from "../../../../src/locales/en/translation/common.json";
+import * as sessionUtils from "../../../../src/lib/utils/sessionUtils";
 
 const router = supertest(app);
 
 const url = "/authorised-agent/manage-users";
 
 describe("GET /authorised-agent/manage-users", () => {
+    const sessionUtilsSpy: jest.SpyInstance = jest.spyOn(sessionUtils, "getLoggedInUserEmail");
 
     beforeEach(() => {
         jest.clearAllMocks();
@@ -26,6 +28,7 @@ describe("GET /authorised-agent/manage-users", () => {
         const companyNumber = "0122239";
         const userEmailAddress = "james.morris@gmail.com";
         const userName = "James Morris";
+        sessionUtilsSpy.mockReturnValue("demo@ch.gov.uk");
         // When
         const result = await router.get(url);
         // Then
@@ -42,7 +45,6 @@ describe("GET /authorised-agent/manage-users", () => {
         expect(result.text).toContain(en.users_name);
         expect(result.text).toContain(en.remove_user);
         expect(result.text).toContain(en.remove);
-        expect(result.text).toContain(en.you_have_no_admin_users);
         expect(result.text).toContain(en.you_have_no_standard_users);
         expect(result.text).toContain(en.add_a_user);
     });

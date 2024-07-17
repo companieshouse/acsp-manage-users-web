@@ -38,15 +38,8 @@ const getViewData = (req: Request): AnyRecord => {
     const companyName = "MORRIS ACCOUNTING LTD";
     const companyNumber = "0122239";
 
-    const accountOwnersTableData: TableEntry[][] = [];
-
-    for (const member of membership) {
-        accountOwnersTableData.push([
-            { text: member.userEmail },
-            { text: member.displayUserName },
-            { html: getLink(constants.REMOVE_MEMBER_CHECK_DETAILS_FULL_URL.replace(":id", member.id), `${translations.remove as string} ${getHiddenText(member.userEmail)}`) }
-        ]);
-    }
+    const accountOwnersTableData: TableEntry[][] = getUserTableData(membership, translations, loggedInUserRole === UserRole.OWNER);
+    const administratorsTableData: TableEntry[][] = getUserTableData(membership, translations, loggedInUserRole !== UserRole.STANDARD);
 
     return {
         lang: translations,
@@ -57,11 +50,12 @@ const getViewData = (req: Request): AnyRecord => {
         companyNumber,
         membership,
         accountOwnersTableData,
+        administratorsTableData,
         loggedInUserRole
     };
 };
 
-// Temporary function until relevant API available
+// Temporary functions until relevant API available
 const getUserRole = (userEmailAddress: string): UserRole => {
     switch (userEmailAddress) {
     case "demo@ch.gov.uk":
@@ -71,4 +65,19 @@ const getUserRole = (userEmailAddress: string): UserRole => {
     default:
         return UserRole.STANDARD;
     }
+};
+
+const getUserTableData = (membership: Membership[], translations: AnyRecord, hasRemoveLink: boolean): TableEntry[][] => {
+    const userTableDate: TableEntry[][] = [];
+    for (const member of membership) {
+        const tableEntry: TableEntry[] = [
+            { text: member.userEmail },
+            { text: member.displayUserName }
+        ];
+        if (hasRemoveLink) {
+            tableEntry[2] = { html: getLink(constants.REMOVE_MEMBER_CHECK_DETAILS_FULL_URL.replace(":id", member.id), `${translations.remove as string} ${getHiddenText(member.userEmail)}`) };
+        }
+        userTableDate.push(tableEntry);
+    }
+    return userTableDate;
 };

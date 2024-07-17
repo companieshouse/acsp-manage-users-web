@@ -23,7 +23,7 @@
 
     <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
 
-    {% set headers = [
+    {% set allHeaders = [
         {
             text: lang.email_address
         }, {
@@ -33,13 +33,27 @@
         }
     ] %}
 
+    {% set headersWithoutRemoveUser = [
+        {
+            text: lang.email_address
+        }, {
+            text: lang.users_name
+        }
+    ] %}
+
+    {% set accountOwnersTableHeaders = allHeaders if loggedInUserRole === UserRole.OWNER else 
+        headersWithoutRemoveUser %}
+
+    {% set otherTableHeaders = headersWithoutRemoveUser if loggedInUserRole === UserRole.STANDARD else 
+        allHeaders %}
+
     {% set accountOwnersTabContent %}
     <h2 class="govuk-heading-l">{{lang.account_owners}}</h2>
     {{ govukTable({
             caption: lang.account_owners,
             captionClasses: "govuk-table__caption--m govuk-visually-hidden",
             firstCellIsHeader: true,
-            head: headers,
+            head: accountOwnersTableHeaders,
             rows: accountOwnersTableData
         })
     }}
@@ -52,7 +66,7 @@
             caption: lang.administrators,
             captionClasses: "govuk-table__caption--m govuk-visually-hidden",
             firstCellIsHeader: true,
-            head: headers,
+            head: otherTableHeaders,
             rows: administratorsTableData
         })
     }}
@@ -68,7 +82,7 @@
             caption: lang.standard_users,
             captionClasses: "govuk-table__caption--m govuk-visually-hidden",
             firstCellIsHeader: true,
-            head: headers,
+            head: otherTableHeaders,
             rows: standardUsersTableData
         })
     }}
