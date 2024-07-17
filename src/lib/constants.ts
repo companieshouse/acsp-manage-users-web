@@ -8,6 +8,7 @@ export const ADD_USER_PAGE = "add-user";
 export const CHECK_MEMBER_DETAILS_PAGE = "check-member-details";
 export const CONFIRMATION_MEMBER_ADDED_PAGE = "confirmation-member-added";
 export const MEMBER_ALREADY_ADDED_PAGE = "member-already-added";
+export const VIEW_USERS_PAGE = "view-users";
 
 // Other Nunjucks template files
 export const SERVICE_UNAVAILABLE_TEMPLATE = "partials/service_unavailable";
@@ -34,6 +35,8 @@ export const CONFIRMATION_MEMBER_ADDED_URL = `/${CONFIRMATION_MEMBER_ADDED_PAGE}
 export const CONFIRMATION_MEMBER_ADDED_FULL_URL = `${LANDING_URL}${CONFIRMATION_MEMBER_ADDED_URL}`;
 export const MEMBER_ALREADY_ADDED_URL = `/${MEMBER_ALREADY_ADDED_PAGE}`;
 export const MEMBER_ALREADY_ADDED_FULL_URL = `${LANDING_URL}${MEMBER_ALREADY_ADDED_URL}`;
+export const VIEW_USERS_URL = `/${VIEW_USERS_PAGE}`;
+export const VIEW_USERS_FULL_URL = `${LANDING_URL}${VIEW_USERS_URL}`;
 
 export const HEALTHCHECK = "/healthcheck";
 

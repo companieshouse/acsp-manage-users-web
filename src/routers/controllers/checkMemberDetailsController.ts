@@ -15,7 +15,7 @@ export const checkMemberDetailsControllerGet = async (req: Request, res: Respons
 const getViewData = (req: Request): AnyRecord => {
     const translations = getTranslationsForView(req.t, constants.CHECK_MEMBER_DETAILS_PAGE);
     const newUserDetails: NewUserDetails = getExtraData(req.session, constants.DETAILS_OF_USER_TO_ADD);
-    const userRole = getUserRoleTag(newUserDetails.userRole as UserRole, false);
+    const userRoleTag = getUserRoleTag(newUserDetails.userRole as UserRole, false);
     // Hardcoded data will be replaced once relevant API calls available
     const companyName = "MORRIS ACCOUNTING LTD";
 
@@ -23,7 +23,8 @@ const getViewData = (req: Request): AnyRecord => {
         lang: translations,
         companyName,
         userEmailAddress: newUserDetails.email,
-        userRole,
+        userRole: newUserDetails.userRole,
+        userRoleTag,
         backLinkUrl: constants.ADD_USER_FULL_URL,
         tryAddingUserUrl: constants.TRY_ADDING_USER_FULL_URL
     };
