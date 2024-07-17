@@ -5,7 +5,7 @@ import * as constants from "../../../../src/lib/constants";
 import * as en from "../../../../src/locales/en/translation/add-user.json";
 import { Session } from "@companieshouse/node-session-handler";
 import { NextFunction, Request, Response } from "express";
-import * as sessionUtils from "../../../src/lib/utils/sessionUtils";
+import * as sessionUtils from "../../../../src/lib/utils/sessionUtils";
 
 const router = supertest(app);
 const url = "/authorised-agent/add-user";
