@@ -14,23 +14,24 @@ const getViewData = (req: Request): AnyRecord => {
     const translations = getTranslationsForView(req.t, constants.REMOVE_MEMBER_PAGE);
 
     // Hardcoded data will be replaced once relevant API calls available
-    const removeUserArray = getExtraData(req.session, constants.MANAGE_USERS_MEMBERSHIP);
+    const existingUsers = getExtraData(req.session, constants.MANAGE_USERS_MEMBERSHIP);
     const companyName = "MORRIS ACCOUNTING LTD";
-    let userArray;
+    let userToRemove;
 
     const id = req.params.id;
 
-    for (const i in removeUserArray) {
-        if (removeUserArray[i].id === id) {
-            userArray = removeUserArray[i];
+    for (const i in existingUsers) {
+        if (existingUsers[i].id === id) {
+            userToRemove = existingUsers[i];
+            break;
         }
     }
 
-    setExtraData(req.session, constants.DETAILS_OF_USER_TO_REMOVE, userArray);
+    setExtraData(req.session, constants.DETAILS_OF_USER_TO_REMOVE, userToRemove);
 
     return {
         lang: translations,
-        userArray,
+        userToRemove,
         companyName,
         cancelLinkHref: constants.MANAGE_USER_FULL_URL,
         backLinkUrl: constants.MANAGE_USER_FULL_URL,

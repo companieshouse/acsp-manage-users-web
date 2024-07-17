@@ -20,6 +20,7 @@ router.get(constants.REMOVE_MEMBER_CHECK_DETAILS_URL, removeUserCheckDetailsCont
 router.get(constants.CONFIRMATION_MEMBER_REMOVED_URL, removeUserSuccessControllerGet as RequestHandler);
 
 router.get(constants.CONFIRMATION_MEMBER_ADDED_URL, confirmationMemberAddedControllerGet as RequestHandler);
+router.get(constants.REMOVE_MEMBER_CHECK_DETAILS_URL, removeUserCheckDetailsControllerGet as RequestHandler);
 
 router.get(constants.DASHBOARD_URL, dashboardControllerGet);
 
