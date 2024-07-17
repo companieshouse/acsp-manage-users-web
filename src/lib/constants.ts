@@ -37,6 +37,10 @@ export const MEMBER_ALREADY_ADDED_FULL_URL = `${LANDING_URL}${MEMBER_ALREADY_ADD
 
 export const HEALTHCHECK = "/healthcheck";
 
+// External URLs
+export const YOU_HAVE_VERIFIED_SOMEONES_IDENTITY_URL = "/placeholder-url-to-service-build-by-other-team";
+export const UPDATE_AUTHORISED_AGENTS_DETAILS_URL = "/placeholder-url-to-service-build-by-other-team";
+
 // APP config
 export const DEFAULT_SESSION_EXPIRATION = getEnvironmentValue("DEFAULT_SESSION_EXPIRATION", "3600");
 
@@ -47,12 +51,9 @@ export const COOKIE_NAME = getEnvironmentValue("COOKIE_NAME");
 export const COOKIE_SECRET = getEnvironmentValue("COOKIE_SECRET");
 export const INTERNAL_API_URL = getEnvironmentValue("INTERNAL_API_URL");
 
-// various
-export const VALIDATION_ERRORS = "VALIDATION_ERRORS";
-export const EMAIL_OF_USER_TO_ADD = "emailOfUserToAdd";
-
 // errors
-export const MEMBER_ALREADY_ADDED_ERROR = "Mamber already added";
+export const VALIDATION_ERRORS = "VALIDATION_ERRORS";
+export const MEMBER_ALREADY_ADDED_ERROR = "Member already added";
 export const ERRORS_EMAIL_REQUIRED = "errors_email_required";
 export const ERRORS_EMAIL_INVALID = "errors_email_invalid";
 export const ERRORS_SELECT_USER_ROLE = "errors_select_user_role";

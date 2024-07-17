@@ -1,18 +1,17 @@
 <div class="govuk-summary-card">
     <div class="govuk-summary-card__title-wrapper">
         <h2 class="govuk-summary-card__title">
-            {{lang.verify_someones_id}}
-            <strong class="govuk-tag govuk-tag--blue">
+            <a class="govuk-link govuk-link--no-underline govuk-link--no-visited-state " href="{{youHaveVerifiedSomeonesIdentityLink}}">
+                {{lang.tell_companies_house_id}}
+            </a>
+            <strong class="govuk-tag govuk-tag--blue govuk-!-margin-top-2">
                 {{lang.coming_soon}}
             </strong>
         </h2>
     </div>
     <div class="govuk-summary-card__content">
         <p class="govuk-body">
-            {{lang.from}}{{date2}}{{lang.you_can_use_this}}
-        </p>
-        <p class="govuk-body">
-            <a href="#" class="govuk-link">{{lang.tell_companies_house_id}}</a>
+            {{lang.in_the_future_you_can_use_this_service}}
         </p>
     </div>
 </div>

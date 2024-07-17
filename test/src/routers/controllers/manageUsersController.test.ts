@@ -1,7 +1,8 @@
-import mocks from "../../mocks/all.middleware.mock";
+import mocks from "../../../mocks/all.middleware.mock";
 import supertest from "supertest";
-import app from "../../../src/app";
-import * as en from "../../../src/locales/en/translation/manage-users.json";
+import app from "../../../../src/app";
+import * as en from "../../../../src/locales/en/translation/manage-users.json";
+import * as enCommon from "../../../../src/locales/en/translation/common.json";
 
 const router = supertest(app);
 
@@ -37,7 +38,7 @@ describe("GET /authorised-agent/manage-users", () => {
         expect(result.text).toContain(en.administrators);
         expect(result.text).toContain(en.back_link);
         expect(result.text).toContain(en.standard_users);
-        expect(result.text).toContain(en.email_address);
+        expect(result.text).toContain(enCommon.email_address);
         expect(result.text).toContain(en.users_name);
         expect(result.text).toContain(en.remove_user);
         expect(result.text).toContain(en.remove);

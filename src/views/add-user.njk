@@ -27,7 +27,7 @@
 
 {% block back_link %}
     <div role="navigation" aria-label="{{lang.back_link_to_the_previous_page}}">
-    {{ govukBackLink({
+        {{ govukBackLink({
             text: lang.back_link_to_manage_users,
             href: backLinkUrl,
             attributes: {
@@ -35,7 +35,7 @@
             }
         })
     }}
-</div>
+    </div>
 {% endblock %}
 
 {% block main_content %}
@@ -70,40 +70,45 @@
                         value: email
                     })
                 }}
-    {% set option_1_html %}
-        <span class="govuk-body govuk-!-font-weight-bold"> {{lang.option_1}}</span>
-    {% endset %}
-    {% set option_2_html %}
-        <span class="govuk-body govuk-!-font-weight-bold"> {{lang.option_2}}</span>
-    {% endset %}
-    {% set option_3_html %}
-        <span class="govuk-body govuk-!-font-weight-bold"> {{lang.option_3}}</span>
-    {% endset %}
-    
-    {% set option_1_hint %}
-        <p class="govuk-body">
-            {{lang.option_1_hint_p}}
-        </p>
+                {% set option_1_html %}
+                <span class="govuk-body govuk-!-font-weight-bold">
+                    {{lang.option_1}}</span>
+                {% endset %}
+                {% set option_2_html %}
+                <span class="govuk-body govuk-!-font-weight-bold">
+                    {{lang.option_2}}</span>
+                {% endset %}
+                {% set option_3_html %}
+                <span class="govuk-body govuk-!-font-weight-bold">
+                    {{lang.option_3}}</span>
+                {% endset %}
 
-        <ul class="govuk-body">
-            <li>{{ lang.option_1_hint_bullet_1 }}</li>
-            <li>{{ lang.option_1_hint_bullet_2 }}</li>
-            <li>{{ lang.option_1_hint_bullet_3 }}</li>
-        </ul>
-    {% endset %}
+                {% set option_1_hint %}
+                <p class="govuk-body">
+                    {{lang.option_1_hint_p}}
+                </p>
 
-    {% set option_2_hint %}
-        <p class="govuk-body">
-            {{lang.option_2_hint_p}}
-        </p>
-        <ul class="govuk-body">
-            <li>{{ lang.option_2_hint_bullet_1 }}</li>
-            <li>{{ lang.option_2_hint_bullet_2 }}</li>
-        </ul>
-    {% endset %}
-    {% set option_3_hint %}
-        <p class="govuk-body"> {{lang.option_3_hint}} </p>
-    {% endset %}
+                <ul class="govuk-body">
+                    <li>{{ lang.option_1_hint_bullet_1 }}</li>
+                    <li>{{ lang.option_1_hint_bullet_2 }}</li>
+                    <li>{{ lang.option_1_hint_bullet_3 }}</li>
+                </ul>
+                {% endset %}
+
+                {% set option_2_hint %}
+                <p class="govuk-body">
+                    {{lang.option_2_hint_p}}
+                </p>
+                <ul class="govuk-body">
+                    <li>{{ lang.option_2_hint_bullet_1 }}</li>
+                    <li>{{ lang.option_2_hint_bullet_2 }}</li>
+                </ul>
+                {% endset %}
+                {% set option_3_hint %}
+                <p class="govuk-body">
+                    {{lang.option_3_hint}}
+                </p>
+                {% endset %}
 
                 {{ govukRadios({
                 name: "userRole",
@@ -144,7 +149,6 @@
 
                 {% set button_attributes = {
                     role: "button",
-                    "aria-label": lang.continue_button_to_proceed_to_the_next_page,
                     id: "continue-button"              
                 } %}
 

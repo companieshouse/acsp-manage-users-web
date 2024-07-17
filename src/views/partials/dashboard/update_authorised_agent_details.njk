@@ -1,7 +1,9 @@
 <div class="govuk-summary-card">
     <div class="govuk-summary-card__title-wrapper">
         <h2 class="govuk-summary-card__title">
-            {{lang.update_authorised_agent}}
+            <a class="govuk-link govuk-link--no-underline govuk-link--no-visited-state" href="{{updateAuthorisedAgentsDetailsLink}}">
+                {{lang.update_authorised_agent}}
+            </a>
         </h2>
     </div>
     <div class="govuk-summary-card__content">
@@ -15,8 +17,5 @@
                 {{lang.tell_us_about_aml}}
             </strong>
         </div>
-        <p class="govuk-body">
-            <a href="#" class="govuk-link">{{lang.update_agent_details}}</a>
-        </p>
     </div>
 </div>
