@@ -23,6 +23,7 @@ const getViewData = (req: Request): AnyRecord => {
     for (const i in existingUsers) {
         if (existingUsers[i].id === id) {
             userToRemove = existingUsers[i];
+            break;
         }
     }
 
