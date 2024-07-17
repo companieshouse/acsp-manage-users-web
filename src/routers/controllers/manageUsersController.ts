@@ -5,7 +5,9 @@ import { AnyRecord } from "types/utilTypes";
 import { TableEntry } from "../../types/viewTypes";
 import { getHiddenText, getLink } from "../../lib/utils/viewUtils";
 import { Membership } from "../../types/membership";
-import { setExtraData } from "../../lib/utils/sessionUtils";
+import { setExtraData, getLoggedInUserEmail } from "../../lib/utils/sessionUtils";
+
+import { UserRole } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
 
 export const manageUsersControllerGet = async (req: Request, res: Response): Promise<void> => {
     const viewData = getViewData(req);
@@ -31,6 +33,8 @@ const getViewData = (req: Request): AnyRecord => {
 
     setExtraData(req.session, constants.MANAGE_USERS_MEMBERSHIP, membership);
 
+    const loggedInUserRole = getUserRole(getLoggedInUserEmail(req.session));
+    // Hardcoded data will be replaced once relevant API calls available
     const companyName = "MORRIS ACCOUNTING LTD";
     const companyNumber = "0122239";
 
@@ -52,6 +56,19 @@ const getViewData = (req: Request): AnyRecord => {
         companyName,
         companyNumber,
         membership,
-        accountOwnersTableData
+        accountOwnersTableData,
+        loggedInUserRole
     };
+};
+
+// Temporary function until relevant API available
+const getUserRole = (userEmailAddress: string): UserRole => {
+    switch (userEmailAddress) {
+    case "demo@ch.gov.uk":
+        return UserRole.OWNER;
+    case "demo2@ch.gov.uk":
+        return UserRole.ADMIN;
+    default:
+        return UserRole.STANDARD;
+    }
 };
