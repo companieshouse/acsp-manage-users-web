@@ -70,14 +70,17 @@
                         value: email
                     })
                 }}
+
                 {% set option_1_html %}
                 <span class="govuk-body govuk-!-font-weight-bold">
                     {{lang.option_1}}</span>
                 {% endset %}
+
                 {% set option_2_html %}
                 <span class="govuk-body govuk-!-font-weight-bold">
                     {{lang.option_2}}</span>
                 {% endset %}
+
                 {% set option_3_html %}
                 <span class="govuk-body govuk-!-font-weight-bold">
                     {{lang.option_3}}</span>
@@ -104,59 +107,66 @@
                     <li>{{ lang.option_2_hint_bullet_2 }}</li>
                 </ul>
                 {% endset %}
+
                 {% set option_3_hint %}
                 <p class="govuk-body">
                     {{lang.option_3_hint}}
                 </p>
                 {% endset %}
 
-                {{ govukRadios({
-                name: "userRole",
-                fieldset: {
-                    legend: {
-                    text: lang.radio_btns_header,
-                    classes: "govuk-fieldset__legend--m govuk-!-static-padding-top-3"
-                    }
-                },
-                items: [
-                    {
-                        value: "owner",
+                {% set radios_items = [] %}
+                {% if loggedInUserRole === UserRole.OWNER %}
+                    {% set radios_items = (radios_items.push({
+                        value: UserRole.OWNER,
                         html: option_1_html,
-                        checked: userRole === "owner",
+                        checked: userRole === UserRole.OWNER,
                         hint: {
-                             html: option_1_hint
+                            html: option_1_hint
                         }
-                    },
-                    {
-                        value: "admin",
-                        html: option_2_html,
-                        checked: userRole === "admin",
-                        hint: {
-                             html: option_2_hint
-                        }
-                    },
-                    {
-                        value: "standard",
-                        html: option_3_html,
-                        checked: userRole === "standard",
-                        hint: {
-                             html: option_3_hint
-                        }
+                    }), radios_items) %}
+                {% endif %}
+                {% set radios_items = (radios_items.push({
+                    value: UserRole.ADMIN,
+                    html: option_2_html,
+                    checked: userRole === UserRole.ADMIN,
+                    hint: {
+                        html: option_2_hint
                     }
-                    ],
-                    errorMessage: roleMessage
-                    }) }}
+                }), radios_items) %}
+                {% set radios_items = (radios_items.push({
+                    value: UserRole.STANDARD,
+                    html: option_3_html,
+                    checked: userRole === UserRole.STANDARD,
+                    hint: {
+                        html: option_3_hint
+                    }
+                }), radios_items) %}
+
+                {{ govukRadios({
+                        name: "userRole",
+                        fieldset: {
+                            legend: {
+                                text: lang.radio_btns_header,
+                                classes: "govuk-fieldset__legend--m govuk-!-static-padding-top-3"
+                            }
+                        },
+                        items: radios_items,
+                        errorMessage: roleMessage
+                    })
+                }}
 
                 {% set button_attributes = {
-                    role: "button",
-                    id: "continue-button"              
-                } %}
+                        role: "button",
+                        id: "continue-button"              
+                    }
+                %}
 
                 {{ govukButton({text: lang.continue,
-                    type: "submit",
-                    attributes: button_attributes,
-                    classes: 'govuk-!-margin-top-3'
-                }) }}
+                        type: "submit",
+                        attributes: button_attributes,
+                        classes: 'govuk-!-margin-top-3'
+                    })
+                }}
 
             </form>
         </div>

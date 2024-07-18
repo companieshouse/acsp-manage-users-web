@@ -13,9 +13,9 @@
         <span class="govuk-caption-l">{{companyName}}</span>
         <h1 class="govuk-heading-l">{{lang.page_header}}</h1>
 
-        {% if userRole === "Account owner" %}
+        {% if userRole === UserRole.OWNER %}
             {% set tag_colour = "govuk-tag--blue" %}
-        {% elif userRole === "Administrator"%}
+        {% elif userRole === UserRole.ADMIN %}
             {% set tag_colour = "govuk-tag--turquoise" %}
         {% else %}
             {% set tag_colour = "govuk-tag--yellow" %}
@@ -23,7 +23,7 @@
 
         {% set tag %}
         {{ govukTag({
-                text: userRole,
+                text: userRoleTag,
                 classes: tag_colour
                 })
             }}

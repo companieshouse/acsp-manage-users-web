@@ -9,6 +9,10 @@ export const CHECK_MEMBER_DETAILS_PAGE = "check-member-details";
 export const CONFIRMATION_MEMBER_ADDED_PAGE = "confirmation-member-added";
 export const MEMBER_ALREADY_ADDED_PAGE = "member-already-added";
 export const PLACEHOLDER_CREATE_CH_ACC = "placeholder-create-ch-account";
+export const VIEW_USERS_PAGE = "view-users";
+export const REMOVE_MEMBER_PAGE = "remove-member";
+export const USER_REMOVE_CONFIRMATION_PAGE = "confirmation-member-removed";
+export const MEMBER_ALREADY_REMOVED_PAGE = "member-already-removed";
 
 // Other Nunjucks template files
 export const SERVICE_UNAVAILABLE_TEMPLATE = "partials/service_unavailable";
@@ -37,6 +41,16 @@ export const MEMBER_ALREADY_ADDED_URL = `/${MEMBER_ALREADY_ADDED_PAGE}`;
 export const MEMBER_ALREADY_ADDED_FULL_URL = `${LANDING_URL}${MEMBER_ALREADY_ADDED_URL}`;
 export const PLACEHOLDER_CREATE_CH_ACC_URL = `/${PLACEHOLDER_CREATE_CH_ACC}`;
 export const PLACEHOLDER_CREATE_CH_ACC_FULL_URL = `${LANDING_URL}${PLACEHOLDER_CREATE_CH_ACC_URL}`;
+export const VIEW_USERS_URL = `/${VIEW_USERS_PAGE}`;
+export const VIEW_USERS_FULL_URL = `${LANDING_URL}${VIEW_USERS_URL}`;
+export const REMOVE_MEMBER_CHECK_DETAILS_URL = `/${REMOVE_MEMBER_PAGE}/:id`;
+export const REMOVE_MEMBER_CHECK_DETAILS_FULL_URL = `${LANDING_URL}${REMOVE_MEMBER_CHECK_DETAILS_URL}`;
+export const CONFIRMATION_MEMBER_REMOVED_URL = `/${USER_REMOVE_CONFIRMATION_PAGE}`;
+export const CONFIRMATION_MEMBER_REMOVED_FULL_URL = `${LANDING_URL}${CONFIRMATION_MEMBER_REMOVED_URL}`;
+export const MEMBER_ALREADY_REMOVED_URL = `/${MEMBER_ALREADY_REMOVED_PAGE}`;
+export const MEMBER_ALREADY_REMOVED_FULL_URL = `${LANDING_URL}${MEMBER_ALREADY_REMOVED_URL}`;
+export const TRY_REMOVING_USER_URL = "/try-removing-user";
+export const TRY_REMOVING_USER_FULL_URL = `${LANDING_URL}${TRY_REMOVING_USER_URL}`;
 
 export const HEALTHCHECK = "/healthcheck";
 
@@ -61,6 +75,7 @@ export const MEMBER_ALREADY_ADDED_ERROR = "Member already added";
 export const ERRORS_EMAIL_REQUIRED = "errors_email_required";
 export const ERRORS_EMAIL_INVALID = "errors_email_invalid";
 export const ERRORS_SELECT_USER_ROLE = "errors_select_user_role";
+export const MEMBER_ALREADY_REMOVED_ERROR = "Member already removed";
 
 // query params
 export const CLEAR_FORM = "cf";
@@ -68,3 +83,5 @@ export const CLEAR_FORM_TRUE = "?cf=true";
 
 // session.extra_data
 export const DETAILS_OF_USER_TO_ADD = "detailsOfUserToAdd";
+export const DETAILS_OF_USER_TO_REMOVE = "detailsOfUserToRemove";
+export const MANAGE_USERS_MEMBERSHIP = "manageUsersMembership";

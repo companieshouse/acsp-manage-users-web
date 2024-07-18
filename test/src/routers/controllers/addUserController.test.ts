@@ -6,6 +6,7 @@ import * as en from "../../../../src/locales/en/translation/add-user.json";
 import { Session } from "@companieshouse/node-session-handler";
 import { NextFunction, Request, Response } from "express";
 import * as userAccountService from "../../../../src/services/userAccountService";
+import * as sessionUtils from "../../../../src/lib/utils/sessionUtils";
 
 const router = supertest(app);
 const url = "/authorised-agent/add-user";
@@ -17,6 +18,8 @@ mocks.mockSessionMiddleware.mockImplementation((req: Request, res: Response, nex
     req.session = session;
     next();
 });
+
+const sessionUtilsSpy: jest.SpyInstance = jest.spyOn(sessionUtils, "getLoggedInUserEmail");
 
 describe(`GET ${url}`, () => {
 
@@ -30,7 +33,9 @@ describe(`GET ${url}`, () => {
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
     });
 
-    it("should display page content - form information and radio button for selecting role", async () => {
+    it("should display page content - form information and all radio buttons for selecting role if account owner logged in", async () => {
+        // Given
+        sessionUtilsSpy.mockReturnValue("demo@ch.gov.uk");
         // When
         const encodedResponse = await router.get(url);
         expect(encodedResponse.status).toEqual(200);
@@ -45,25 +50,46 @@ describe(`GET ${url}`, () => {
         expect(decodedResponse).toContain(en.option_3);
     });
 
+    it("should display page content - form information and administrator and standard user radio buttons for selecting role if administrator logged in", async () => {
+        // Given
+        sessionUtilsSpy.mockReturnValue("demo2@ch.gov.uk");
+        // When
+        const encodedResponse = await router.get(url);
+        expect(encodedResponse.status).toEqual(200);
+        const decodedResponse = encodedResponse.text.replace(/&#39;/g, "'");
+        // Then
+        expect(decodedResponse).toContain(en.page_header);
+        expect(decodedResponse).toContain(en.bullet_1);
+        expect(decodedResponse).toContain(en.bullet_2);
+        expect(decodedResponse).toContain(en.email_hint_text);
+        expect(decodedResponse).not.toContain(en.option_1);
+        expect(decodedResponse).toContain(en.option_2);
+        expect(decodedResponse).toContain(en.option_3);
+    });
+
     it("should validate and display invalid input and error if input stored in session", async () => {
+        // Given
         const invalidEmail = "bad email";
         session.setExtraData(constants.DETAILS_OF_USER_TO_ADD, {
             email: invalidEmail
         });
-
+        // When
         const response = await router.get(`${url}`);
-
+        // Then
         expect(response.text).toContain("Enter an email address in the correct format");
         expect(response.text).toContain(invalidEmail);
     });
 
     it("should not display saved session values when url has cf query param - /authorised-agent/add-user?cf=true", async () => {
+        // Given
+        sessionUtilsSpy.mockReturnValue("demo@ch.gov.uk");
         const emailStoredInSession = "bob@bob.com";
         session.setExtraData(constants.DETAILS_OF_USER_TO_ADD, {
             email: emailStoredInSession
         });
+        // When
         const response = await router.get(`${url}?cf=true`);
-
+        // Then
         expect(response.text).not.toContain(emailStoredInSession);
         expect(response.text).not.toContain("Enter an email address in the correct format");
         expect(response.text).toContain(en.page_header);
