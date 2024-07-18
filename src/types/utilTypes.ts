@@ -1,3 +1,5 @@
+import { UserRole } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
+
 export type AnyRecord = Record<string, unknown>;
 
 export type ViewData = {
@@ -11,4 +13,5 @@ export type ViewData = {
     backLinkUrl?: string;
     email?: string;
     userRole?: string;
+    loggedInUserRole?: UserRole
 };
