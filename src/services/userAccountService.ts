@@ -9,7 +9,11 @@ const stringifyApiErrors = (resource: Resource<User[] | Errors>) => {
     return JSON.stringify((resource.resource as Errors)?.errors || "No error list returned");
 };
 
-// find user based on email
+/*
+    This service provides access to user account information.
+    getUserDetails returns the user details from accounts-user-api
+    for a given email address.
+*/
 export const getUserDetails = async (email: string): Promise<User[]> => {
     const apiClient = createPrivateApiKeyClient();
 

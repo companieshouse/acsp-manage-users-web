@@ -2,7 +2,6 @@ import { Resource } from "@companieshouse/api-sdk-node";
 import { createPrivateApiKeyClient } from "../../../src/services/apiClientService";
 import { getUserDetails } from "../../../src/services/userAccountService";
 import { StatusCodes } from "http-status-codes";
-// import { mockRequest } from "../../mocks/request.mock";
 import { HttpError } from "http-errors";
 import { User } from "private-api-sdk-node/dist/services/user-account/types";
 
