@@ -6,6 +6,8 @@ import { ViewData } from "../../types/utilTypes";
 import { clearFormSessionValues } from "../../lib/validation/clear.form.validation";
 import { validateAndSetErrors } from "../../lib/validation/add.user.validation";
 import { NewUserDetails } from "../../types/user";
+import logger from "../../lib/Logger";
+import { getUserDetails } from "../../services/userAccountService";
 
 export const addUserControllerGet = async (req: Request, res: Response): Promise<void> => {
     const viewData: ViewData = {
@@ -20,8 +22,7 @@ export const addUserControllerGet = async (req: Request, res: Response): Promise
     );
 
     if (savedNewUserDetails) {
-        await validateAndSetErrors(
-            req,
+        validateAndSetErrors(
             savedNewUserDetails?.email,
             savedNewUserDetails?.userRole,
             viewData
@@ -44,25 +45,30 @@ export const addUserControllerPost = async (req: Request, res: Response): Promis
         userRole
     };
 
-    await validateAndSetErrors(req, email, userRole, viewData);
+    validateAndSetErrors(email, userRole, viewData);
 
     if (viewData.errors) {
         setExtraData(req.session, constants.DETAILS_OF_USER_TO_ADD, { email, userRole, isValid: false } as unknown as NewUserDetails);
         return res.render(constants.ADD_USER_PAGE, viewData);
     } else {
 
-        const userDetailsFromApi = getExtraData(req.session, "newUserApiDetails");
-        const newUserDetails: NewUserDetails = {
-            email,
-            userRole,
-            isValid: true,
-            userId: userDetailsFromApi?.userId,
-            forename: userDetailsFromApi?.forename,
-            surname: userDetailsFromApi?.surname,
-            displayName: userDetailsFromApi?.displayName
-        };
+        const userDetailsFromApi = await getUserDetails(email);
+        if (userDetailsFromApi?.length) {
+            const newUserDetails: NewUserDetails = {
+                email,
+                userRole,
+                isValid: true,
+                userId: userDetailsFromApi[0]?.userId,
+                forename: userDetailsFromApi[0]?.forename,
+                surname: userDetailsFromApi[0]?.surname,
+                displayName: userDetailsFromApi[0]?.displayName
+            };
+            logger.info("saving user details: " + JSON.stringify(newUserDetails));
+            setExtraData(req.session, constants.DETAILS_OF_USER_TO_ADD, newUserDetails);
+            return res.redirect(constants.CHECK_MEMBER_DETAILS_FULL_URL);
+        } else {
+            return res.redirect(constants.PLACEHOLDER_CREATE_CH_ACC_FULL_URL);
+        }
 
-        setExtraData(req.session, constants.DETAILS_OF_USER_TO_ADD, newUserDetails);
-        return res.redirect(constants.CHECK_MEMBER_DETAILS_FULL_URL);
     }
 };

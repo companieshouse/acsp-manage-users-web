@@ -8,6 +8,7 @@ export const ADD_USER_PAGE = "add-user";
 export const CHECK_MEMBER_DETAILS_PAGE = "check-member-details";
 export const CONFIRMATION_MEMBER_ADDED_PAGE = "confirmation-member-added";
 export const MEMBER_ALREADY_ADDED_PAGE = "member-already-added";
+export const PLACEHOLDER_CREATE_CH_ACC = "placeholder-create-ch-account";
 
 // Other Nunjucks template files
 export const SERVICE_UNAVAILABLE_TEMPLATE = "partials/service_unavailable";
@@ -34,6 +35,8 @@ export const CONFIRMATION_MEMBER_ADDED_URL = `/${CONFIRMATION_MEMBER_ADDED_PAGE}
 export const CONFIRMATION_MEMBER_ADDED_FULL_URL = `${LANDING_URL}${CONFIRMATION_MEMBER_ADDED_URL}`;
 export const MEMBER_ALREADY_ADDED_URL = `/${MEMBER_ALREADY_ADDED_PAGE}`;
 export const MEMBER_ALREADY_ADDED_FULL_URL = `${LANDING_URL}${MEMBER_ALREADY_ADDED_URL}`;
+export const PLACEHOLDER_CREATE_CH_ACC_URL = `/${PLACEHOLDER_CREATE_CH_ACC}`;
+export const PLACEHOLDER_CREATE_CH_ACC_FULL_URL = `${LANDING_URL}${PLACEHOLDER_CREATE_CH_ACC_URL}`;
 
 export const HEALTHCHECK = "/healthcheck";
 
@@ -58,7 +61,6 @@ export const MEMBER_ALREADY_ADDED_ERROR = "Member already added";
 export const ERRORS_EMAIL_REQUIRED = "errors_email_required";
 export const ERRORS_EMAIL_INVALID = "errors_email_invalid";
 export const ERRORS_SELECT_USER_ROLE = "errors_select_user_role";
-export const ERRORS_NO_CH_ACCOUNT = "errors_no_ch_account";
 
 // query params
 export const CLEAR_FORM = "cf";
