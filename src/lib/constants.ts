@@ -50,6 +50,7 @@ export const COOKIE_DOMAIN = getEnvironmentValue("COOKIE_DOMAIN");
 export const COOKIE_NAME = getEnvironmentValue("COOKIE_NAME");
 export const COOKIE_SECRET = getEnvironmentValue("COOKIE_SECRET");
 export const INTERNAL_API_URL = getEnvironmentValue("INTERNAL_API_URL");
+export const CHS_INTERNAL_API_KEY = getEnvironmentValue("CHS_INTERNAL_API_KEY");
 
 // errors
 export const VALIDATION_ERRORS = "VALIDATION_ERRORS";
@@ -57,7 +58,7 @@ export const MEMBER_ALREADY_ADDED_ERROR = "Member already added";
 export const ERRORS_EMAIL_REQUIRED = "errors_email_required";
 export const ERRORS_EMAIL_INVALID = "errors_email_invalid";
 export const ERRORS_SELECT_USER_ROLE = "errors_select_user_role";
-export const ERRORS_EMAIL_ALREADY_ADDED = "errors_email_already_added";
+export const ERRORS_NO_CH_ACCOUNT = "errors_no_ch_account";
 
 // query params
 export const CLEAR_FORM = "cf";

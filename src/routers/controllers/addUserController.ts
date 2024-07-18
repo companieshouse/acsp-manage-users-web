@@ -50,7 +50,19 @@ export const addUserControllerPost = async (req: Request, res: Response): Promis
         setExtraData(req.session, constants.DETAILS_OF_USER_TO_ADD, { email, userRole, isValid: false } as unknown as NewUserDetails);
         return res.render(constants.ADD_USER_PAGE, viewData);
     } else {
-        setExtraData(req.session, constants.DETAILS_OF_USER_TO_ADD, { email, userRole, isValid: true } as unknown as NewUserDetails);
+
+        const userDetailsFromApi = getExtraData(req.session, "newUserApiDetails");
+        const newUserDetails: NewUserDetails = {
+            email,
+            userRole,
+            isValid: true,
+            userId: userDetailsFromApi?.userId,
+            forename: userDetailsFromApi?.forename,
+            surname: userDetailsFromApi?.surname,
+            displayName: userDetailsFromApi?.displayName
+        };
+
+        setExtraData(req.session, constants.DETAILS_OF_USER_TO_ADD, newUserDetails);
         return res.redirect(constants.CHECK_MEMBER_DETAILS_FULL_URL);
     }
 };

@@ -5,7 +5,7 @@ import { validateRole } from "./user.role.validation";
 import * as constants from "../constants";
 import { Request } from "express";
 import { getUserDetails } from "../../services/userAccountService";
-// import { User } from "private-api-sdk-node/dist/services/user-account/types";
+import { User } from "private-api-sdk-node/dist/services/user-account/types";
 import { setExtraData } from "../../lib/utils/sessionUtils";
 
 const FormInputNames = {
@@ -31,17 +31,17 @@ export const validateAndSetErrors = async (
 
 export const validateAddUserEmail = async (req: Request, email: string): Promise<string | undefined> => {
     if (!email) {
-        return constants.ERRORS_EMAIL_REQUIRED;
+        return Promise.resolve(constants.ERRORS_EMAIL_REQUIRED);
     } else if (!validateEmailString(email)) {
-        return constants.ERRORS_EMAIL_INVALID;
+        return Promise.resolve(constants.ERRORS_EMAIL_INVALID);
     } else {
-        const foundUser = await getUserDetails(req, email);
-        if (foundUser) {
-            console.log("new user details are ... ");
-            console.log(foundUser);
-            setExtraData(req.session, "newUserApiDetails", foundUser);
+        const foundUser = await getUserDetails(email);
+        if (foundUser?.length) {
+            console.log("user is ", foundUser[0]);
+            setExtraData(req.session, "newUserApiDetails", foundUser[0] as User);
+            return Promise.resolve(undefined);
         } else {
-            return constants.ERRORS_EMAIL_ALREADY_ADDED;
+            return Promise.resolve(constants.ERRORS_NO_CH_ACCOUNT);
         }
     }
 };
