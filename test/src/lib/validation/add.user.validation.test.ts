@@ -2,11 +2,11 @@ import { validateAddUserEmail } from "../../../../src/lib/validation/add.user.va
 import * as constants from "../../../../src/lib/constants";
 
 describe("validateAddUserEmail", () => {
-    test("should return invalid email ", async () => {
+    test("should return invalid email ", () => {
         expect(validateAddUserEmail("badEmail")).toBe(constants.ERRORS_EMAIL_INVALID);
     });
 
-    test("should return email required", async () => {
+    test("should return email required", () => {
         expect(validateAddUserEmail("")).toBe(constants.ERRORS_EMAIL_REQUIRED);
     });
 });

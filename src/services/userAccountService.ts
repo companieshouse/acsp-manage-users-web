@@ -34,8 +34,8 @@ export const getUserDetails = async (email: string): Promise<User[]> => {
     }
 
     if (!sdkResponse.resource) {
-        logger.error(`GET /user/search returned a response but no resource`);
-        return Promise.reject(sdkResponse);
+        const errorMsg = `GET /user/search returned a response but no resource`;
+        return Promise.reject(new Error(errorMsg));
     }
 
     logger.debug(`Received user details ${JSON.stringify(sdkResponse)}`);

@@ -1,11 +1,11 @@
-import mocks from "../../mocks/all.middleware.mock";
+import mocks from "../../../mocks/all.middleware.mock";
 import supertest from "supertest";
-import app from "../../../src/app";
-import * as constants from "../../../src/lib/constants";
-import * as en from "../../../src/locales/en/translation/add-user.json";
+import app from "../../../../src/app";
+import * as constants from "../../../../src/lib/constants";
+import * as en from "../../../../src/locales/en/translation/add-user.json";
 import { Session } from "@companieshouse/node-session-handler";
 import { NextFunction, Request, Response } from "express";
-import * as userAccountService from "../../../src/services/userAccountService";
+import * as userAccountService from "../../../../src/services/userAccountService";
 
 const router = supertest(app);
 const url = "/authorised-agent/add-user";
@@ -87,7 +87,6 @@ describe(`POST ${url}`, () => {
         const response = await router.post(url).send({ email: "" });
         expect(response.text).toContain(en.errors_email_required);
         expect(response.text).toContain(en.errors_select_user_role);
-
     });
 
     it("should display current page with error message if email invalid", async () => {
@@ -96,7 +95,7 @@ describe(`POST ${url}`, () => {
         expect(response.text).not.toContain(en.errors_select_user_role);
     });
 
-    it("should redirect to the next page when form inputs are valid", async () => {
+    it("should redirect to the check member details page when form inputs valid and user details found", async () => {
         mockUserAccService.mockResolvedValueOnce([{
             forename: "Bob",
             surname: "McBob",
@@ -105,5 +104,12 @@ describe(`POST ${url}`, () => {
         const response = await router.post(url).send({ email: "bob@bob.com", userRole: "standard" });
         expect(response.status).toEqual(302);
         expect(response.header.location).toEqual(constants.CHECK_MEMBER_DETAILS_FULL_URL);
+    });
+
+    it("should redirect to the no account page when form inputs valid but no user details found", async () => {
+        mockUserAccService.mockResolvedValueOnce([]);
+        const response = await router.post(url).send({ email: "bob@bob.com", userRole: "standard" });
+        expect(response.status).toEqual(302);
+        expect(response.header.location).toEqual(constants.PLACEHOLDER_CREATE_CH_ACC_FULL_URL);
     });
 });
