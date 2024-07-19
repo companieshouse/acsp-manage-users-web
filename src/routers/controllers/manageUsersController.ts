@@ -40,6 +40,7 @@ const getViewData = (req: Request): AnyRecord => {
 
     const accountOwnersTableData: TableEntry[][] = getUserTableData(membership, translations, loggedInUserRole === UserRole.OWNER);
     const administratorsTableData: TableEntry[][] = getUserTableData(membership, translations, loggedInUserRole !== UserRole.STANDARD);
+    const standardUsersTableData: TableEntry[][] = getUserTableData(membership, translations, loggedInUserRole !== UserRole.STANDARD);
 
     return {
         lang: translations,
@@ -51,6 +52,7 @@ const getViewData = (req: Request): AnyRecord => {
         membership,
         accountOwnersTableData,
         administratorsTableData,
+        standardUsersTableData,
         loggedInUserRole
     };
 };

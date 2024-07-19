@@ -45,7 +45,6 @@ describe("GET /authorised-agent/manage-users", () => {
         expect(result.text).toContain(en.users_name);
         expect(result.text).toContain(en.remove_user);
         expect(result.text).toContain(en.remove);
-        expect(result.text).toContain(en.you_have_no_standard_users);
         expect(result.text).toContain(en.add_a_user);
     });
 });
