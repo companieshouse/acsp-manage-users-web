@@ -14,18 +14,14 @@ const getViewData = (req: Request): AnyRecord => {
     const translations = getTranslationsForView(req.t, constants.REMOVE_MEMBER_PAGE);
 
     // Hardcoded data will be replaced once relevant API calls available
-    const existingUsers = getExtraData(req.session, constants.MANAGE_USERS_MEMBERSHIP);
+    const storedMembershipMap = getExtraData(req.session, constants.MANAGE_USERS_MEMBERSHIP);
     const companyName = "MORRIS ACCOUNTING LTD";
-    let userToRemove;
 
     const id = req.params.id;
-
-    for (const i in existingUsers) {
-        if (existingUsers[i].id === id) {
-            userToRemove = existingUsers[i];
-            break;
-        }
+    if (!storedMembershipMap.has(id)) {
+        throw new Error(`invalid id, id not found: ${id}`);
     }
+    const userToRemove = storedMembershipMap.get(id);
 
     setExtraData(req.session, constants.DETAILS_OF_USER_TO_REMOVE, userToRemove);
 

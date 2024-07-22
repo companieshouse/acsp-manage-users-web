@@ -4,6 +4,7 @@ import logger from "../../lib/Logger";
 import { Error, Errors } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
 import { getExtraData } from "../../lib/utils/sessionUtils";
 import { Membership } from "../../types/membership";
+import { membershipMap } from "./manageUsersController";
 
 export const tryRemovingUserControllerGet = async (req: Request, res: Response): Promise<void> => {
     try {
@@ -20,6 +21,7 @@ export const tryRemovingUserControllerGet = async (req: Request, res: Response):
             };
             throw error;
         }
+        membershipMap.delete(memberDetails.id);
         // if call to relevant API successful
         res.redirect(constants.CONFIRMATION_MEMBER_REMOVED_FULL_URL);
     } catch (err: unknown) {
