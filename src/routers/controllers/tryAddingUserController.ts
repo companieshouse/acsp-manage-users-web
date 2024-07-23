@@ -1,9 +1,11 @@
 import { Request, Response } from "express";
 import * as constants from "../../lib/constants";
 import logger from "../../lib/Logger";
-import { Error, Errors } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
+import { Error, Errors, UserRole } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
 import { NewUserDetails } from "../../types/user";
 import { getExtraData } from "../../lib/utils/sessionUtils";
+import { Membership } from "../../types/membership";
+import { membership } from "./manageUsersController";
 
 export const tryAddingUserControllerGet = async (req: Request, res: Response): Promise<void> => {
     try {
@@ -21,6 +23,16 @@ export const tryAddingUserControllerGet = async (req: Request, res: Response): P
             throw error;
         }
         // if call to relevant API successful
+        const acspMembership: Membership = {
+            id: Math.floor(Math.random() * 1000000).toString(),
+            userId: newUserDetails.userId || "",
+            userEmail: newUserDetails.email || "",
+            displayUserName: newUserDetails.displayName || "",
+            acspNumber: Math.floor(Math.random() * 1000000).toString(),
+            userRole: newUserDetails.userRole || UserRole.STANDARD
+        };
+
+        membership.push(acspMembership);
         res.redirect(constants.CONFIRMATION_MEMBER_ADDED_FULL_URL);
     } catch (err: unknown) {
         const error = err as Errors;

@@ -9,6 +9,21 @@ import { setExtraData, getLoggedInUserEmail } from "../../lib/utils/sessionUtils
 
 import { UserRole } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
 
+export const membership = [{
+    id: "111111",
+    userId: "12345",
+    userEmail: "james.morris@gmail.com",
+    displayUserName: "James Morris",
+    acspNumber: "B149YU",
+    userRole: UserRole.OWNER
+} as Membership, {
+    id: "999999",
+    userId: "54321",
+    userEmail: "jeremy.lloris@gmail.com",
+    acspNumber: "P1399I",
+    userRole: UserRole.OWNER
+} as Membership];
+
 export const manageUsersControllerGet = async (req: Request, res: Response): Promise<void> => {
     const viewData = getViewData(req);
     res.render(constants.MANAGE_USERS_PAGE, { ...viewData });
@@ -17,20 +32,6 @@ export const manageUsersControllerGet = async (req: Request, res: Response): Pro
 const getViewData = (req: Request): AnyRecord => {
     const translations = getTranslationsForView(req.t, constants.MANAGE_USERS_PAGE);
 
-    // Hardcoded data will be replaced once relevant API calls available\
-    const membership = [{
-        id: "111111",
-        userId: "12345",
-        userEmail: "james.morris@gmail.com",
-        displayUserName: "James Morris",
-        acspNumber: "B149YU"
-    } as Membership, {
-        id: "999999",
-        userId: "54321",
-        userEmail: "jeremy.lloris@gmail.com",
-        acspNumber: "P1399I"
-    } as Membership];
-
     setExtraData(req.session, constants.MANAGE_USERS_MEMBERSHIP, membership);
 
     const loggedInUserRole = getUserRole(getLoggedInUserEmail(req.session));
@@ -38,9 +39,25 @@ const getViewData = (req: Request): AnyRecord => {
     const companyName = "MORRIS ACCOUNTING LTD";
     const companyNumber = "0122239";
 
-    const accountOwnersTableData: TableEntry[][] = getUserTableData(membership, translations, loggedInUserRole === UserRole.OWNER);
-    const administratorsTableData: TableEntry[][] = getUserTableData(membership, translations, loggedInUserRole !== UserRole.STANDARD);
-    const standardUsersTableData: TableEntry[][] = getUserTableData(membership, translations, loggedInUserRole !== UserRole.STANDARD);
+    const accountOwnersTableData: TableEntry[][] = [];
+    const administratorsTableData: TableEntry[][] = [];
+    const standardUsersTableData: TableEntry[][] = [];
+
+    membership.forEach(member => {
+        switch (member.userRole) {
+        case UserRole.OWNER:
+            accountOwnersTableData.push(getUserTableData(member, translations, loggedInUserRole === UserRole.OWNER));
+            break;
+        case UserRole.ADMIN:
+            administratorsTableData.push(getUserTableData(member, translations, loggedInUserRole !== UserRole.STANDARD));
+            break;
+        case UserRole.STANDARD:
+            standardUsersTableData.push(getUserTableData(member, translations, loggedInUserRole !== UserRole.STANDARD));
+            break;
+        default:
+            throw new Error(`No role found for ACSP member with id ${member.id}`);
+        }
+    });
 
     return {
         lang: translations,
@@ -69,17 +86,14 @@ const getUserRole = (userEmailAddress: string): UserRole => {
     }
 };
 
-const getUserTableData = (membership: Membership[], translations: AnyRecord, hasRemoveLink: boolean): TableEntry[][] => {
-    const userTableDate: TableEntry[][] = [];
-    for (const member of membership) {
-        const tableEntry: TableEntry[] = [
-            { text: member.userEmail },
-            { text: member.displayUserName }
-        ];
-        if (hasRemoveLink) {
-            tableEntry[2] = { html: getLink(constants.REMOVE_MEMBER_CHECK_DETAILS_FULL_URL.replace(":id", member.id), `${translations.remove as string} ${getHiddenText(member.userEmail)}`) };
-        }
-        userTableDate.push(tableEntry);
+const getUserTableData = (member: Membership, translations: AnyRecord, hasRemoveLink: boolean): TableEntry[] => {
+
+    const tableEntry: TableEntry[] = [
+        { text: member.userEmail },
+        { text: member.displayUserName }
+    ];
+    if (hasRemoveLink) {
+        tableEntry[2] = { html: getLink(constants.REMOVE_MEMBER_CHECK_DETAILS_FULL_URL.replace(":id", member.id), `${translations.remove as string} ${getHiddenText(member.userEmail)}`) };
     }
-    return userTableDate;
+    return tableEntry;
 };

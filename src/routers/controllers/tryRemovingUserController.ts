@@ -1,9 +1,11 @@
 import { Request, Response } from "express";
 import * as constants from "../../lib/constants";
 import logger from "../../lib/Logger";
-import { Error, Errors } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
-import { getExtraData } from "../../lib/utils/sessionUtils";
+import { Error, Errors, UserRole } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
+import { getExtraData, getLoggedInUserEmail } from "../../lib/utils/sessionUtils";
 import { Membership } from "../../types/membership";
+import { membership } from "./manageUsersController";
+import { Session } from "@companieshouse/node-session-handler";
 
 export const tryRemovingUserControllerGet = async (req: Request, res: Response): Promise<void> => {
     try {
@@ -20,6 +22,14 @@ export const tryRemovingUserControllerGet = async (req: Request, res: Response):
             };
             throw error;
         }
+
+        if (isRemovingThemselvesAsOnlyAccHolder(memberDetails, req.session as Session)) {
+            res.redirect("/authorised-agent/stop-page");
+        }
+        // for testing purposes
+        const index = membership.findIndex(element => memberDetails.id === element.id);
+        if (index >= 0) { membership.splice(index, 1); }
+
         // if call to relevant API successful
         res.redirect(constants.CONFIRMATION_MEMBER_REMOVED_FULL_URL);
     } catch (err: unknown) {
@@ -34,4 +44,12 @@ export const tryRemovingUserControllerGet = async (req: Request, res: Response):
         }
 
     }
+};
+
+export const isRemovingThemselvesAsOnlyAccHolder = (memberDetails: Membership, session: Session): boolean => {
+    // check if removing themselves and they are the only account holder
+    const owners = membership.filter(mem => mem.userRole === UserRole.OWNER);
+    const onlyAccHolder = memberDetails.userRole === UserRole.OWNER && owners.length === 1;
+    const removingThemselves = getLoggedInUserEmail(session) === memberDetails.userEmail;
+    return onlyAccHolder && removingThemselves;
 };
