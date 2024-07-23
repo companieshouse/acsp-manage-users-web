@@ -6,4 +6,7 @@ export interface NewUserDetails {
     isValid?: boolean;
     email?: string;
     userName?: string;
+    forename?: string;
+    surname?: string;
+    displayName?: string;
 }
