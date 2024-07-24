@@ -9,7 +9,7 @@ import { setExtraData, getLoggedInUserEmail } from "../../lib/utils/sessionUtils
 
 import { UserRole } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
 
-export const membership = [{
+export const acspMembers = [{
     id: "111111",
     userId: "12345",
     userEmail: "james.morris@gmail.com",
@@ -25,11 +25,11 @@ export const membership = [{
 } as Membership];
 
 export const manageUsersControllerGet = async (req: Request, res: Response): Promise<void> => {
-    const viewData = getViewData(req);
+    const viewData = getViewData(req, acspMembers);
     res.render(constants.MANAGE_USERS_PAGE, { ...viewData });
 };
 
-const getViewData = (req: Request): AnyRecord => {
+export const getViewData = (req: Request, membership: Membership[]): AnyRecord => {
     const translations = getTranslationsForView(req.t, constants.MANAGE_USERS_PAGE);
 
     setExtraData(req.session, constants.MANAGE_USERS_MEMBERSHIP, membership);

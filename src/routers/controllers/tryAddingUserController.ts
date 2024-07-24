@@ -5,7 +5,7 @@ import { Error, Errors, UserRole } from "private-api-sdk-node/dist/services/acsp
 import { NewUserDetails } from "../../types/user";
 import { getExtraData } from "../../lib/utils/sessionUtils";
 import { Membership } from "../../types/membership";
-import { membership } from "./manageUsersController";
+import { acspMembers } from "./manageUsersController";
 
 export const tryAddingUserControllerGet = async (req: Request, res: Response): Promise<void> => {
     try {
@@ -32,7 +32,7 @@ export const tryAddingUserControllerGet = async (req: Request, res: Response): P
             userRole: newUserDetails.userRole || UserRole.STANDARD
         };
 
-        membership.push(acspMembership);
+        acspMembers.push(acspMembership);
         res.redirect(constants.CONFIRMATION_MEMBER_ADDED_FULL_URL);
     } catch (err: unknown) {
         const error = err as Errors;
