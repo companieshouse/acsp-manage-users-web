@@ -8,6 +8,7 @@ export const ADD_USER_PAGE = "add-user";
 export const CHECK_MEMBER_DETAILS_PAGE = "check-member-details";
 export const CONFIRMATION_MEMBER_ADDED_PAGE = "confirmation-member-added";
 export const MEMBER_ALREADY_ADDED_PAGE = "member-already-added";
+export const PLACEHOLDER_CREATE_CH_ACC = "placeholder-create-ch-account";
 export const VIEW_USERS_PAGE = "view-users";
 export const REMOVE_MEMBER_PAGE = "remove-member";
 export const USER_REMOVE_CONFIRMATION_PAGE = "confirmation-member-removed";
@@ -38,6 +39,8 @@ export const CONFIRMATION_MEMBER_ADDED_URL = `/${CONFIRMATION_MEMBER_ADDED_PAGE}
 export const CONFIRMATION_MEMBER_ADDED_FULL_URL = `${LANDING_URL}${CONFIRMATION_MEMBER_ADDED_URL}`;
 export const MEMBER_ALREADY_ADDED_URL = `/${MEMBER_ALREADY_ADDED_PAGE}`;
 export const MEMBER_ALREADY_ADDED_FULL_URL = `${LANDING_URL}${MEMBER_ALREADY_ADDED_URL}`;
+export const PLACEHOLDER_CREATE_CH_ACC_URL = `/${PLACEHOLDER_CREATE_CH_ACC}`;
+export const PLACEHOLDER_CREATE_CH_ACC_FULL_URL = `${LANDING_URL}${PLACEHOLDER_CREATE_CH_ACC_URL}`;
 export const VIEW_USERS_URL = `/${VIEW_USERS_PAGE}`;
 export const VIEW_USERS_FULL_URL = `${LANDING_URL}${VIEW_USERS_URL}`;
 export const REMOVE_MEMBER_CHECK_DETAILS_URL = `/${REMOVE_MEMBER_PAGE}/:id`;
@@ -63,6 +66,9 @@ export const CHS_URL = getEnvironmentValue("CHS_URL");
 export const COOKIE_DOMAIN = getEnvironmentValue("COOKIE_DOMAIN");
 export const COOKIE_NAME = getEnvironmentValue("COOKIE_NAME");
 export const COOKIE_SECRET = getEnvironmentValue("COOKIE_SECRET");
+export const INTERNAL_API_URL = getEnvironmentValue("INTERNAL_API_URL");
+export const CHS_INTERNAL_API_KEY = getEnvironmentValue("CHS_INTERNAL_API_KEY");
+export const ACCOUNT_URL = getEnvironmentValue("ACCOUNT_URL");
 
 // errors
 export const VALIDATION_ERRORS = "VALIDATION_ERRORS";

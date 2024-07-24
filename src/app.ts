@@ -1,3 +1,4 @@
+import "express-async-errors";
 import express, { Request, Response, NextFunction } from "express";
 import nunjucks from "nunjucks";
 import path from "path";
@@ -9,6 +10,7 @@ import * as constants from "./lib/constants";
 import { authenticationMiddleware } from "./middleware/authentication.middleware";
 import { sessionMiddleware } from "./middleware/session.middleware";
 import { getTranslationsForView } from "./lib/utils/translationUtils";
+import { httpErrorHandler } from "./routers/controllers/httpErrorController";
 import { UserRole } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
 
 const app = express();
@@ -63,6 +65,9 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 
 // Channel all requests through router dispatch
 routerDispatch(app);
+
+// http-error error handler
+app.use(httpErrorHandler);
 
 // Unhandled errors
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
