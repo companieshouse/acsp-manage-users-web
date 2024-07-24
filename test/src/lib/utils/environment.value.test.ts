@@ -1,11 +1,9 @@
-import { describe, expect, test } from "@jest/globals";
 import { getEnvironmentValue } from "../../../../src/lib/utils/environmentValue";
 
-describe("Config test suite", () => {
-    test("should check if CDN_HOST env is returned correctly and fetched from user environment", () => {
-        process.env.ACCOUNT_URL = "abc";
+describe("getEnvironmentValue", () => {
+    test("should check if CDN_HOST env is returned correctly and fetched from environment", () => {
         const testAccUrl = getEnvironmentValue("ACCOUNT_URL");
-        expect(testAccUrl).toEqual("abc");
+        expect(testAccUrl).toEqual("account_url");
     });
 
     test("should throw an error when passing anyNonExistingEnv to getEnvironmentValue()", () => {
