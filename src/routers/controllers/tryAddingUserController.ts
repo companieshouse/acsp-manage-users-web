@@ -24,11 +24,11 @@ export const tryAddingUserControllerGet = async (req: Request, res: Response): P
         }
         // if call to relevant API successful
         const acspMembership: Membership = {
-            id: Math.floor(Math.random() * 1000000).toString(),
+            id: Date.now().toString(),
             userId: newUserDetails.userId || "",
             userEmail: newUserDetails.email || "",
             displayUserName: newUserDetails.displayName || "",
-            acspNumber: Math.floor(Math.random() * 1000000).toString(),
+            acspNumber: Date.now().toString(),
             userRole: newUserDetails.userRole || UserRole.STANDARD
         };
 
