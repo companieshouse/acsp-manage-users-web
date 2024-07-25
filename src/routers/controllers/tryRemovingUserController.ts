@@ -6,7 +6,7 @@ import { getExtraData } from "../../lib/utils/sessionUtils";
 import { Membership } from "../../types/membership";
 import { acspMembers } from "./manageUsersController";
 import { Session } from "@companieshouse/node-session-handler";
-import { isRemovingThemselvesAsOnlyAccHolder } from "../../lib/helpers/removingThemselvesHelper";
+import { isRemovingThemselvesAsOnlyAccHolder } from "./helpers/removingThemselvesHelper";
 
 export const tryRemovingUserControllerGet = async (req: Request, res: Response): Promise<void> => {
     try {

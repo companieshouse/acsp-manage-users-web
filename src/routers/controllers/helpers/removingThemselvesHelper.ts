@@ -1,6 +1,6 @@
 import { UserRole } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
-import { getLoggedInUserEmail } from "../../lib/utils/sessionUtils";
-import { Membership } from "../../types/membership";
+import { getLoggedInUserEmail } from "../../../lib/utils/sessionUtils";
+import { Membership } from "../../../types/membership";
 import { Session } from "@companieshouse/node-session-handler";
 
 /*

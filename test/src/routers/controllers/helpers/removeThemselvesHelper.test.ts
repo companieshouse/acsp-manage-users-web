@@ -1,8 +1,8 @@
-import { isRemovingThemselvesAsOnlyAccHolder } from "../../../../src/lib/helpers/removingThemselvesHelper";
+import { isRemovingThemselvesAsOnlyAccHolder } from "../../../../../src/routers/controllers/helpers/removingThemselvesHelper";
 import { UserRole } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
-import { Membership } from "../../../../src/types/membership";
+import { Membership } from "../../../../../src/types/membership";
 import { Session } from "@companieshouse/node-session-handler";
-import * as sessionUtils from "../../../../src/lib/utils/sessionUtils";
+import * as sessionUtils from "../../../../../src/lib/utils/sessionUtils";
 
 const session: Session = new Session();
 
