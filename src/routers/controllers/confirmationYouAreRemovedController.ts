@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 import * as constants from "../../lib/constants";
 import { getTranslationsForView } from "../../lib/utils/translationUtils";
 import { AnyRecord } from "../../types/utilTypes";
-// import { NewUserDetails } from "../../types/user";
 import { getExtraData } from "../../lib/utils/sessionUtils";
 import { MemberForRemoval } from "../../types/membership";
 

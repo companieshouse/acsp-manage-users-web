@@ -31,6 +31,7 @@ const getViewData = (req: Request): AnyRecord => {
     setExtraData(req.session, constants.DETAILS_OF_USER_TO_REMOVE, { ...userToRemove, removingThemselves } as MemberForRemoval);
 
     return {
+        removingThemselves,
         lang: translations,
         userToRemove,
         companyName,

@@ -4,6 +4,9 @@ import logger from "../../lib/Logger";
 import { Error, Errors } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
 import { getExtraData } from "../../lib/utils/sessionUtils";
 import { MemberForRemoval } from "../../types/membership";
+import { acspMembers } from "./manageUsersController";
+import { Session } from "@companieshouse/node-session-handler";
+import { isRemovingThemselvesAsOnlyAccHolder } from "./helpers/removingThemselvesHelper";
 
 export const tryRemovingUserControllerGet = async (req: Request, res: Response): Promise<void> => {
     try {
@@ -20,6 +23,14 @@ export const tryRemovingUserControllerGet = async (req: Request, res: Response):
             };
             throw error;
         }
+
+        if (isRemovingThemselvesAsOnlyAccHolder(acspMembers, memberDetails, req.session as Session)) {
+            return res.redirect("/authorised-agent/stop-page");
+        }
+        // for testing purposes
+        const index = acspMembers.findIndex(element => memberDetails.id === element.id);
+        if (index >= 0) { acspMembers.splice(index, 1); }
+
         // if call to relevant API successful
         if (memberDetails.removingThemselves) {
             res.redirect(constants.CONFIRMATION_YOU_ARE_REMOVED_FULL_URL);
