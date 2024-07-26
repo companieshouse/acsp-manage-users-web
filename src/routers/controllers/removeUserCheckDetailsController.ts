@@ -1,8 +1,9 @@
 import { Request, Response } from "express";
 import * as constants from "../../lib/constants";
 import { getTranslationsForView } from "../../lib/utils/translationUtils";
-import { AnyRecord } from "types/utilTypes";
-import { getExtraData, setExtraData } from "../../lib/utils/sessionUtils";
+import { AnyRecord } from "../../types/utilTypes";
+import { getExtraData, getLoggedInUserEmail, setExtraData } from "../../lib/utils/sessionUtils";
+import { MemberForRemoval } from "../../types/membership";
 
 export const removeUserCheckDetailsControllerGet = async (req: Request, res: Response): Promise<void> => {
     const viewData = getViewData(req);
@@ -26,8 +27,8 @@ const getViewData = (req: Request): AnyRecord => {
             break;
         }
     }
-
-    setExtraData(req.session, constants.DETAILS_OF_USER_TO_REMOVE, userToRemove);
+    const removingThemselves = getLoggedInUserEmail(req.session) === userToRemove.userEmail;
+    setExtraData(req.session, constants.DETAILS_OF_USER_TO_REMOVE, { ...userToRemove, removingThemselves } as MemberForRemoval);
 
     return {
         lang: translations,

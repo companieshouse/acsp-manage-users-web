@@ -5,3 +5,7 @@ export interface Membership {
     displayUserName: string;
     acspNumber: string;
 }
+
+export interface MemberForRemoval extends Membership {
+    removingThemselves?: boolean;
+}
