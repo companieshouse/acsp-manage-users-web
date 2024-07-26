@@ -11,7 +11,7 @@ export const removeYourselfControllerGet = async (req: Request, res: Response): 
 };
 
 const getViewData = (req: Request): AnyRecord => {
-    const translations = getTranslationsForView(req.t, constants.USER_REMOVE_CONFIRMATION_PAGE);
+    const translations = getTranslationsForView(req.t, constants.CONFIRMATION_YOU_ARE_REMOVED);
     const newUserDetails: MemberForRemoval = getExtraData(req.session, constants.DETAILS_OF_USER_TO_REMOVE);
     const companyName = "MORRIS ACCOUNTING LTD";
 
@@ -19,6 +19,6 @@ const getViewData = (req: Request): AnyRecord => {
         lang: translations,
         companyName,
         newUserDetails,
-        buttonHref: constants.MANAGE_USER_FULL_URL
+        buttonHref: "https://find-and-update.company-information.service.gov.uk/"
     };
 };
