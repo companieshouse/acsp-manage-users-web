@@ -23,17 +23,17 @@
 
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
-            <span class="govuk-caption-xl">{{companyName}}</span>
-
-            {% if removingThemselves %}
-                <h1 class="govuk-heading-xl">{{lang.are_you_sure}}</h1>
-                <p class="govuk-body">{{lang.if_remove_yourself}}{{companyName}}.</p>
-            {% else %}
-                <h1 class="govuk-heading-xl">{{lang.remove}}{{userDetails}}</h1>
-                <p class="govuk-body">{{lang.if_you_remove}}{{userDetails}}{{lang.they_will_not_be_able_to_use}}{{companyName}}.</p>
-            {% endif %}
-
             <form method="post">
+                <span class="govuk-caption-xl">{{companyName}}</span>
+
+                {% if removingThemselves %}
+                    <h1 class="govuk-heading-xl">{{lang.are_you_sure}}</h1>
+                    <p class="govuk-body">{{lang.if_remove_yourself}}{{companyName}}.</p>
+                {% else %}
+                    <h1 class="govuk-heading-xl">{{lang.remove}}{{userDetails}}</h1>
+                    <p class="govuk-body">{{lang.if_you_remove}}{{userDetails}}{{lang.they_will_not_be_able_to_use}}{{companyName}}.</p>
+                {% endif %}
+
                 <div class="govuk-button-group">
                     {{ govukButton({
                         text: buttonText,
