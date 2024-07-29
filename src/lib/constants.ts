@@ -88,3 +88,6 @@ export const CLEAR_FORM_TRUE = "?cf=true";
 export const DETAILS_OF_USER_TO_ADD = "detailsOfUserToAdd";
 export const DETAILS_OF_USER_TO_REMOVE = "detailsOfUserToRemove";
 export const MANAGE_USERS_MEMBERSHIP = "manageUsersMembership";
+
+// external urls
+export const CHS_SEARCH_REGISTER_PAGE = "https://find-and-update.company-information.service.gov.uk/";
