@@ -3,7 +3,8 @@
 
 {% extends "layouts/default.njk" %}
 
-{% set userDetails = userToRemove.displayUserName if userToRemove.displayUserName else userToRemove.userEmail %}
+{% set userDetails = userToRemove.displayUserName if userToRemove.displayUserName else 
+    userToRemove.userEmail %}
 
 {% set title = lang.remove + userDetails + lang.title_end %}
 
@@ -11,27 +12,40 @@
     {% include "partials/back_link.njk" %}
 {% endblock %}
 
+{% if removingThemselves %}
+    {% set buttonText = lang.remove %}
+    {% set title = lang.are_you_sure + lang.title_end %}
+{% else %}
+    {% set buttonText = lang.remove_user %}
+{% endif %}
+
 {% block main_content %}
 
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
-        <span class="govuk-caption-xl">{{companyName}}</span>
-        <h1 class="govuk-heading-xl">{{lang.remove}}{{userDetails}}</h1>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <form method="post">
+                <span class="govuk-caption-xl">{{companyName}}</span>
 
-        <p class="govuk-body">{{lang.if_you_remove}}{{userDetails}}{{lang.they_will_not_be_able_to_use}}{{companyName}}.</p>
+                {% if removingThemselves %}
+                    <h1 class="govuk-heading-xl">{{lang.are_you_sure}}</h1>
+                    <p class="govuk-body">{{lang.if_remove_yourself}}{{companyName}}.</p>
+                {% else %}
+                    <h1 class="govuk-heading-xl">{{lang.remove}}{{userDetails}}</h1>
+                    <p class="govuk-body">{{lang.if_you_remove}}{{userDetails}}{{lang.they_will_not_be_able_to_use}}{{companyName}}.</p>
+                {% endif %}
 
-        <form method = "post">
-            <div class="govuk-button-group">
-                {{ govukButton({
-                        text: lang.remove_user,
+                <div class="govuk-button-group">
+                    {{ govukButton({
+                        text: buttonText,
                         classes: "govuk-button--warning",
                         href: tryRemovingUserUrl
                     })
                 }}
-                <a class="govuk-link" href="{{cancelLinkHref}}" id="cancel-link">{{lang.cancel}}</a>
-            </div>
-        </form>
+                    <a class="govuk-link" href="{{cancelLinkHref}}" id="cancel-link">{{lang.cancel}}</a>
+                </div>
+            </form>
+
+        </div>
     </div>
-</div>
 
 {% endblock %}
