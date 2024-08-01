@@ -1,4 +1,4 @@
-import { AcspMembers, UserRole, AcspMembership, UserStatus, MembershipStatus } from "@companieshouse/private-api-sdk-node/dist/services/acsp-manage-users/types";
+import { AcspMembers, UserRole, AcspMembership, UserStatus, MembershipStatus } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
 
 export const acspMembership: AcspMembership = {
     etag: "nj3",

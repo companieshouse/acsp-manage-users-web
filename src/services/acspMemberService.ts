@@ -3,7 +3,7 @@ import { Resource } from "@companieshouse/api-sdk-node";
 import logger from "../lib/Logger";
 import { StatusCodes } from "http-status-codes";
 import createError from "http-errors";
-import { AcspMembers, AcspMembership, Errors, UserRole, UpdateOrRemove } from "@companieshouse/private-api-sdk-node/dist/services/acsp-manage-users/types";
+import { AcspMembers, AcspMembership, Errors, UserRole, UpdateOrRemove } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
 import { Request } from "express";
 /*
     This service provides access to ACSP members

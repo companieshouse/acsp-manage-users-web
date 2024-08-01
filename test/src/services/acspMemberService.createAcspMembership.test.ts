@@ -3,7 +3,7 @@ import { createOauthPrivateApiClient } from "../../../src/services/apiClientServ
 import { createAcspMembership } from "../../../src/services/acspMemberService";
 import { StatusCodes } from "http-status-codes";
 import { HttpError } from "http-errors";
-import { AcspMembership, UserRole } from "@companieshouse/private-api-sdk-node/dist/services/acsp-manage-users/types";
+import { AcspMembership, UserRole } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
 import { mockRequest } from "../../mocks/request.mock";
 import { acspMembership } from "../../mocks/acsp.members.mock";
 

@@ -3,7 +3,7 @@ import { createOauthPrivateApiClient } from "../../../src/services/apiClientServ
 import { updateOrRemoveUserAcspMembership } from "../../../src/services/acspMemberService";
 import { StatusCodes } from "http-status-codes";
 import { HttpError } from "http-errors";
-import { UserRole } from "@companieshouse/private-api-sdk-node/dist/services/acsp-manage-users/types";
+import { UserRole } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
 import { mockRequest } from "../../mocks/request.mock";
 
 jest.mock("../../../src/services/apiClientService");
