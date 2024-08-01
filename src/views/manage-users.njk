@@ -61,7 +61,7 @@
 
     {% set administratorsTabContent %}
     <h2 class="govuk-heading-l">{{lang.administrators}}</h2>
-    {% if administratorsTableData %}
+    {% if administratorsTableData and administratorsTableData.length > 0 %}
         {{ govukTable({
             caption: lang.administrators,
             captionClasses: "govuk-table__caption--m govuk-visually-hidden",
@@ -77,7 +77,7 @@
 
     {% set standardUsersTabContent %}
     <h2 class="govuk-heading-l">{{lang.standard_users}}</h2>
-    {% if standardUsersTableData %}
+    {% if standardUsersTableData and standardUsersTableData.length > 0 %}
         {{ govukTable({
             caption: lang.standard_users,
             captionClasses: "govuk-table__caption--m govuk-visually-hidden",
