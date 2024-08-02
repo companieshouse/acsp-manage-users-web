@@ -103,10 +103,11 @@ describe(`POST ${url}`, () => {
         jest.clearAllMocks();
     });
 
-    it("should check session and user auth before routing to controller", async () => {
+    it("should check session, user auth and ACSP membership before routing to controller", async () => {
         await router.post(url).send({ email: "", userRole: "" });
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+        expect(mocks.mockLoggedUserAcspMembershipMiddleware).toHaveBeenCalled();
     });
 
     it("should display current page with error message if no email provided", async () => {

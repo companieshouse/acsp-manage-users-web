@@ -22,7 +22,7 @@ describe("GET /authorised-agent/try-adding-user", () => {
         jest.clearAllMocks();
     });
 
-    it("should check session and user auth before returning the page", async () => {
+    it("should check session, user auth and ACSP membership before returning the page", async () => {
         // Given
         session.setExtraData(constants.DETAILS_OF_USER_TO_ADD, userAdamBrownDetails);
         // When
@@ -30,6 +30,7 @@ describe("GET /authorised-agent/try-adding-user", () => {
         // Then
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+        expect(mocks.mockLoggedUserAcspMembershipMiddleware).toHaveBeenCalled();
     });
 
     it("should return status 302 and redirect to /authorised-agent/confirmation-member-added", async () => {

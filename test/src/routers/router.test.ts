@@ -12,10 +12,11 @@ describe("GET /dummy", () => {
         jest.clearAllMocks();
     });
 
-    it("should not check session and user auth", async () => {
+    it("should not check session, user auth and ACSP membership", async () => {
         await router.get(url);
         expect(mocks.mockSessionMiddleware).not.toHaveBeenCalled();
         expect(mocks.mockAuthenticationMiddleware).not.toHaveBeenCalled();
+        expect(mocks.mockLoggedUserAcspMembershipMiddleware).toHaveBeenCalled();
     });
 
     it("should return status 404", async () => {
