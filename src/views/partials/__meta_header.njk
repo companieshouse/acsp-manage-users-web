@@ -1,7 +1,14 @@
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta charset="utf-8"/>
-    <title>{{ title if title else lang.page_header + lang.title_end }}</title>
+    <title>
+        {% if loggedInUserRole === UserRole.OWNER or loggedInUserRole === UserRole.ADMIN %}
+            {{ lang.page_header }}
+        {% else %}
+            {{ lang.page_header_standard }}
+        {% endif %}
+        {{ lang.title_end }}
+    </title>
     <!--[if !IE 8]><!-->
     <link href="{{ cdnUrlCss }}/app.min.css" media="all" rel="stylesheet" type="text/css"/>
     <!--<![endif]-->

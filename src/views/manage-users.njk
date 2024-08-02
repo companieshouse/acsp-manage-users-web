@@ -10,22 +10,22 @@
 
 {% block main_content %}
     <span class="govuk-caption-l">{{companyName}} &#40;{{companyNumber}}&#41;</span>
-    <h1 class="govuk-heading-l">{{lang.page_header}}</h1>
 
-    {% if loggedInUserRole === UserRole.OWNER or loggedInUserRole ===  UserRole.ADMIN  %}
+    {% if loggedInUserRole === UserRole.OWNER or loggedInUserRole === UserRole.ADMIN %}
+        <h1 class="govuk-heading-l">{{ lang.page_header }}</h1>
 
-    {{ govukButton({
+        {{ govukButton({
             text: lang.add_a_user,
             href: addUserUrl,
             attributes: {
                 id: "add-a-user-button"
             }
-        })
-    }}
+        }) }}
 
-    <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
-
-    {%  endif %}
+        <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+    {% else %}
+        <h1 class="govuk-heading-l">{{ lang.page_header_standard }}</h1>
+    {% endif %}
 
     {% set allHeaders = [
         {
