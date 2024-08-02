@@ -5,7 +5,7 @@ import * as en from "../../../../src/locales/en/translation/dashboard.json";
 import * as sessionUtils from "../../../../src/lib/utils/sessionUtils";
 
 const router = supertest(app);
-const url = "/authorised-agent/dashboard";
+const url = "/authorised-agent/";
 
 describe(`GET ${url}`, () => {
     const getLoggedInUserEmailSpy: jest.SpyInstance = jest.spyOn(sessionUtils, "getLoggedInUserEmail");

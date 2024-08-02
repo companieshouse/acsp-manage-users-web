@@ -71,7 +71,7 @@ describe("manageUsersController - getViewData", () => {
 
             ]],
             addUserUrl: "/authorised-agent/add-user?cf=true",
-            backLinkUrl: "/authorised-agent/dashboard",
+            backLinkUrl: "/authorised-agent/",
             companyName: "MORRIS ACCOUNTING LTD",
             companyNumber: "0122239",
             lang: expect.anything(),
