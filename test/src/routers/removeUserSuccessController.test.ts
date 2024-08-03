@@ -43,7 +43,7 @@ describe("GET /authorised-agent/confirmation-member-removed", () => {
             id: "111111",
             userId: "12345",
             userEmail: "james.morris@gmail.com",
-            displayUserName: "James Morris",
+            userDisplayName: "James Morris",
             acspNumber: "E12FPL"
         };
         setExtraData(session, constants.DETAILS_OF_USER_TO_REMOVE, userDetails);
@@ -52,10 +52,10 @@ describe("GET /authorised-agent/confirmation-member-removed", () => {
         const response = await router.get(url);
 
         // Then
-        expect(response.text).toContain(`${en.you_have_removed}${userDetails.displayUserName}`);
+        expect(response.text).toContain(`${en.you_have_removed}${userDetails.userDisplayName}`);
         expect(response.text).toContain(`${en.from}${companyName}`);
         expect(response.text).toContain(en.what_happens_now_they_have_been_removed);
-        expect(response.text).toContain(`${userDetails.displayUserName}${en.will_no_longer_be_able_to_access}${companyName}`);
+        expect(response.text).toContain(`${userDetails.userDisplayName}${en.will_no_longer_be_able_to_access}${companyName}`);
         expect(response.text).toContain(`${enCommon.go_to_manage_users}`);
 
     });

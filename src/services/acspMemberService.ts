@@ -12,9 +12,9 @@ const stringifyApiErrors = (resource: Resource<AcspMembers | AcspMembership | Er
     return JSON.stringify((resource?.resource as Errors)?.errors || "No error list returned");
 };
 
-export const getAcspMemberships = async (req: Request, acspNumber: string): Promise<AcspMembers> => {
+export const getAcspMemberships = async (req: Request, acspNumber: string, includeRemoved?:boolean, pageIndex?:number, itemsPerPage?:number, role?: UserRole[]): Promise<AcspMembers> => {
     const apiClient = createOauthPrivateApiClient(req);
-    const sdkResponse: Resource<AcspMembers | Errors> = await apiClient.acspManageUsersService.getAcspMemberships(acspNumber);
+    const sdkResponse: Resource<AcspMembers | Errors> = await apiClient.acspManageUsersService.getAcspMemberships(acspNumber, includeRemoved, pageIndex, itemsPerPage, role);
 
     if (!sdkResponse) {
         const errMsg = `GET /acsps/${acspNumber}/memberships - no response received`;
@@ -51,6 +51,7 @@ export const getMembershipForLoggedInUser = async (req: Request): Promise<AcspMe
     if (sdkResponse.httpStatusCode !== StatusCodes.OK) {
         const errorMessage = `GET /user/acsps/memberships for logged in user - ${sdkResponse.httpStatusCode}`;
         logger.debug(errorMessage + stringifyApiErrors(sdkResponse));
+        console.log("throwing an error = create error with response");
         return Promise.reject(createError(sdkResponse.httpStatusCode, `${stringifyApiErrors(sdkResponse)} ${errorMessage}`));
     }
 
