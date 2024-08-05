@@ -31,9 +31,9 @@ export const getViewData = async (req: Request): Promise<AnyRecord> => {
         acspName
     } = acspMemership[0];
 
-    const ownerMembers = await getAcspMemberships(req, acspNumber, false, 1, 10000, [UserRole.OWNER]);
-    const adminMembers = await getAcspMemberships(req, acspNumber, false, 1, 10000, [UserRole.ADMIN]);
-    const standardMembers = await getAcspMemberships(req, acspNumber, false, 1, 10000, [UserRole.STANDARD]);
+    const ownerMembers = await getAcspMemberships(req, acspNumber, false, 0, 10000, [UserRole.OWNER]);
+    const adminMembers = await getAcspMemberships(req, acspNumber, false, 0, 10000, [UserRole.ADMIN]);
+    const standardMembers = await getAcspMemberships(req, acspNumber, false, 0, 10000, [UserRole.STANDARD]);
 
     const accountOwnersTableData: TableEntry[][] = getUserTableData(ownerMembers.items, translations, userRole === UserRole.OWNER);
     const administratorsTableData: TableEntry[][] = getUserTableData(adminMembers.items, translations, userRole !== UserRole.STANDARD);
