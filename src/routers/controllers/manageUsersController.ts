@@ -18,11 +18,14 @@ export const getViewData = async (req: Request): Promise<AnyRecord> => {
     const translations = getTranslationsForView(req.t, constants.MANAGE_USERS_PAGE);
     const membership = await getMembershipForLoggedInUser(req);
 
+    if (!membership?.items.length) {
+        throw new Error("logged in user ACSP membership details were not retrieved");
+    }
     const {
         userRole,
         acspNumber,
         acspName
-    } = membership?.items[0];
+    } = membership.items[0];
 
     const ownerMembers = await getAcspMemberships(req, acspNumber, false, 0, 10000, [UserRole.OWNER]);
     const adminMembers = await getAcspMemberships(req, acspNumber, false, 0, 10000, [UserRole.ADMIN]);

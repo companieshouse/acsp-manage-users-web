@@ -124,4 +124,18 @@ describe("manageUsersController - getViewData", () => {
             removeUserLinkUrl: "/authorised-agent/remove-member/:id"
         });
     });
+    it("should thow an error when acsp details not fetched", async () => {
+
+        const request = mockRequest();
+        mockGetTranslationsForView.mockReturnValueOnce({
+            remove: "Remove"
+        });
+        const emptyAcspMembersResource = {
+            ...mockAcspMembersResource,
+            items: []
+        };
+        mockGetMembershipForLoggedInUser.mockResolvedValue(emptyAcspMembersResource);
+        await expect(getViewData(request))
+            .rejects.toThrow();
+    });
 });
