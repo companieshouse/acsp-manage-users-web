@@ -8,3 +8,7 @@ export interface Membership {
     acspNumber: string;
     userRole: UserRole
 }
+
+export interface MemberForRemoval extends Membership {
+    removingThemselves?: boolean;
+}
