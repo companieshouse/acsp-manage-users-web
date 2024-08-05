@@ -29,6 +29,25 @@ export const manageUsersControllerGet = async (req: Request, res: Response): Pro
     res.render(constants.MANAGE_USERS_PAGE, { ...viewData });
 };
 
+// export const getTitle = (translations: AnyRecord, loggedInUserRole: UserRole): string => {
+//     if (loggedInUserRole === UserRole.OWNER || loggedInUserRole === UserRole.ADMIN) {
+//         return translations.page_header?.toString() ?? 'Manage Users';
+//     } else {
+//         return translations.page_header_standard?.toString() ?? 'View Users';
+//     }
+// };
+export const getTitle = (translations: AnyRecord, loggedInUserRole: UserRole): string => {
+    let baseTitle: string;
+    if (loggedInUserRole === UserRole.OWNER || loggedInUserRole === UserRole.ADMIN) {
+        baseTitle = translations.page_header?.toString() ?? "Manage Users";
+    } else {
+        baseTitle = translations.page_header_standard?.toString() ?? "View Users";
+    }
+
+    const titleEnd = translations.title_end?.toString() ?? "";
+    return `${baseTitle}${titleEnd}`;
+};
+
 export const getViewData = (req: Request, membership: Membership[]): AnyRecord => {
     const translations = getTranslationsForView(req.t, constants.MANAGE_USERS_PAGE);
 
@@ -38,6 +57,8 @@ export const getViewData = (req: Request, membership: Membership[]): AnyRecord =
     // Hardcoded data will be replaced once relevant API calls available
     const companyName = "MORRIS ACCOUNTING LTD";
     const companyNumber = "0122239";
+
+    const title = getTitle(translations, loggedInUserRole);
 
     const accountOwnersTableData: TableEntry[][] = [];
     const administratorsTableData: TableEntry[][] = [];
@@ -60,6 +81,7 @@ export const getViewData = (req: Request, membership: Membership[]): AnyRecord =
     });
 
     return {
+        title: title,
         lang: translations,
         backLinkUrl: constants.DASHBOARD_FULL_URL,
         addUserUrl: constants.ADD_USER_FULL_URL + constants.CLEAR_FORM_TRUE,
