@@ -51,7 +51,6 @@ export const getMembershipForLoggedInUser = async (req: Request): Promise<AcspMe
     if (sdkResponse.httpStatusCode !== StatusCodes.OK) {
         const errorMessage = `GET /user/acsps/memberships for logged in user - ${sdkResponse.httpStatusCode}`;
         logger.debug(errorMessage + stringifyApiErrors(sdkResponse));
-        console.log("throwing an error = create error with response");
         return Promise.reject(createError(sdkResponse.httpStatusCode, `${stringifyApiErrors(sdkResponse)} ${errorMessage}`));
     }
 

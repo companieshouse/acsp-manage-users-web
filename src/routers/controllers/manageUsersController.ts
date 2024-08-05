@@ -22,7 +22,7 @@ export const getViewData = async (req: Request): Promise<AnyRecord> => {
         userRole,
         acspNumber,
         acspName
-    } = membership.items[0];
+    } = membership?.items[0];
 
     const ownerMembers = await getAcspMemberships(req, acspNumber, false, 0, 10000, [UserRole.OWNER]);
     const adminMembers = await getAcspMemberships(req, acspNumber, false, 0, 10000, [UserRole.ADMIN]);
