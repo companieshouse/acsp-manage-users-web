@@ -110,3 +110,57 @@ export const updateOrRemoveUserAcspMembership = async (req: Request, acspMembers
         return Promise.resolve();
     }
 };
+
+export const membershipLookup = async (req: Request, acspNumber: string, email: string): Promise<AcspMembers> => {
+    const apiClient = createOauthPrivateApiClient(req);
+
+    const sdkResponse: Resource<AcspMembers | Errors> = await apiClient.acspManageUsersService.membershipLookup(acspNumber, email);
+
+    if (!sdkResponse) {
+        const errMsg = `POST /acsps/${acspNumber}/memberships/lookup - no response received`;
+        logger.error(errMsg);
+        return Promise.reject(new Error(errMsg));
+    }
+
+    if (sdkResponse.httpStatusCode !== StatusCodes.OK) {
+        const errorMessage = `POST /acsps/${acspNumber}/memberships/lookup- ${sdkResponse.httpStatusCode}`;
+        logger.debug(errorMessage + stringifyApiErrors(sdkResponse));
+        return Promise.reject(createError(sdkResponse.httpStatusCode, `${stringifyApiErrors(sdkResponse)} ${errorMessage}`));
+    }
+
+    if (!sdkResponse.resource) {
+        const errorMsg = `POST /acsps/${acspNumber}/memberships/lookup: returned a response but no resource`;
+        return Promise.reject(new Error(errorMsg));
+    }
+
+    logger.debug(`Fetched membership for email${email} ${JSON.stringify(sdkResponse)}`);
+
+    return Promise.resolve(sdkResponse.resource as AcspMembers);
+};
+
+export const getAcspMembershipForMemberId = async (req: Request, acspMembershipId: string): Promise<AcspMembership> => {
+    const apiClient = createOauthPrivateApiClient(req);
+
+    const sdkResponse: Resource<AcspMembership | Errors> = await apiClient.acspManageUsersService.getAcspMembershipForMemberId(acspMembershipId);
+
+    if (!sdkResponse) {
+        const errMsg = `GET /acsps/memberships/${acspMembershipId} - no response received`;
+        logger.error(errMsg);
+        return Promise.reject(new Error(errMsg));
+    }
+
+    if (sdkResponse.httpStatusCode !== StatusCodes.OK) {
+        const errorMessage = `GET /acsps/memberships/${acspMembershipId} - ${sdkResponse.httpStatusCode}`;
+        logger.debug(errorMessage + stringifyApiErrors(sdkResponse));
+        return Promise.reject(createError(sdkResponse.httpStatusCode, `${stringifyApiErrors(sdkResponse)} ${errorMessage}`));
+    }
+
+    if (!sdkResponse.resource) {
+        const errorMsg = `GET /acsps/memberships/${acspMembershipId} - returned a response but no resource`;
+        return Promise.reject(new Error(errorMsg));
+    }
+
+    logger.debug(`Fetched membership for id ${acspMembershipId} ${JSON.stringify(sdkResponse)}`);
+
+    return Promise.resolve(sdkResponse.resource as AcspMembership);
+};
