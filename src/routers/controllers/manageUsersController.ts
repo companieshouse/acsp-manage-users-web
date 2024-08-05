@@ -14,6 +14,18 @@ export const manageUsersControllerGet = async (req: Request, res: Response): Pro
     res.render(constants.MANAGE_USERS_PAGE, { ...viewData });
 };
 
+export const getTitle = (translations: AnyRecord, loggedInUserRole: UserRole): string => {
+    let baseTitle: string;
+    if (loggedInUserRole === UserRole.OWNER || loggedInUserRole === UserRole.ADMIN) {
+        baseTitle = translations.page_header?.toString() ?? "Manage Users";
+    } else {
+        baseTitle = translations.page_header_standard?.toString() ?? "View Users";
+    }
+
+    const titleEnd = translations.title_end?.toString() ?? "";
+    return `${baseTitle}${titleEnd}`;
+};
+
 export const getViewData = async (req: Request): Promise<AnyRecord> => {
     const translations = getTranslationsForView(req.t, constants.MANAGE_USERS_PAGE);
     const membership = await getMembershipForLoggedInUser(req);
@@ -34,6 +46,7 @@ export const getViewData = async (req: Request): Promise<AnyRecord> => {
     const accountOwnersTableData: TableEntry[][] = getUserTableData(ownerMembers.items, translations, userRole === UserRole.OWNER);
     const administratorsTableData: TableEntry[][] = getUserTableData(adminMembers.items, translations, userRole !== UserRole.STANDARD);
     const standardUsersTableData: TableEntry[][] = getUserTableData(standardMembers.items, translations, userRole !== UserRole.STANDARD);
+    const title = getTitle(translations, userRole);
 
     const allMembersForThisAcsp = [...ownerMembers.items, ...adminMembers.items, ...standardMembers.items].map<Membership>(member => ({
         id: member.id,
@@ -46,6 +59,7 @@ export const getViewData = async (req: Request): Promise<AnyRecord> => {
     setExtraData(req.session, constants.MANAGE_USERS_MEMBERSHIP, allMembersForThisAcsp);
 
     return {
+        title: title,
         lang: translations,
         backLinkUrl: constants.DASHBOARD_FULL_URL,
         addUserUrl: constants.ADD_USER_FULL_URL + constants.CLEAR_FORM_TRUE,
