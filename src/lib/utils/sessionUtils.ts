@@ -3,6 +3,8 @@ import { ISignInInfo } from "@companieshouse/node-session-handler/lib/session/mo
 import { SignInInfoKeys } from "@companieshouse/node-session-handler/lib/session/keys/SignInInfoKeys";
 import { UserProfileKeys } from "@companieshouse/node-session-handler//lib/session/keys/UserProfileKeys";
 import { Session } from "@companieshouse/node-session-handler";
+import { AcspMembership } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
+import * as constants from "../constants";
 
 const getSignInInfo = (session: Session | undefined): ISignInInfo | undefined => {
     return session?.data?.[SessionKey.SignInInfo];
@@ -11,6 +13,10 @@ const getSignInInfo = (session: Session | undefined): ISignInInfo | undefined =>
 export const getLoggedInUserEmail = (session: Session | undefined): string => {
     const signInInfo = getSignInInfo(session);
     return signInInfo?.[SignInInfoKeys.UserProfile]?.[UserProfileKeys.Email] as string;
+};
+
+export const getLoggedUserAcspMembership = (session: Session | undefined): AcspMembership => {
+    return getExtraData(session, constants.LOGGED_USER_ACSP_MEMBERSHIP);
 };
 
 export const setExtraData = (session: Session | undefined, key: string, data: any): void => {

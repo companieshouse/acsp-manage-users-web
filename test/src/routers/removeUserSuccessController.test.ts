@@ -26,10 +26,11 @@ describe("GET /authorised-agent/confirmation-member-removed", () => {
         jest.clearAllMocks();
     });
 
-    it("should check session and user auth before returning the page", async () => {
+    it("should check session, user auth and ACSP membership before returning the page", async () => {
         await router.get(url);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+        expect(mocks.mockLoggedUserAcspMembershipMiddleware).toHaveBeenCalled();
     });
 
     it("should return status 200", async () => {

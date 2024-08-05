@@ -3,26 +3,28 @@ import supertest from "supertest";
 import app from "../../../../src/app";
 import * as en from "../../../../src/locales/en/translation/dashboard.json";
 import * as sessionUtils from "../../../../src/lib/utils/sessionUtils";
+import { accountOwnerAcspMembership, administratorAcspMembership, standardUserAcspMembership } from "../../../mocks/acsp.members.mock";
 
 const router = supertest(app);
 const url = "/authorised-agent/";
 
 describe(`GET ${url}`, () => {
-    const getLoggedInUserEmailSpy: jest.SpyInstance = jest.spyOn(sessionUtils, "getLoggedInUserEmail");
+    const getLoggedUserAcspMembershipSpy: jest.SpyInstance = jest.spyOn(sessionUtils, "getLoggedUserAcspMembership");
 
     beforeEach(() => {
         jest.clearAllMocks();
     });
 
-    it("should check session and user auth before returning the page", async () => {
+    it("should check session, user auth and ACSP membership before returning the page", async () => {
         await router.get(url);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+        expect(mocks.mockLoggedUserAcspMembershipMiddleware).toHaveBeenCalled();
     });
 
     it("should have a page title and 4 boxes, file as an auth agent, manage users, verify and update when account owner legged in", async () => {
         // Given
-        getLoggedInUserEmailSpy.mockReturnValue("demo@ch.gov.uk");
+        getLoggedUserAcspMembershipSpy.mockReturnValue(accountOwnerAcspMembership);
         // When
         const encodedResponse = await router.get(url);
         const decodedResponse = encodedResponse.text.replace(/&#39;/g, "'");
@@ -53,7 +55,7 @@ describe(`GET ${url}`, () => {
 
     it("should have a page title and 3 boxes, file as an auth agent, manage users, and verify when administrator legged in", async () => {
         // Given
-        getLoggedInUserEmailSpy.mockReturnValue("demo2@ch.gov.uk");
+        getLoggedUserAcspMembershipSpy.mockReturnValue(administratorAcspMembership);
         // When
         const encodedResponse = await router.get(url);
         const decodedResponse = encodedResponse.text.replace(/&#39;/g, "'");
@@ -80,7 +82,7 @@ describe(`GET ${url}`, () => {
 
     it("should have a page title and 3 boxes, file as an auth agent, view users, and verify when standard user legged in", async () => {
         // Given
-        getLoggedInUserEmailSpy.mockReturnValue("j.smith@test.com");
+        getLoggedUserAcspMembershipSpy.mockReturnValue(standardUserAcspMembership);
         // When
         const encodedResponse = await router.get(url);
         const decodedResponse = encodedResponse.text.replace(/&#39;/g, "'");

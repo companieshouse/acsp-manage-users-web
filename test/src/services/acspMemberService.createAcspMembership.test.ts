@@ -5,7 +5,7 @@ import { StatusCodes } from "http-status-codes";
 import { HttpError } from "http-errors";
 import { AcspMembership, UserRole } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
 import { mockRequest } from "../../mocks/request.mock";
-import { acspMembership } from "../../mocks/acsp.members.mock";
+import { accountOwnerAcspMembership } from "../../mocks/acsp.members.mock";
 
 jest.mock("../../../src/services/apiClientService");
 
@@ -33,7 +33,7 @@ describe("getAcspMembersService", () => {
             // Given
             const sdkResource: Resource<AcspMembership> = {
                 httpStatusCode: StatusCodes.CREATED,
-                resource: acspMembership
+                resource: accountOwnerAcspMembership
             };
             mockCreateAcspMemberJestFn.mockResolvedValueOnce(sdkResource);
             // When
