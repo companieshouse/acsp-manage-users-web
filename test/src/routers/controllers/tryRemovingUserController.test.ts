@@ -43,6 +43,21 @@ describe("GET /authorised-agent/try-removing-user", () => {
         expect(response.text).toContain(expectedPageHeading);
     });
 
+    it("should return status 302 and redirect to /authorised-agent/confirmation-you-are-removed when removing themselves", async () => {
+        // Given
+        const userToRemove = {
+            ...userAdamBrownRemoveDetails,
+            removingThemselves: true
+        };
+        session.setExtraData(constants.DETAILS_OF_USER_TO_REMOVE, userToRemove);
+        const expectedPageHeading = "Found. Redirecting to /authorised-agent/confirmation-you-are-removed";
+        // When
+        const response = await router.get(url);
+        // Then
+        expect(response.status).toEqual(302);
+        expect(response.text).toContain(expectedPageHeading);
+    });
+
     it("should return status 302 and redirect to /authorised-agent/member-already-removed", async () => {
         // Given
         session.setExtraData(constants.DETAILS_OF_USER_TO_REMOVE, userJohnSmithRemoveDetails);

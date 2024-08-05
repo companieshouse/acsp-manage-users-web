@@ -13,6 +13,7 @@ export const VIEW_USERS_PAGE = "view-users";
 export const REMOVE_MEMBER_PAGE = "remove-member";
 export const USER_REMOVE_CONFIRMATION_PAGE = "confirmation-member-removed";
 export const MEMBER_ALREADY_REMOVED_PAGE = "member-already-removed";
+export const CONFIRMATION_YOU_ARE_REMOVED = "confirmation-you-are-removed";
 
 // Other Nunjucks template files
 export const SERVICE_UNAVAILABLE_TEMPLATE = "partials/service_unavailable";
@@ -51,7 +52,8 @@ export const MEMBER_ALREADY_REMOVED_URL = `/${MEMBER_ALREADY_REMOVED_PAGE}`;
 export const MEMBER_ALREADY_REMOVED_FULL_URL = `${LANDING_URL}${MEMBER_ALREADY_REMOVED_URL}`;
 export const TRY_REMOVING_USER_URL = "/try-removing-user";
 export const TRY_REMOVING_USER_FULL_URL = `${LANDING_URL}${TRY_REMOVING_USER_URL}`;
-
+export const CONFIRMATION_YOU_ARE_REMOVED_URL = `/${CONFIRMATION_YOU_ARE_REMOVED}`;
+export const CONFIRMATION_YOU_ARE_REMOVED_FULL_URL = `${LANDING_URL}${CONFIRMATION_YOU_ARE_REMOVED_URL}`;
 export const HEALTHCHECK = "/healthcheck";
 
 // External URLs
@@ -86,3 +88,6 @@ export const CLEAR_FORM_TRUE = "?cf=true";
 export const DETAILS_OF_USER_TO_ADD = "detailsOfUserToAdd";
 export const DETAILS_OF_USER_TO_REMOVE = "detailsOfUserToRemove";
 export const MANAGE_USERS_MEMBERSHIP = "manageUsersMembership";
+
+// external urls
+export const CHS_SEARCH_REGISTER_PAGE = "https://find-and-update.company-information.service.gov.uk/";

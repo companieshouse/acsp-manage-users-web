@@ -8,3 +8,7 @@ export interface Membership {
     userRole: UserRole;
     userDisplayName:string;
 }
+
+export interface MemberForRemoval extends Membership {
+    removingThemselves?: boolean;
+}
