@@ -63,7 +63,7 @@ export const standardUserAcspMembership: AcspMembership = {
     }
 };
 
-export const mockAcspMembersResource: AcspMembers = {
+export const accountOwnerAcspMembers: AcspMembers = {
     items: [accountOwnerAcspMembership],
     links: {
         self: "http://localhost:8080/",
