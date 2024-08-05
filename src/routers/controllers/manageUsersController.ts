@@ -29,13 +29,6 @@ export const manageUsersControllerGet = async (req: Request, res: Response): Pro
     res.render(constants.MANAGE_USERS_PAGE, { ...viewData });
 };
 
-// export const getTitle = (translations: AnyRecord, loggedInUserRole: UserRole): string => {
-//     if (loggedInUserRole === UserRole.OWNER || loggedInUserRole === UserRole.ADMIN) {
-//         return translations.page_header?.toString() ?? 'Manage Users';
-//     } else {
-//         return translations.page_header_standard?.toString() ?? 'View Users';
-//     }
-// };
 export const getTitle = (translations: AnyRecord, loggedInUserRole: UserRole): string => {
     let baseTitle: string;
     if (loggedInUserRole === UserRole.OWNER || loggedInUserRole === UserRole.ADMIN) {
