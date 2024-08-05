@@ -6,9 +6,9 @@
 {% set userDetails = removedUserDetails.displayUserName if removedUserDetails.displayUserName else removedUserDetails.userEmail %}
 
 {% set bannerHtml %}
-  <h3 class="govuk-notification-banner__heading">
+  <p class="govuk-notification-banner__heading">
     {{lang.you_have_removed}}{{userDetails}}{{lang.from}}{{companyName}}.
-  </h3>
+  </p>
 {% endset %}
 
 {% set title = lang.what_happens_now_you_have_been_removed + lang.title_end %}
