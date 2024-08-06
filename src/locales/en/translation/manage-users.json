@@ -3,13 +3,17 @@
     "add_a_user": "Add a user",
     "administrators": "Administrators",
     "back_link": "Return to authorised agent services",
+    "cancel_search": "Cancel search",
     "email_address": "Email address",
+    "errors_search_requires_full_valid_email_address": "Search requires full, valid email address",
     "page_header": "Manage users",
     "page_header_standard": "View users",
     "remove": "Remove",
     "remove_user": "Remove user",
+    "search": "Search",
     "standard_users": "Standard users",
     "users_name": "User’s name",
+    "you_have_no_account_owners_users": "You have no account owners users.",
     "you_have_no_admin_users": "You have no admin users.",
     "you_have_no_standard_users": "You have no standard users."
 }

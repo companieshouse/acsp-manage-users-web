@@ -3,13 +3,17 @@
     "add_a_user": "[CY] Add a user",
     "administrators": "[CY] Administrators",
     "back_link": "[CY] Return to authorised agent services",
+    "cancel_search": "[CY] Cancel search",
     "email_address": "[CY] Email address",
+    "errors_search_requires_full_valid_email_address": "[CY] Search requires full, valid email address",
     "page_header": "[CY] Manage users",
     "page_header_standard": "[CY] View users",
     "remove": "[CY] Remove",
     "remove_user": "[CY] Remove user",
+    "search": "[CY] Search",
     "standard_users": "[CY] Standard users",
     "users_name": "[CY] User’s name",
+    "you_have_no_account_owners_users": "[CY] You have no account owners users.",
     "you_have_no_admin_users": "[CY] You have no admin users.",
     "you_have_no_standard_users": "[CY] You have no standard users."
 }

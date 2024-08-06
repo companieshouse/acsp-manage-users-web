@@ -11,7 +11,9 @@
 {% block main_content %}
     <span class="govuk-caption-l">{{companyName}} &#40;{{companyNumber}}&#41;</span>
 
-    {% if loggedInUserRole === UserRole.OWNER or loggedInUserRole === UserRole.ADMIN %}
+    {% if loggedInUserRole === UserRole.STANDARD %}
+        <h1 class="govuk-heading-l">{{ lang.page_header_standard }}</h1>
+    {% else %}
         <h1 class="govuk-heading-l">{{ lang.page_header }}</h1>
 
         {{ govukButton({
@@ -23,9 +25,33 @@
         }) }}
 
         <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
-    {% else %}
-        <h1 class="govuk-heading-l">{{ lang.page_header_standard }} </h1>
     {% endif %}
+
+    {% set formClasses = "govuk-form-group govuk-form-group--error" if message else "govuk-form-group" %}
+    {% set inputClasses = "govuk-input govuk-input--error govuk-input--width-10 govuk-!-margin-right-1" if message else "govuk-input govuk-input--width-10 govuk-!-margin-right-1" %}
+
+    <form method="post">
+        <div class="{{formClasses}}">
+            <label class="govuk-label govuk-label--m" for="search">
+                {{lang.search_for_a_company}}
+            </label>
+            <div id="event-name-hint" class="govuk-hint">
+                {{lang.enter_company_num}}
+            </div>
+            {% if message %}
+                {{ govukErrorMessage({
+                            text: message
+                        })
+                    }}
+            {% endif %}
+            <div id="search-input-group">
+                <input class="{{inputClasses}}" id="search" name="search" type="text" aria-describedby="event-name-hint" value="{{search}}">
+                <button type="submit" class="govuk-button govuk-button--secondary" role="button" data-module="govuk-button" aria-label="{{lang.search}}" data-event-id="your-companies-search-for-company-button" id="your-companies-search-for-company-button">{{lang.search}}
+                </button>
+                <a class="govuk-link govuk-link--no-visited-state govuk-!-font-size-19  govuk-!-margin-left-2" href="{{cancelSearchHref}}" id="your-companies-cancel-search-link" data-event-id="your-companies-cancel-search-link">{{lang.cancel_search}}</a>
+            </div>
+        </div>
+    </form>
 
     {% set allHeaders = [
         {
@@ -53,27 +79,31 @@
 
     {% set accountOwnersTabContent %}
     <h2 class="govuk-heading-l">{{lang.account_owners}}</h2>
-    {{ govukTable({
-            caption: lang.account_owners,
-            captionClasses: "govuk-table__caption--m govuk-visually-hidden",
-            firstCellIsHeader: true,
-            head: accountOwnersTableHeaders,
-            rows: accountOwnersTableData
-        })
-    }}
+    {% if accountOwnersTableData and accountOwnersTableData.length > 0 %}
+        {{ govukTable({
+                caption: lang.account_owners,
+                captionClasses: "govuk-table__caption--m govuk-visually-hidden",
+                firstCellIsHeader: true,
+                head: accountOwnersTableHeaders,
+                rows: accountOwnersTableData
+            })
+        }}
+    {% else %}
+        <p class="govuk-body">{{lang.you_have_no_admin_users}}</p>
+    {% endif %}
     {% endset %}
 
     {% set administratorsTabContent %}
     <h2 class="govuk-heading-l">{{lang.administrators}}</h2>
     {% if administratorsTableData and administratorsTableData.length > 0 %}
         {{ govukTable({
-            caption: lang.administrators,
-            captionClasses: "govuk-table__caption--m govuk-visually-hidden",
-            firstCellIsHeader: true,
-            head: otherTableHeaders,
-            rows: administratorsTableData
-        })
-    }}
+                caption: lang.administrators,
+                captionClasses: "govuk-table__caption--m govuk-visually-hidden",
+                firstCellIsHeader: true,
+                head: otherTableHeaders,
+                rows: administratorsTableData
+            })
+        }}
     {% else %}
         <p class="govuk-body">{{lang.you_have_no_admin_users}}</p>
     {% endif %}
@@ -83,13 +113,13 @@
     <h2 class="govuk-heading-l">{{lang.standard_users}}</h2>
     {% if standardUsersTableData and standardUsersTableData.length > 0 %}
         {{ govukTable({
-            caption: lang.standard_users,
-            captionClasses: "govuk-table__caption--m govuk-visually-hidden",
-            firstCellIsHeader: true,
-            head: otherTableHeaders,
-            rows: standardUsersTableData
-        })
-    }}
+                caption: lang.standard_users,
+                captionClasses: "govuk-table__caption--m govuk-visually-hidden",
+                firstCellIsHeader: true,
+                head: otherTableHeaders,
+                rows: standardUsersTableData
+            })
+        }}
     {% else %}
         <p class="govuk-body">{{lang.you_have_no_standard_users}}</p>
     {% endif %}
@@ -100,21 +130,21 @@
             items: [
                 {
                     label: lang.account_owners,
-                    id: "account-owners",
+                    id: accountOwnersTabId,
                     panel: {
                         html: accountOwnersTabContent
                     }
                 },
                 {
                     label: lang.administrators,
-                    id: "administrators",
+                    id: administratorsTabId,
                     panel: {
                         html: administratorsTabContent
                     }
                 },
                 {
                     label: lang.standard_users,
-                    id: "standard-users",
+                    id: standardUsersTabId,
                     panel: {
                         html: standardUsersTabContent
                     }

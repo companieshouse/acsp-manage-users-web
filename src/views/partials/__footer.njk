@@ -56,3 +56,13 @@
     import {initAll} from "{{ cdnUrlJs }}/govuk-frontend.min.js"
     initAll()
 </script>
+
+<script>
+    $(document).ready(function () {
+        if ("{{manageUsersTabId}}") {
+            document
+                .getElementById("{{manageUsersTabId}}")
+                .click();
+        }
+    });
+</script>
