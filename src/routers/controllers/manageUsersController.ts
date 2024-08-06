@@ -5,9 +5,9 @@ import { AnyRecord } from "types/utilTypes";
 import { TableEntry } from "../../types/viewTypes";
 import { getHiddenText, getLink } from "../../lib/utils/viewUtils";
 import { Membership } from "../../types/membership";
-import { setExtraData } from "../../lib/utils/sessionUtils";
-import { UserRole } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
-import { getAcspMemberships, getMembershipForLoggedInUser } from "../../services/acspMemberService";
+import { getLoggedUserAcspMembership, setExtraData } from "../../lib/utils/sessionUtils";
+import { AcspMembership, UserRole } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
+import { getAcspMemberships } from "../../services/acspMemberService";
 
 export const manageUsersControllerGet = async (req: Request, res: Response): Promise<void> => {
     const viewData = await getViewData(req);
@@ -28,33 +28,33 @@ export const getTitle = (translations: AnyRecord, loggedInUserRole: UserRole): s
 
 export const getViewData = async (req: Request): Promise<AnyRecord> => {
     const translations = getTranslationsForView(req.t, constants.MANAGE_USERS_PAGE);
-    const membership = await getMembershipForLoggedInUser(req);
+    const loggedUserAcspMembership: AcspMembership = getLoggedUserAcspMembership(req.session);
 
-    if (!membership?.items.length) {
-        throw new Error("logged in user ACSP membership details were not retrieved");
-    }
     const {
         userRole,
         acspNumber,
         acspName
-    } = membership.items[0];
+    } = loggedUserAcspMembership;
 
-    const ownerMembers = await getAcspMemberships(req, acspNumber, false, 0, 10000, [UserRole.OWNER]);
-    const adminMembers = await getAcspMemberships(req, acspNumber, false, 0, 10000, [UserRole.ADMIN]);
-    const standardMembers = await getAcspMemberships(req, acspNumber, false, 0, 10000, [UserRole.STANDARD]);
+    const [ownerMembers, adminMembers, standardMembers] = await Promise.all([
+        getAcspMemberships(req, acspNumber, false, 0, 10000, [UserRole.OWNER]),
+        getAcspMemberships(req, acspNumber, false, 0, 10000, [UserRole.ADMIN]),
+        getAcspMemberships(req, acspNumber, false, 0, 10000, [UserRole.STANDARD])
+    ]);
 
     const accountOwnersTableData: TableEntry[][] = getUserTableData(ownerMembers.items, translations, userRole === UserRole.OWNER);
     const administratorsTableData: TableEntry[][] = getUserTableData(adminMembers.items, translations, userRole !== UserRole.STANDARD);
     const standardUsersTableData: TableEntry[][] = getUserTableData(standardMembers.items, translations, userRole !== UserRole.STANDARD);
     const title = getTitle(translations, userRole);
 
-    const allMembersForThisAcsp = [...ownerMembers.items, ...adminMembers.items, ...standardMembers.items].map<Membership>(member => ({
+    const allMembersForThisAcsp: Membership[] = [...ownerMembers.items, ...adminMembers.items, ...standardMembers.items].map<Membership>(member => ({
         id: member.id,
         userId: member.userId,
         userEmail: member.userEmail,
         acspNumber: member.acspNumber,
         userRole: member.userRole,
-        userDisplayName: member.userDisplayName
+        userDisplayName: member.userDisplayName,
+        displayNameOrEmail: !member.userDisplayName || member.userDisplayName === "Not Provided" ? member.userEmail : member.userDisplayName
     }));
     setExtraData(req.session, constants.MANAGE_USERS_MEMBERSHIP, allMembersForThisAcsp);
 
@@ -73,7 +73,7 @@ export const getViewData = async (req: Request): Promise<AnyRecord> => {
     };
 };
 
-const getUserTableData = (membership: Membership[], translations: AnyRecord, hasRemoveLink: boolean): TableEntry[][] => {
+const getUserTableData = (membership: AcspMembership[], translations: AnyRecord, hasRemoveLink: boolean): TableEntry[][] => {
     const userTableDate: TableEntry[][] = [];
     for (const member of membership) {
         const tableEntry: TableEntry[] = [

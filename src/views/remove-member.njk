@@ -3,9 +3,6 @@
 
 {% extends "layouts/default.njk" %}
 
-{% set userDetails = userToRemove.userDisplayName if userToRemove.userDisplayName else 
-    userToRemove.userEmail %}
-
 {% set title = lang.remove + userDetails + lang.title_end %}
 
 {% block back_link %}

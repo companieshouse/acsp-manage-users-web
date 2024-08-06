@@ -2,8 +2,9 @@ import { Request, Response } from "express";
 import * as constants from "../../lib/constants";
 import { getTranslationsForView } from "../../lib/utils/translationUtils";
 import { AnyRecord } from "types/utilTypes";
-import { NewUserDetails } from "../../types/user";
-import { getExtraData } from "../../lib/utils/sessionUtils";
+import { MemberForRemoval } from "../../types/membership";
+import { getExtraData, getLoggedUserAcspMembership } from "../../lib/utils/sessionUtils";
+import { AcspMembership } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
 
 export const removeUserSuccessControllerGet = async (req: Request, res: Response): Promise<void> => {
     const viewData = getViewData(req);
@@ -12,13 +13,13 @@ export const removeUserSuccessControllerGet = async (req: Request, res: Response
 
 const getViewData = (req: Request): AnyRecord => {
     const translations = getTranslationsForView(req.t, constants.USER_REMOVE_CONFIRMATION_PAGE);
-    const newUserDetails: NewUserDetails = getExtraData(req.session, constants.DETAILS_OF_USER_TO_REMOVE);
-    const companyName = "MORRIS ACCOUNTING LTD";
+    const removedMember: MemberForRemoval = getExtraData(req.session, constants.DETAILS_OF_USER_TO_REMOVE);
+    const loggedUserAcspMembership: AcspMembership = getLoggedUserAcspMembership(req.session);
 
     return {
         lang: translations,
-        companyName,
-        newUserDetails,
+        companyName: loggedUserAcspMembership.acspName,
+        userDetails: removedMember.displayNameOrEmail,
         buttonHref: constants.MANAGE_USER_FULL_URL
     };
 };
