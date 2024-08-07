@@ -11,6 +11,22 @@ export const removeUserCheckDetailsControllerGet = async (req: Request, res: Res
     res.render(constants.REMOVE_MEMBER_PAGE, { ...viewData });
 };
 
+export const removeUserCheckDetailsControllerPost = async (req: Request, res: Response): Promise<void> => {
+    const userToRemove = getExtraData(req.session, constants.DETAILS_OF_USER_TO_REMOVE) as MemberForRemoval;
+
+    if (!userToRemove) {
+        // If user details are not found in the session, prepare error view data and re-render the form
+        const viewData = getViewData(req);
+        viewData.error = "User details not found. Please try again.";
+        return res.render(constants.REMOVE_MEMBER_PAGE, { ...viewData });
+    }
+
+    // Process the removal...
+
+    // If successful, redirect
+    res.redirect(constants.CONFIRMATION_MEMBER_REMOVED_FULL_URL);
+};
+
 const getViewData = (req: Request): AnyRecord => {
     const translations = getTranslationsForView(req.t, constants.REMOVE_MEMBER_PAGE);
 

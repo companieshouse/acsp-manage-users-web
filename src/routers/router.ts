@@ -7,7 +7,7 @@ import { addUserControllerGet, addUserControllerPost } from "./controllers/addUs
 import { checkMemberDetailsControllerGet } from "./controllers/checkMemberDetailsController";
 import { tryAddingUserControllerGet } from "./controllers/tryAddingUserController";
 import { confirmationMemberAddedControllerGet } from "./controllers/confirmationMemberAddedController";
-import { removeUserCheckDetailsControllerGet } from "./controllers/removeUserCheckDetailsController";
+import { removeUserCheckDetailsControllerGet, removeUserCheckDetailsControllerPost } from "./controllers/removeUserCheckDetailsController";
 import { tryRemovingUserControllerGet } from "./controllers/tryRemovingUserController";
 import { removeUserSuccessControllerGet } from "./controllers/removeUserSuccessController";
 import { removeYourselfControllerGet } from "./controllers/confirmationYouAreRemovedController";
@@ -18,6 +18,7 @@ router.get(constants.MANAGE_USERS_URL, manageUsersControllerGet as RequestHandle
 
 router.get(constants.CONFIRMATION_MEMBER_ADDED_URL, confirmationMemberAddedControllerGet as RequestHandler);
 router.get(constants.REMOVE_MEMBER_CHECK_DETAILS_URL, removeUserCheckDetailsControllerGet as RequestHandler);
+router.post(constants.REMOVE_MEMBER_CHECK_DETAILS_URL, removeUserCheckDetailsControllerPost as RequestHandler);
 router.get(constants.CONFIRMATION_MEMBER_REMOVED_URL, removeUserSuccessControllerGet as RequestHandler);
 router.get(constants.CONFIRMATION_YOU_ARE_REMOVED_URL, removeYourselfControllerGet as RequestHandler);
 
