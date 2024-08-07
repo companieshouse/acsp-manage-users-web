@@ -15,9 +15,9 @@ const mockGetMembershipForLoggedInUser = jest.spyOn(acspMemberService, "getMembe
 mockGetMembershipForLoggedInUser.mockResolvedValue(mockAcspMembersResource);
 mockGetAcspMemberships
     .mockResolvedValue(mockAcspMembersResource);
+const getLoggedUserAcspMembershipSpy: jest.SpyInstance = jest.spyOn(sessionUtils, "getLoggedUserAcspMembership");
 
 describe("GET /authorised-agent/manage-users", () => {
-    const sessionUtilsSpy: jest.SpyInstance = jest.spyOn(sessionUtils, "getLoggedInUserEmail");
 
     beforeEach(() => {
         jest.clearAllMocks();
@@ -36,7 +36,7 @@ describe("GET /authorised-agent/manage-users", () => {
         const companyNumber = acspMembership.acspName;
         const userEmailAddress = acspMembership.userEmail;
         const userName = acspMembership.userDisplayName;
-        sessionUtilsSpy.mockReturnValue("demo@ch.gov.uk");
+        getLoggedUserAcspMembershipSpy.mockReturnValue(acspMembership);
         // When
         const result = await router.get(url);
         // Then

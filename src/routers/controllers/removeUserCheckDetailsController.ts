@@ -15,7 +15,7 @@ export const removeUserCheckDetailsControllerGet = async (req: Request, res: Res
 const getViewData = async (req: Request): Promise<AnyRecord> => {
     const loggedUserAcspMembership: AcspMembership = getLoggedUserAcspMembership(req.session);
     const { userRole, acspName, userId } = loggedUserAcspMembership;
-    if (!userRole || userRole === UserRole.STANDARD) {
+    if (userRole !== UserRole.ADMIN && userRole !== UserRole.OWNER) {
         throw new Error(`user not authorised to remove, role is ${userRole}`);
     }
     const validParam = validateIdParam(req.params.id);

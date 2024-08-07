@@ -24,7 +24,8 @@ export const userAdamBrownRemoveDetails: Membership = {
     userEmail: "adam.brown@test.com",
     userDisplayName: "Adam Brown",
     acspNumber: "FP233R",
-    userRole: UserRole.STANDARD
+    userRole: UserRole.STANDARD,
+    displayNameOrEmail: "Adam Brown"
 };
 
 export const userJohnSmithRemoveDetails: Membership = {
@@ -33,5 +34,6 @@ export const userJohnSmithRemoveDetails: Membership = {
     userEmail: "j.smith@test.com",
     userDisplayName: "John Smith",
     acspNumber: "LL0RPG",
-    userRole: UserRole.STANDARD
+    userRole: UserRole.STANDARD,
+    displayNameOrEmail: "John Smith"
 };

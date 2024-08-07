@@ -2,12 +2,13 @@ import { getViewData } from "../../../../src/routers/controllers/manageUsersCont
 import { mockRequest } from "../../../mocks/request.mock";
 import * as getTranslationsForView from "../../../../src/lib/utils/translationUtils";
 import * as acspMemberService from "../../../../src/services/acspMemberService";
-import { mockAcspMembersResource, getMockAcspMembersResource } from "../../../mocks/acsp.members.mock";
+import { getMockAcspMembersResource } from "../../../mocks/acsp.members.mock";
 import { UserRole, AcspMembership, UserStatus, MembershipStatus } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
+import * as sessionUtils from "../../../../src/lib/utils/sessionUtils";
 
 const mockGetTranslationsForView = jest.spyOn(getTranslationsForView, "getTranslationsForView");
 const mockGetAcspMemberships = jest.spyOn(acspMemberService, "getAcspMemberships");
-const mockGetMembershipForLoggedInUser = jest.spyOn(acspMemberService, "getMembershipForLoggedInUser");
+const getLoggedUserAcspMembershipSpy: jest.SpyInstance = jest.spyOn(sessionUtils, "getLoggedUserAcspMembership");
 
 const mockOwner: AcspMembership = {
     etag: "asdf123",
@@ -72,6 +73,14 @@ const mockStandard: AcspMembership = {
     }
 };
 
+const loggedInUserMembership = {
+    id: "12345",
+    userId: "123",
+    userRole: "owner",
+    acspNumber: "123456",
+    acspName: "Acme ltd"
+};
+
 describe("manageUsersController - getViewData", () => {
     it("should return the correct view data object", async () => {
 
@@ -79,7 +88,8 @@ describe("manageUsersController - getViewData", () => {
         mockGetTranslationsForView.mockReturnValueOnce({
             remove: "Remove"
         });
-        mockGetMembershipForLoggedInUser.mockResolvedValue(mockAcspMembersResource);
+
+        getLoggedUserAcspMembershipSpy.mockReturnValue(loggedInUserMembership);
         mockGetAcspMemberships
             .mockResolvedValueOnce(getMockAcspMembersResource(mockOwner))
             .mockResolvedValueOnce(getMockAcspMembersResource(mockAdmin))
@@ -123,19 +133,5 @@ describe("manageUsersController - getViewData", () => {
             loggedInUserRole: "owner",
             removeUserLinkUrl: "/authorised-agent/remove-member/:id"
         });
-    });
-    it("should thow an error when acsp details not fetched", async () => {
-
-        const request = mockRequest();
-        mockGetTranslationsForView.mockReturnValueOnce({
-            remove: "Remove"
-        });
-        const emptyAcspMembersResource = {
-            ...mockAcspMembersResource,
-            items: []
-        };
-        mockGetMembershipForLoggedInUser.mockResolvedValue(emptyAcspMembersResource);
-        await expect(getViewData(request))
-            .rejects.toThrow();
     });
 });

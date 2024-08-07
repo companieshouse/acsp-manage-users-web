@@ -1,10 +1,13 @@
 import mocks from "../../../mocks/all.middleware.mock";
-import { userAdamBrownRemoveDetails, userJohnSmithRemoveDetails } from "../../../mocks/user.mock";
+import { userAdamBrownRemoveDetails } from "../../../mocks/user.mock";
+import { mockAcspMembersResource } from "../../../mocks/acsp.members.mock";
 import supertest from "supertest";
 import app from "../../../../src/app";
 import { Session } from "@companieshouse/node-session-handler";
 import { NextFunction, Request, Response } from "express";
 import * as constants from "../../../../src/lib/constants";
+import * as sessionUtils from "../../../../src/lib/utils/sessionUtils";
+import * as acspMemberService from "../../../../src/services/acspMemberService";
 
 const session: Session = new Session();
 
@@ -12,8 +15,17 @@ mocks.mockSessionMiddleware.mockImplementation((req: Request, res: Response, nex
     req.session = session;
     return next();
 });
-
+const getLoggedUserAcspMembershipSpy: jest.SpyInstance = jest.spyOn(sessionUtils, "getLoggedUserAcspMembership");
+const loggedInUserMembership = {
+    id: "123;",
+    userId: "123",
+    userRole: "admin",
+    acspNumber: "123",
+    acspName: "companyName"
+};
 const router = supertest(app);
+const mockUpdateOrRemoveUserAcspMembership = jest.spyOn(acspMemberService, "updateOrRemoveUserAcspMembership");
+const mockGetAcspMemberships = jest.spyOn(acspMemberService, "getAcspMemberships");
 
 const url = "/authorised-agent/try-removing-user";
 
@@ -36,6 +48,8 @@ describe("GET /authorised-agent/try-removing-user", () => {
     it("should return status 302 and redirect to /authorised-agent/confirmation-member-removed", async () => {
         // Given
         session.setExtraData(constants.DETAILS_OF_USER_TO_REMOVE, userAdamBrownRemoveDetails);
+        getLoggedUserAcspMembershipSpy.mockReturnValue(loggedInUserMembership);
+        mockUpdateOrRemoveUserAcspMembership.mockResolvedValue();
         const expectedPageHeading = "Found. Redirecting to /authorised-agent/confirmation-member-removed";
         // When
         const response = await router.get(url);
@@ -51,18 +65,10 @@ describe("GET /authorised-agent/try-removing-user", () => {
             removingThemselves: true
         };
         session.setExtraData(constants.DETAILS_OF_USER_TO_REMOVE, userToRemove);
+        getLoggedUserAcspMembershipSpy.mockReturnValue({ ...userAdamBrownRemoveDetails });
+        mockUpdateOrRemoveUserAcspMembership.mockResolvedValue();
+        mockGetAcspMemberships.mockResolvedValue(mockAcspMembersResource);
         const expectedPageHeading = "Found. Redirecting to /authorised-agent/confirmation-you-are-removed";
-        // When
-        const response = await router.get(url);
-        // Then
-        expect(response.status).toEqual(302);
-        expect(response.text).toContain(expectedPageHeading);
-    });
-
-    it("should return status 302 and redirect to /authorised-agent/member-already-removed", async () => {
-        // Given
-        session.setExtraData(constants.DETAILS_OF_USER_TO_REMOVE, userJohnSmithRemoveDetails);
-        const expectedPageHeading = "Found. Redirecting to /authorised-agent/member-already-removed";
         // When
         const response = await router.get(url);
         // Then
