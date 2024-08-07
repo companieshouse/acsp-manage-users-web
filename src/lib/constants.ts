@@ -80,7 +80,7 @@ export const ERRORS_EMAIL_REQUIRED = "errors_email_required";
 export const ERRORS_EMAIL_INVALID = "errors_email_invalid";
 export const ERRORS_SELECT_USER_ROLE = "errors_select_user_role";
 export const MEMBER_ALREADY_REMOVED_ERROR = "Member already removed";
-export const ERRORS_SEARCH_REQUIRES_FULL_VALID_EMAIL_ADDRESS = "errors_search_requires_full_valid_email_address";
+export const ERRORS_ENTER_AN_EMAIL_ADDRESS_IN_THE_CORRECT_FORMAT = "errors_enter_an_email_address_in_the_correct_format";
 
 // query params
 export const CLEAR_FORM = "cf";

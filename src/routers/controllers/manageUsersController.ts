@@ -34,7 +34,7 @@ export const getViewData = async (req: Request): Promise<AnyRecord> => {
     const search = req.query?.search as string;
     let errorMessage;
     if (search && !validateEmailString(search)) {
-        errorMessage = constants.ERRORS_SEARCH_REQUIRES_FULL_VALID_EMAIL_ADDRESS;
+        errorMessage = constants.ERRORS_ENTER_AN_EMAIL_ADDRESS_IN_THE_CORRECT_FORMAT;
     }
 
     const translations = getTranslationsForView(req.t, constants.MANAGE_USERS_PAGE);
@@ -73,6 +73,7 @@ export const getViewData = async (req: Request): Promise<AnyRecord> => {
                 text: errorMessage
             }
         };
+        viewData.search = search;
     }
 
     let foundUser: AcspMembership[] = [];
@@ -92,11 +93,9 @@ export const getViewData = async (req: Request): Promise<AnyRecord> => {
             case UserRole.STANDARD:
                 viewData.manageUsersTabId = constants.STANDARD_USERS_TAB_ID;
                 break;
-            default:
-                break;
             }
         } catch (error) {
-            logger.error("User not found");
+            logger.error(`ACSP membership for email ${search} not found.`);
         }
     } else {
         ownerMembers = (await getAcspMemberships(req, acspNumber, false, 0, 10000, [UserRole.OWNER])).items;
