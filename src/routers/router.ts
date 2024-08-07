@@ -11,6 +11,7 @@ import { removeUserCheckDetailsControllerGet } from "./controllers/removeUserChe
 import { tryRemovingUserControllerGet } from "./controllers/tryRemovingUserController";
 import { removeUserSuccessControllerGet } from "./controllers/removeUserSuccessController";
 import { removeYourselfControllerGet } from "./controllers/confirmationYouAreRemovedController";
+import { stopPageAddOwnerControllerGet } from "./controllers/stopPageAddOwnerControllerGet";
 
 const router: Router = Router();
 
@@ -30,6 +31,8 @@ router.get(constants.CHECK_MEMBER_DETAILS_URL, checkMemberDetailsControllerGet);
 
 router.get(constants.TRY_ADDING_USER_URL, tryAddingUserControllerGet);
 router.get(constants.TRY_REMOVING_USER_URL, tryRemovingUserControllerGet);
+
+router.get(constants.STOP_PAGE_ADD_ACCOUNT_OWNER_URL, stopPageAddOwnerControllerGet);
 
 router.get(constants.HEALTHCHECK, healthCheckController);
 

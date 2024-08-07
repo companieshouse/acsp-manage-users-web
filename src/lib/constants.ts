@@ -14,6 +14,7 @@ export const REMOVE_MEMBER_PAGE = "remove-member";
 export const USER_REMOVE_CONFIRMATION_PAGE = "confirmation-member-removed";
 export const MEMBER_ALREADY_REMOVED_PAGE = "member-already-removed";
 export const CONFIRMATION_YOU_ARE_REMOVED = "confirmation-you-are-removed";
+export const STOP_PAGE_ADD_ACCOUNT_OWNER = "stop-page-add-account-owner";
 
 // Other Nunjucks template files
 export const SERVICE_UNAVAILABLE_TEMPLATE = "partials/service_unavailable";
@@ -54,6 +55,8 @@ export const TRY_REMOVING_USER_URL = "/try-removing-user";
 export const TRY_REMOVING_USER_FULL_URL = `${LANDING_URL}${TRY_REMOVING_USER_URL}`;
 export const CONFIRMATION_YOU_ARE_REMOVED_URL = `/${CONFIRMATION_YOU_ARE_REMOVED}`;
 export const CONFIRMATION_YOU_ARE_REMOVED_FULL_URL = `${LANDING_URL}${CONFIRMATION_YOU_ARE_REMOVED_URL}`;
+export const STOP_PAGE_ADD_ACCOUNT_OWNER_URL = `/${STOP_PAGE_ADD_ACCOUNT_OWNER}`;
+export const STOP_PAGE_ADD_ACCOUNT_OWNER_URL_FULL_URL = `${LANDING_URL}${STOP_PAGE_ADD_ACCOUNT_OWNER_URL}`;
 export const HEALTHCHECK = "/healthcheck";
 
 // External URLs

@@ -1,0 +1,22 @@
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+{% from "govuk/components/tag/macro.njk" import govukTag %}
+
+{% extends "layouts/default.njk" %}
+
+{% block main_content %}
+    <div class="govuk-grid-column-two-thirds">
+       
+        <h1 class="govuk-heading-l">{{lang.page_header}}</h1>
+        <p class="govuk-body">
+            {{lang.p1}}
+        </p>
+        <p class="govuk-body">
+            {{lang.you_need_to_add}}{{companyName}}{{lang.before_you_remove}}
+        </p>
+
+        <p class="govuk-body">
+            <a class="govuk-link" href="{{linkHref}}">{{lang.manage_users_for}}{{companyName}}</a>
+        </p>
+    </div>
+{% endblock %}

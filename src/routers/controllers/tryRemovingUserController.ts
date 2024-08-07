@@ -16,7 +16,7 @@ export const tryRemovingUserControllerGet = async (req: Request, res: Response):
         const ownerMembers = await getAcspMemberships(req, acspNumber, false, 0, 20, [UserRole.OWNER]);
 
         if (ownerMembers.items.length === 1 && ownerMembers.items[0].userId === userId) {
-            return res.redirect("/authorised-agent/stop-page");
+            return res.redirect(constants.STOP_PAGE_ADD_ACCOUNT_OWNER_URL_FULL_URL);
         }
     }
     await updateOrRemoveUserAcspMembership(req, memberForRemoval.id, { removeUser: true });
