@@ -5,7 +5,7 @@ import { getExtraData, getLoggedUserAcspMembership } from "../../lib/utils/sessi
 import { MemberForRemoval } from "../../types/membership";
 import { getAcspMemberships, updateOrRemoveUserAcspMembership } from "../../services/acspMemberService";
 
-export const tryRemovingUserControllerGet = async (req: Request, res: Response): Promise<void> => {
+export const tryRemovingUserControllerPost = async (req: Request, res: Response): Promise<void> => {
     const memberForRemoval: MemberForRemoval = getExtraData(req.session, constants.DETAILS_OF_USER_TO_REMOVE);
     const loggedUserAcspMembership: AcspMembership = getLoggedUserAcspMembership(req.session);
 
@@ -26,5 +26,4 @@ export const tryRemovingUserControllerGet = async (req: Request, res: Response):
     } else {
         res.redirect(constants.CONFIRMATION_MEMBER_REMOVED_FULL_URL);
     }
-
 };

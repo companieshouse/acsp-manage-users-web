@@ -1,6 +1,6 @@
 import mocks from "../../../mocks/all.middleware.mock";
 import { userAdamBrownRemoveDetails } from "../../../mocks/user.mock";
-import { mockAcspMembersResource } from "../../../mocks/acsp.members.mock";
+import { mockAcspMembersResource, getMockAcspMembersResource, accountOwnerAcspMembership } from "../../../mocks/acsp.members.mock";
 import supertest from "supertest";
 import app from "../../../../src/app";
 import { Session } from "@companieshouse/node-session-handler";
@@ -29,7 +29,7 @@ const mockGetAcspMemberships = jest.spyOn(acspMemberService, "getAcspMemberships
 
 const url = "/authorised-agent/try-removing-user";
 
-describe("GET /authorised-agent/try-removing-user", () => {
+describe("POST /authorised-agent/try-removing-user", () => {
     beforeEach(() => {
         jest.clearAllMocks();
     });
@@ -40,7 +40,7 @@ describe("GET /authorised-agent/try-removing-user", () => {
         getLoggedUserAcspMembershipSpy.mockReturnValue(loggedInUserMembership);
         mockUpdateOrRemoveUserAcspMembership.mockResolvedValue();
         // When
-        await router.get(url);
+        await router.post(url);
         // Then
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
@@ -54,7 +54,7 @@ describe("GET /authorised-agent/try-removing-user", () => {
         mockUpdateOrRemoveUserAcspMembership.mockResolvedValue();
         const expectedPageHeading = "Found. Redirecting to /authorised-agent/confirmation-member-removed";
         // When
-        const response = await router.get(url);
+        const response = await router.post(url);
         // Then
         expect(response.status).toEqual(302);
         expect(response.text).toContain(expectedPageHeading);
@@ -72,7 +72,20 @@ describe("GET /authorised-agent/try-removing-user", () => {
         mockGetAcspMemberships.mockResolvedValue(mockAcspMembersResource);
         const expectedPageHeading = "Found. Redirecting to /authorised-agent/confirmation-you-are-removed";
         // When
-        const response = await router.get(url);
+        const response = await router.post(url);
+        // Then
+        expect(response.status).toEqual(302);
+        expect(response.text).toContain(expectedPageHeading);
+    });
+    it("should redirect to stop page when removing themselves and they are the only owner", async () => {
+        // Given
+        session.setExtraData(constants.DETAILS_OF_USER_TO_REMOVE, accountOwnerAcspMembership);
+        getLoggedUserAcspMembershipSpy.mockReturnValue(accountOwnerAcspMembership);
+        mockUpdateOrRemoveUserAcspMembership.mockResolvedValue();
+        mockGetAcspMemberships.mockResolvedValue(getMockAcspMembersResource(accountOwnerAcspMembership));
+        const expectedPageHeading = "Found. Redirecting to /authorised-agent/stop-page-add-account-owner";
+        // When
+        const response = await router.post(url);
         // Then
         expect(response.status).toEqual(302);
         expect(response.text).toContain(expectedPageHeading);

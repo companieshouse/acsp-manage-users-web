@@ -7,5 +7,8 @@ export const mockRequest = () => {
             referer: undefined
         }
     } as Request;
+    req.params = {
+        id: "1"
+    };
     return req;
 };

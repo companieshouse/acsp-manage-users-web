@@ -20,7 +20,7 @@
 
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
-            <form method="post">
+            <form method="post" action="{{ tryRemovingUserUrl }}">
                 <span class="govuk-caption-xl">{{companyName}}</span>
 
                 {% if removingThemselves %}
@@ -35,10 +35,10 @@
                     {{ govukButton({
                         text: buttonText,
                         classes: "govuk-button--warning",
-                        href: tryRemovingUserUrl
-                    })
-                }}
-                    <a class="govuk-link" href="{{cancelLinkHref}}" id="cancel-link">{{lang.cancel}}</a>
+                        type: "submit"
+                       })
+                     }}
+                    <a class="govuk-link" href="{{backLinkUrl}}" id="cancel-link">{{lang.cancel}}</a>
                 </div>
             </form>
 
