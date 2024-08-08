@@ -1,0 +1,37 @@
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "govuk/components/warning-text/macro.njk" import govukWarningText %}
+{% extends "layouts/default.njk" %}
+
+{% block pageTitle %}
+    {{ title }} - Placeholder
+{% endblock %}
+
+{% block main_content %}
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            {{ govukWarningText({
+                text: "This is a placeholder page. In production, this should be replaced with a specific error handling page.",
+                iconFallbackText: "Warning"
+            }) }}
+
+            {{ govukErrorSummary({
+                titleText: title,
+                errorList: [
+                    {
+                        text: message
+                    }
+                ]
+            }) }}
+
+            <h2 class="govuk-heading-m">{{ subheading }}</h2>
+            <p class="govuk-body">{{ description }}</p>
+
+            {{ govukButton({
+                text: buttonText,
+                href: buttonHref,
+                classes: "govuk-button--secondary"
+            }) }}
+        </div>
+    </div>
+{% endblock %}

@@ -51,14 +51,15 @@
             })
         }}
 
-        {{ govukButton({
+        <form action="{{ tryAddingUserUrl }}" method="POST">
+            {{ govukButton({
                 text: lang.confirm_and_add_user,
-                href: tryAddingUserUrl,
                 attributes: {
-                    id: "confirm-and-add-user-button"
+                    id: "confirm-and-add-user-button",
+                    type: "submit"
                 }
-            })
-        }}
+            }) }}
+        </form>
 
         <p class="govuk-body">
             <a class="govuk-link" href="{{backLinkUrl}}">{{lang.change_details}}</a>
