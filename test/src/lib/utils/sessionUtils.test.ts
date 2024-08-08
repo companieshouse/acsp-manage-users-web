@@ -1,6 +1,8 @@
 import { Session } from "@companieshouse/node-session-handler";
 import { getSessionRequestWithPermission, userMail } from "../../../mocks/session.mock";
-import { deleteExtraData, getAccessToken, getExtraData, getLoggedInUserEmail, setExtraData } from "../../../../src/lib/utils/sessionUtils";
+import { deleteExtraData, getAccessToken, getExtraData, getLoggedInUserEmail, getLoggedUserAcspMembership, setExtraData } from "../../../../src/lib/utils/sessionUtils";
+import * as constants from "../../../../src/lib/constants";
+import { accountOwnerAcspMembership } from "../../../mocks/acsp.members.mock";
 
 describe("Session Utils", () => {
     describe("getLoggedInUserEmail", () => {
@@ -92,6 +94,32 @@ describe("Session Utils", () => {
             const result = getAccessToken(session);
             // Then
             expect(result).toEqual(accessToken);
+        });
+    });
+
+    describe("getLoggedUserAcspMembership", () => {
+        it("should return ACSP membership if exists", () => {
+            // Given
+            const session: Session = new Session();
+            const key = constants.LOGGED_USER_ACSP_MEMBERSHIP;
+            const value = accountOwnerAcspMembership;
+            setExtraData(session, key, value);
+            expect(session.data.extra_data[key]).toEqual(value);
+            // When
+            const result = getLoggedUserAcspMembership(session);
+            // Then
+            expect(result).toEqual(accountOwnerAcspMembership);
+        });
+
+        it("should return undefined if ACSP membership does not exist", () => {
+            // Given
+            const session: Session = new Session();
+            const key = constants.LOGGED_USER_ACSP_MEMBERSHIP;
+            expect(session.data.extra_data[key]).toBeUndefined();
+            // When
+            const result = getLoggedUserAcspMembership(session);
+            // Then
+            expect(result).toBeUndefined();
         });
     });
 });

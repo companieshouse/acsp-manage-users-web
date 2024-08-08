@@ -12,6 +12,7 @@ import { sessionMiddleware } from "./middleware/session.middleware";
 import { getTranslationsForView } from "./lib/utils/translationUtils";
 import { httpErrorHandler } from "./routers/controllers/httpErrorController";
 import { UserRole } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
+import { loggedUserAcspMembershipMiddleware } from "./middleware/loggedUserAcspMembership.middleware";
 
 const app = express();
 
@@ -62,6 +63,8 @@ app.use((req: Request, res: Response, next: NextFunction) => {
     njk.addGlobal("feedbackSource", req.originalUrl);
     next();
 });
+
+app.use(loggedUserAcspMembershipMiddleware);
 
 // Channel all requests through router dispatch
 routerDispatch(app);
