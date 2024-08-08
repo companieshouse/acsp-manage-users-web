@@ -37,6 +37,8 @@ describe("GET /authorised-agent/try-removing-user", () => {
     it("should check session, user auth and ACSP membership before returning the page", async () => {
         // Given
         session.setExtraData(constants.DETAILS_OF_USER_TO_REMOVE, userAdamBrownRemoveDetails);
+        getLoggedUserAcspMembershipSpy.mockReturnValue(loggedInUserMembership);
+        mockUpdateOrRemoveUserAcspMembership.mockResolvedValue();
         // When
         await router.get(url);
         // Then

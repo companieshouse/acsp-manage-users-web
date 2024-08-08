@@ -1,13 +1,13 @@
-import mocks from "../../mocks/all.middleware.mock";
+import mocks from "../../../mocks/all.middleware.mock";
 import supertest from "supertest";
-import app from "../../../src/app";
-import * as en from "../../../src/locales/en/translation/confirmation-member-removed.json";
-import * as enCommon from "../../../src/locales/en/translation/common.json";
-import * as constants from "../../../src/lib/constants";
+import app from "../../../../src/app";
+import * as en from "../../../../src/locales/en/translation/confirmation-member-removed.json";
+import * as enCommon from "../../../../src/locales/en/translation/common.json";
+import * as constants from "../../../../src/lib/constants";
 import { Session } from "@companieshouse/node-session-handler";
 import { Request, Response, NextFunction } from "express";
-import { setExtraData } from "../../../src/lib/utils/sessionUtils";
-import * as sessionUtils from "../../../src/lib/utils/sessionUtils";
+import { setExtraData } from "../../../../src/lib/utils/sessionUtils";
+import * as sessionUtils from "../../../../src/lib/utils/sessionUtils";
 
 const router = supertest(app);
 
@@ -28,6 +28,15 @@ mocks.mockSessionMiddleware.mockImplementation((req: Request, res: Response, nex
     next();
 });
 
+const userDetails = {
+    id: "111111",
+    userId: "12345",
+    userEmail: "james.morris@gmail.com",
+    userDisplayName: "James Morris",
+    acspNumber: "E12FPL",
+    displayNameOrEmail: "James Morris"
+};
+
 describe("GET /authorised-agent/confirmation-member-removed", () => {
 
     beforeEach(() => {
@@ -35,6 +44,8 @@ describe("GET /authorised-agent/confirmation-member-removed", () => {
     });
 
     it("should check session, user auth and ACSP membership before returning the page", async () => {
+        session.setExtraData(constants.DETAILS_OF_USER_TO_REMOVE, userDetails);
+        getLoggedUserAcspMembershipSpy.mockReturnValue(loggedInUserMembership);
         await router.get(url);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
@@ -48,15 +59,7 @@ describe("GET /authorised-agent/confirmation-member-removed", () => {
     it("should return expected English content if person has been removed and userName is provided", async () => {
 
         // Given
-        const userDetails = {
-            id: "111111",
-            userId: "12345",
-            userEmail: "james.morris@gmail.com",
-            userDisplayName: "James Morris",
-            acspNumber: "E12FPL",
-            displayNameOrEmail: "James Morris"
 
-        };
         getLoggedUserAcspMembershipSpy.mockReturnValue(loggedInUserMembership);
         setExtraData(session, constants.DETAILS_OF_USER_TO_REMOVE, userDetails);
 
