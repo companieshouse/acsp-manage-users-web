@@ -80,6 +80,7 @@ export const ERRORS_EMAIL_REQUIRED = "errors_email_required";
 export const ERRORS_EMAIL_INVALID = "errors_email_invalid";
 export const ERRORS_SELECT_USER_ROLE = "errors_select_user_role";
 export const MEMBER_ALREADY_REMOVED_ERROR = "Member already removed";
+export const ERRORS_ENTER_AN_EMAIL_ADDRESS_IN_THE_CORRECT_FORMAT = "errors_enter_an_email_address_in_the_correct_format";
 
 // query params
 export const CLEAR_FORM = "cf";
@@ -90,3 +91,11 @@ export const DETAILS_OF_USER_TO_ADD = "detailsOfUserToAdd";
 export const DETAILS_OF_USER_TO_REMOVE = "detailsOfUserToRemove";
 export const MANAGE_USERS_MEMBERSHIP = "manageUsersMembership";
 export const LOGGED_USER_ACSP_MEMBERSHIP = "loggedUserAcspMembership";
+
+// Various
+export const ACCOUNT_OWNERS_ID = "account-owners";
+export const ADMINISTRATORS_ID = "administrators";
+export const STANDARD_USERS_ID = "standard-users";
+export const ACCOUNT_OWNERS_TAB_ID = `tab_${ACCOUNT_OWNERS_ID}`;
+export const ADMINISTRATORS_TAB_ID = `tab_${ADMINISTRATORS_ID}`;
+export const STANDARD_USERS_TAB_ID = `tab_${STANDARD_USERS_ID}`;

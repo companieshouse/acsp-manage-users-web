@@ -1,0 +1,127 @@
+import mocks from "../../../mocks/all.middleware.mock";
+import supertest from "supertest";
+import app from "../../../../src/app";
+import * as en from "../../../../src/locales/en/translation/manage-users.json";
+import * as acspMemberService from "../../../../src/services/acspMemberService";
+import {
+    accountOwnerAcspMembership,
+    administratorAcspMembership,
+    getMockAcspMembersResource,
+    loggedAccountOwnerAcspMembership,
+    standardUserAcspMembership
+} from "../../../mocks/acsp.members.mock";
+
+const router = supertest(app);
+
+const url = "/authorised-agent/manage-users";
+const getAcspMembershipsSpy = jest.spyOn(acspMemberService, "getAcspMemberships");
+const getMembershipForLoggedInUserSpy = jest.spyOn(acspMemberService, "getMembershipForLoggedInUser");
+const membershipLookupSpy = jest.spyOn(acspMemberService, "membershipLookup");
+
+describe("manageUsersControllerGet - search", () => {
+
+    beforeEach(() => {
+        jest.clearAllMocks();
+    });
+
+    it("should check session and user auth before returning the page", async () => {
+        await router.get(`${url}?search=j.smith@test.com`);
+        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+    });
+
+    it("should return an error message if search string is not a valid email address and the input field preserve the provided value", async () => {
+        // Given
+        const search = "not valid email address";
+        getMembershipForLoggedInUserSpy.mockResolvedValue(getMockAcspMembersResource(loggedAccountOwnerAcspMembership));
+        getAcspMembershipsSpy
+            .mockResolvedValue(getMockAcspMembersResource(accountOwnerAcspMembership));
+        // When
+        const response = await router.get(`${url}?search=${search}`);
+        // Then
+        expect(response.text).toContain(en.errors_enter_an_email_address_in_the_correct_format);
+        expect(response.text).toContain(search);
+    });
+
+    it("should return an expected response if search string is a valid email address that has account owner ACSP membership", async () => {
+        // Given
+        const search = "james.morris@gmail.com";
+        getMembershipForLoggedInUserSpy.mockResolvedValue(getMockAcspMembersResource(loggedAccountOwnerAcspMembership));
+        membershipLookupSpy.mockResolvedValue(getMockAcspMembersResource(accountOwnerAcspMembership));
+        // When
+        const response = await router.get(`${url}?search=${search}`);
+        // Then
+        expect(response.text).toContain(accountOwnerAcspMembership.userEmail);
+        expect(response.text).not.toContain(en.errors_enter_an_email_address_in_the_correct_format);
+        expect(response.text).toContain(en.you_have_no_admin_users);
+        expect(response.text).toContain(en.you_have_no_standard_users);
+        expect(response.text).not.toContain(en.you_have_no_account_owners_users);
+    });
+
+    it("should return an expected response if search string is a valid email address that has admin ACSP membership", async () => {
+        // Given
+        const search = "jeremy.lloris@gmail.com";
+        getMembershipForLoggedInUserSpy.mockResolvedValue(getMockAcspMembersResource(loggedAccountOwnerAcspMembership));
+        membershipLookupSpy.mockResolvedValue(getMockAcspMembersResource(administratorAcspMembership));
+        // When
+        const response = await router.get(`${url}?search=${search}`);
+        // Then
+        expect(response.text).toContain(administratorAcspMembership.userEmail);
+        expect(response.text).not.toContain(en.errors_enter_an_email_address_in_the_correct_format);
+        expect(response.text).not.toContain(en.you_have_no_admin_users);
+        expect(response.text).toContain(en.you_have_no_standard_users);
+        expect(response.text).toContain(en.you_have_no_account_owners_users);
+    });
+
+    it("should return an expected response if search string is a valid email address that has standard user ACSP membership", async () => {
+        // Given
+        const search = "jane.doe@gmail.com";
+        getMembershipForLoggedInUserSpy.mockResolvedValue(getMockAcspMembersResource(loggedAccountOwnerAcspMembership));
+        membershipLookupSpy.mockResolvedValue(getMockAcspMembersResource(standardUserAcspMembership));
+        // When
+        const response = await router.get(`${url}?search=${search}`);
+        // Then
+        expect(response.text).toContain(standardUserAcspMembership.userEmail);
+        expect(response.text).not.toContain(en.errors_enter_an_email_address_in_the_correct_format);
+        expect(response.text).toContain(en.you_have_no_admin_users);
+        expect(response.text).not.toContain(en.you_have_no_standard_users);
+        expect(response.text).toContain(en.you_have_no_account_owners_users);
+    });
+
+    it("should return nothing if search string is a valid email address that has no ACSP membership", async () => {
+        // Given
+        const search = "test@test.com";
+        getMembershipForLoggedInUserSpy.mockResolvedValue(getMockAcspMembersResource(loggedAccountOwnerAcspMembership));
+        membershipLookupSpy.mockRejectedValue(undefined);
+        // When
+        const response = await router.get(`${url}?search=${search}`);
+        // Then
+        expect(response.text).not.toContain(en.errors_enter_an_email_address_in_the_correct_format);
+        expect(response.text).toContain(en.you_have_no_admin_users);
+        expect(response.text).toContain(en.you_have_no_standard_users);
+        expect(response.text).toContain(en.you_have_no_account_owners_users);
+    });
+});
+
+describe("manageUsersControllerPost - search", () => {
+    beforeEach(() => {
+        jest.clearAllMocks();
+    });
+
+    it("should check session and user auth before returning the page", async () => {
+        await router.post(url).send({ search: "j.smith@test.com" });
+        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+    });
+
+    it("should redirect to url with search query parameter based on provided search string", async () => {
+        // Given
+        const search = "test@test.com";
+        const expectedPageHeading = `Found. Redirecting to ${url}?search=${search}`;
+        // When
+        const response = await router.post(url).send({ search: search });
+        // Then
+        expect(response.status).toEqual(302);
+        expect(response.text).toContain(expectedPageHeading);
+    });
+});
