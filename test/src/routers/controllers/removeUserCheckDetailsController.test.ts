@@ -84,6 +84,30 @@ describe("GET /authorised-agent/remove-member", () => {
 
     });
 
+    it("should return expected English content and userName is as Not Provided", async () => {
+
+        // Given
+        const userDetails = [{
+            id: "111111",
+            userId: "12345",
+            userEmail: "james.morris@gmail.com",
+            userDisplayName: "Not Provided",
+            acspNumber: "B149YU"
+        } as Membership];
+
+        setExtraData(session, constants.MANAGE_USERS_MEMBERSHIP, userDetails);
+
+        // When
+        const response = await router.get(url);
+
+        // Then
+        expect(response.text).toContain(`${en.remove}${userDetails[0].userEmail}`);
+        expect(response.text).toContain(`${en.if_you_remove}${userDetails[0].userEmail}${en.they_will_not_be_able_to_use}${companyName}`);
+        expect(response.text).toContain(`${en.remove_user}`);
+        expect(response.text).toContain(`${enCommon.cancel}`);
+
+    });
+
     it("should return expected English content when there are multiple userDetail objects", async () => {
 
         // Given
