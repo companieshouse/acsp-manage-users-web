@@ -11,6 +11,11 @@ export const removeUserCheckDetailsControllerGet = async (req: Request, res: Res
     res.render(constants.REMOVE_MEMBER_PAGE, { ...viewData });
 };
 
+export const removeUserCheckDetailsControllerPost = async (req: Request, res: Response): Promise<void> => {
+
+    res.redirect(constants.TRY_REMOVING_USER_FULL_URL);
+};
+
 const getViewData = (req: Request): AnyRecord => {
     const translations = getTranslationsForView(req.t, constants.REMOVE_MEMBER_PAGE);
 
@@ -36,8 +41,6 @@ const getViewData = (req: Request): AnyRecord => {
         userToRemove,
         companyName,
         cancelLinkHref: constants.MANAGE_USER_FULL_URL,
-        backLinkUrl: constants.MANAGE_USER_FULL_URL,
-        removeButtonHref: constants.CONFIRMATION_MEMBER_REMOVED_FULL_URL,
-        tryRemovingUserUrl: constants.TRY_REMOVING_USER_FULL_URL
+        backLinkUrl: constants.MANAGE_USER_FULL_URL
     };
 };
