@@ -32,3 +32,17 @@ export const mockAcspMembersResource: AcspMembers = {
     totalResults: 3,
     totalPages: 4
 };
+
+export const getMockAcspMembersResource = (
+    acspMembership: AcspMembership
+): AcspMembers => ({
+    items: [acspMembership],
+    links: {
+        self: "http://localhost:8080/",
+        next: "http://localhost:8080/"
+    },
+    itemsPerPage: 1,
+    pageNumber: 2,
+    totalResults: 3,
+    totalPages: 4
+});

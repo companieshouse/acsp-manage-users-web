@@ -4,9 +4,9 @@ export interface Membership {
     id: string;
     userId: string;
     userEmail: string;
-    displayUserName: string;
     acspNumber: string;
-    userRole: UserRole
+    userRole: UserRole;
+    userDisplayName:string;
 }
 
 export interface MemberForRemoval extends Membership {

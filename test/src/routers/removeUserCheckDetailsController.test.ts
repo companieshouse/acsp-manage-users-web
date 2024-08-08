@@ -44,7 +44,7 @@ describe("GET /authorised-agent/remove-member", () => {
             id: "111111",
             userId: "12345",
             userEmail: "james.morris@gmail.com",
-            displayUserName: "James Morris",
+            userDisplayName: "James Morris",
             acspNumber: "B149YU"
         } as Membership];
         setExtraData(session, constants.MANAGE_USERS_MEMBERSHIP, userDetails);
@@ -53,8 +53,8 @@ describe("GET /authorised-agent/remove-member", () => {
         const response = await router.get(url);
 
         // Then
-        expect(response.text).toContain(`${en.remove}${userDetails[0].displayUserName}`);
-        expect(response.text).toContain(`${en.if_you_remove}${userDetails[0].displayUserName}${en.they_will_not_be_able_to_use}${companyName}`);
+        expect(response.text).toContain(`${en.remove}${userDetails[0].userDisplayName}`);
+        expect(response.text).toContain(`${en.if_you_remove}${userDetails[0].userDisplayName}${en.they_will_not_be_able_to_use}${companyName}`);
         expect(response.text).toContain(`${en.remove_user}`);
         expect(response.text).toContain(`${enCommon.cancel}`);
 
@@ -89,13 +89,13 @@ describe("GET /authorised-agent/remove-member", () => {
         const userDetails = [{
             id: "999999",
             userId: "54321",
-            displayUserName: "Jeremy Lloris",
+            userDisplayName: "Jeremy Lloris",
             acspNumber: "P1399I"
         } as Membership, {
             id: "111111",
             userId: "12345",
             userEmail: "james.morris@gmail.com",
-            displayUserName: "James Morris",
+            userDisplayName: "James Morris",
             acspNumber: "B149YU"
         } as Membership];
 
@@ -105,8 +105,8 @@ describe("GET /authorised-agent/remove-member", () => {
         const response = await router.get(url);
 
         // Then
-        expect(response.text).toContain(`${en.remove}${userDetails[1].displayUserName}`);
-        expect(response.text).toContain(`${en.if_you_remove}${userDetails[1].displayUserName}${en.they_will_not_be_able_to_use}${companyName}`);
+        expect(response.text).toContain(`${en.remove}${userDetails[1].userDisplayName}`);
+        expect(response.text).toContain(`${en.if_you_remove}${userDetails[1].userDisplayName}${en.they_will_not_be_able_to_use}${companyName}`);
         expect(response.text).toContain(`${en.remove_user}`);
         expect(response.text).toContain(`${enCommon.cancel}`);
 

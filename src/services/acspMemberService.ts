@@ -12,9 +12,9 @@ const stringifyApiErrors = (resource: Resource<AcspMembers | AcspMembership | Er
     return JSON.stringify((resource?.resource as Errors)?.errors || "No error list returned");
 };
 
-export const getAcspMemberships = async (req: Request, acspNumber: string): Promise<AcspMembers> => {
+export const getAcspMemberships = async (req: Request, acspNumber: string, includeRemoved?:boolean, pageIndex?:number, itemsPerPage?:number, role?: UserRole[]): Promise<AcspMembers> => {
     const apiClient = createOauthPrivateApiClient(req);
-    const sdkResponse: Resource<AcspMembers | Errors> = await apiClient.acspManageUsersService.getAcspMemberships(acspNumber);
+    const sdkResponse: Resource<AcspMembers | Errors> = await apiClient.acspManageUsersService.getAcspMemberships(acspNumber, includeRemoved, pageIndex, itemsPerPage, role);
 
     if (!sdkResponse) {
         const errMsg = `GET /acsps/${acspNumber}/memberships - no response received`;

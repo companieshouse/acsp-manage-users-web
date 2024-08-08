@@ -10,7 +10,7 @@ const mockMemberToBeRemoved: Membership = {
     id: "333333",
     userId: "1122334455",
     userEmail: "loggedInMail@test.com",
-    displayUserName: "John Smith",
+    userDisplayName: "John Smith",
     acspNumber: "LL0RPG",
     userRole: UserRole.OWNER
 };
@@ -19,14 +19,14 @@ const mockMembers: Membership[] = [{
     id: "444444",
     userId: "444444333",
     userEmail: "j.smith@test.com",
-    displayUserName: "John Smith",
+    userDisplayName: "John Smith",
     acspNumber: "LL0RPG",
     userRole: UserRole.STANDARD
 }, {
     id: "333333",
     userId: "1122334455",
     userEmail: "loggedInMail@test.com",
-    displayUserName: "John Smith",
+    userDisplayName: "John Smith",
     acspNumber: "LL0RPG",
     userRole: UserRole.OWNER
 }];
