@@ -102,3 +102,4 @@ export const STANDARD_USERS_ID = "standard-users";
 export const ACCOUNT_OWNERS_TAB_ID = `tab_${ACCOUNT_OWNERS_ID}`;
 export const ADMINISTRATORS_TAB_ID = `tab_${ADMINISTRATORS_ID}`;
 export const STANDARD_USERS_TAB_ID = `tab_${STANDARD_USERS_ID}`;
+export const NOT_PROVIDED = "Not Provided";

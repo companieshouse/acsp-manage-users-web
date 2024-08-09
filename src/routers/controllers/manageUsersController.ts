@@ -113,7 +113,7 @@ export const getViewData = async (req: Request): Promise<AnyRecord> => {
         acspNumber: member.acspNumber,
         userRole: member.userRole,
         userDisplayName: member.userDisplayName,
-        displayNameOrEmail: !member.userDisplayName || member.userDisplayName === "Not Provided" ? member.userEmail : member.userDisplayName
+        displayNameOrEmail: !member.userDisplayName || member.userDisplayName === constants.NOT_PROVIDED ? member.userEmail : member.userDisplayName
     }));
     setExtraData(req.session, constants.MANAGE_USERS_MEMBERSHIP, allMembersForThisAcsp);
 
