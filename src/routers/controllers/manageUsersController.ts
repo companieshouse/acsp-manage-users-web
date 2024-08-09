@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import * as constants from "../../lib/constants";
 import { getTranslationsForView } from "../../lib/utils/translationUtils";
-import { AnyRecord } from "types/utilTypes";
+import { AnyRecord, MemberRawViewData, PageQueryParams } from "../../types/utilTypes";
 import { TableEntry } from "../../types/viewTypes";
 import { getHiddenText, getLink } from "../../lib/utils/viewUtils";
 import { Membership } from "../../types/membership";
@@ -11,6 +11,8 @@ import { getAcspMemberships, membershipLookup } from "../../services/acspMemberS
 import { sanitizeUrl } from "@braintree/sanitize-url";
 import { validateEmailString } from "../../lib/validation/email.validation";
 import logger from "../../lib/Logger";
+import { buildPaginationElement, stringToPositiveInteger } from "../../lib/helpers/buildPaginationHelper";
+import { validatePageNumber } from "../../lib/validation/page.number.validation";
 
 export const manageUsersControllerGet = async (req: Request, res: Response): Promise<void> => {
     const viewData = await getViewData(req);
@@ -32,6 +34,15 @@ export const getTitle = (translations: AnyRecord, loggedInUserRole: UserRole, is
 
 export const getViewData = async (req: Request): Promise<AnyRecord> => {
     const search = req.query?.search as string;
+    const {
+        ownerPage,
+        adminPage,
+        standardPage
+    } = getPageQueryParams(req);
+
+    const ownerPageNumber = stringToPositiveInteger(ownerPage);
+    const adminPageNumber = stringToPositiveInteger(adminPage);
+    const standardPageNumber = stringToPositiveInteger(standardPage);
 
     const translations = getTranslationsForView(req.t, constants.MANAGE_USERS_PAGE);
     const loggedUserAcspMembership: AcspMembership = getLoggedUserAcspMembership(req.session);
@@ -85,9 +96,29 @@ export const getViewData = async (req: Request): Promise<AnyRecord> => {
         }
         viewData.search = search;
     } else {
-        ownerMembers = (await getAcspMemberships(req, acspNumber, false, 0, 10000, [UserRole.OWNER])).items;
-        adminMembers = (await getAcspMemberships(req, acspNumber, false, 0, 10000, [UserRole.ADMIN])).items;
-        standardMembers = (await getAcspMemberships(req, acspNumber, false, 0, 10000, [UserRole.STANDARD])).items;
+        const ownerMemberRawViewData = await getMemberRawViewData(req, acspNumber, ownerPageNumber - 1, UserRole.OWNER);
+        ownerMembers = ownerMemberRawViewData.memberships;
+        const ownerPadinationData = {
+            pageNumber: ownerMemberRawViewData.pageNumber,
+            pagination: ownerMemberRawViewData.pagination
+        };
+        viewData.accoutOwnerPadinationData = ownerPadinationData;
+
+        const adminMemberRawViewData = await getMemberRawViewData(req, acspNumber, adminPageNumber - 1, UserRole.ADMIN);
+        adminMembers = adminMemberRawViewData.memberships;
+        const adminPadinationData = {
+            pageNumber: adminMemberRawViewData.pageNumber,
+            pagination: adminMemberRawViewData.pagination
+        };
+        viewData.adminPadinationData = adminPadinationData;
+
+        const standardMemberRawViewData = await getMemberRawViewData(req, acspNumber, standardPageNumber - 1, UserRole.STANDARD);
+        standardMembers = standardMemberRawViewData.memberships;
+        const standardUserPadinationData = {
+            pageNumber: standardMemberRawViewData.pageNumber,
+            pagination: standardMemberRawViewData.pagination
+        };
+        viewData.standardUserPadinationData = standardUserPadinationData;
     }
 
     const title = getTitle(translations, userRole, !!errorMessage);
@@ -95,8 +126,10 @@ export const getViewData = async (req: Request): Promise<AnyRecord> => {
 
     const accountOwnersTableData: TableEntry[][] = getUserTableData(foundUser[0]?.userRole === UserRole.OWNER ? foundUser : ownerMembers, translations, userRole === UserRole.OWNER);
     viewData.accountOwnersTableData = accountOwnersTableData;
+
     const administratorsTableData: TableEntry[][] = getUserTableData(foundUser[0]?.userRole === UserRole.ADMIN ? foundUser : adminMembers, translations, userRole !== UserRole.STANDARD);
     viewData.administratorsTableData = administratorsTableData;
+
     const standardUsersTableData: TableEntry[][] = getUserTableData(foundUser[0]?.userRole === UserRole.STANDARD ? foundUser : standardMembers, translations, userRole !== UserRole.STANDARD);
     viewData.standardUsersTableData = standardUsersTableData;
 
@@ -129,7 +162,15 @@ const getUserTableData = (membership: AcspMembership[], translations: AnyRecord,
     return userTableDate;
 };
 
-const setTabIds = (viewData: AnyRecord, userRole: UserRole) => {
+function getPageQueryParams (req: Request): PageQueryParams {
+    return {
+        ownerPage: req.query?.ownerPage as string,
+        adminPage: req.query?.adminPage as string,
+        standardPage: req.query?.standardPage as string
+    };
+}
+
+function setTabIds (viewData: AnyRecord, userRole: UserRole) {
     switch (userRole) {
     case UserRole.OWNER:
         viewData.manageUsersTabId = constants.ACCOUNT_OWNERS_TAB_ID;
@@ -140,7 +181,22 @@ const setTabIds = (viewData: AnyRecord, userRole: UserRole) => {
     case UserRole.STANDARD:
         viewData.manageUsersTabId = constants.STANDARD_USERS_TAB_ID;
         break;
-    default:
-        viewData.manageUsersTabId = constants.ACCOUNT_OWNERS_TAB_ID;
     }
-};
+}
+
+async function getMemberRawViewData (req: Request, acspNumber: string, pageNumber: number, userRole: UserRole): Promise<MemberRawViewData> {
+    let memberships = await getAcspMemberships(req, acspNumber, false, pageNumber, constants.ITEMS_PER_PAGE_DEFAULT, [userRole]);
+    if (!validatePageNumber(pageNumber, memberships.totalPages)) {
+        pageNumber = 1;
+        memberships = await getAcspMemberships(req, acspNumber, false, pageNumber, constants.ITEMS_PER_PAGE_DEFAULT, [userRole]);
+    }
+
+    const memberViewData: MemberRawViewData = { memberships: memberships.items, pageNumber };
+
+    if (memberships.totalPages > 1) {
+        const pagination = buildPaginationElement(pageNumber, memberships.totalPages, constants.MANAGE_USERS_FULL_URL);
+        memberViewData.pagination = pagination;
+    }
+
+    return memberViewData;
+}
