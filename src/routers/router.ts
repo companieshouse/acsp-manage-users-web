@@ -7,10 +7,11 @@ import { addUserControllerGet, addUserControllerPost } from "./controllers/addUs
 import { checkMemberDetailsControllerGet } from "./controllers/checkMemberDetailsController";
 import { tryAddingUserControllerPost } from "./controllers/tryAddingUserController";
 import { confirmationMemberAddedControllerGet } from "./controllers/confirmationMemberAddedController";
-import { removeUserCheckDetailsControllerGet, removeUserCheckDetailsControllerPost } from "./controllers/removeUserCheckDetailsController";
-import { tryRemovingUserControllerGet } from "./controllers/tryRemovingUserController";
+import { removeUserCheckDetailsControllerGet } from "./controllers/removeUserCheckDetailsController";
+import { tryRemovingUserControllerPost } from "./controllers/tryRemovingUserController";
 import { removeUserSuccessControllerGet } from "./controllers/removeUserSuccessController";
 import { removeYourselfControllerGet } from "./controllers/confirmationYouAreRemovedController";
+import { stopPageAddOwnerControllerGet } from "./controllers/stopPageAddOwnerControllerGet";
 
 const router: Router = Router();
 
@@ -22,7 +23,7 @@ router.post(constants.VIEW_USERS_URL, manageUsersControllerPost as RequestHandle
 
 router.get(constants.CONFIRMATION_MEMBER_ADDED_URL, confirmationMemberAddedControllerGet as RequestHandler);
 router.get(constants.REMOVE_MEMBER_CHECK_DETAILS_URL, removeUserCheckDetailsControllerGet as RequestHandler);
-router.post(constants.REMOVE_MEMBER_CHECK_DETAILS_URL, removeUserCheckDetailsControllerPost as RequestHandler);
+
 router.get(constants.CONFIRMATION_MEMBER_REMOVED_URL, removeUserSuccessControllerGet as RequestHandler);
 router.get(constants.CONFIRMATION_YOU_ARE_REMOVED_URL, removeYourselfControllerGet as RequestHandler);
 
@@ -32,9 +33,10 @@ router.get(constants.ADD_USER_URL, addUserControllerGet);
 router.post(constants.ADD_USER_URL, addUserControllerPost);
 
 router.get(constants.CHECK_MEMBER_DETAILS_URL, checkMemberDetailsControllerGet);
-
 router.post(constants.TRY_ADDING_USER_URL, tryAddingUserControllerPost);
-router.get(constants.TRY_REMOVING_USER_URL, tryRemovingUserControllerGet);
+
+router.post(constants.TRY_REMOVING_USER_URL, tryRemovingUserControllerPost);
+router.get(constants.STOP_PAGE_ADD_ACCOUNT_OWNER_URL, stopPageAddOwnerControllerGet);
 
 router.get(constants.HEALTHCHECK, healthCheckController);
 

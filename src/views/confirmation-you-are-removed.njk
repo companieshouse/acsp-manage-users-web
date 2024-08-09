@@ -3,8 +3,6 @@
 
 {% extends "layouts/default.njk" %}
 
-{% set userDetails = removedUserDetails.displayUserName if removedUserDetails.displayUserName else removedUserDetails.userEmail %}
-
 {% set bannerHtml %}
   <p class="govuk-notification-banner__heading">
     {{lang.you_have_removed}}{{userDetails}}{{lang.from}}{{companyName}}.

@@ -10,13 +10,14 @@ import {
     loggedAccountOwnerAcspMembership,
     standardUserAcspMembership
 } from "../../../mocks/acsp.members.mock";
+import * as sessionUtils from "../../../../src/lib/utils/sessionUtils";
 
 const router = supertest(app);
 
 const url = "/authorised-agent/manage-users";
 const getAcspMembershipsSpy = jest.spyOn(acspMemberService, "getAcspMemberships");
-const getMembershipForLoggedInUserSpy = jest.spyOn(acspMemberService, "getMembershipForLoggedInUser");
 const membershipLookupSpy = jest.spyOn(acspMemberService, "membershipLookup");
+const getLoggedUserAcspMembershipSpy: jest.SpyInstance = jest.spyOn(sessionUtils, "getLoggedUserAcspMembership");
 
 describe("manageUsersControllerGet - search", () => {
 
@@ -25,6 +26,7 @@ describe("manageUsersControllerGet - search", () => {
     });
 
     it("should check session and user auth before returning the page", async () => {
+        getLoggedUserAcspMembershipSpy.mockReturnValue(loggedAccountOwnerAcspMembership);
         await router.get(`${url}?search=j.smith@test.com`);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
@@ -33,7 +35,7 @@ describe("manageUsersControllerGet - search", () => {
     it("should return an error message if search string is not a valid email address and the input field preserve the provided value", async () => {
         // Given
         const search = "not valid email address";
-        getMembershipForLoggedInUserSpy.mockResolvedValue(getMockAcspMembersResource(loggedAccountOwnerAcspMembership));
+        getLoggedUserAcspMembershipSpy.mockReturnValue(loggedAccountOwnerAcspMembership);
         getAcspMembershipsSpy
             .mockResolvedValue(getMockAcspMembersResource(accountOwnerAcspMembership));
         // When
@@ -46,7 +48,7 @@ describe("manageUsersControllerGet - search", () => {
     it("should return an expected response if search string is a valid email address that has account owner ACSP membership", async () => {
         // Given
         const search = "james.morris@gmail.com";
-        getMembershipForLoggedInUserSpy.mockResolvedValue(getMockAcspMembersResource(loggedAccountOwnerAcspMembership));
+        getLoggedUserAcspMembershipSpy.mockReturnValue(loggedAccountOwnerAcspMembership);
         membershipLookupSpy.mockResolvedValue(getMockAcspMembersResource(accountOwnerAcspMembership));
         // When
         const response = await router.get(`${url}?search=${search}`);
@@ -61,7 +63,7 @@ describe("manageUsersControllerGet - search", () => {
     it("should return an expected response if search string is a valid email address that has admin ACSP membership", async () => {
         // Given
         const search = "jeremy.lloris@gmail.com";
-        getMembershipForLoggedInUserSpy.mockResolvedValue(getMockAcspMembersResource(loggedAccountOwnerAcspMembership));
+        getLoggedUserAcspMembershipSpy.mockReturnValue(loggedAccountOwnerAcspMembership);
         membershipLookupSpy.mockResolvedValue(getMockAcspMembersResource(administratorAcspMembership));
         // When
         const response = await router.get(`${url}?search=${search}`);
@@ -76,7 +78,7 @@ describe("manageUsersControllerGet - search", () => {
     it("should return an expected response if search string is a valid email address that has standard user ACSP membership", async () => {
         // Given
         const search = "jane.doe@gmail.com";
-        getMembershipForLoggedInUserSpy.mockResolvedValue(getMockAcspMembersResource(loggedAccountOwnerAcspMembership));
+        getLoggedUserAcspMembershipSpy.mockReturnValue(loggedAccountOwnerAcspMembership);
         membershipLookupSpy.mockResolvedValue(getMockAcspMembersResource(standardUserAcspMembership));
         // When
         const response = await router.get(`${url}?search=${search}`);
@@ -91,7 +93,7 @@ describe("manageUsersControllerGet - search", () => {
     it("should return nothing if search string is a valid email address that has no ACSP membership", async () => {
         // Given
         const search = "test@test.com";
-        getMembershipForLoggedInUserSpy.mockResolvedValue(getMockAcspMembersResource(loggedAccountOwnerAcspMembership));
+        getLoggedUserAcspMembershipSpy.mockReturnValue(loggedAccountOwnerAcspMembership);
         membershipLookupSpy.mockRejectedValue(undefined);
         // When
         const response = await router.get(`${url}?search=${search}`);

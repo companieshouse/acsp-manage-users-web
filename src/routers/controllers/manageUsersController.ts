@@ -5,9 +5,9 @@ import { AnyRecord } from "types/utilTypes";
 import { TableEntry } from "../../types/viewTypes";
 import { getHiddenText, getLink } from "../../lib/utils/viewUtils";
 import { Membership } from "../../types/membership";
-import { setExtraData } from "../../lib/utils/sessionUtils";
+import { setExtraData, getLoggedUserAcspMembership } from "../../lib/utils/sessionUtils";
 import { AcspMembership, UserRole } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
-import { getAcspMemberships, getMembershipForLoggedInUser, membershipLookup } from "../../services/acspMemberService";
+import { getAcspMemberships, membershipLookup } from "../../services/acspMemberService";
 import { sanitizeUrl } from "@braintree/sanitize-url";
 import { validateEmailString } from "../../lib/validation/email.validation";
 import logger from "../../lib/Logger";
@@ -38,17 +38,13 @@ export const getViewData = async (req: Request): Promise<AnyRecord> => {
     }
 
     const translations = getTranslationsForView(req.t, constants.MANAGE_USERS_PAGE);
-    const membership = await getMembershipForLoggedInUser(req);
-
-    if (!membership?.items.length) {
-        throw new Error("logged in user ACSP membership details were not retrieved");
-    }
+    const loggedUserAcspMembership: AcspMembership = getLoggedUserAcspMembership(req.session);
 
     const {
         userRole,
         acspNumber,
         acspName
-    } = membership.items[0];
+    } = loggedUserAcspMembership;
 
     const title = getTitle(translations, userRole);
 
@@ -116,14 +112,15 @@ export const getViewData = async (req: Request): Promise<AnyRecord> => {
         userEmail: member.userEmail,
         acspNumber: member.acspNumber,
         userRole: member.userRole,
-        userDisplayName: member.userDisplayName
+        userDisplayName: member.userDisplayName,
+        displayNameOrEmail: !member.userDisplayName || member.userDisplayName === constants.NOT_PROVIDED ? member.userEmail : member.userDisplayName
     }));
     setExtraData(req.session, constants.MANAGE_USERS_MEMBERSHIP, allMembersForThisAcsp);
 
     return viewData;
 };
 
-const getUserTableData = (membership: Membership[], translations: AnyRecord, hasRemoveLink: boolean): TableEntry[][] => {
+const getUserTableData = (membership: AcspMembership[], translations: AnyRecord, hasRemoveLink: boolean): TableEntry[][] => {
     const userTableDate: TableEntry[][] = [];
     for (const member of membership) {
         const tableEntry: TableEntry[] = [

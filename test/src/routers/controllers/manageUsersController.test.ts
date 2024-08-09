@@ -16,19 +16,19 @@ const router = supertest(app);
 
 const url = "/authorised-agent/manage-users";
 const mockGetAcspMemberships = jest.spyOn(acspMemberService, "getAcspMemberships");
-const mockGetMembershipForLoggedInUser = jest.spyOn(acspMemberService, "getMembershipForLoggedInUser");
-mockGetMembershipForLoggedInUser.mockResolvedValue(getMockAcspMembersResource(loggedAccountOwnerAcspMembership));
+const getLoggedUserAcspMembershipSpy: jest.SpyInstance = jest.spyOn(sessionUtils, "getLoggedUserAcspMembership");
+
 mockGetAcspMemberships
     .mockResolvedValue(getMockAcspMembersResource(accountOwnerAcspMembership));
 
 describe("GET /authorised-agent/manage-users", () => {
-    const sessionUtilsSpy: jest.SpyInstance = jest.spyOn(sessionUtils, "getLoggedInUserEmail");
 
     beforeEach(() => {
         jest.clearAllMocks();
     });
 
     it("should check session, user auth and ACSP membership before returning the page", async () => {
+        getLoggedUserAcspMembershipSpy.mockReturnValue(loggedAccountOwnerAcspMembership);
         await router.get(url);
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
@@ -37,11 +37,11 @@ describe("GET /authorised-agent/manage-users", () => {
 
     it("should return status 200", async () => {
         // Given
+        getLoggedUserAcspMembershipSpy.mockReturnValue(loggedAccountOwnerAcspMembership);
         const companyName = accountOwnerAcspMembership.acspName;
         const companyNumber = accountOwnerAcspMembership.acspName;
         const userEmailAddress = accountOwnerAcspMembership.userEmail;
         const userName = accountOwnerAcspMembership.userDisplayName;
-        sessionUtilsSpy.mockReturnValue("demo@ch.gov.uk");
         const expectedTitle = `${en.page_header}${enCommon.title_end}`;
         // When
         const result = await router.get(url);
@@ -67,8 +67,7 @@ describe("GET /authorised-agent/manage-users", () => {
 
     it("should return expected title and page header, and not contain add button if user role standard", async () => {
         // Given
-        sessionUtilsSpy.mockReturnValue("demo@ch.gov.uk");
-        mockGetMembershipForLoggedInUser.mockResolvedValue(getMockAcspMembersResource(standardUserAcspMembership));
+        getLoggedUserAcspMembershipSpy.mockReturnValue(standardUserAcspMembership);
         const expectedTitle = `${en.page_header_standard}${enCommon.title_end}`;
         // When
         const result = await router.get(url);

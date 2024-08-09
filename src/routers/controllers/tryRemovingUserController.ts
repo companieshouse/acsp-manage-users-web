@@ -1,46 +1,29 @@
 import { Request, Response } from "express";
 import * as constants from "../../lib/constants";
-import logger from "../../lib/Logger";
-import { Error, Errors } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
-import { getExtraData } from "../../lib/utils/sessionUtils";
+import { AcspMembership, UserRole } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
+import { getExtraData, getLoggedUserAcspMembership } from "../../lib/utils/sessionUtils";
 import { MemberForRemoval } from "../../types/membership";
+import { getAcspMemberships, updateOrRemoveUserAcspMembership } from "../../services/acspMemberService";
 
-export const tryRemovingUserControllerGet = async (req: Request, res: Response): Promise<void> => {
-    try {
-        const memberDetails: MemberForRemoval = getExtraData(req.session, constants.DETAILS_OF_USER_TO_REMOVE);
-        // call to relevant API once available
-        // but temporarily for testing purposes
-        if (memberDetails.userEmail === "j.smith@test.com") {
-            const error: Errors = {
-                errors: [
-                    {
-                        error: constants.MEMBER_ALREADY_REMOVED_ERROR
-                    } as Error
-                ]
-            };
-            throw error;
+export const tryRemovingUserControllerPost = async (req: Request, res: Response): Promise<void> => {
+    const memberForRemoval: MemberForRemoval = getExtraData(req.session, constants.DETAILS_OF_USER_TO_REMOVE);
+    const loggedUserAcspMembership: AcspMembership = getLoggedUserAcspMembership(req.session);
+
+    const { userId, acspNumber } = loggedUserAcspMembership;
+    const removingThemselves = memberForRemoval.userId === userId;
+
+    if (removingThemselves) {
+        const ownerMembers = await getAcspMemberships(req, acspNumber, false, 0, 20, [UserRole.OWNER]);
+
+        if (ownerMembers?.items?.length === 1 && ownerMembers.items[0].userId === userId) {
+            return res.redirect(constants.STOP_PAGE_ADD_ACCOUNT_OWNER_URL_FULL_URL);
         }
+    }
+    await updateOrRemoveUserAcspMembership(req, memberForRemoval.id, { removeUser: true });
 
-        // Redirect the user to a stop page when the try to remove themselves when
-        // they are the only account holder - isRemovingThemselvesAsOnlyAccHolder previously
-        // handled this
-
-        // if call to relevant API successful
-        if (memberDetails.removingThemselves) {
-            res.redirect(constants.CONFIRMATION_YOU_ARE_REMOVED_FULL_URL);
-        } else {
-            res.redirect(constants.CONFIRMATION_MEMBER_REMOVED_FULL_URL);
-        }
-    } catch (err: unknown) {
-        const error = err as Errors;
-        logger.debug(`${tryRemovingUserControllerGet.name}: request to remove a user from ACSP returned an error: ${error.errors[0].error}`);
-
-        // Placeholder error message
-        if (error.errors[0].error === constants.MEMBER_ALREADY_REMOVED_ERROR) {
-            res.redirect(constants.MEMBER_ALREADY_REMOVED_FULL_URL);
-        } else {
-            throw err;
-        }
-
+    if (removingThemselves) {
+        res.redirect(constants.CONFIRMATION_YOU_ARE_REMOVED_FULL_URL);
+    } else {
+        res.redirect(constants.CONFIRMATION_MEMBER_REMOVED_FULL_URL);
     }
 };

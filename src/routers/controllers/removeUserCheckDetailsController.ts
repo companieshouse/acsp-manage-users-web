@@ -2,45 +2,47 @@ import { Request, Response } from "express";
 import * as constants from "../../lib/constants";
 import { getTranslationsForView } from "../../lib/utils/translationUtils";
 import { AnyRecord } from "../../types/utilTypes";
-import { getExtraData, getLoggedInUserEmail, setExtraData } from "../../lib/utils/sessionUtils";
-import { MemberForRemoval } from "../../types/membership";
+import { getExtraData, setExtraData, getLoggedUserAcspMembership } from "../../lib/utils/sessionUtils";
+import { MemberForRemoval, Membership } from "../../types/membership";
+import { AcspMembership, UserRole } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
+import { validateIdParam } from "../../lib/validation/string.validation";
 
 export const removeUserCheckDetailsControllerGet = async (req: Request, res: Response): Promise<void> => {
-    const viewData = getViewData(req);
-
-    res.render(constants.REMOVE_MEMBER_PAGE, { ...viewData });
+    const viewData = await getViewData(req);
+    res.render(constants.REMOVE_MEMBER_PAGE, viewData);
 };
 
-export const removeUserCheckDetailsControllerPost = async (req: Request, res: Response): Promise<void> => {
-
-    res.redirect(constants.TRY_REMOVING_USER_FULL_URL);
-};
-
-const getViewData = (req: Request): AnyRecord => {
-    const translations = getTranslationsForView(req.t, constants.REMOVE_MEMBER_PAGE);
-
-    // Hardcoded data will be replaced once relevant API calls available
-    const existingUsers = getExtraData(req.session, constants.MANAGE_USERS_MEMBERSHIP);
-    const companyName = "MORRIS ACCOUNTING LTD";
-    let userToRemove;
-
-    const id = req.params.id;
-
-    for (const i in existingUsers) {
-        if (existingUsers[i].id === id) {
-            userToRemove = existingUsers[i];
-            break;
-        }
+const getViewData = async (req: Request): Promise<AnyRecord> => {
+    const loggedUserAcspMembership: AcspMembership = getLoggedUserAcspMembership(req.session);
+    const { userRole, acspName, userId } = loggedUserAcspMembership;
+    if (userRole !== UserRole.ADMIN && userRole !== UserRole.OWNER) {
+        throw new Error(`user not authorised to remove, role is ${userRole}`);
     }
-    const removingThemselves = getLoggedInUserEmail(req.session) === userToRemove.userEmail;
+    const validParam = validateIdParam(req.params.id);
+    if (!validParam) {
+        throw new Error("invalid id param");
+    }
+    const id = req.params.id;
+    const existingUsers = getExtraData(req.session, constants.MANAGE_USERS_MEMBERSHIP);
+    const userToRemove = existingUsers.find((member: Membership) => member.id === id);
+
+    if (!userToRemove) {
+        throw new Error(`ACSP member with id ${id} not found in session`);
+    }
+
+    if (userToRemove.userRole === UserRole.OWNER && userRole === UserRole.ADMIN) {
+        throw new Error("Admin user cannot remove an owner");
+    }
+
+    const removingThemselves = userId === userToRemove.userId;
     setExtraData(req.session, constants.DETAILS_OF_USER_TO_REMOVE, { ...userToRemove, removingThemselves } as MemberForRemoval);
 
     return {
         removingThemselves,
-        lang: translations,
-        userToRemove,
-        companyName,
-        cancelLinkHref: constants.MANAGE_USER_FULL_URL,
-        backLinkUrl: constants.MANAGE_USER_FULL_URL
+        lang: getTranslationsForView(req.t, constants.REMOVE_MEMBER_PAGE),
+        userDetails: userToRemove.displayNameOrEmail,
+        companyName: acspName,
+        backLinkUrl: constants.MANAGE_USER_FULL_URL,
+        tryRemovingUserUrl: constants.TRY_REMOVING_USER_FULL_URL
     };
 };
