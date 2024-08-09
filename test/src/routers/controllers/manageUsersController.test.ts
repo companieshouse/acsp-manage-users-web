@@ -19,7 +19,7 @@ const mockGetAcspMemberships = jest.spyOn(acspMemberService, "getAcspMemberships
 const getLoggedUserAcspMembershipSpy: jest.SpyInstance = jest.spyOn(sessionUtils, "getLoggedUserAcspMembership");
 
 mockGetAcspMemberships
-    .mockResolvedValue(getMockAcspMembersResource(accountOwnerAcspMembership));
+    .mockResolvedValue(getMockAcspMembersResource([accountOwnerAcspMembership]));
 
 describe("GET /authorised-agent/manage-users", () => {
 

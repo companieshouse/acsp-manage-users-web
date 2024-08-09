@@ -30,7 +30,7 @@ describe("getAcspMembersService", () => {
             // Given
             const sdkResource: Resource<AcspMembers> = {
                 httpStatusCode: StatusCodes.OK,
-                resource: getMockAcspMembersResource(accountOwnerAcspMembership)
+                resource: getMockAcspMembersResource([accountOwnerAcspMembership])
             };
             mockGetMembershipForLoggedInUserJestFn.mockResolvedValueOnce(sdkResource);
             // When

@@ -29,7 +29,7 @@ describe("loggedUserAcspMembershipMiddleware", () => {
     it("should call getMembershipForLoggedInUser function and set extra data if logged user ACSP membership not in the session", async () => {
         // Given
         getLoggedUserAcspMembershipSpy.mockReturnValue(undefined);
-        getMembershipForLoggedInUserSpy.mockReturnValue(getMockAcspMembersResource(loggedAccountOwnerAcspMembership));
+        getMembershipForLoggedInUserSpy.mockReturnValue(getMockAcspMembersResource([loggedAccountOwnerAcspMembership]));
         expect(session.getExtraData(constants.LOGGED_USER_ACSP_MEMBERSHIP)).toBeUndefined();
         // When
         await loggedUserAcspMembershipMiddleware(req, res, next);
