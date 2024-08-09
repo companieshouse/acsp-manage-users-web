@@ -30,7 +30,7 @@ describe("removeUserCheckDetailsControllerGet", () => {
     beforeEach(() => {
         jest.clearAllMocks();
     });
-    it("should call render with correct details to ", async () => {
+    it("should call render with correct details", async () => {
         getExtraDataSpy.mockReturnValue({});
         const request = mockRequest();
         const response = mockResponse();
@@ -49,6 +49,7 @@ describe("removeUserCheckDetailsControllerGet", () => {
                 userDetails: "James Morris"
             });
     });
+
     it("should error with invalid id param ", async () => {
         getExtraDataSpy.mockReturnValue({});
         const request = mockRequest();
@@ -61,6 +62,7 @@ describe("removeUserCheckDetailsControllerGet", () => {
             .rejects
             .toThrow("invalid id param");
     });
+
     it("should error when user not authorised ", async () => {
         const standardMember = {
             id: "123",
@@ -81,6 +83,7 @@ describe("removeUserCheckDetailsControllerGet", () => {
             .rejects
             .toThrow("user not authorised to remove, role is standard");
     });
+
     it("should error when membership not found in session", async () => {
 
         getExtraDataSpy.mockReturnValue({});
@@ -94,6 +97,7 @@ describe("removeUserCheckDetailsControllerGet", () => {
             .rejects
             .toThrow("ACSP member with id notFoundId not found in session");
     });
+
     it("should error when admin trys to remove owner", async () => {
         const owner = [{
             id: "111111",
@@ -115,6 +119,7 @@ describe("removeUserCheckDetailsControllerGet", () => {
             .rejects
             .toThrow("Admin user cannot remove an owner");
     });
+
     it("should set remove themselves to true", async () => {
         getExtraDataSpy.mockReturnValue({});
         const request = mockRequest();
