@@ -5,7 +5,7 @@ import { dashboardControllerGet } from "./controllers/dashboardController";
 import { healthCheckController } from "./controllers/healthCheckController";
 import { addUserControllerGet, addUserControllerPost } from "./controllers/addUserController";
 import { checkMemberDetailsControllerGet } from "./controllers/checkMemberDetailsController";
-import { tryAddingUserControllerGet } from "./controllers/tryAddingUserController";
+import { tryAddingUserControllerPost } from "./controllers/tryAddingUserController";
 import { confirmationMemberAddedControllerGet } from "./controllers/confirmationMemberAddedController";
 import { removeUserCheckDetailsControllerGet } from "./controllers/removeUserCheckDetailsController";
 import { tryRemovingUserControllerPost } from "./controllers/tryRemovingUserController";
@@ -33,10 +33,9 @@ router.get(constants.ADD_USER_URL, addUserControllerGet);
 router.post(constants.ADD_USER_URL, addUserControllerPost);
 
 router.get(constants.CHECK_MEMBER_DETAILS_URL, checkMemberDetailsControllerGet);
+router.post(constants.TRY_ADDING_USER_URL, tryAddingUserControllerPost);
 
-router.get(constants.TRY_ADDING_USER_URL, tryAddingUserControllerGet);
 router.post(constants.TRY_REMOVING_USER_URL, tryRemovingUserControllerPost);
-
 router.get(constants.STOP_PAGE_ADD_ACCOUNT_OWNER_URL, stopPageAddOwnerControllerGet);
 
 router.get(constants.HEALTHCHECK, healthCheckController);
