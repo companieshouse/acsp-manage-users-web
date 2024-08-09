@@ -3,6 +3,7 @@ import { getEnvironmentValue } from "./utils/environmentValue";
 // English and Welsh translation files AND Nunjucks template files for pages
 export const DASHBOARD_PAGE = "dashboard";
 export const MANAGE_USERS_PAGE = "manage-users";
+export const TRY_ADDING_USER = "try-adding-user";
 export const REMOVE_USER_PAGE = "remove-user";
 export const ADD_USER_PAGE = "add-user";
 export const CHECK_MEMBER_DETAILS_PAGE = "check-member-details";
@@ -14,6 +15,7 @@ export const REMOVE_MEMBER_PAGE = "remove-member";
 export const USER_REMOVE_CONFIRMATION_PAGE = "confirmation-member-removed";
 export const MEMBER_ALREADY_REMOVED_PAGE = "member-already-removed";
 export const CONFIRMATION_YOU_ARE_REMOVED = "confirmation-you-are-removed";
+export const PLACEHOLDER_STOP_SCREEN = "placeholder-stop-screen";
 
 // Other Nunjucks template files
 export const SERVICE_UNAVAILABLE_TEMPLATE = "partials/service_unavailable";
