@@ -48,7 +48,6 @@ const getViewData = async (req: Request): Promise<AnyRecord> => {
         removingThemselves,
         lang: getTranslationsForView(req.t, constants.REMOVE_MEMBER_PAGE),
         userDetails: userToRemove.displayNameOrEmail,
-        email: userToRemove.userEmail,
         companyName: acspName,
         backLinkUrl: constants.MANAGE_USER_FULL_URL,
         tryRemovingUserUrl: constants.TRY_REMOVING_USER_FULL_URL,
