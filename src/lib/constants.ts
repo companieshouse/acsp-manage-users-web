@@ -16,7 +16,7 @@ export const USER_REMOVE_CONFIRMATION_PAGE = "confirmation-member-removed";
 export const MEMBER_ALREADY_REMOVED_PAGE = "member-already-removed";
 export const CONFIRMATION_YOU_ARE_REMOVED = "confirmation-you-are-removed";
 export const STOP_PAGE_ADD_ACCOUNT_OWNER = "stop-page-add-account-owner";
-export const PLACEHOLDER_STOP_SCREEN = "placeholder-stop-screen";
+export const CANNOT_ADD_USER = "cannot-add-user";
 
 // Other Nunjucks template files
 export const SERVICE_UNAVAILABLE_TEMPLATE = "partials/service_unavailable";

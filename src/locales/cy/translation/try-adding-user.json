@@ -1,7 +1,10 @@
 {
-    "there_is_a_problem": "[CY] There is a problem",
-    "unable_to_add_user": "[CY] We were unable to add the user to the ACSP at this time.",
-    "what_happens_next": "[CY] What happens next",
-    "error_logged_description": "[CY] We have logged this error and our technical team will investigate. Please try again later.",
-    "return_to_manage_users": "[CY] Return to manage users"
+    "service_name": "[CY] Companies House",
+    "cannot_add_user_title": "[CY] You cannot add this user",
+    "cannot_add_user_heading": "[CY] You cannot add this user",
+    "cannot_add_user_paragraph1": "[CY] We have not been able to add the user with the email address you provided.",
+    "cannot_add_user_paragraph2": "[CY] This could be because they don't have a Companies House account that uses the email address. Or, they may have already been added to an authorised agent account.",
+    "cannot_add_user_paragraph3": "[CY] The user may need to create a Companies House account, or be removed from another authorised account before you can add them.",
+    "back_link_text": "[CY] Back",
+    "manage_users_link_text": "[CY] Manage users for"
 }
