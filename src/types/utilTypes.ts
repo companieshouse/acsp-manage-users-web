@@ -29,3 +29,9 @@ export type PageQueryParams = {
     adminPage: string;
     standardPage: string;
 }
+
+export type PageNumbers = {
+    ownerPage: number;
+    adminPage: number;
+    standardPage: number;
+}

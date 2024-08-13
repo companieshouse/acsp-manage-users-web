@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import * as constants from "../../lib/constants";
 import { getTranslationsForView } from "../../lib/utils/translationUtils";
-import { AnyRecord, MemberRawViewData, PageQueryParams } from "../../types/utilTypes";
+import { AnyRecord, MemberRawViewData, PageNumbers, PageQueryParams } from "../../types/utilTypes";
 import { TableEntry } from "../../types/viewTypes";
 import { getHiddenText, getLink } from "../../lib/utils/viewUtils";
 import { Membership } from "../../types/membership";
@@ -11,8 +11,9 @@ import { getAcspMemberships, membershipLookup } from "../../services/acspMemberS
 import { sanitizeUrl } from "@braintree/sanitize-url";
 import { validateEmailString } from "../../lib/validation/email.validation";
 import logger from "../../lib/Logger";
-import { buildPaginationElement, stringToPositiveInteger } from "../../lib/helpers/buildPaginationHelper";
+import { buildPaginationElement, getCurrentPageNumber, stringToPositiveInteger } from "../../lib/helpers/buildPaginationHelper";
 import { validatePageNumber } from "../../lib/validation/page.number.validation";
+import { validateActiveTabId } from "../../lib/validation/string.validation";
 
 export const manageUsersControllerGet = async (req: Request, res: Response): Promise<void> => {
     const viewData = await getViewData(req);
@@ -40,9 +41,13 @@ export const getViewData = async (req: Request): Promise<AnyRecord> => {
         standardPage
     } = getPageQueryParams(req);
 
-    const ownerPageNumber = stringToPositiveInteger(ownerPage);
-    const adminPageNumber = stringToPositiveInteger(adminPage);
-    const standardPageNumber = stringToPositiveInteger(standardPage);
+    const activeTabId = validateActiveTabId(req.query?.activeTabId as string) ? req.query.activeTabId as string : constants.ACCOUNT_OWNERS_TAB_ID;
+
+    const pageNumbers: PageNumbers = {
+        ownerPage: stringToPositiveInteger(ownerPage),
+        adminPage: stringToPositiveInteger(adminPage),
+        standardPage: stringToPositiveInteger(standardPage)
+    };
 
     const translations = getTranslationsForView(req.t, constants.MANAGE_USERS_PAGE);
     const loggedUserAcspMembership: AcspMembership = getLoggedUserAcspMembership(req.session);
@@ -57,7 +62,6 @@ export const getViewData = async (req: Request): Promise<AnyRecord> => {
         lang: translations,
         backLinkUrl: constants.DASHBOARD_FULL_URL,
         addUserUrl: constants.ADD_USER_FULL_URL + constants.CLEAR_FORM_TRUE,
-        removeUserLinkUrl: constants.REMOVE_MEMBER_CHECK_DETAILS_FULL_URL,
         companyName: acspName,
         companyNumber: acspNumber,
         loggedInUserRole: userRole,
@@ -96,29 +100,19 @@ export const getViewData = async (req: Request): Promise<AnyRecord> => {
         }
         viewData.search = search;
     } else {
-        const ownerMemberRawViewData = await getMemberRawViewData(req, acspNumber, ownerPageNumber - 1, UserRole.OWNER);
+        const ownerMemberRawViewData = await getMemberRawViewData(req, acspNumber, pageNumbers, UserRole.OWNER, constants.ACCOUNT_OWNERS_TAB_ID);
         ownerMembers = ownerMemberRawViewData.memberships;
-        const ownerPadinationData = {
-            pageNumber: ownerMemberRawViewData.pageNumber,
-            pagination: ownerMemberRawViewData.pagination
-        };
-        viewData.accoutOwnerPadinationData = ownerPadinationData;
+        viewData.accoutOwnerPadinationData = ownerMemberRawViewData.pagination;
 
-        const adminMemberRawViewData = await getMemberRawViewData(req, acspNumber, adminPageNumber - 1, UserRole.ADMIN);
+        const adminMemberRawViewData = await getMemberRawViewData(req, acspNumber, pageNumbers, UserRole.ADMIN, constants.ADMINISTRATORS_TAB_ID);
         adminMembers = adminMemberRawViewData.memberships;
-        const adminPadinationData = {
-            pageNumber: adminMemberRawViewData.pageNumber,
-            pagination: adminMemberRawViewData.pagination
-        };
-        viewData.adminPadinationData = adminPadinationData;
+        viewData.adminPadinationData = adminMemberRawViewData.pagination;
 
-        const standardMemberRawViewData = await getMemberRawViewData(req, acspNumber, standardPageNumber - 1, UserRole.STANDARD);
+        const standardMemberRawViewData = await getMemberRawViewData(req, acspNumber, pageNumbers, UserRole.STANDARD, constants.STANDARD_USERS_TAB_ID);
         standardMembers = standardMemberRawViewData.memberships;
-        const standardUserPadinationData = {
-            pageNumber: standardMemberRawViewData.pageNumber,
-            pagination: standardMemberRawViewData.pagination
-        };
-        viewData.standardUserPadinationData = standardUserPadinationData;
+        viewData.standardUserPadinationData = standardMemberRawViewData.pagination;
+
+        viewData.manageUsersTabId = activeTabId;
     }
 
     const title = getTitle(translations, userRole, !!errorMessage);
@@ -184,17 +178,18 @@ function setTabIds (viewData: AnyRecord, userRole: UserRole) {
     }
 }
 
-async function getMemberRawViewData (req: Request, acspNumber: string, pageNumber: number, userRole: UserRole): Promise<MemberRawViewData> {
-    let memberships = await getAcspMemberships(req, acspNumber, false, pageNumber, constants.ITEMS_PER_PAGE_DEFAULT, [userRole]);
+async function getMemberRawViewData (req: Request, acspNumber: string, pageNumbers: PageNumbers, userRole: UserRole, activeTabId: string): Promise<MemberRawViewData> {
+    let pageNumber = getCurrentPageNumber(pageNumbers, userRole);
+    let memberships = await getAcspMemberships(req, acspNumber, false, pageNumber - 1, constants.ITEMS_PER_PAGE_DEFAULT, [userRole]);
     if (!validatePageNumber(pageNumber, memberships.totalPages)) {
         pageNumber = 1;
-        memberships = await getAcspMemberships(req, acspNumber, false, pageNumber, constants.ITEMS_PER_PAGE_DEFAULT, [userRole]);
+        memberships = await getAcspMemberships(req, acspNumber, false, pageNumber - 1, constants.ITEMS_PER_PAGE_DEFAULT, [userRole]);
     }
 
     const memberViewData: MemberRawViewData = { memberships: memberships.items, pageNumber };
 
     if (memberships.totalPages > 1) {
-        const pagination = buildPaginationElement(pageNumber, memberships.totalPages, constants.MANAGE_USERS_FULL_URL);
+        const pagination = buildPaginationElement(pageNumbers, userRole, memberships.totalPages, constants.MANAGE_USERS_FULL_URL, activeTabId);
         memberViewData.pagination = pagination;
     }
 

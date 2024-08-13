@@ -2,6 +2,7 @@
 {% from "govuk/components/table/macro.njk" import govukTable %}
 {% from "govuk/components/tabs/macro.njk" import govukTabs %}
 {% from "govuk/components/error-message/macro.njk" import govukErrorMessage %}
+{% from "govuk/components/pagination/macro.njk" import govukPagination %}
 
 {% extends "layouts/default.njk" %}
 
@@ -97,6 +98,10 @@
                 rows: accountOwnersTableData
             })
         }}
+
+        {% if accoutOwnerPadinationData and accoutOwnerPadinationData.items | length %}
+            {{ govukPagination(accoutOwnerPadinationData) }}
+        {% endif %}
     {% else %}
         <p class="govuk-body">{{lang.you_have_no_account_owners_users}}</p>
     {% endif %}
@@ -113,6 +118,10 @@
                 rows: administratorsTableData
             })
         }}
+
+        {% if adminPadinationData and adminPadinationData.items | length %}
+            {{ govukPagination(adminPadinationData) }}
+        {% endif %}
     {% else %}
         <p class="govuk-body">{{lang.you_have_no_admin_users}}</p>
     {% endif %}
@@ -129,6 +138,10 @@
                 rows: standardUsersTableData
             })
         }}
+
+        {% if standardUserPadinationData and standardUserPadinationData.items | length %}
+            {{ govukPagination(standardUserPadinationData) }}
+        {% endif %}
     {% else %}
         <p class="govuk-body">{{lang.you_have_no_standard_users}}</p>
     {% endif %}
