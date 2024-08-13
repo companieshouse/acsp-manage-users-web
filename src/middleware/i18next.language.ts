@@ -3,11 +3,11 @@ import i18next, { InitOptions, Resource } from "i18next";
 import Middleware from "i18next-http-middleware";
 import requireDir from "require-directory";
 import path from "path";
-import { setExtraData } from "../lib/utils/sessionUtils";
+import { setExtraData, getExtraData } from "../lib/utils/sessionUtils";
 const locales = path.join(__dirname, "/../locales");
 
-const LANG = "lang" as const;
-const supportedLanguages: string[] = ["en", "cy"] as const;
+const LANG = "lang";
+const supportedLanguages: string[] = ["en", "cy"];
 
 export const enableI18next = (app: Application): void => {
     const resources = requireDir(module, locales) as Resource;
@@ -28,7 +28,7 @@ export const enableI18next = (app: Application): void => {
         name: "detectLangInSession",
 
         lookup: function (req: Request) {
-            const langInSession: string | undefined = req.session?.getExtraData(LANG);
+            const langInSession: string | undefined = getExtraData(req.session, LANG);
             if (langInSession && supportedLanguages.includes(langInSession)) {
                 return langInSession;
             }
