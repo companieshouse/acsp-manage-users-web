@@ -1,11 +1,5 @@
 import { Request, Response } from "express";
 import * as constants from "../../lib/constants";
-import {
-    CANNOT_ADD_USER,
-    CHECK_MEMBER_DETAILS_FULL_URL,
-    CHECK_MEMBER_DETAILS_PAGE,
-    TRY_ADDING_USER
-} from "../../lib/constants";
 import logger from "../../lib/Logger";
 import { AcspMembers, UserRole } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
 import { NewUserDetails } from "../../types/user";
@@ -17,7 +11,7 @@ import { AnyRecord } from "../../types/utilTypes";
 import { User } from "private-api-sdk-node/dist/services/user-account/types";
 
 export const tryAddingUserControllerPost = async (req: Request, res: Response): Promise<void> => {
-    const translations = getTranslationsForView(req.t, TRY_ADDING_USER);
+    const translations = getTranslationsForView(req.t, constants.TRY_ADDING_USER);
 
     const newUserDetails: NewUserDetails | undefined = getExtraData(req.session, constants.DETAILS_OF_USER_TO_ADD);
 
@@ -54,16 +48,12 @@ export const tryAddingUserControllerPost = async (req: Request, res: Response): 
 
 function _renderStopScreen (res: Response, translations: AnyRecord, acspName: string, backLinkHref: string): void {
     logger.debug(`${_renderStopScreen.name}: Rendering cannot add user screen`);
-    res.render(CANNOT_ADD_USER, {
+    res.render(constants.CANNOT_ADD_USER, {
         serviceName: translations.service_name,
         title: translations.cannot_add_user_title,
-        heading: translations.cannot_add_user_heading,
-        paragraph1: translations.cannot_add_user_paragraph1,
-        paragraph2: translations.cannot_add_user_paragraph2,
-        paragraph3: translations.cannot_add_user_paragraph3,
-        backLinkText: translations.back_link_text,
         backLinkHref: backLinkHref,
         manageUsersLinkText: `${translations.manage_users_link_text} ${acspName}.`,
-        manageUsersLinkHref: constants.MANAGE_USER_FULL_URL
+        manageUsersLinkHref: constants.MANAGE_USER_FULL_URL,
+        lang: translations
     });
 }

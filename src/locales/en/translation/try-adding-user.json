@@ -5,6 +5,7 @@
     "cannot_add_user_paragraph1": "We have not been able to add the user with the email address you provided.",
     "cannot_add_user_paragraph2": "This could be because they don't have a Companies House account that uses the email address. Or, they may have already been added to an authorised agent account.",
     "cannot_add_user_paragraph3": "The user may need to create a Companies House account, or be removed from another authorised account before you can add them.",
-    "back_link_text": "Back",
+    "back_link": "Back",
+    "back_link_to_the_previous_page": "Backlink to the previous page",
     "manage_users_link_text": "Manage users for"
 }

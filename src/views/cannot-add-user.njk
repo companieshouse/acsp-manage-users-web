@@ -3,23 +3,20 @@
 {% extends "layouts/default.njk" %}
 
 {% block back_link %}
-    {{ govukBackLink({
-        text: backLinkText,
-        href: backLinkHref
-    }) }}
+    {% include "partials/back_link.njk" %}
 {% endblock %}
 
 {% block main_content %}
     <div class="govuk-width-container">
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-two-thirds">
-                <h1 class="govuk-heading-l">{{ heading }}</h1>
+                <h1 class="govuk-heading-l">{{ lang.cannot_add_user_heading }}</h1>
 
-                <p class="govuk-body">{{ paragraph1 }}</p>
+                <p class="govuk-body">{{ lang.cannot_add_user_paragraph1 }}</p>
 
-                <p class="govuk-body">{{ paragraph2 }}</p>
+                <p class="govuk-body">{{ lang.cannot_add_user_paragraph2 }}</p>
 
-                <p class="govuk-body">{{ paragraph3 }}</p>
+                <p class="govuk-body">{{ lang.cannot_add_user_paragraph3 }}</p>
 
                 <p class="govuk-body">
                     <a href="{{ manageUsersLinkHref }}">{{ manageUsersLinkText }}</a>
