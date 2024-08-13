@@ -153,17 +153,21 @@ export const standardUserAcspMembership: AcspMembership = {
     }
 };
 export const getMockAcspMembersResource = (
-    acspMemberships: AcspMembership[]
+    acspMemberships: AcspMembership[],
+    itemsPerPage?: number,
+    pageNumber?: number,
+    totalResults?: number,
+    totalPages?: number
 ): AcspMembers => ({
     items: acspMemberships,
     links: {
         self: "http://localhost:8080/",
         next: "http://localhost:8080/"
     },
-    itemsPerPage: 1,
-    pageNumber: 2,
-    totalResults: 3,
-    totalPages: 4
+    itemsPerPage: itemsPerPage || 1,
+    pageNumber: pageNumber || 2,
+    totalResults: totalResults || acspMemberships.length,
+    totalPages: totalPages || acspMemberships.length
 });
 
 // NOTE: All the below is based upon the TestDataManager on the acsp-manage-users-api

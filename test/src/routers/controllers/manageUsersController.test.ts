@@ -15,10 +15,10 @@ import {
 const router = supertest(app);
 
 const url = "/authorised-agent/manage-users";
-const mockGetAcspMemberships = jest.spyOn(acspMemberService, "getAcspMemberships");
+const getAcspMembershipsSpy: jest.SpyInstance = jest.spyOn(acspMemberService, "getAcspMemberships");
 const getLoggedUserAcspMembershipSpy: jest.SpyInstance = jest.spyOn(sessionUtils, "getLoggedUserAcspMembership");
 
-mockGetAcspMemberships
+getAcspMembershipsSpy
     .mockResolvedValue(getMockAcspMembersResource([accountOwnerAcspMembership]));
 
 describe("GET /authorised-agent/manage-users", () => {
