@@ -61,6 +61,8 @@ export const STOP_PAGE_ADD_ACCOUNT_OWNER_URL = `/${STOP_PAGE_ADD_ACCOUNT_OWNER}`
 export const STOP_PAGE_ADD_ACCOUNT_OWNER_URL_FULL_URL = `${LANDING_URL}${STOP_PAGE_ADD_ACCOUNT_OWNER_URL}`;
 export const HEALTHCHECK = "/healthcheck";
 
+export const getRemoveMemberCheckDetailsFullUrl = (id: string): string => `${LANDING_URL}/${REMOVE_MEMBER_PAGE}/${id}`;
+
 // External URLs
 export const YOU_HAVE_VERIFIED_SOMEONES_IDENTITY_URL = "/placeholder-url-to-service-build-by-other-team";
 export const UPDATE_AUTHORISED_AGENTS_DETAILS_URL = "/placeholder-url-to-service-build-by-other-team";

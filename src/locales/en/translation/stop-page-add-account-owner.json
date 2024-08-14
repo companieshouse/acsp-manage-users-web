@@ -1,7 +1,17 @@
 {
+    "add_acc_owner_btn": "Add an account owner",
+    "back_link": "Back",
     "before_you_remove": " before you remove yourself from the account.",
+    "details": {
+        "p1": "Account owners receive essential emails with information about the authorised agent account.",
+        "p2": "They must make sure the authorised agent complies with its legal responsibilities. This includes telling us about any changes to the agent's information within 14 days.",
+        "p3_end": "for more information about the legal responsibilities.",
+        "p3_link_text": "guidance for authorised agents",
+        "p3_start": "Read the "
+    },
     "manage_users_for": "Manage users for ",
     "p1": "Authorised agents must have at least one account owner.",
     "page_header": "You need to add an account owner",
+    "why_authorised_agents_must": "Why authorised agents must have an account owner",
     "you_need_to_add": "You need to add an account owner to "
 }

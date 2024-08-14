@@ -1,7 +1,17 @@
 {
-    "before_you_remove": " [CY] before you remove yourself from the account.",
+    "add_acc_owner_btn": "[CY] Add an account owner",
+    "back_link": "[CY] Back",
+    "before_you_remove": "[CY]  before you remove yourself from the account.",
+    "details": {
+        "p1": "[CY] Account owners receive essential emails with information about the authorised agent account.",
+        "p2": "[CY] They must make sure the authorised agent complies with its legal responsibilities. This includes telling us about any changes to the agent's information within 14 days.",
+        "p3_end": "[CY] for more information about the legal responsibilities.",
+        "p3_link_text": "[CY] guidance for authorised agents",
+        "p3_start": "[CY] Read the "
+    },
     "manage_users_for": "[CY] Manage users for ",
     "p1": "[CY] Authorised agents must have at least one account owner.",
     "page_header": "[CY] You need to add an account owner",
+    "why_authorised_agents_must": "[CY] Why authorised agents must have an account owner",
     "you_need_to_add": "[CY] You need to add an account owner to "
 }
