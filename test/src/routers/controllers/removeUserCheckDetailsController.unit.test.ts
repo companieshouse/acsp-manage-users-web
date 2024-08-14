@@ -16,7 +16,9 @@ describe("removeUserCheckDetailsControllerGet", () => {
         userRole: "admin",
         acspNumber: "123",
         acspName: "companyName",
-        displayNameOrEmail: "Jeremy Lloris"
+        displayNameOrEmail: "Jeremy Lloris",
+        userDisplayName: "Jeremy Lloris",
+        userEmail: "jeremy.lloris@gmail.com"
     };
     const userDetails = [{
         id: "111111",
@@ -46,7 +48,8 @@ describe("removeUserCheckDetailsControllerGet", () => {
                 lang: {},
                 removingThemselves: false,
                 tryRemovingUserUrl: "/authorised-agent/try-removing-user",
-                userDetails: "James Morris"
+                userDetails: "James Morris",
+                displayNameInFirstParagraph: "James Morris (james.morris@gmail.com)"
             });
     });
 
@@ -136,7 +139,8 @@ describe("removeUserCheckDetailsControllerGet", () => {
                 lang: {},
                 removingThemselves: true,
                 tryRemovingUserUrl: "/authorised-agent/try-removing-user",
-                userDetails: loggedInUserMembership.displayNameOrEmail
+                userDetails: loggedInUserMembership.displayNameOrEmail,
+                displayNameInFirstParagraph: "Jeremy Lloris (jeremy.lloris@gmail.com)"
             });
     });
 });

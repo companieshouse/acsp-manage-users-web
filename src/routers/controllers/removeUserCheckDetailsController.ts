@@ -24,7 +24,7 @@ const getViewData = async (req: Request): Promise<AnyRecord> => {
     }
     const id = req.params.id;
     const existingUsers = getExtraData(req.session, constants.MANAGE_USERS_MEMBERSHIP);
-    const userToRemove = existingUsers.find((member: Membership) => member.id === id);
+    const userToRemove: Membership = existingUsers.find((member: Membership) => member.id === id);
 
     if (!userToRemove) {
         throw new Error(`ACSP member with id ${id} not found in session`);
@@ -37,12 +37,20 @@ const getViewData = async (req: Request): Promise<AnyRecord> => {
     const removingThemselves = userId === userToRemove.userId;
     setExtraData(req.session, constants.DETAILS_OF_USER_TO_REMOVE, { ...userToRemove, removingThemselves } as MemberForRemoval);
 
+    let displayNameInFirstParagraph;
+    const { userDisplayName, userEmail } = userToRemove;
+    if (userDisplayName && userDisplayName !== constants.NOT_PROVIDED) {
+        displayNameInFirstParagraph = `${userDisplayName} (${userEmail})`;
+    } else {
+        displayNameInFirstParagraph = `${userEmail}`;
+    }
     return {
         removingThemselves,
         lang: getTranslationsForView(req.t, constants.REMOVE_MEMBER_PAGE),
         userDetails: userToRemove.displayNameOrEmail,
         companyName: acspName,
         backLinkUrl: constants.MANAGE_USER_FULL_URL,
-        tryRemovingUserUrl: constants.TRY_REMOVING_USER_FULL_URL
+        tryRemovingUserUrl: constants.TRY_REMOVING_USER_FULL_URL,
+        displayNameInFirstParagraph
     };
 };

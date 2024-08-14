@@ -74,7 +74,7 @@ describe("GET /authorised-agent/remove-member", () => {
 
         // Then
         expect(response.text).toContain(`${en.remove}${userDetails[0].displayNameOrEmail}`);
-        expect(response.text).toContain(`${en.if_you_remove}${userDetails[0].displayNameOrEmail}${en.they_will_not_be_able_to_use}${companyName}`);
+        expect(response.text).toContain(`${en.if_you_remove}${userDetails[0].displayNameOrEmail} (${userDetails[0].userEmail})${en.they_will_not_be_able_to_use}${companyName}`);
         expect(response.text).toContain(`${en.remove_user}`);
         expect(response.text).toContain(`${enCommon.cancel}`);
     });
@@ -105,9 +105,33 @@ describe("GET /authorised-agent/remove-member", () => {
 
         // Then
         expect(response.text).toContain(`${en.remove}${multipleUserDetails[1].displayNameOrEmail}`);
-        expect(response.text).toContain(`${en.if_you_remove}${multipleUserDetails[1].displayNameOrEmail}${en.they_will_not_be_able_to_use}${companyName}`);
+        expect(response.text).toContain(`${en.if_you_remove}${multipleUserDetails[1].displayNameOrEmail} (${multipleUserDetails[1].userEmail})${en.they_will_not_be_able_to_use}${companyName}`);
         expect(response.text).toContain(`${en.remove_user}`);
         expect(response.text).toContain(`${enCommon.cancel}`);
+    });
 
+    it("should display email only if the display name is Not Provided", async () => {
+        getLoggedUserAcspMembershipSpy.mockReturnValue(loggedInUserMembership);
+
+        // Given
+        const userInSession = [{
+            id: "111111",
+            userId: "54321",
+            userDisplayName: "Not Provided",
+            acspNumber: "P1399I",
+            displayNameOrEmail: "james.morris@gmail.com",
+            userEmail: "james.morris@gmail.com"
+        } as Membership];
+
+        setExtraData(session, constants.MANAGE_USERS_MEMBERSHIP, userInSession);
+
+        // When
+        const response = await router.get(url);
+
+        // Then
+        expect(response.text).toContain(`${en.remove}${userInSession[0].displayNameOrEmail}`);
+        expect(response.text).toContain(`${en.if_you_remove}${userInSession[0].userEmail}${en.they_will_not_be_able_to_use}${companyName}`);
+        expect(response.text).toContain(`${en.remove_user}`);
+        expect(response.text).toContain(`${enCommon.cancel}`);
     });
 });
