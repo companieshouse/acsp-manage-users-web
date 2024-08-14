@@ -2,11 +2,20 @@ import mocks from "../../../mocks/all.middleware.mock";
 import supertest from "supertest";
 import app from "../../../../src/app";
 import * as en from "../../../../src/locales/en/translation/dashboard.json";
+import * as cy from "../../../../src/locales/cy/translation/dashboard.json";
 import * as sessionUtils from "../../../../src/lib/utils/sessionUtils";
 import { accountOwnerAcspMembership, administratorAcspMembership, standardUserAcspMembership } from "../../../mocks/acsp.members.mock";
+import { Session } from "@companieshouse/node-session-handler";
+import { Request, Response, NextFunction } from "express";
 
 const router = supertest(app);
 const url = "/authorised-agent/";
+const session: Session = new Session();
+
+mocks.mockSessionMiddleware.mockImplementation((req: Request, res: Response, next: NextFunction) => {
+    req.session = session;
+    next();
+});
 
 describe(`GET ${url}`, () => {
     const getLoggedUserAcspMembershipSpy: jest.SpyInstance = jest.spyOn(sessionUtils, "getLoggedUserAcspMembership");
@@ -101,5 +110,30 @@ describe(`GET ${url}`, () => {
         expect(decodedResponse).toContain(en.tell_companies_house_id);
         expect(decodedResponse).toContain(en.you_will_need_to_use);
         expect(decodedResponse).toContain(en.your_role);
+    });
+
+    it("should display Welsh content when language preference in session is Welsh", async () => {
+        // Given
+        session.setExtraData("lang", "cy");
+
+        getLoggedUserAcspMembershipSpy.mockReturnValue(standardUserAcspMembership);
+        // When
+        const encodedResponse = await router.get(url);
+        const decodedResponse = encodedResponse.text.replace(/&#39;/g, "'");
+        // Then
+        expect(encodedResponse.status).toEqual(200);
+        expect(decodedResponse).toContain(cy.authorised_agent_number);
+        expect(decodedResponse).toContain(cy.authorised_agent_services);
+        expect(decodedResponse).toContain(cy.authorised_agent_status);
+        expect(decodedResponse).toContain(cy.coming_soon);
+        expect(decodedResponse).toContain(cy.file_as_an_authorised_agent);
+        expect(decodedResponse).toContain(cy.in_the_future);
+        expect(decodedResponse).toContain(cy.in_the_future_you_can_use_this_service);
+        expect(decodedResponse).toContain(cy.view_users);
+        expect(decodedResponse).toContain(cy.view_users_who_have_been_added_to);
+        expect(decodedResponse).toContain(cy.page_header);
+        expect(decodedResponse).toContain(cy.tell_companies_house_id);
+        expect(decodedResponse).toContain(cy.you_will_need_to_use);
+        expect(decodedResponse).toContain(cy.your_role);
     });
 });
