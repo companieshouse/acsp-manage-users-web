@@ -3,8 +3,8 @@ import { PageItem, PaginationData } from "../../types/pagination";
 import { UserRole } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
 import * as constants from "../constants";
 
-export const stringToPositiveInteger = (page: string): number => {
-    return isNaN(parseInt(page)) || parseInt(page) < 1 ? 1 : parseInt(page);
+export const stringToPositiveInteger = (pageNumber: string): number => {
+    return isNaN(parseInt(pageNumber)) || parseInt(pageNumber) < 1 ? 1 : parseInt(pageNumber);
 };
 
 export const buildPaginationElement = (
