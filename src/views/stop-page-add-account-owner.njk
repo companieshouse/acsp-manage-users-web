@@ -1,12 +1,17 @@
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
 {% from "govuk/components/tag/macro.njk" import govukTag %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
 
 {% extends "layouts/default.njk" %}
 
+{% block back_link %}
+    {% include "partials/back_link.njk" %}
+{% endblock %}
+
 {% block main_content %}
     <div class="govuk-grid-column-two-thirds">
-       
+
         <h1 class="govuk-heading-l">{{lang.page_header}}</h1>
         <p class="govuk-body">
             {{lang.p1}}
@@ -14,6 +19,30 @@
         <p class="govuk-body">
             {{lang.you_need_to_add}}{{companyName}}{{lang.before_you_remove}}
         </p>
+
+        <details class="govuk-details">
+            <summary class="govuk-details__summary">
+                <span class="govuk-details__summary-text">
+                    {{lang.why_authorised_agents_must}}
+                </span>
+            </summary>
+            <div class="govuk-details__text">
+                <p class="govuk-body">{{ lang.details.p1 }}</p>
+                <p class="govuk-body">{{ lang.details.p2 }}</p>
+                <p class="govuk-body">{{ lang.details.p3_start }}
+                <a class="govuk-link" href="/authorised-agent/guidance-for-authorised-agents-placeholder">
+                {{ lang.details.p3_link_text }}
+                </a>
+                {{ lang.details.p3_end }}
+                </p>
+            </div>
+        </details>
+
+        {{ govukButton({
+            text: lang.add_acc_owner_btn,
+            href: buttonHref,
+            classes: 'govuk-!-margin-top-3'
+        }) }}
 
         <p class="govuk-body">
             <a class="govuk-link" href="{{linkHref}}">{{lang.manage_users_for}}{{companyName}}</a>
