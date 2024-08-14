@@ -10,7 +10,7 @@
 {% endblock %}
 
 {% block main_content %}
-    <span class="govuk-caption-l">{{companyName}} &#40;{{companyNumber}}&#41;</span>
+    <span class="govuk-caption-l">{{companyName}}</span>
 
     {% if loggedInUserRole === UserRole.STANDARD %}
         <h1 class="govuk-heading-l">{{ lang.page_header_standard }}</h1>
