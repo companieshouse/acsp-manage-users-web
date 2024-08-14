@@ -16,7 +16,7 @@ describe("GET /dummy", () => {
         await router.get(url);
         expect(mocks.mockSessionMiddleware).not.toHaveBeenCalled();
         expect(mocks.mockAuthenticationMiddleware).not.toHaveBeenCalled();
-        expect(mocks.mockLoggedUserAcspMembershipMiddleware).toHaveBeenCalled();
+        expect(mocks.mockLoggedUserAcspMembershipMiddleware).not.toHaveBeenCalled();
     });
 
     it("should return status 404", async () => {
