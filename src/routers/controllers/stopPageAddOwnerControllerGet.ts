@@ -14,11 +14,12 @@ export const stopPageAddOwnerControllerGet: RequestHandler = async (req: Request
         logger.error(`${stopPageAddOwnerControllerGet.name}: DETAILS_OF_USER_TO_REMOVE not found in session`);
         throw Error("DETAILS_OF_USER_TO_REMOVE not found in session");
     }
+
     res.render(constants.STOP_PAGE_ADD_ACCOUNT_OWNER, {
         buttonHref: constants.ADD_USER_FULL_URL,
         lang: getTranslationsForView(req.t, constants.STOP_PAGE_ADD_ACCOUNT_OWNER),
         companyName: loggedUserAcspMembership.acspName,
         linkHref: constants.MANAGE_USER_FULL_URL,
-        backLinkUrl: constants.REMOVE_MEMBER_CHECK_DETAILS_FULL_URL.replace(":id", userToRemove.id)
+        backLinkUrl: constants.getRemoveMemberCheckDetailsFullUrl(userToRemove.id)
     });
 };

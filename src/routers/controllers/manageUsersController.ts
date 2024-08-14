@@ -128,7 +128,7 @@ const getUserTableData = (membership: AcspMembership[], translations: AnyRecord,
             { text: member.userDisplayName }
         ];
         if (hasRemoveLink) {
-            tableEntry[2] = { html: getLink(constants.REMOVE_MEMBER_CHECK_DETAILS_FULL_URL.replace(":id", member.id), `${translations.remove as string} ${getHiddenText(member.userEmail)}`) };
+            tableEntry[2] = { html: getLink(constants.getRemoveMemberCheckDetailsFullUrl(member.id), `${translations.remove as string} ${getHiddenText(member.userEmail)}`) };
         }
         userTableDate.push(tableEntry);
     }
