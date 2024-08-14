@@ -54,8 +54,7 @@ describe("POST /authorised-agent/try-adding-user", () => {
         const response = await router.post(url);
 
         expect(response.status).toBe(200);
-        expect(response.text).toContain("There is a problem");
-        expect(response.text).toContain("We were unable to add the user to the ACSP at this time.");
+        expect(response.text).toContain("You cannot add this user");
     });
 
     it("should log an error when new user details are not found in session", async () => {
@@ -77,8 +76,7 @@ describe("POST /authorised-agent/try-adding-user", () => {
         const response = await router.post(url);
 
         expect(response.status).toBe(200);
-        expect(response.text).toContain("There is a problem");
-        expect(response.text).toContain("We were unable to add the user to the ACSP at this time.");
+        expect(response.text).toContain("You cannot add this user");
     });
 
     it("should render stop screen when createAcspMembership throws an error", async () => {
@@ -91,8 +89,7 @@ describe("POST /authorised-agent/try-adding-user", () => {
         const response = await router.post(url);
 
         expect(response.status).toBe(200);
-        expect(response.text).toContain("There is a problem");
-        expect(response.text).toContain("We were unable to add the user to the ACSP at this time.");
+        expect(response.text).toContain("You cannot add this user");
     });
 
     it("should handle adding Woody as a new user", async () => {
