@@ -32,6 +32,10 @@ $govuk-font-url-function: 'custom-url-handler';
         margin-right: 0;
         margin-bottom: 10px;
     }
+
+    .mobile-view-max-width-unset {
+        max-width: unset !important;
+    }
 }
 
 /* styling from https://github.com/companieshouse/find-update-company-info-prototype/blob/main/app/assets/sass/custom.scss */
