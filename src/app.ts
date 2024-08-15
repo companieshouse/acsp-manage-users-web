@@ -55,7 +55,6 @@ app.use(cookieParser());
 
 app.use(`${constants.LANDING_URL}*`, sessionMiddleware);
 app.use(`${constants.LANDING_URL}*`, authenticationMiddleware);
-app.use(`${constants.LANDING_URL}*`, loggedUserAcspMembershipMiddleware);
 
 // Add i18next middleware
 enableI18next(app);
@@ -64,6 +63,8 @@ app.use((req: Request, res: Response, next: NextFunction) => {
     njk.addGlobal("feedbackSource", req.originalUrl);
     next();
 });
+
+app.use(`${constants.LANDING_URL}*`, loggedUserAcspMembershipMiddleware);
 
 // Channel all requests through router dispatch
 routerDispatch(app);
