@@ -3,9 +3,10 @@ import { getLoggedUserAcspMembership, setExtraData } from "../lib/utils/sessionU
 import { getMembershipForLoggedInUser } from "../services/acspMemberService";
 import { AcspMembership } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
 import * as constants from "../lib/constants";
+import { isWhitelistedUrl } from "../lib/utils/urlUtils";
 
 export const loggedUserAcspMembershipMiddleware = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    if (constants.isWhitelistedUrl(req.originalUrl)) {
+    if (isWhitelistedUrl(req.originalUrl)) {
         return next();
     }
     const acspMembershipInSession: AcspMembership = getLoggedUserAcspMembership(req.session);
