@@ -27,9 +27,6 @@
 
         <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
     {% endif %}
-
-    {% set formClasses = "govuk-form-group govuk-form-group--error" if message else "govuk-form-group" %}
-    {% set inputClasses = "govuk-input govuk-input--error govuk-input--width-10 govuk-!-margin-right-1" if message else "govuk-input govuk-input--width-10 govuk-!-margin-right-1" %}
     {% set message = null %}
 
     {% for key, value in errors %}
@@ -37,6 +34,9 @@
             {% set message = lang[value.text] %}
         {% endif %}
     {% endfor %}
+
+    {% set formClasses = "govuk-form-group govuk-form-group--error" if message else "govuk-form-group" %}
+    {% set inputClasses = "govuk-input govuk-input--error govuk-input--width-10 govuk-!-margin-right-1" if message else "govuk-input govuk-input--width-10 govuk-!-margin-right-1" %}
 
     <form method="post">
         <div class="{{formClasses}}">
