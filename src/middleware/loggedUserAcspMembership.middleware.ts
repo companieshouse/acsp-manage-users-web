@@ -5,6 +5,9 @@ import { AcspMembership } from "private-api-sdk-node/dist/services/acsp-manage-u
 import * as constants from "../lib/constants";
 
 export const loggedUserAcspMembershipMiddleware = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    if (constants.isWhitelistedUrl(req.originalUrl)) {
+        return next();
+    }
     const acspMembershipInSession: AcspMembership = getLoggedUserAcspMembership(req.session);
     if (!acspMembershipInSession) {
         const membership = (await getMembershipForLoggedInUser(req)).items[0];

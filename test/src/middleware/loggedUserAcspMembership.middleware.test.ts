@@ -20,7 +20,10 @@ describe("loggedUserAcspMembershipMiddleware", () => {
     beforeEach(() => {
         jest.clearAllMocks();
         session = new Session();
-        req = { session } as Request;
+        req = {
+            session,
+            originalUrl: ""
+        } as Request;
     });
 
     it("should call getMembershipForLoggedInUser function and set extra data if logged user ACSP membership not in the session", async () => {
@@ -45,6 +48,18 @@ describe("loggedUserAcspMembershipMiddleware", () => {
         await loggedUserAcspMembershipMiddleware(req, res, next);
         // Then
         expect(getLoggedUserAcspMembershipSpy).toHaveBeenCalledWith(req.session);
+        expect(getMembershipForLoggedInUserSpy).not.toHaveBeenCalled();
+        expect(setExtraDataSpy).not.toHaveBeenCalled();
+        expect(next).toHaveBeenCalled();
+    });
+
+    it("should call next when request is for /authorised-agent/healthcheck", async () => {
+        // Given
+        req.originalUrl = "/authorised-agent/healthcheck";
+        // When
+        await loggedUserAcspMembershipMiddleware(req, res, next);
+        // Then
+        expect(getLoggedUserAcspMembershipSpy).not.toHaveBeenCalled();
         expect(getMembershipForLoggedInUserSpy).not.toHaveBeenCalled();
         expect(setExtraDataSpy).not.toHaveBeenCalled();
         expect(next).toHaveBeenCalled();
