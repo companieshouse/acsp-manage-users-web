@@ -46,7 +46,7 @@ export const getViewData = async (req: Request): Promise<AnyRecord> => {
         acspName
     } = loggedUserAcspMembership;
 
-    const title = getTitle(translations, userRole, !errorMessage);
+    const title = getTitle(translations, userRole, !!errorMessage);
 
     const viewData: AnyRecord = {
         title: title,
