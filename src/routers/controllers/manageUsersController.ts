@@ -24,10 +24,10 @@ export const manageUsersControllerPost = async (req: Request, res: Response): Pr
     res.redirect(sanitizedUrl);
 };
 
-export const getTitle = (translations: AnyRecord, loggedInUserRole: UserRole): string => {
+export const getTitle = (translations: AnyRecord, loggedInUserRole: UserRole, isError: boolean): string => {
     const baseTitle = loggedInUserRole === UserRole.STANDARD ? translations.page_header_standard : translations.page_header;
     const titleEnd = translations.title_end;
-    return `${baseTitle}${titleEnd}`;
+    return isError ? `${translations.title_error}${baseTitle}${titleEnd}` : `${baseTitle}${titleEnd}`;
 };
 
 export const getViewData = async (req: Request): Promise<AnyRecord> => {
@@ -46,7 +46,7 @@ export const getViewData = async (req: Request): Promise<AnyRecord> => {
         acspName
     } = loggedUserAcspMembership;
 
-    const title = getTitle(translations, userRole);
+    const title = getTitle(translations, userRole, !!errorMessage);
 
     const viewData: AnyRecord = {
         title: title,
