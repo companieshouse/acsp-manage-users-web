@@ -60,7 +60,8 @@ export const getViewData = async (req: Request): Promise<AnyRecord> => {
         cancelSearchHref: userRole === UserRole.STANDARD ? constants.VIEW_USERS_FULL_URL : constants.MANAGE_USER_FULL_URL,
         accountOwnersTabId: constants.ACCOUNT_OWNERS_ID,
         administratorsTabId: constants.ADMINISTRATORS_ID,
-        standardUsersTabId: constants.STANDARD_USERS_ID
+        standardUsersTabId: constants.STANDARD_USERS_ID,
+        templateName: constants.MANAGE_USERS_PAGE
     };
 
     if (errorMessage) {

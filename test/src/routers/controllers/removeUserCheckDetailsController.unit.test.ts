@@ -49,7 +49,8 @@ describe("removeUserCheckDetailsControllerGet", () => {
                 removingThemselves: false,
                 tryRemovingUserUrl: "/authorised-agent/try-removing-user",
                 userDetails: "James Morris",
-                displayNameInFirstParagraph: "James Morris (james.morris@gmail.com)"
+                displayNameInFirstParagraph: "James Morris (james.morris@gmail.com)",
+                templateName: constants.REMOVE_MEMBER_PAGE
             });
     });
 
@@ -140,7 +141,8 @@ describe("removeUserCheckDetailsControllerGet", () => {
                 removingThemselves: true,
                 tryRemovingUserUrl: "/authorised-agent/try-removing-user",
                 userDetails: loggedInUserMembership.displayNameOrEmail,
-                displayNameInFirstParagraph: "Jeremy Lloris (jeremy.lloris@gmail.com)"
+                displayNameInFirstParagraph: "Jeremy Lloris (jeremy.lloris@gmail.com)",
+                templateName: constants.REMOVE_MEMBER_PAGE
             });
     });
 });

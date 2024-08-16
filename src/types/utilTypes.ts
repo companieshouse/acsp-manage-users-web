@@ -13,5 +13,6 @@ export type ViewData = {
     backLinkUrl?: string;
     email?: string;
     userRole?: string;
-    loggedInUserRole?: UserRole
+    loggedInUserRole?: UserRole,
+    templateName: string
 };

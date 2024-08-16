@@ -80,6 +80,8 @@ export const INTERNAL_API_URL = getEnvironmentValue("INTERNAL_API_URL");
 export const ACCOUNTS_USER_INTERNAL_API_KEY = getEnvironmentValue("ACCOUNTS_USER_INTERNAL_API_KEY");
 export const ACCOUNT_URL = getEnvironmentValue("ACCOUNT_URL");
 
+export const SERVICE_NAME = "ACSP Manage Users Web";
+
 // errors
 export const VALIDATION_ERRORS = "VALIDATION_ERRORS";
 export const MEMBER_ALREADY_ADDED_ERROR = "Member already added";
