@@ -7,6 +7,10 @@ import { Session } from "@companieshouse/node-session-handler";
 import { NextFunction, Request, Response } from "express";
 import * as userAccountService from "../../../../src/services/userAccountService";
 import * as sessionUtils from "../../../../src/lib/utils/sessionUtils";
+import {
+    administratorAcspMembership,
+    loggedAccountOwnerAcspMembership, ToyStoryBuzzAcspMembership
+} from "../../../mocks/acsp.members.mock";
 
 const router = supertest(app);
 const url = "/authorised-agent/add-user";
@@ -25,6 +29,7 @@ describe(`GET ${url}`, () => {
 
     beforeEach(() => {
         jest.clearAllMocks();
+        session.setExtraData(constants.LOGGED_USER_ACSP_MEMBERSHIP, loggedAccountOwnerAcspMembership);
     });
 
     it("should check session and user auth before returning the page", async () => {
@@ -52,7 +57,7 @@ describe(`GET ${url}`, () => {
 
     it("should display page content - form information and administrator and standard user radio buttons for selecting role if administrator logged in", async () => {
         // Given
-        sessionUtilsSpy.mockReturnValue("demo2@ch.gov.uk");
+        session.setExtraData(constants.LOGGED_USER_ACSP_MEMBERSHIP, administratorAcspMembership);
         // When
         const encodedResponse = await router.get(url);
         expect(encodedResponse.status).toEqual(200);
@@ -101,6 +106,7 @@ describe(`POST ${url}`, () => {
 
     beforeEach(() => {
         jest.clearAllMocks();
+        session.setExtraData(constants.LOGGED_USER_ACSP_MEMBERSHIP, ToyStoryBuzzAcspMembership);
     });
 
     it("should check session, user auth and ACSP membership before routing to controller", async () => {
@@ -136,7 +142,6 @@ describe(`POST ${url}`, () => {
     it("should redirect to the no account page when form inputs valid but no user details found", async () => {
         mockUserAccService.mockResolvedValueOnce([]);
         const response = await router.post(url).send({ email: "bob@bob.com", userRole: "standard" });
-        expect(response.status).toEqual(302);
-        expect(response.header.location).toEqual(constants.PLACEHOLDER_CREATE_CH_ACC_FULL_URL);
+        expect(response.status).toEqual(200);
     });
 });

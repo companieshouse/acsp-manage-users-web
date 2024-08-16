@@ -9,13 +9,14 @@ import { NewUserDetails } from "../../../../src/types/user";
 import { NextFunction, Request, Response } from "express";
 import { Session } from "@companieshouse/node-session-handler";
 import { UserRole } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
+import { loggedAccountOwnerAcspMembership } from "../../../mocks/acsp.members.mock";
 
 const router = supertest(app);
 
 const session: Session = new Session();
 
 const url = "/authorised-agent/confirmation-member-added";
-const companyName = "MORRIS ACCOUNTING LTD";
+const companyName = loggedAccountOwnerAcspMembership.acspName;
 
 const userRole: UserRole = UserRole.STANDARD;
 const userDetails: NewUserDetails = { userRole: userRole, userId: "12345", isValid: true, email: "test@example.com" };
@@ -30,6 +31,7 @@ describe("GET /authorised-agent/confirmation-member-added", () => {
 
     beforeEach(() => {
         jest.clearAllMocks();
+        session.setExtraData(constants.LOGGED_USER_ACSP_MEMBERSHIP, loggedAccountOwnerAcspMembership);
     });
 
     it("should check session, user auth and ACSP membership before returning the page", async () => {
