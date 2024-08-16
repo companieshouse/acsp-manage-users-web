@@ -65,7 +65,7 @@ export const getViewData = async (req: Request): Promise<AnyRecord> => {
         companyName: acspName,
         companyNumber: acspNumber,
         loggedInUserRole: userRole,
-        cancelSearchHref: getHancelSearchHref(userRole),
+        cancelSearchHref: getCancelSearchHref(userRole),
         accountOwnersTabId: constants.ACCOUNT_OWNERS_ID,
         administratorsTabId: constants.ADMINISTRATORS_ID,
         standardUsersTabId: constants.STANDARD_USERS_ID,
@@ -144,7 +144,7 @@ export const getViewData = async (req: Request): Promise<AnyRecord> => {
 
 const getActiveTabId = (req: Request): string => validateActiveTabId(req.query?.activeTabId as string) ? req.query.activeTabId as string : constants.ACCOUNT_OWNERS_TAB_ID;
 
-const getHancelSearchHref = (userRole: UserRole): string => userRole === UserRole.STANDARD ? constants.VIEW_USERS_FULL_URL : constants.MANAGE_USERS_FULL_URL;
+const getCancelSearchHref = (userRole: UserRole): string => userRole === UserRole.STANDARD ? constants.VIEW_USERS_FULL_URL : constants.MANAGE_USERS_FULL_URL;
 
 const getDisplayNameOrEmail = (member: AcspMembership): string => !member.userDisplayName || member.userDisplayName === constants.NOT_PROVIDED ? member.userEmail : member.userDisplayName;
 
