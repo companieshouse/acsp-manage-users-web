@@ -61,10 +61,14 @@ describe("buildPaginationElement", () => {
 
     it.each([
         // Given
-        [0, getPageNumbers(1, 1, 1), UserRole.OWNER],
-        [1, getPageNumbers(1, 1, 1), UserRole.OWNER]
-    ])("should return empty pagination data if the number of pages is %s",
-        (numberOfPages, pageNumbers, userRole) => {
+        [0, UserRole.OWNER, getPageNumbers(1, 1, 1)],
+        [1, UserRole.OWNER, getPageNumbers(1, 1, 1)],
+        [0, UserRole.ADMIN, getPageNumbers(1, 1, 1)],
+        [1, UserRole.ADMIN, getPageNumbers(1, 1, 1)],
+        [0, UserRole.STANDARD, getPageNumbers(1, 1, 1)],
+        [1, UserRole.STANDARD, getPageNumbers(1, 1, 1)]
+    ])("should return empty pagination data if the number of pages is %s for user with role %s",
+        (numberOfPages, userRole, pageNumbers) => {
             const expectedPagination: PaginationData = { items: [] };
             // When
             const result = buildPaginationElement(pageNumbers, userRole, numberOfPages, "", "");
@@ -72,14 +76,49 @@ describe("buildPaginationElement", () => {
             expect(result).toEqual(expectedPagination);
         });
 
-    it("should return empty pagination data if the page number for the user is less than 1", () => {
-        const pageNumbers = getPageNumbers(1, 1, 0);
-        const userRole = UserRole.STANDARD;
-        const numberOfPages = 5;
-        const expectedPagination: PaginationData = { items: [] };
-        // When
-        const result = buildPaginationElement(pageNumbers, userRole, numberOfPages, "", "");
-        // Then
-        expect(result).toEqual(expectedPagination);
-    });
+    it.each([
+        // Given
+        [0, UserRole.OWNER, getPageNumbers(0, 1, 1)],
+        [-1, UserRole.OWNER, getPageNumbers(-1, 1, 1)],
+        [0, UserRole.ADMIN, getPageNumbers(1, 0, 1)],
+        [-1, UserRole.ADMIN, getPageNumbers(1, -1, 1)],
+        [0, UserRole.STANDARD, getPageNumbers(1, 1, 0)],
+        [-1, UserRole.STANDARD, getPageNumbers(1, 1, -1)]
+    ])("should return empty pagination data if the page number is %s for the user with role %s",
+        (_pageNumber, userRole, pageNumbers) => {
+            const numberOfPages = 5;
+            const expectedPagination: PaginationData = { items: [] };
+            // When
+            const result = buildPaginationElement(pageNumbers, userRole, numberOfPages, "", "");
+            // Then
+            expect(result).toEqual(expectedPagination);
+        });
+
+    it.each([
+        // Given
+        [5, 5, UserRole.OWNER, getPageNumbers(5, 1, 1), 1],
+        [5, 6, UserRole.OWNER, getPageNumbers(5, 1, 1), 1],
+        [6, 6, UserRole.OWNER, getPageNumbers(6, 1, 1), 1],
+        [1, 5, UserRole.OWNER, getPageNumbers(1, 1, 1), 2],
+        [11, 60, UserRole.OWNER, getPageNumbers(11, 1, 1), 1],
+        [11, 60, UserRole.OWNER, getPageNumbers(11, 1, 1), 5],
+        [5, 5, UserRole.ADMIN, getPageNumbers(1, 5, 1), 1],
+        [5, 6, UserRole.ADMIN, getPageNumbers(1, 5, 1), 1],
+        [6, 6, UserRole.ADMIN, getPageNumbers(1, 6, 1), 1],
+        [1, 5, UserRole.ADMIN, getPageNumbers(1, 1, 1), 2],
+        [11, 50, UserRole.ADMIN, getPageNumbers(1, 11, 1), 1],
+        [11, 50, UserRole.ADMIN, getPageNumbers(1, 11, 1), 5],
+        [5, 5, UserRole.STANDARD, getPageNumbers(1, 1, 5), 1],
+        [5, 6, UserRole.STANDARD, getPageNumbers(1, 1, 5), 1],
+        [1, 5, UserRole.STANDARD, getPageNumbers(1, 1, 1), 2],
+        [14, 45, UserRole.STANDARD, getPageNumbers(1, 1, 14), 1],
+        [14, 45, UserRole.STANDARD, getPageNumbers(1, 1, 14), 5]
+    ])("should return pagination data containing ellipsis if the page number is %s and the number of pages is %s for the user with role %s",
+        (_pageNumber, numberOfPages, userRole, pageNumbers, elipsisIndex) => {
+            // When
+            const result = buildPaginationElement(pageNumbers, userRole, numberOfPages, "", "");
+            // Then
+            expect(result.items.length).not.toEqual(0);
+            expect(result.items[elipsisIndex].ellipsis).toBeTruthy();
+        });
 });
