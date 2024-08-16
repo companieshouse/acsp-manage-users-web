@@ -27,9 +27,6 @@
 
         <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
     {% endif %}
-
-    {% set formClasses = "govuk-form-group govuk-form-group--error" if message else "govuk-form-group" %}
-    {% set inputClasses = "govuk-input govuk-input--error govuk-input--width-10 govuk-!-margin-right-1" if message else "govuk-input govuk-input--width-10 govuk-!-margin-right-1" %}
     {% set message = null %}
 
     {% for key, value in errors %}
@@ -38,13 +35,16 @@
         {% endif %}
     {% endfor %}
 
+    {% set formClasses = "govuk-form-group govuk-form-group--error" if message else "govuk-form-group" %}
+    {% set inputClasses = "govuk-input govuk-input--error govuk-input--width-10 govuk-!-margin-right-1" if message else "govuk-input govuk-input--width-10 govuk-!-margin-right-1" %}
+
     <form method="post">
         <div class="{{formClasses}}">
             <label class="govuk-label govuk-label--m" for="search">
-                {{lang.search_for_a_company}}
+                {{lang.search_for_a_user}}
             </label>
             <div id="event-name-hint" class="govuk-hint">
-                {{lang.enter_company_num}}
+                {{lang.enter_the_users_full_email_address}}
             </div>
             {% if message %}
                 {{ govukErrorMessage({
@@ -54,9 +54,9 @@
             {% endif %}
             <div id="search-input-group">
                 <input class="{{inputClasses}}" id="search" name="search" type="text" aria-describedby="event-name-hint" value="{{search}}">
-                <button type="submit" class="govuk-button govuk-button--secondary" role="button" data-module="govuk-button" aria-label="{{lang.search}}" data-event-id="your-companies-search-for-company-button" id="your-companies-search-for-company-button">{{lang.search}}
+                <button type="submit" class="govuk-button govuk-button--secondary" role="button" data-module="govuk-button" aria-label="{{lang.search}}">{{lang.search}}
                 </button>
-                <a class="govuk-link govuk-link--no-visited-state govuk-!-font-size-19  govuk-!-margin-left-2" href="{{cancelSearchHref}}" id="your-companies-cancel-search-link" data-event-id="your-companies-cancel-search-link">{{lang.cancel_search}}</a>
+                <a class="govuk-link govuk-link--no-visited-state govuk-!-font-size-19  govuk-!-margin-left-2" href="{{cancelSearchHref}}" id="acsp-manage-users-cancel-search-link">{{lang.cancel_search}}</a>
             </div>
         </div>
     </form>

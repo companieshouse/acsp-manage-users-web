@@ -7,6 +7,7 @@ $govuk-global-styles: true;
 $govuk-font-url-function: 'custom-url-handler';
 
 @import "node_modules/govuk-frontend/dist/govuk/all";
+@import "./govuk-language-select";
 
 * {
     font-family: "GDS Transport", Arial, sans-serif;
@@ -14,6 +15,28 @@ $govuk-font-url-function: 'custom-url-handler';
 
 #footer ul li {
     margin-bottom: 10px;
+}
+
+@media (max-width: 640px) {
+    #search-input-group > * {
+        display: flex;
+        justify-content: center;
+    }
+
+    #acsp-manage-users-cancel-search-link {
+        margin-top: 20px;
+        margin-left: 0;
+    }
+    
+    #search {
+        max-width: unset;
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+
+    .mobile-view-max-width-unset {
+        max-width: unset !important;
+    }
 }
 
 /* styling from https://github.com/companieshouse/find-update-company-info-prototype/blob/main/app/assets/sass/custom.scss */

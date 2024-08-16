@@ -1,5 +1,5 @@
 import "express-async-errors";
-import express, { Request, Response, NextFunction } from "express";
+import express, { NextFunction, Request, Response } from "express";
 import nunjucks from "nunjucks";
 import path from "path";
 import logger from "./lib/Logger";
@@ -13,6 +13,8 @@ import { getTranslationsForView } from "./lib/utils/translationUtils";
 import { httpErrorHandler } from "./routers/controllers/httpErrorController";
 import { UserRole } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
 import { loggedUserAcspMembershipMiddleware } from "./middleware/loggedUserAcspMembership.middleware";
+import * as url from "node:url";
+import { LANGUAGE_CONFIG } from "./types/language";
 
 const app = express();
 
@@ -63,7 +65,17 @@ app.use(`${constants.LANDING_URL}*`, authenticationMiddleware);
 enableI18next(app);
 
 app.use((req: Request, res: Response, next: NextFunction) => {
-    njk.addGlobal("feedbackSource", req.originalUrl);
+    res.locals.locale = req.language as string || LANGUAGE_CONFIG.defaultLanguage;
+    res.locals.languageConfig = LANGUAGE_CONFIG;
+    res.locals.feedbackSource = req.originalUrl;
+    res.locals.addLangToUrl = (lang: string): string => {
+        const parsedUrl = url.parse(req.originalUrl, true);
+        parsedUrl.query.lang = lang;
+        return url.format({
+            pathname: parsedUrl.pathname,
+            query: parsedUrl.query
+        });
+    };
     next();
 });
 
