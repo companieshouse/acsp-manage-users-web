@@ -11,7 +11,7 @@ import { getAcspMemberships, membershipLookup } from "../../services/acspMemberS
 import { sanitizeUrl } from "@braintree/sanitize-url";
 import { validateEmailString } from "../../lib/validation/email.validation";
 import logger from "../../lib/Logger";
-import { buildPaginationElement, getCurrentPageNumber, stringToPositiveInteger } from "../../lib/helpers/buildPaginationHelper";
+import { buildPaginationElement, getCurrentPageNumber, setLangForPagination, stringToPositiveInteger } from "../../lib/helpers/buildPaginationHelper";
 import { validatePageNumber } from "../../lib/validation/page.number.validation";
 import { validateActiveTabId } from "../../lib/validation/string.validation";
 
@@ -100,15 +100,15 @@ export const getViewData = async (req: Request): Promise<AnyRecord> => {
         }
         viewData.search = search;
     } else {
-        const ownerMemberRawViewData = await getMemberRawViewData(req, acspNumber, pageNumbers, UserRole.OWNER, constants.ACCOUNT_OWNERS_TAB_ID);
+        const ownerMemberRawViewData = await getMemberRawViewData(req, acspNumber, pageNumbers, UserRole.OWNER, constants.ACCOUNT_OWNERS_TAB_ID, translations);
         ownerMembers = ownerMemberRawViewData.memberships;
         viewData.accoutOwnerPadinationData = ownerMemberRawViewData.pagination;
 
-        const adminMemberRawViewData = await getMemberRawViewData(req, acspNumber, pageNumbers, UserRole.ADMIN, constants.ADMINISTRATORS_TAB_ID);
+        const adminMemberRawViewData = await getMemberRawViewData(req, acspNumber, pageNumbers, UserRole.ADMIN, constants.ADMINISTRATORS_TAB_ID, translations);
         adminMembers = adminMemberRawViewData.memberships;
         viewData.adminPadinationData = adminMemberRawViewData.pagination;
 
-        const standardMemberRawViewData = await getMemberRawViewData(req, acspNumber, pageNumbers, UserRole.STANDARD, constants.STANDARD_USERS_TAB_ID);
+        const standardMemberRawViewData = await getMemberRawViewData(req, acspNumber, pageNumbers, UserRole.STANDARD, constants.STANDARD_USERS_TAB_ID, translations);
         standardMembers = standardMemberRawViewData.memberships;
         viewData.standardUserPadinationData = standardMemberRawViewData.pagination;
 
@@ -178,7 +178,7 @@ function setTabIds (viewData: AnyRecord, userRole: UserRole) {
     }
 }
 
-async function getMemberRawViewData (req: Request, acspNumber: string, pageNumbers: PageNumbers, userRole: UserRole, activeTabId: string): Promise<MemberRawViewData> {
+async function getMemberRawViewData (req: Request, acspNumber: string, pageNumbers: PageNumbers, userRole: UserRole, activeTabId: string, lang: AnyRecord): Promise<MemberRawViewData> {
     let pageNumber = getCurrentPageNumber(pageNumbers, userRole);
     let memberships = await getAcspMemberships(req, acspNumber, false, pageNumber - 1, constants.ITEMS_PER_PAGE_DEFAULT, [userRole]);
     if (!validatePageNumber(pageNumber, memberships.totalPages)) {
@@ -190,6 +190,7 @@ async function getMemberRawViewData (req: Request, acspNumber: string, pageNumbe
 
     if (memberships.totalPages > 1) {
         const pagination = buildPaginationElement(pageNumbers, userRole, memberships.totalPages, constants.MANAGE_USERS_FULL_URL, activeTabId);
+        setLangForPagination(pagination, lang);
         memberViewData.pagination = pagination;
     }
 

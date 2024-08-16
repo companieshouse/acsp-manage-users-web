@@ -1,4 +1,4 @@
-import { PageNumbers } from "../../types/utilTypes";
+import { AnyRecord, PageNumbers } from "../../types/utilTypes";
 import { PageItem, PaginationData } from "../../types/pagination";
 import { UserRole } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
 import * as constants from "../constants";
@@ -196,3 +196,18 @@ const getPageNumberQueryParam = (key: string, value: number, userRole: UserRole,
 };
 
 const getQueryString = (key: string, value: number): string => `${key}=${value}`;
+
+export const setLangForPagination = (pagination: PaginationData | undefined, lang: AnyRecord): void => {
+    if (pagination?.next && lang.next) {
+        pagination.next.text = lang.next.toString();
+        pagination.next.attributes = {
+            "aria-label": lang.next_page
+        };
+    }
+    if (pagination?.previous && lang.previous) {
+        pagination.previous.text = lang.previous.toString();
+        pagination.previous.attributes = {
+            "aria-label": lang.previous_page
+        };
+    }
+};
