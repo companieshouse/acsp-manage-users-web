@@ -41,7 +41,7 @@ export const getViewData = async (req: Request): Promise<AnyRecord> => {
         standardPage
     } = getPageQueryParams(req);
 
-    const activeTabId = validateActiveTabId(req.query?.activeTabId as string) ? req.query.activeTabId as string : constants.ACCOUNT_OWNERS_TAB_ID;
+    const activeTabId = getActiveTabId(req);
 
     const pageNumbers: PageNumbers = {
         ownerPage: stringToPositiveInteger(ownerPage),
@@ -65,7 +65,7 @@ export const getViewData = async (req: Request): Promise<AnyRecord> => {
         companyName: acspName,
         companyNumber: acspNumber,
         loggedInUserRole: userRole,
-        cancelSearchHref: userRole === UserRole.STANDARD ? constants.VIEW_USERS_FULL_URL : constants.MANAGE_USERS_FULL_URL,
+        cancelSearchHref: getHancelSearchHref(userRole),
         accountOwnersTabId: constants.ACCOUNT_OWNERS_ID,
         administratorsTabId: constants.ADMINISTRATORS_ID,
         standardUsersTabId: constants.STANDARD_USERS_ID,
@@ -134,12 +134,19 @@ export const getViewData = async (req: Request): Promise<AnyRecord> => {
         acspNumber: member.acspNumber,
         userRole: member.userRole,
         userDisplayName: member.userDisplayName,
-        displayNameOrEmail: !member.userDisplayName || member.userDisplayName === constants.NOT_PROVIDED ? member.userEmail : member.userDisplayName
+        displayNameOrEmail: getDisplayNameOrEmail(member)
     }));
+
     setExtraData(req.session, constants.MANAGE_USERS_MEMBERSHIP, allMembersForThisAcsp);
 
     return viewData;
 };
+
+const getActiveTabId = (req: Request): string => validateActiveTabId(req.query?.activeTabId as string) ? req.query.activeTabId as string : constants.ACCOUNT_OWNERS_TAB_ID;
+
+const getHancelSearchHref = (userRole: UserRole): string => userRole === UserRole.STANDARD ? constants.VIEW_USERS_FULL_URL : constants.MANAGE_USERS_FULL_URL;
+
+const getDisplayNameOrEmail = (member: AcspMembership): string => !member.userDisplayName || member.userDisplayName === constants.NOT_PROVIDED ? member.userEmail : member.userDisplayName;
 
 const getUserTableData = (membership: AcspMembership[], translations: AnyRecord, hasRemoveLink: boolean): TableEntry[][] => {
     const userTableDate: TableEntry[][] = [];
@@ -156,15 +163,15 @@ const getUserTableData = (membership: AcspMembership[], translations: AnyRecord,
     return userTableDate;
 };
 
-function getPageQueryParams (req: Request): PageQueryParams {
+const getPageQueryParams = (req: Request): PageQueryParams => {
     return {
         ownerPage: req.query?.ownerPage as string,
         adminPage: req.query?.adminPage as string,
         standardPage: req.query?.standardPage as string
     };
-}
+};
 
-function setTabIds (viewData: AnyRecord, userRole: UserRole) {
+const setTabIds = (viewData: AnyRecord, userRole: UserRole) => {
     switch (userRole) {
     case UserRole.OWNER:
         viewData.manageUsersTabId = constants.ACCOUNT_OWNERS_TAB_ID;
@@ -176,9 +183,9 @@ function setTabIds (viewData: AnyRecord, userRole: UserRole) {
         viewData.manageUsersTabId = constants.STANDARD_USERS_TAB_ID;
         break;
     }
-}
+};
 
-async function getMemberRawViewData (req: Request, acspNumber: string, pageNumbers: PageNumbers, userRole: UserRole, activeTabId: string, lang: AnyRecord): Promise<MemberRawViewData> {
+const getMemberRawViewData = async (req: Request, acspNumber: string, pageNumbers: PageNumbers, userRole: UserRole, activeTabId: string, lang: AnyRecord): Promise<MemberRawViewData> => {
     let pageNumber = getCurrentPageNumber(pageNumbers, userRole);
     let memberships = await getAcspMemberships(req, acspNumber, false, pageNumber - 1, constants.ITEMS_PER_PAGE_DEFAULT, [userRole]);
     if (!validatePageNumber(pageNumber, memberships.totalPages)) {
@@ -195,4 +202,4 @@ async function getMemberRawViewData (req: Request, acspNumber: string, pageNumbe
     }
 
     return memberViewData;
-}
+};
