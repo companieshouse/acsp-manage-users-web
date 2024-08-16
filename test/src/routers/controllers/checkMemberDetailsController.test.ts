@@ -7,6 +7,7 @@ import { NextFunction, Request, Response } from "express";
 import * as constants from "../../../../src/lib/constants";
 import * as en from "../../../../src/locales/en/translation/check-member-details.json";
 import { UserRoleTag } from "../../../../src/types/userRoleTag";
+import { loggedAccountOwnerAcspMembership } from "../../../mocks/acsp.members.mock";
 
 const session: Session = new Session();
 
@@ -37,6 +38,7 @@ describe("GET /authorised-agent/check-member-details", () => {
     it("should return status 200", async () => {
         // Given
         session.setExtraData(constants.DETAILS_OF_USER_TO_ADD, userAdamBrownDetails);
+        session.setExtraData(constants.LOGGED_USER_ACSP_MEMBERSHIP, loggedAccountOwnerAcspMembership);
         const expectedUserRoleTag = UserRoleTag.ADMIN;
         // When
         const response = await router.get(url);

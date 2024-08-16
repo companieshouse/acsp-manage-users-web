@@ -5,7 +5,7 @@ import { getTranslationsForView } from "../../lib/utils/translationUtils";
 import { getExtraData } from "../../lib/utils/sessionUtils";
 import { getUserRoleTag } from "../../lib/utils/viewUtils";
 import { NewUserDetails } from "../../types/user";
-import { UserRole } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
+import { AcspMembership, UserRole } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
 
 export const checkMemberDetailsControllerGet = async (req: Request, res: Response): Promise<void> => {
     const viewData = getViewData(req);
@@ -16,8 +16,9 @@ const getViewData = (req: Request): AnyRecord => {
     const translations = getTranslationsForView(req.t, constants.CHECK_MEMBER_DETAILS_PAGE);
     const newUserDetails: NewUserDetails = getExtraData(req.session, constants.DETAILS_OF_USER_TO_ADD);
     const userRoleTag = getUserRoleTag(newUserDetails.userRole as UserRole, false);
-    // Hardcoded data will be replaced once relevant API calls available
-    const companyName = "MORRIS ACCOUNTING LTD";
+
+    const loggedInUserMembership: AcspMembership = getExtraData(req.session, constants.LOGGED_USER_ACSP_MEMBERSHIP);
+    const companyName = loggedInUserMembership.acspName;
 
     return {
         lang: translations,

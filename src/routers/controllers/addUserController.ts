@@ -1,20 +1,26 @@
 import { Request, Response } from "express";
 import * as constants from "../../lib/constants";
 import { getTranslationsForView } from "../../lib/utils/translationUtils";
-import { setExtraData, getExtraData, getLoggedInUserEmail } from "../../lib/utils/sessionUtils";
+import {
+    setExtraData,
+    getExtraData,
+    getLoggedInUserEmail
+} from "../../lib/utils/sessionUtils";
 import { ViewData } from "../../types/utilTypes";
 import { clearFormSessionValues } from "../../lib/validation/clear.form.validation";
 import { validateAndSetErrors } from "../../lib/validation/add.user.validation";
 import { NewUserDetails } from "../../types/user";
 import logger from "../../lib/Logger";
 import { getUserDetails } from "../../services/userAccountService";
-import { UserRole } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
+import { AcspMembership, UserRole } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
 
 export const addUserControllerGet = async (req: Request, res: Response): Promise<void> => {
-    const loggedInUserRole = getUserRole(getLoggedInUserEmail(req.session));
+    const loggedInUserMembership: AcspMembership = getExtraData(req.session, constants.LOGGED_USER_ACSP_MEMBERSHIP);
+    const loggedInUserRole = loggedInUserMembership.userRole;
+
     const viewData: ViewData = {
         lang: getTranslationsForView(req.t, constants.ADD_USER_PAGE),
-        companyName: "MORRIS ACCOUNTING LTD",
+        companyName: loggedInUserMembership.acspName,
         backLinkUrl: constants.MANAGE_USER_FULL_URL,
         loggedInUserRole
     };
@@ -39,11 +45,12 @@ export const addUserControllerGet = async (req: Request, res: Response): Promise
 export const addUserControllerPost = async (req: Request, res: Response): Promise<void> => {
     const email = req.body.email.trim();
     const userRole = req.body.userRole;
-    const loggedInUserRole = getUserRole(getLoggedInUserEmail(req.session));
+    const acspMembership: AcspMembership = getExtraData(req.session, constants.LOGGED_USER_ACSP_MEMBERSHIP);
+    const loggedInUserRole = acspMembership.userRole;
 
     const viewData: ViewData = {
         lang: getTranslationsForView(req.t, constants.ADD_USER_PAGE),
-        companyName: "MORRIS ACCOUNTING LTD",
+        companyName: acspMembership.acspName,
         backLinkUrl: constants.MANAGE_USER_FULL_URL,
         email,
         userRole,
@@ -72,20 +79,16 @@ export const addUserControllerPost = async (req: Request, res: Response): Promis
             setExtraData(req.session, constants.DETAILS_OF_USER_TO_ADD, newUserDetails);
             return res.redirect(constants.CHECK_MEMBER_DETAILS_FULL_URL);
         } else {
-            return res.redirect(constants.PLACEHOLDER_CREATE_CH_ACC_FULL_URL);
+            const translations = getTranslationsForView(req.t, constants.TRY_ADDING_USER);
+            return res.render(constants.CANNOT_ADD_USER, {
+                serviceName: translations.service_name,
+                title: translations.cannot_add_user_title,
+                backLinkUrl: constants.ADD_USER_FULL_URL,
+                manageUsersLinkText: `${translations.manage_users_link_text} ${acspMembership.acspName}.`,
+                manageUsersLinkHref: constants.MANAGE_USER_FULL_URL,
+                lang: translations
+            });
         }
 
-    }
-};
-
-// Temporary function until relevant API available
-const getUserRole = (userEmailAddress: string): UserRole => {
-    switch (userEmailAddress) {
-    case "demo@ch.gov.uk":
-        return UserRole.OWNER;
-    case "demo2@ch.gov.uk":
-        return UserRole.ADMIN;
-    default:
-        return UserRole.STANDARD;
     }
 };

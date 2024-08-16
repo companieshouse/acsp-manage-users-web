@@ -11,7 +11,7 @@ import {
     UserRole
 } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
 import {
-    createAcspMembershipMock,
+    createAcspMembershipMock, loggedAccountOwnerAcspMembership,
     ToyStoryBuzzAcspMembership,
     ToyStoryWoodyAcspMembership
 } from "../../../mocks/acsp.members.mock";
@@ -34,7 +34,6 @@ const url = "/authorised-agent/try-adding-user";
 describe("POST /authorised-agent/try-adding-user", () => {
     beforeEach(() => {
         jest.clearAllMocks();
-        (acspMemberService.getMembershipForLoggedInUser as jest.Mock).mockResolvedValue({ items: [ToyStoryBuzzAcspMembership] });
         (userAccountService.getUserDetails as jest.Mock).mockResolvedValue([buzzUser]);
         (acspMemberService.createAcspMembership as jest.Mock).mockResolvedValue(
             createAcspMembershipMock(
@@ -46,10 +45,11 @@ describe("POST /authorised-agent/try-adding-user", () => {
                 MembershipStatus.ACTIVE
             )
         );
+        session.setExtraData(constants.LOGGED_USER_ACSP_MEMBERSHIP, ToyStoryBuzzAcspMembership);
     });
 
     it("should render stop screen when ACSP number is not found", async () => {
-        (acspMemberService.getMembershipForLoggedInUser as jest.Mock).mockResolvedValue({ items: [] });
+        session.setExtraData(constants.LOGGED_USER_ACSP_MEMBERSHIP, undefined);
 
         const response = await router.post(url);
 
