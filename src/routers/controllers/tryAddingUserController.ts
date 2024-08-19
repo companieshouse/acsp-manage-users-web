@@ -1,10 +1,13 @@
 import { Request, Response } from "express";
 import * as constants from "../../lib/constants";
 import logger from "../../lib/Logger";
-import { AcspMembers, UserRole } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
+import {
+    AcspMembership,
+    UserRole
+} from "private-api-sdk-node/dist/services/acsp-manage-users/types";
 import { NewUserDetails } from "../../types/user";
 import { getExtraData } from "../../lib/utils/sessionUtils";
-import { createAcspMembership, getMembershipForLoggedInUser } from "../../services/acspMemberService";
+import { createAcspMembership } from "../../services/acspMemberService";
 import { getUserDetails } from "../../services/userAccountService";
 import { getTranslationsForView } from "../../lib/utils/translationUtils";
 import { AnyRecord } from "../../types/utilTypes";
@@ -15,11 +18,11 @@ export const tryAddingUserControllerPost = async (req: Request, res: Response): 
 
     const newUserDetails: NewUserDetails | undefined = getExtraData(req.session, constants.DETAILS_OF_USER_TO_ADD);
 
-    const loggedInUserMembership: AcspMembers = await getMembershipForLoggedInUser(req);
-    const { acspNumber, acspName } = loggedInUserMembership.items[0] ?? {};
+    const loggedInUserMembership: AcspMembership = getExtraData(req.session, constants.LOGGED_USER_ACSP_MEMBERSHIP);
+    const { acspNumber, acspName } = loggedInUserMembership ?? {};
     if (!acspNumber || !acspName) {
         logger.error(`${tryAddingUserControllerPost.name}: Unable to retrieve ACSP number or name for the logged-in user`);
-        _renderStopScreen(res, translations, acspName, constants.CHECK_MEMBER_DETAILS_FULL_URL);
+        _renderStopScreen(res, translations, acspName);
         return;
     }
 
@@ -31,7 +34,7 @@ export const tryAddingUserControllerPost = async (req: Request, res: Response): 
     const userBeingAdded: User[] = await getUserDetails(newUserDetails.email);
     if (!userBeingAdded || userBeingAdded.length === 0) {
         logger.error(`${tryAddingUserControllerPost.name}: User not found. Email: ${newUserDetails.email}`);
-        _renderStopScreen(res, translations, acspName, constants.CHECK_MEMBER_DETAILS_FULL_URL);
+        _renderStopScreen(res, translations, acspName);
         return;
     }
 
@@ -42,16 +45,16 @@ export const tryAddingUserControllerPost = async (req: Request, res: Response): 
         res.redirect(constants.CONFIRMATION_MEMBER_ADDED_FULL_URL);
     } catch (err: unknown) {
         logger.error(`${tryAddingUserControllerPost.name}: Error adding user to ACSP: ${err}`);
-        _renderStopScreen(res, translations, acspName, constants.CHECK_MEMBER_DETAILS_FULL_URL);
+        _renderStopScreen(res, translations, acspName);
     }
 };
 
-function _renderStopScreen (res: Response, translations: AnyRecord, acspName: string, backLinkHref: string): void {
+function _renderStopScreen (res: Response, translations: AnyRecord, acspName: string): void {
     logger.debug(`${_renderStopScreen.name}: Rendering cannot add user screen`);
     res.render(constants.CANNOT_ADD_USER, {
         serviceName: translations.service_name,
         title: translations.cannot_add_user_title,
-        backLinkHref: backLinkHref,
+        backLinkUrl: constants.CHECK_MEMBER_DETAILS_FULL_URL,
         manageUsersLinkText: `${translations.manage_users_link_text} ${acspName}.`,
         manageUsersLinkHref: constants.MANAGE_USER_FULL_URL,
         lang: translations,
