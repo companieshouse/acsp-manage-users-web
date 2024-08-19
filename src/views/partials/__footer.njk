@@ -72,9 +72,14 @@
 <script>
     $(document).ready(function () {
         if ("{{manageUsersTabId}}") {
-            document
-                .getElementById("{{manageUsersTabId}}")
-                .click();
+            let element = document.getElementById("{{manageUsersTabId}}");
+            try {
+                element.click();
+            } catch (err) {
+                element = document.getElementById("{{manageUsersTabId}}".substring(4));
+                element.scrollIntoView();
+            }
+
         }
     });
 </script>
