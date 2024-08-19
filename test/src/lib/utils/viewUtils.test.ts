@@ -31,13 +31,15 @@ describe("addErrorToViewData", () => {
     test("adds error key and error message to view data object", () => {
         const viewDataOriginal: ViewData = {
             lang: {},
-            companyName: "Acme"
+            companyName: "Acme",
+            templateName: "template"
         };
         const errorKey = "email";
         const errorMessage = "email_invalid";
         const expectedViewData = {
             lang: {},
             companyName: "Acme",
+            templateName: "template",
             errors: {
                 email: {
                     text: "email_invalid"
@@ -52,6 +54,7 @@ describe("addErrorToViewData", () => {
         const viewDataOriginal: ViewData = {
             lang: {},
             companyName: "Acme",
+            templateName: "template",
             errors: {
                 userRole: {
                     text: "role_required"
@@ -63,6 +66,7 @@ describe("addErrorToViewData", () => {
         const expectedViewData = {
             lang: {},
             companyName: "Acme",
+            templateName: "template",
             errors: {
                 email: {
                     text: "email_invalid"

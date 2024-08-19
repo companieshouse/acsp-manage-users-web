@@ -20,6 +20,7 @@ export const stopPageAddOwnerControllerGet: RequestHandler = async (req: Request
         lang: getTranslationsForView(req.t, constants.STOP_PAGE_ADD_ACCOUNT_OWNER),
         companyName: loggedUserAcspMembership.acspName,
         linkHref: constants.MANAGE_USER_FULL_URL,
-        backLinkUrl: constants.getRemoveMemberCheckDetailsFullUrl(userToRemove.id)
+        backLinkUrl: constants.getRemoveMemberCheckDetailsFullUrl(userToRemove.id),
+        templateName: constants.STOP_PAGE_ADD_ACCOUNT_OWNER
     });
 };

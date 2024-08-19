@@ -27,6 +27,7 @@ const getViewData = (req: Request): AnyRecord => {
         userRole: newUserDetails.userRole,
         userRoleTag,
         backLinkUrl: constants.ADD_USER_FULL_URL,
-        tryAddingUserUrl: constants.TRY_ADDING_USER_FULL_URL
+        tryAddingUserUrl: constants.TRY_ADDING_USER_FULL_URL,
+        templateName: constants.CHECK_MEMBER_DETAILS_PAGE
     };
 };

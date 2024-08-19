@@ -51,6 +51,7 @@ const getViewData = async (req: Request): Promise<AnyRecord> => {
         companyName: acspName,
         backLinkUrl: constants.MANAGE_USER_FULL_URL,
         tryRemovingUserUrl: constants.TRY_REMOVING_USER_FULL_URL,
-        displayNameInFirstParagraph
+        displayNameInFirstParagraph,
+        templateName: constants.REMOVE_MEMBER_PAGE
     };
 };

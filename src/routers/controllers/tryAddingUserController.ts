@@ -57,6 +57,7 @@ function _renderStopScreen (res: Response, translations: AnyRecord, acspName: st
         backLinkUrl: constants.CHECK_MEMBER_DETAILS_FULL_URL,
         manageUsersLinkText: `${translations.manage_users_link_text} ${acspName}.`,
         manageUsersLinkHref: constants.MANAGE_USER_FULL_URL,
-        lang: translations
+        lang: translations,
+        templateName: constants.CANNOT_ADD_USER
     });
 }

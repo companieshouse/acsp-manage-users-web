@@ -22,7 +22,8 @@ export const addUserControllerGet = async (req: Request, res: Response): Promise
         lang: getTranslationsForView(req.t, constants.ADD_USER_PAGE),
         companyName: loggedInUserMembership.acspName,
         backLinkUrl: constants.MANAGE_USER_FULL_URL,
-        loggedInUserRole
+        loggedInUserRole,
+        templateName: constants.ADD_USER_PAGE
     };
     clearFormSessionValues(req, constants.DETAILS_OF_USER_TO_ADD);
     const savedNewUserDetails = getExtraData(
@@ -54,7 +55,8 @@ export const addUserControllerPost = async (req: Request, res: Response): Promis
         backLinkUrl: constants.MANAGE_USER_FULL_URL,
         email,
         userRole,
-        loggedInUserRole
+        loggedInUserRole,
+        templateName: constants.ADD_USER_PAGE
     };
 
     validateAndSetErrors(email, userRole, viewData);

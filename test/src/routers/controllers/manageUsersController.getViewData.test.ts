@@ -65,7 +65,8 @@ describe("manageUsersController - getViewData", () => {
             companyNumber: "123456",
             lang: expect.anything(),
             loggedInUserRole: "owner",
-            removeUserLinkUrl: "/authorised-agent/remove-member/:id"
+            removeUserLinkUrl: "/authorised-agent/remove-member/:id",
+            templateName: "manage-users"
         });
     });
 });
