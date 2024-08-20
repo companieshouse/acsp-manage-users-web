@@ -1,11 +1,22 @@
 <div class="govuk-summary-card">
     <div class="govuk-summary-card__title-wrapper">
-        <h2 class="govuk-summary-card__title govuk-!-margin-top-0">
-            {{lang.file_as_an_authorised_agent}}
-            <strong class="govuk-tag govuk-tag--blue govuk-!-margin-top-2">
-                {{lang.coming_soon}}
-            </strong>
-        </h2>
+
+        {% if agentStatus === AcspStatus.SUSPENDED %}
+            <h2 class="govuk-summary-card__title govuk-!-margin-top-0">
+                {{lang.file_as_an_authorised_agent}}
+                <strong class="govuk-tag govuk-tag--red govuk-!-margin-top-2">
+                    {{lang.cant_file_suspension}}
+                </strong>
+            </h2>
+        {% else %}
+            <h2 class="govuk-summary-card__title govuk-!-margin-top-0">
+                {{lang.file_as_an_authorised_agent}}
+                <strong class="govuk-tag govuk-tag--blue govuk-!-margin-top-2">
+                    {{lang.coming_soon}}
+                </strong>
+            </h2>
+        {% endif %}
+
     </div>
     <div class="govuk-summary-card__content">
         <p class="govuk-body">

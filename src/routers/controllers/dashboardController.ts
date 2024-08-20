@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import * as constants from "../../lib/constants";
 import { getTranslationsForView } from "../../lib/utils/translationUtils";
-import { AcspMembership } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
+import { AcspMembership, AcspStatus, UserRole } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
 import { getUserRoleTag } from "../../lib/utils/viewUtils";
 import { getLoggedUserAcspMembership } from "../../lib/utils/sessionUtils";
 
@@ -26,6 +26,7 @@ export const dashboardControllerGet = async (req: Request, res: Response): Promi
             youHaveVerifiedSomeonesIdentityLink: constants.YOU_HAVE_VERIFIED_SOMEONES_IDENTITY_URL,
             updateAuthorisedAgentsDetailsLink: constants.UPDATE_AUTHORISED_AGENTS_DETAILS_URL,
             viewUsersLink: constants.VIEW_USERS_FULL_URL,
-            templateName: constants.DASHBOARD_PAGE
+            templateName: constants.DASHBOARD_PAGE,
+            showSuspendedWarningText: agentStatus === AcspStatus.SUSPENDED && userRole !== UserRole.STANDARD
         });
 };

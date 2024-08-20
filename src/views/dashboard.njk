@@ -1,5 +1,6 @@
 {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
 {% from "govuk/components/inset-text/macro.njk" import govukInsetText %}
+{% from "govuk/components/warning-text/macro.njk" import govukWarningText %}
 
 {% extends "layouts/default.njk" %}
 
@@ -22,6 +23,13 @@
             <p class="govuk-body govuk-!-padding-bottom-3">{{lang.your_role}}
                 <span class="govuk-!-font-weight-bold">{{userRoleTag}}</span>
             </p>
+
+            {% if showSuspendedWarningText %}
+            {{ govukWarningText({
+                text: companyName + lang.suspended_warning_text,
+                iconFallbackText: lang.warning
+                }) }}
+            {% endif %}
 
             <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
 

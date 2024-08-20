@@ -21,5 +21,8 @@
     "warning": "Warning",
     "you_can": "You can:",
     "you_will_need_to_use": "You will need to use this to file on paper or using software.",
-    "your_role": "Your role:"
+    "your_role": "Your role:",
+    "service_unavailable_suspension":"Service unavailable due to suspension",
+    "cant_file_suspension":"Can't file due to suspension",
+    "suspended_warning_text":" has been suspended. You will not be able to file or tell us you have verified someone's identity."
 }
