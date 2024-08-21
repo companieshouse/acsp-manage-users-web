@@ -24,7 +24,7 @@
                 <span class="govuk-!-font-weight-bold">{{userRoleTag}}</span>
             </p>
 
-            {% if showSuspendedWarningText %}
+            {% if agentStatus === AcspStatus.SUSPENDED %}
             {{ govukWarningText({
                 text: companyName + lang.suspended_warning_text,
                 iconFallbackText: lang.warning

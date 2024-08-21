@@ -153,6 +153,7 @@ describe(`GET ${url}`, () => {
         expect(decodedResponse).toContain(en.cant_file_suspension);
         expect(decodedResponse).toContain(`${accountOwnerAcspMembership.acspName}${en.suspended_warning_text}`);
     });
+
     it("should not display suspended messages when the acsp has a status of live", async () => {
         // Given
         getLoggedUserAcspMembershipSpy.mockReturnValue(accountOwnerAcspMembership);
