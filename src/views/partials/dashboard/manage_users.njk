@@ -1,7 +1,12 @@
+{% set dataEventIdForManageUsers = "manage-users-" + userRole %}
+
 <div class="govuk-summary-card">
     <div class="govuk-summary-card__title-wrapper">
         <h2 class="govuk-summary-card__title">
-            <a class="govuk-link govuk-link--no-underline govuk-link--no-visited-state" href="{{managePeopleLink}}">
+            <a class="govuk-link govuk-link--no-underline govuk-link--no-visited-state" 
+            href="{{managePeopleLink}}"
+            data-event-id="{{dataEventIdForManageUsers}}"
+            >
                 {{lang.manage_users}}
             </a>
         </h2>
