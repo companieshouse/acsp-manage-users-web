@@ -65,32 +65,12 @@ export const addUserControllerPost = async (req: Request, res: Response): Promis
         setExtraData(req.session, constants.DETAILS_OF_USER_TO_ADD, { email, userRole, isValid: false } as unknown as NewUserDetails);
         return res.render(constants.ADD_USER_PAGE, viewData);
     } else {
-
-        const userDetailsFromApi = await getUserDetails(email);
-        if (userDetailsFromApi?.length) {
-            const newUserDetails: NewUserDetails = {
-                email,
-                userRole,
-                isValid: true,
-                userId: userDetailsFromApi[0]?.userId,
-                forename: userDetailsFromApi[0]?.forename,
-                surname: userDetailsFromApi[0]?.surname,
-                displayName: userDetailsFromApi[0]?.displayName
-            };
-            logger.info("saving user details: " + JSON.stringify(newUserDetails));
-            setExtraData(req.session, constants.DETAILS_OF_USER_TO_ADD, newUserDetails);
-            return res.redirect(constants.CHECK_MEMBER_DETAILS_FULL_URL);
-        } else {
-            const translations = getTranslationsForView(req.t, constants.TRY_ADDING_USER);
-            return res.render(constants.CANNOT_ADD_USER, {
-                serviceName: translations.service_name,
-                title: translations.cannot_add_user_title,
-                backLinkUrl: constants.ADD_USER_FULL_URL,
-                manageUsersLinkText: `${translations.manage_users_link_text} ${acspMembership.acspName}.`,
-                manageUsersLinkHref: constants.MANAGE_USER_FULL_URL,
-                lang: translations
-            });
-        }
-
+        const newUserDetails: NewUserDetails = {
+            email,
+            userRole
+        };
+        logger.info("saving user details: " + JSON.stringify(newUserDetails));
+        setExtraData(req.session, constants.DETAILS_OF_USER_TO_ADD, newUserDetails);
+        return res.redirect(constants.CHECK_MEMBER_DETAILS_FULL_URL);
     }
 };

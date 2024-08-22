@@ -78,6 +78,7 @@ export const getViewData = async (req: Request): Promise<AnyRecord> => {
     let adminMembers: AcspMembership[] = [];
     let standardMembers: AcspMembership[] = [];
     if (search && !errorMessage) {
+        viewData.search = search;
         try {
             foundUser = (await membershipLookup(req, acspNumber, search)).items;
             switch (foundUser[0]?.userRole) {

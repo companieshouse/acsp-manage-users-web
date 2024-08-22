@@ -12,6 +12,7 @@ import { tryRemovingUserControllerPost } from "./controllers/tryRemovingUserCont
 import { removeUserSuccessControllerGet } from "./controllers/removeUserSuccessController";
 import { removeYourselfControllerGet } from "./controllers/confirmationYouAreRemovedController";
 import { stopPageAddOwnerControllerGet } from "./controllers/stopPageAddOwnerControllerGet";
+import { cannotAddUserController } from "./controllers/cannotAddUserController";
 
 const router: Router = Router();
 
@@ -34,6 +35,8 @@ router.post(constants.ADD_USER_URL, addUserControllerPost);
 
 router.get(constants.CHECK_MEMBER_DETAILS_URL, checkMemberDetailsControllerGet);
 router.post(constants.TRY_ADDING_USER_URL, tryAddingUserControllerPost);
+
+router.get(constants.CANNOT_ADD_USER_URL, cannotAddUserController);
 
 router.post(constants.TRY_REMOVING_USER_URL, tryRemovingUserControllerPost);
 router.get(constants.STOP_PAGE_ADD_ACCOUNT_OWNER_URL, stopPageAddOwnerControllerGet);

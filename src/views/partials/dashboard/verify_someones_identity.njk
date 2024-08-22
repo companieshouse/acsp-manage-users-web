@@ -1,3 +1,5 @@
+{% set dataEventIdForIdVerify = "tell-companies-house-you-have-verified-identity-" + userRole %}
+
 <div class="govuk-summary-card">
     <div class="govuk-summary-card__title-wrapper">
         <h2 class="govuk-summary-card__title">
@@ -8,13 +10,12 @@
                     {{lang.service_unavailable_suspension}}
                 </strong>
             {% else %}
-                <a class="govuk-link govuk-link--no-underline govuk-link--no-visited-state" href="{{youHaveVerifiedSomeonesIdentityLink}}">
+                <a class="govuk-link govuk-link--no-underline govuk-link--no-visited-state" href="{{youHaveVerifiedSomeonesIdentityLink}}" data-event-id="{{dataEventIdForIdVerify}}">
                     {{lang.tell_companies_house_id}}
                 </a>
                 <strong class="govuk-tag govuk-tag--blue govuk-!-margin-top-2">
                     {{lang.coming_soon}}
                 </strong>
-
             {% endif %}
 
         </h2>
