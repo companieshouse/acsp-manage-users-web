@@ -91,6 +91,8 @@ export const getViewData = async (req: Request): Promise<AnyRecord> => {
             case UserRole.STANDARD:
                 viewData.manageUsersTabId = constants.STANDARD_USERS_TAB_ID;
                 break;
+            default:
+                viewData.manageUsersTabId = constants.ACCOUNT_OWNERS_TAB_ID;
             }
         } catch (error) {
             logger.error(`ACSP membership for email ${search} not found.`);
