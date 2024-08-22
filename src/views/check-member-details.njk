@@ -56,13 +56,14 @@
                 text: lang.confirm_and_add_user,
                 attributes: {
                     id: "confirm-and-add-user-button",
-                    type: "submit"
+                    type: "submit",
+                    "data-event-id": "confirm-and-add-user"
                 }
             }) }}
         </form>
 
         <p class="govuk-body">
-            <a class="govuk-link" href="{{backLinkUrl}}">{{lang.change_details}}</a>
+            <a class="govuk-link" data-event-id="change-details" href="{{backLinkUrl}}">{{lang.change_details}}</a>
         </p>
     </div>
 {% endblock %}
