@@ -1,3 +1,5 @@
+{% set dataEventIdForViewUsers = "view-users-" + convertUserRole(userRole) %}
+
 <div class="govuk-summary-card">
     <div class="govuk-summary-card__title-wrapper">
         <h2 class="govuk-summary-card__title">
@@ -10,10 +12,7 @@
             {{companyName}}.
         </p>
         <p class="govuk-body">
-            <a class="govuk-link govuk-link--no-visited-state" 
-            href="{{viewUsersLink}}"
-            data-event-id="view-users-standard"
-            >
+            <a class="govuk-link govuk-link--no-visited-state" href="{{viewUsersLink}}" data-event-id="{{dataEventIdForViewUsers}}">
                 {{lang.view_users}}
             </a>
         </p>
