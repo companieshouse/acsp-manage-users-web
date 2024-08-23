@@ -15,6 +15,7 @@ import { UserRole, AcspStatus } from "private-api-sdk-node/dist/services/acsp-ma
 import { loggedUserAcspMembershipMiddleware } from "./middleware/loggedUserAcspMembership.middleware";
 import * as url from "node:url";
 import { LANGUAGE_CONFIG } from "./types/language";
+import { convertUserRole } from "./lib/utils/userRoleUtils";
 
 const app = express();
 
@@ -77,6 +78,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
             query: parsedUrl.query
         });
     };
+    res.locals.convertUserRole = convertUserRole;
     next();
 });
 
