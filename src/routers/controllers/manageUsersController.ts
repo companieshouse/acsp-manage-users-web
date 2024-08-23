@@ -190,6 +190,7 @@ const getMemberRawViewData = async (req: Request, acspNumber: string, pageNumber
     let memberships = await getAcspMemberships(req, acspNumber, false, pageNumber - 1, constants.ITEMS_PER_PAGE_DEFAULT, [userRole]);
     if (!validatePageNumber(pageNumber, memberships.totalPages)) {
         pageNumber = 1;
+        updatePageNumber(pageNumber, pageNumbers, userRole);
         memberships = await getAcspMemberships(req, acspNumber, false, pageNumber - 1, constants.ITEMS_PER_PAGE_DEFAULT, [userRole]);
     }
 
@@ -202,4 +203,18 @@ const getMemberRawViewData = async (req: Request, acspNumber: string, pageNumber
     }
 
     return memberViewData;
+};
+
+const updatePageNumber = (pageNumber: number, pageNumbers: PageNumbers, userRole: UserRole): void => {
+    switch (userRole) {
+    case UserRole.OWNER:
+        pageNumbers.ownerPage = pageNumber;
+        break;
+    case UserRole.ADMIN:
+        pageNumbers.adminPage = pageNumber;
+        break;
+    case UserRole.STANDARD:
+        pageNumbers.standardPage = pageNumber;
+        break;
+    }
 };
