@@ -19,7 +19,7 @@ export const manageUsersControllerGet = async (req: Request, res: Response): Pro
 
 export const manageUsersControllerPost = async (req: Request, res: Response): Promise<void> => {
     const search = req.body.search.replace(/ /g, "");
-    const url = `${constants.MANAGE_USER_FULL_URL}?search=${search}`;
+    const url = `${constants.MANAGE_USERS_FULL_URL}?search=${search}`;
     const sanitizedUrl = sanitizeUrl(url);
     res.redirect(sanitizedUrl);
 };
@@ -32,10 +32,6 @@ export const getTitle = (translations: AnyRecord, loggedInUserRole: UserRole, is
 
 export const getViewData = async (req: Request): Promise<AnyRecord> => {
     const search = req.query?.search as string;
-    let errorMessage;
-    if (search && !validateEmailString(search)) {
-        errorMessage = constants.ERRORS_ENTER_AN_EMAIL_ADDRESS_IN_THE_CORRECT_FORMAT;
-    }
 
     const translations = getTranslationsForView(req.t, constants.MANAGE_USERS_PAGE);
     const loggedUserAcspMembership: AcspMembership = getLoggedUserAcspMembership(req.session);
@@ -46,10 +42,7 @@ export const getViewData = async (req: Request): Promise<AnyRecord> => {
         acspName
     } = loggedUserAcspMembership;
 
-    const title = getTitle(translations, userRole, !!errorMessage);
-
     const viewData: AnyRecord = {
-        title: title,
         lang: translations,
         backLinkUrl: constants.DASHBOARD_FULL_URL,
         addUserUrl: constants.ADD_USER_FULL_URL + constants.CLEAR_FORM_TRUE,
@@ -57,51 +50,45 @@ export const getViewData = async (req: Request): Promise<AnyRecord> => {
         companyName: acspName,
         companyNumber: acspNumber,
         loggedInUserRole: userRole,
-        cancelSearchHref: userRole === UserRole.STANDARD ? constants.VIEW_USERS_FULL_URL : constants.MANAGE_USER_FULL_URL,
+        cancelSearchHref: userRole === UserRole.STANDARD ? constants.VIEW_USERS_FULL_URL : constants.MANAGE_USERS_FULL_URL,
         accountOwnersTabId: constants.ACCOUNT_OWNERS_ID,
         administratorsTabId: constants.ADMINISTRATORS_ID,
         standardUsersTabId: constants.STANDARD_USERS_ID,
-        templateName: constants.MANAGE_USERS_PAGE
+        templateName: constants.MANAGE_USERS_PAGE,
+        manageUsersTabId: constants.ACCOUNT_OWNERS_TAB_ID
     };
-
-    if (errorMessage) {
-        viewData.errors = {
-            search: {
-                text: errorMessage
-            }
-        };
-        viewData.search = search;
-    }
 
     let foundUser: AcspMembership[] = [];
     let ownerMembers: AcspMembership[] = [];
     let adminMembers: AcspMembership[] = [];
     let standardMembers: AcspMembership[] = [];
-    if (search && !errorMessage) {
-        viewData.search = search;
-        try {
-            foundUser = (await membershipLookup(req, acspNumber, search)).items;
-            switch (foundUser[0]?.userRole) {
-            case UserRole.OWNER:
-                viewData.manageUsersTabId = constants.ACCOUNT_OWNERS_TAB_ID;
-                break;
-            case UserRole.ADMIN:
-                viewData.manageUsersTabId = constants.ADMINISTRATORS_TAB_ID;
-                break;
-            case UserRole.STANDARD:
-                viewData.manageUsersTabId = constants.STANDARD_USERS_TAB_ID;
-                break;
-            default:
-                viewData.manageUsersTabId = constants.ACCOUNT_OWNERS_TAB_ID;
+    let errorMessage;
+
+    if (search) {
+        if (validateEmailString(search)) {
+            try {
+                foundUser = (await membershipLookup(req, acspNumber, search)).items;
+                setTabIds(viewData, foundUser[0]?.userRole);
+            } catch (error) {
+                logger.error(`ACSP membership for email ${search} not found.`);
             }
-        } catch (error) {
-            logger.error(`ACSP membership for email ${search} not found.`);
+        } else {
+            errorMessage = constants.ERRORS_ENTER_AN_EMAIL_ADDRESS_IN_THE_CORRECT_FORMAT;
+            viewData.errors = {
+                search: {
+                    text: errorMessage
+                }
+            };
+            viewData.search = search;
         }
     } else {
         ownerMembers = (await getAcspMemberships(req, acspNumber, false, 0, 10000, [UserRole.OWNER])).items;
         adminMembers = (await getAcspMemberships(req, acspNumber, false, 0, 10000, [UserRole.ADMIN])).items;
         standardMembers = (await getAcspMemberships(req, acspNumber, false, 0, 10000, [UserRole.STANDARD])).items;
     }
+
+    const title = getTitle(translations, userRole, !!errorMessage);
+    viewData.title = title;
 
     const accountOwnersTableData: TableEntry[][] = getUserTableData(foundUser[0]?.userRole === UserRole.OWNER ? foundUser : ownerMembers, translations, userRole === UserRole.OWNER);
     viewData.accountOwnersTableData = accountOwnersTableData;
@@ -137,4 +124,20 @@ const getUserTableData = (membership: AcspMembership[], translations: AnyRecord,
         userTableDate.push(tableEntry);
     }
     return userTableDate;
+};
+
+const setTabIds = (viewData: AnyRecord, userRole: UserRole) => {
+    switch (userRole) {
+    case UserRole.OWNER:
+        viewData.manageUsersTabId = constants.ACCOUNT_OWNERS_TAB_ID;
+        break;
+    case UserRole.ADMIN:
+        viewData.manageUsersTabId = constants.ADMINISTRATORS_TAB_ID;
+        break;
+    case UserRole.STANDARD:
+        viewData.manageUsersTabId = constants.STANDARD_USERS_TAB_ID;
+        break;
+    default:
+        viewData.manageUsersTabId = constants.ACCOUNT_OWNERS_TAB_ID;
+    }
 };
