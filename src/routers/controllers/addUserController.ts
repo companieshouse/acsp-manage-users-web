@@ -21,7 +21,7 @@ export const addUserControllerGet = async (req: Request, res: Response): Promise
     const viewData: ViewData = {
         lang: getTranslationsForView(req.t, constants.ADD_USER_PAGE),
         companyName: loggedInUserMembership.acspName,
-        backLinkUrl: constants.MANAGE_USER_FULL_URL,
+        backLinkUrl: constants.MANAGE_USERS_FULL_URL,
         loggedInUserRole,
         templateName: constants.ADD_USER_PAGE
     };
@@ -52,7 +52,7 @@ export const addUserControllerPost = async (req: Request, res: Response): Promis
     const viewData: ViewData = {
         lang: getTranslationsForView(req.t, constants.ADD_USER_PAGE),
         companyName: acspMembership.acspName,
-        backLinkUrl: constants.MANAGE_USER_FULL_URL,
+        backLinkUrl: constants.MANAGE_USERS_FULL_URL,
         email,
         userRole,
         loggedInUserRole,

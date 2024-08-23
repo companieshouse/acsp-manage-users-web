@@ -40,7 +40,7 @@ describe("GET /authorised-agent/cannot-add-user", () => {
         expect(response.text).toContain(en.cannot_add_user_paragraph1);
         expect(response.text).toContain(en.back_link);
         expect(response.text).toContain(constants.CHECK_MEMBER_DETAILS_FULL_URL);
-        expect(response.text).toContain(constants.MANAGE_USER_FULL_URL);
+        expect(response.text).toContain(constants.MANAGE_USERS_FULL_URL);
         expect(response.text).toContain(loggedAccountOwnerAcspMembership.acspName);
     });
 });
