@@ -161,10 +161,15 @@
                     }
                 %}
 
+                {% set dataEventIdForContinueBtn = "continue-" + convertUserRole(loggedInUserRole) %}
+
                 {{ govukButton({text: lang.continue,
                         type: "submit",
                         attributes: button_attributes,
-                        classes: 'govuk-!-margin-top-3'
+                        classes: 'govuk-!-margin-top-3',
+                        attributes: {
+                            "data-event-id": dataEventIdForContinueBtn
+                            }
                     })
                 }}
 
