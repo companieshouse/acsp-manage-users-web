@@ -3,6 +3,7 @@
     "authorised_agent_number": "[CY] Authorised agent number:",
     "authorised_agent_services": "[CY] Authorised agent services",
     "authorised_agent_status": "[CY] Authorised agent status:",
+    "cant_file_suspension": "[CY] Can't file due to suspension",
     "coming_soon": "[CY] Coming soon",
     "file_as_an_authorised_agent": "[CY] File as an authorised agent",
     "in_the_future": "[CY] In the future, you'll be able to file as ",
@@ -10,6 +11,8 @@
     "manage_users": "[CY] Manage users",
     "page_header": "[CY] Authorised agent",
     "remove_users": "[CY] remove users",
+    "service_unavailable_suspension": "[CY] Service unavailable due to suspension",
+    "suspended_warning_text": " [CY] has been suspended. You will not be able to file or tell us you have verified someone's identity.",
     "tell_companies_house_id": "[CY] Tell Companies House you have verified someone's identity",
     "tell_us_about_aml": "[CY] You must tell us about any changes to the Anti-Money-Laundering (AML) registration within 14 days.",
     "tell_us_about_any_changes": "[CY] Tell us about any changes to the agent's details.",
@@ -19,7 +22,7 @@
     "view_users_who_have_been_added": "[CY] view users who have been added",
     "view_users_who_have_been_added_to": "[CY] View users who have been added to",
     "warning": "[CY] Warning",
-    "you_can": "[CY] You can:",
+    "you_can": "[CY] You can",
     "you_will_need_to_use": "[CY] You will need to use this to file on paper or using software.",
     "your_role": "[CY] Your role:"
 }

@@ -20,6 +20,7 @@ const getViewData = (req: Request): AnyRecord => {
         lang: translations,
         companyName: loggedUserAcspMembership.acspName,
         userDetails: removedUserDetails.displayNameOrEmail,
-        buttonHref: constants.CHS_SEARCH_REGISTER_PAGE
+        buttonHref: constants.CHS_SEARCH_REGISTER_PAGE,
+        templateName: constants.CONFIRMATION_YOU_ARE_REMOVED
     };
 };

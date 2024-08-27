@@ -136,4 +136,33 @@ describe(`GET ${url}`, () => {
         expect(decodedResponse).toContain(cy.you_will_need_to_use);
         expect(decodedResponse).toContain(cy.your_role);
     });
+
+    it("should display suspended messages in English when the acsp has a status of suspended", async () => {
+        // Given
+        session.setExtraData("lang", "en");
+        const ownerWithSuspendedAcsp = {
+            ...accountOwnerAcspMembership,
+            acspStatus: "suspended"
+        };
+        getLoggedUserAcspMembershipSpy.mockReturnValue(ownerWithSuspendedAcsp);
+        // When
+        const encodedResponse = await router.get(url);
+        const decodedResponse = encodedResponse.text.replace(/&#39;/g, "'");
+        // Then
+        expect(decodedResponse).toContain(en.service_unavailable_suspension);
+        expect(decodedResponse).toContain(en.cant_file_suspension);
+        expect(decodedResponse).toContain(`${accountOwnerAcspMembership.acspName}${en.suspended_warning_text}`);
+    });
+
+    it("should not display suspended messages when the acsp has a status of active", async () => {
+        // Given
+        getLoggedUserAcspMembershipSpy.mockReturnValue(accountOwnerAcspMembership);
+        // When
+        const encodedResponse = await router.get(url);
+        const decodedResponse = encodedResponse.text.replace(/&#39;/g, "'");
+        // Then
+        expect(decodedResponse).not.toContain(en.service_unavailable_suspension);
+        expect(decodedResponse).not.toContain(en.cant_file_suspension);
+        expect(decodedResponse).not.toContain(en.suspended_warning_text);
+    });
 });

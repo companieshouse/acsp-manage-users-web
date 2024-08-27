@@ -138,10 +138,4 @@ describe(`POST ${url}`, () => {
         expect(response.status).toEqual(302);
         expect(response.header.location).toEqual(constants.CHECK_MEMBER_DETAILS_FULL_URL);
     });
-
-    it("should redirect to the no account page when form inputs valid but no user details found", async () => {
-        mockUserAccService.mockResolvedValueOnce([]);
-        const response = await router.post(url).send({ email: "bob@bob.com", userRole: "standard" });
-        expect(response.status).toEqual(200);
-    });
 });

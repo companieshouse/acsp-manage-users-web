@@ -11,10 +11,11 @@ import { authenticationMiddleware } from "./middleware/authentication.middleware
 import { sessionMiddleware } from "./middleware/session.middleware";
 import { getTranslationsForView } from "./lib/utils/translationUtils";
 import { httpErrorHandler } from "./routers/controllers/httpErrorController";
-import { UserRole } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
+import { UserRole, AcspStatus } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
 import { loggedUserAcspMembershipMiddleware } from "./middleware/loggedUserAcspMembership.middleware";
 import * as url from "node:url";
 import { LANGUAGE_CONFIG } from "./types/language";
+import { convertUserRole } from "./lib/utils/userRoleUtils";
 
 const app = express();
 
@@ -45,6 +46,10 @@ njk.addGlobal("cdnUrlJs", process.env.CDN_URL_JS);
 njk.addGlobal("cdnHost", process.env.ANY_PROTOCOL_CDN_HOST);
 njk.addGlobal("chsUrl", process.env.CHS_URL);
 njk.addGlobal("UserRole", UserRole);
+njk.addGlobal("AcspStatus", AcspStatus);
+njk.addGlobal("PIWIK_URL", process.env.PIWIK_URL);
+njk.addGlobal("PIWIK_SITE_ID", process.env.PIWIK_SITE_ID);
+njk.addGlobal("SERVICE_NAME", constants.SERVICE_NAME);
 
 // If app is behind a front-facing proxy, and to use the X-Forwarded-* headers to determine the connection and the IP address of the client
 app.enable("trust proxy");
@@ -73,6 +78,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
             query: parsedUrl.query
         });
     };
+    res.locals.convertUserRole = convertUserRole;
     next();
 });
 

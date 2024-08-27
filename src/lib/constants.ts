@@ -59,6 +59,9 @@ export const CONFIRMATION_YOU_ARE_REMOVED_URL = `/${CONFIRMATION_YOU_ARE_REMOVED
 export const CONFIRMATION_YOU_ARE_REMOVED_FULL_URL = `${LANDING_URL}${CONFIRMATION_YOU_ARE_REMOVED_URL}`;
 export const STOP_PAGE_ADD_ACCOUNT_OWNER_URL = `/${STOP_PAGE_ADD_ACCOUNT_OWNER}`;
 export const STOP_PAGE_ADD_ACCOUNT_OWNER_URL_FULL_URL = `${LANDING_URL}${STOP_PAGE_ADD_ACCOUNT_OWNER_URL}`;
+export const CANNOT_ADD_USER_URL = `/${CANNOT_ADD_USER}`;
+export const CANNOT_ADD_USER_FULL_URL = `${LANDING_URL}${CANNOT_ADD_USER_URL}`;
+
 export const HEALTHCHECK = "/healthcheck";
 
 export const getRemoveMemberCheckDetailsFullUrl = (id: string): string => `${LANDING_URL}/${REMOVE_MEMBER_PAGE}/${id}`;
@@ -79,6 +82,8 @@ export const COOKIE_SECRET = getEnvironmentValue("COOKIE_SECRET");
 export const INTERNAL_API_URL = getEnvironmentValue("INTERNAL_API_URL");
 export const ACCOUNTS_USER_INTERNAL_API_KEY = getEnvironmentValue("ACCOUNTS_USER_INTERNAL_API_KEY");
 export const ACCOUNT_URL = getEnvironmentValue("ACCOUNT_URL");
+
+export const SERVICE_NAME = "ACSP Manage Users Web";
 
 // errors
 export const VALIDATION_ERRORS = "VALIDATION_ERRORS";

@@ -9,48 +9,60 @@
             items: [
                 {
                     href: "https://resources.companieshouse.gov.uk/serviceInformation.shtml",
-                    text: "Policies",
+                    text: lang.policies,
                     attributes: {
                         id: "footer-policies"
                     }
                 },
                 {
                     href: "/help/cookies",
-                    text: "Cookies",
+                    text: lang.cookies,
                     attributes: {
                         id: "footer-cookies"
                     }
                 },
                 {
                     href: "/help/contact-us",
-                    text: "Contact us",
+                    text: lang.contact_us,
                     attributes: {
                         id: "footer-contact-us"
                     }
                 },
                 {
                     href: "/help/accessibility-statement",
-                    text: "Accessibility statement",
+                    text: lang.accessibility_statement,
                     attributes: {
                         id: "footer-accessibility-statement"
                     }
                 },
                 {
                     href: "https://developer.company-information.service.gov.uk/",
-                    text: "Developers",
+                    text: lang.developers,
                     attributes: {
                         id: "footer-developers"
                     }
                 }
             ],
-            html: 'Built by <a href="https://www.gov.uk/government/organisations/companies-house" class="govuk-footer__link">Companies House</a>'
+            html: lang.built_by + ' <a href="https://www.gov.uk/government/organisations/companies-house" class="govuk-footer__link">Companies House</a>'
         }
     })
 }}
+<script>
+    window.SERVICE_NAME="{{SERVICE_NAME}}";
+    window.PIWIK_URL="{{PIWIK_URL}}";
+    window.PIWIK_SITE_ID="{{PIWIK_SITE_ID}}";
+</script>
+<div id="templateName" data-id='{{templateName}}' hidden></div>
+<script src="{{ cdnHost }}/javascripts/app/piwik-enable.js"></script>
 
 <script type="module" src="{{ cdnUrlJs }}/govuk-frontend.min.js"></script>
 <script src="{{ cdnHost }}/javascripts/app/cookie-consent/cookie-consent-1.0.0.js"></script>
-<script src="{{ cdnHost }}/javascripts/app/cookie-consent/piwik-only-cookie-consent.js"></script>
+<script src="{{ cdnHost }}/javascripts/app/cookie-consent/matomo-only-cookie-consent.js"></script>
+<noscript>
+    <p>
+        <img src="{{PIWIK_URL}}/piwik.php?idsite={{PIWIK_SITE_ID}}" style="border:0;" alt="" />
+    </p>
+</noscript>
 <script src="{{ cdnHost }}/javascripts/vendor/jquery-3.5.1.min.js"></script>
 <script type="module">
     import {initAll} from "{{ cdnUrlJs }}/govuk-frontend.min.js"
@@ -59,10 +71,32 @@
 
 <script>
     $(document).ready(function () {
-        if ("{{manageUsersTabId}}") {
-            document
-                .getElementById("{{manageUsersTabId}}")
-                .click();
+        let isMobileDevice = window
+            .matchMedia("only screen and (max-width: 760px)")
+            .matches;
+        if (isMobileDevice) {
+            if ("{{errors}}" !== "") {
+                history.pushState(null, document.title, location.pathname + location.search);
+                window.scrollTo(0, 0);
+            } else {
+                let element = document.getElementById("{{manageUsersTabId}}".substring(4))
+                if (element) {
+                    element.scrollIntoView();
+                }
+            }
+        } else {
+            if ("{{errors}}" !== "") {
+                document
+                    .getElementById("tab_account-owners")
+                    .click();
+                history.pushState(null, document.title, location.pathname + location.search);
+                window.scrollTo(0, 0);
+            } else {
+                let tab = document.getElementById("{{manageUsersTabId}}");
+                if (tab) {
+                    tab.click();
+                }
+            }
         }
     });
 </script>

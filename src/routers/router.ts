@@ -17,6 +17,7 @@ import { userAddedNavigation } from "../middleware/navigation/userAddedSuccess.m
 import { removeYourselfAoAdminCheckNavigation } from "../middleware/navigation/removeAoAdminCheck.middleware";
 import { removeYourselfAoAdminNavigation } from "../middleware/navigation/removeYourselfAoAdmin.middleware";
 import { stopScreenAoAdminNavigation } from "../middleware/navigation/stopScreenRemoveAoAdmin.middleware";
+import { cannotAddUserController } from "./controllers/cannotAddUserController";
 
 const router: Router = Router();
 
@@ -39,6 +40,8 @@ router.post(constants.ADD_USER_URL, addUserControllerPost);
 
 router.get(constants.CHECK_MEMBER_DETAILS_URL, checkUserDetailsNavigation, checkMemberDetailsControllerGet as RequestHandler);
 router.post(constants.TRY_ADDING_USER_URL, tryAddingUserControllerPost);
+
+router.get(constants.CANNOT_ADD_USER_URL, cannotAddUserController);
 
 router.post(constants.TRY_REMOVING_USER_URL, tryRemovingUserControllerPost);
 router.get(constants.STOP_PAGE_ADD_ACCOUNT_OWNER_URL, stopScreenAoAdminNavigation, stopPageAddOwnerControllerGet as RequestHandler);

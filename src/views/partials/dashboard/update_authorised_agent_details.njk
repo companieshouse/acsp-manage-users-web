@@ -1,7 +1,9 @@
+{% set dataEventIdForUpdateAgentDetails = "update-authorised-agents-details-" + convertUserRole(userRole) %}
+
 <div class="govuk-summary-card">
     <div class="govuk-summary-card__title-wrapper">
         <h2 class="govuk-summary-card__title">
-            <a class="govuk-link govuk-link--no-underline govuk-link--no-visited-state" href="{{updateAuthorisedAgentsDetailsLink}}">
+            <a class="govuk-link govuk-link--no-underline govuk-link--no-visited-state" data-event-id="{{dataEventIdForUpdateAgentDetails}}" href="{{updateAuthorisedAgentsDetailsLink}}">
                 {{lang.update_authorised_agent}}
             </a>
         </h2>

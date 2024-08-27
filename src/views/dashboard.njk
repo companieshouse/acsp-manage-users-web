@@ -1,7 +1,10 @@
 {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
 {% from "govuk/components/inset-text/macro.njk" import govukInsetText %}
+{% from "govuk/components/warning-text/macro.njk" import govukWarningText %}
 
 {% extends "layouts/default.njk" %}
+
+{% set title = lang.authorised_agent_services + lang.title_end %}
 
 {% block main_content %}
     <div class="govuk-grid-row">
@@ -23,11 +26,16 @@
                 <span class="govuk-!-font-weight-bold">{{userRoleTag}}</span>
             </p>
 
+            {% if agentStatus === AcspStatus.SUSPENDED %}
+            {{ govukWarningText({
+                text: companyName + lang.suspended_warning_text,
+                iconFallbackText: lang.warning
+                }) }}
+            {% endif %}
+
             <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
 
             <h2 class="govuk-heading-m govuk-!-static-padding-top-5 govuk-!-static-padding-bottom-2">{{lang.authorised_agent_services}}</h2>
-
-            {% include "partials/dashboard/file_as_an_authorised_agent.njk" %}
 
             {% if userRole === UserRole.OWNER or userRole === UserRole.ADMIN %}
                 {% include "partials/dashboard/manage_users.njk" %}
@@ -36,6 +44,8 @@
             {% endif %}
 
             {% include "partials/dashboard/verify_someones_identity.njk" %}
+
+            {% include "partials/dashboard/file_as_an_authorised_agent.njk" %}
 
             {% if userRole === UserRole.OWNER %}
                 {% include "partials/dashboard/update_authorised_agent_details.njk" %}

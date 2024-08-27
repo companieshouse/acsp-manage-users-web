@@ -11,7 +11,7 @@ import {
     UserRole
 } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
 import {
-    createAcspMembershipMock, loggedAccountOwnerAcspMembership,
+    createAcspMembershipMock,
     ToyStoryBuzzAcspMembership,
     ToyStoryWoodyAcspMembership
 } from "../../../mocks/acsp.members.mock";
@@ -48,25 +48,27 @@ describe("POST /authorised-agent/try-adding-user", () => {
         session.setExtraData(constants.LOGGED_USER_ACSP_MEMBERSHIP, ToyStoryBuzzAcspMembership);
     });
 
-    it("should render stop screen when ACSP number is not found", async () => {
+    it("should redirect to cannot add user page when ACSP number is not found", async () => {
         session.setExtraData(constants.LOGGED_USER_ACSP_MEMBERSHIP, undefined);
 
         const response = await router.post(url);
 
-        expect(response.status).toBe(200);
-        expect(response.text).toContain("You cannot add this user");
+        expect(response.status).toBe(302);
+        expect(response.header.location).toBe(constants.CANNOT_ADD_USER_FULL_URL);
     });
 
-    it("should log an error when new user details are not found in session", async () => {
+    it("should redirect to cannot add user page when new user details are not found in session", async () => {
         session.setExtraData(constants.DETAILS_OF_USER_TO_ADD, undefined);
 
         const loggerSpy = jest.spyOn(logger, "error");
-        await router.post(url);
+        const response = await router.post(url);
 
         expect(loggerSpy).toHaveBeenCalledWith(expect.stringContaining("New user details or email not found in session"));
+        expect(response.status).toBe(302);
+        expect(response.header.location).toBe(constants.CANNOT_ADD_USER_FULL_URL);
     });
 
-    it("should render stop screen when user being added is not found", async () => {
+    it("should redirect to cannot add user page when user being added is not found", async () => {
         session.setExtraData(constants.DETAILS_OF_USER_TO_ADD, {
             email: "nonexistent@email.com",
             userRole: UserRole.STANDARD
@@ -75,11 +77,11 @@ describe("POST /authorised-agent/try-adding-user", () => {
 
         const response = await router.post(url);
 
-        expect(response.status).toBe(200);
-        expect(response.text).toContain("You cannot add this user");
+        expect(response.status).toBe(302);
+        expect(response.header.location).toBe(constants.CANNOT_ADD_USER_FULL_URL);
     });
 
-    it("should render stop screen when createAcspMembership throws an error", async () => {
+    it("should redirect to cannot add user page when createAcspMembership throws an error", async () => {
         session.setExtraData(constants.DETAILS_OF_USER_TO_ADD, {
             email: buzzUser.email,
             userRole: UserRole.STANDARD
@@ -88,8 +90,8 @@ describe("POST /authorised-agent/try-adding-user", () => {
 
         const response = await router.post(url);
 
-        expect(response.status).toBe(200);
-        expect(response.text).toContain("You cannot add this user");
+        expect(response.status).toBe(302);
+        expect(response.header.location).toBe(constants.CANNOT_ADD_USER_FULL_URL);
     });
 
     it("should handle adding Woody as a new user", async () => {

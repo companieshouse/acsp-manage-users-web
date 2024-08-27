@@ -12,8 +12,12 @@
 {% if removingThemselves %}
     {% set buttonText = lang.remove %}
     {% set title = lang.are_you_sure + lang.title_end %}
+    {% set dataEventIdForRemoveUser = "remove-yourself" %}
+    {% set dataEventIdForCancelRemoveUser = "cancel-remove-yourself" %}
 {% else %}
     {% set buttonText = lang.remove_user %}
+    {% set dataEventIdForRemoveUser = "remove-user" %}
+    {% set dataEventIdForCancelRemoveUser = "cancel-remove-user" %}
 {% endif %}
 
 {% block main_content %}
@@ -35,10 +39,13 @@
                     {{ govukButton({
                         text: buttonText,
                         classes: "govuk-button--warning",
-                        type: "submit"
+                        type: "submit",
+                        attributes: {
+                            "data-event-id": dataEventIdForRemoveUser
+                        }
                        })
                      }}
-                    <a class="govuk-link" href="{{backLinkUrl}}" id="cancel-link">{{lang.cancel}}</a>
+                    <a class="govuk-link" href="{{backLinkUrl}}" data-event-id="{{dataEventIdForCancelRemoveUser}}" id="cancel-link">{{lang.cancel}}</a>
                 </div>
             </form>
 

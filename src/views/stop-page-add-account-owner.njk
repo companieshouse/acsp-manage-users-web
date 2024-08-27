@@ -41,11 +41,14 @@
         {{ govukButton({
             text: lang.add_acc_owner_btn,
             href: buttonHref,
-            classes: 'govuk-!-margin-top-3'
+            classes: 'govuk-!-margin-top-3',
+            attributes: {
+            "data-event-id": "add-an-account-owner"
+            }
         }) }}
 
         <p class="govuk-body">
-            <a class="govuk-link" href="{{linkHref}}">{{lang.manage_users_for}}{{companyName}}</a>
+            <a class="govuk-link" href="{{linkHref}}" data-event-id="manage-users">{{lang.manage_users_for}}{{companyName}}</a>
         </p>
     </div>
 {% endblock %}
