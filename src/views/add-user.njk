@@ -122,6 +122,9 @@
                         checked: userRole === UserRole.OWNER,
                         hint: {
                             html: option_1_hint
+                        },
+                        attributes: {
+                            "data-event-id": "account-owner-option"
                         }
                     }), radios_items) %}
                 {% endif %}
@@ -131,6 +134,9 @@
                     checked: userRole === UserRole.ADMIN,
                     hint: {
                         html: option_2_hint
+                    },
+                    attributes: {
+                        "data-event-id": "admin-option"
                     }
                 }), radios_items) %}
                 {% set radios_items = (radios_items.push({
@@ -139,6 +145,9 @@
                     checked: userRole === UserRole.STANDARD,
                     hint: {
                         html: option_3_hint
+                    },
+                     attributes: {
+                        "data-event-id": "standard-user-option"
                     }
                 }), radios_items) %}
 
@@ -157,19 +166,15 @@
 
                 {% set button_attributes = {
                         role: "button",
-                        id: "continue-button"              
+                        id: "continue-button",
+                            "data-event-id": "continue-button"             
                     }
                 %}
-
-                {% set dataEventIdForContinueBtn = "continue-" + convertUserRole(loggedInUserRole) %}
 
                 {{ govukButton({text: lang.continue,
                         type: "submit",
                         attributes: button_attributes,
-                        classes: 'govuk-!-margin-top-3',
-                        attributes: {
-                            "data-event-id": dataEventIdForContinueBtn
-                            }
+                        classes: 'govuk-!-margin-top-3'
                     })
                 }}
 
