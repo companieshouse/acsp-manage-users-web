@@ -54,8 +54,7 @@ export const getViewData = async (req: Request): Promise<AnyRecord> => {
         accountOwnersTabId: constants.ACCOUNT_OWNERS_ID,
         administratorsTabId: constants.ADMINISTRATORS_ID,
         standardUsersTabId: constants.STANDARD_USERS_ID,
-        templateName: constants.MANAGE_USERS_PAGE,
-        manageUsersTabId: constants.ACCOUNT_OWNERS_TAB_ID
+        templateName: constants.MANAGE_USERS_PAGE
     };
 
     let foundUser: AcspMembership[] = [];
@@ -79,8 +78,8 @@ export const getViewData = async (req: Request): Promise<AnyRecord> => {
                     text: errorMessage
                 }
             };
-            viewData.search = search;
         }
+        viewData.search = search;
     } else {
         ownerMembers = (await getAcspMemberships(req, acspNumber, false, 0, 10000, [UserRole.OWNER])).items;
         adminMembers = (await getAcspMemberships(req, acspNumber, false, 0, 10000, [UserRole.ADMIN])).items;
