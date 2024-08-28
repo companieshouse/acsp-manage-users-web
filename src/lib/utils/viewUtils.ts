@@ -3,7 +3,7 @@ import { UserRole } from "private-api-sdk-node/dist/services/acsp-manage-users/t
 import { UserRoleTag } from "../../types/userRoleTag";
 
 export const getLink = (href: string, displayText: string): string => {
-    return `<a href="${href}">${displayText}</a>`;
+    return `<a data-event-id="remove" href="${href}">${displayText}</a>`;
 };
 
 export const getHiddenText = (hiddenText: string): string => {

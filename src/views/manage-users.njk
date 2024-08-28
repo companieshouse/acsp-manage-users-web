@@ -21,7 +21,8 @@
             text: lang.add_a_user,
             href: addUserUrl,
             attributes: {
-                id: "add-a-user-button"
+                id: "add-a-user-button",
+                "data-event-id": "add-a-user"
             }
         }) }}
 
@@ -141,6 +142,9 @@
                     id: accountOwnersTabId,
                     panel: {
                         html: accountOwnersTabContent
+                    },
+                    attributes: {
+                        "data-event-id": "account-owner-tab"
                     }
                 },
                 {
@@ -148,6 +152,9 @@
                     id: administratorsTabId,
                     panel: {
                         html: administratorsTabContent
+                    },
+                      attributes: {
+                        "data-event-id": "admin-user-tab"
                     }
                 },
                 {
@@ -155,6 +162,9 @@
                     id: standardUsersTabId,
                     panel: {
                         html: standardUsersTabContent
+                    },
+                     attributes: {
+                        "data-event-id": "standard-user-tab"
                     }
                 }
             ]
