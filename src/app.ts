@@ -71,7 +71,7 @@ app.use(`${constants.LANDING_URL}*`, authenticationMiddleware);
 enableI18next(app);
 
 app.use((req: Request, res: Response, next: NextFunction) => {
-    njk.addGlobal("userEmailAddress", getLoggedInUserEmail(req.session));
+    res.locals.userEmailAddress = getLoggedInUserEmail(req.session);
     res.locals.locale = req.language as string || LANGUAGE_CONFIG.defaultLanguage;
     res.locals.languageConfig = LANGUAGE_CONFIG;
     res.locals.feedbackSource = req.originalUrl;
