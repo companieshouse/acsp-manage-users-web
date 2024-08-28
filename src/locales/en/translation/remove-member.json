@@ -1,8 +1,8 @@
 {
+    "are_you_sure": "Are you sure you want to remove yourself?",
+    "if_remove_yourself": "If you remove yourself from the authorised agent account, you will not be able to use authorised agent services for ",
     "if_you_remove": "If you remove ",
     "remove": "Remove ",
     "remove_user": "Remove user",
-    "they_will_not_be_able_to_use": ", they will not be able to use authorised agent services for ",
-    "are_you_sure":"Are you sure you want to remove yourself?",
-    "if_remove_yourself":"If you remove yourself from the authorised agent account, you will not be able to use authorised agent services for "
+    "they_will_not_be_able_to_use": ", they will not be able to use authorised agent services for "
 }
