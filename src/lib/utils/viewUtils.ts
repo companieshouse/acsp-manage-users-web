@@ -1,6 +1,7 @@
 import { ViewData } from "../../types/utilTypes";
-import { UserRole } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
 import { UserRoleTag } from "../../types/userRoleTag";
+import { KnownUserRole } from "../../types/viewTypes";
+import { UserRole } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
 
 export const getLink = (href: string, displayText: string): string => {
     return `<a data-event-id="remove" href="${href}">${displayText}</a>`;
@@ -23,8 +24,7 @@ export const addErrorToViewData = (
     };
 };
 
-// Temporary function to be used until relevant API calls available
-export const getUserRoleTag = (userRole: UserRole, isLowerCase: boolean): string => {
+export const getUserRoleTag = (userRole: KnownUserRole, isLowerCase: boolean): string => {
     let tag = "";
 
     switch (userRole) {
@@ -37,8 +37,6 @@ export const getUserRoleTag = (userRole: UserRole, isLowerCase: boolean): string
     case UserRole.STANDARD:
         tag = UserRoleTag.STANDARD.toString();
         break;
-    default:
-        throw new Error(`Unknown user role: ${userRole}`);
     }
 
     return isLowerCase ? tag.toLowerCase() : tag;
