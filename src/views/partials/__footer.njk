@@ -48,9 +48,9 @@
     })
 }}
 <script>
-    window.SERVICE_NAME="{{SERVICE_NAME}}";
-    window.PIWIK_URL="{{PIWIK_URL}}";
-    window.PIWIK_SITE_ID="{{PIWIK_SITE_ID}}";
+    window.SERVICE_NAME = "{{SERVICE_NAME}}";
+    window.PIWIK_URL = "{{PIWIK_URL}}";
+    window.PIWIK_SITE_ID = "{{PIWIK_SITE_ID}}";
 </script>
 <div id="templateName" data-id='{{templateName}}' hidden></div>
 <script src="{{ cdnHost }}/javascripts/app/piwik-enable.js"></script>
@@ -60,10 +60,11 @@
 <script src="{{ cdnHost }}/javascripts/app/cookie-consent/matomo-only-cookie-consent.js"></script>
 <noscript>
     <p>
-        <img src="{{PIWIK_URL}}/piwik.php?idsite={{PIWIK_SITE_ID}}" style="border:0;" alt="" />
+        <img src="{{PIWIK_URL}}/piwik.php?idsite={{PIWIK_SITE_ID}}" style="border:0;" alt=""/>
     </p>
 </noscript>
 <script src="{{ cdnHost }}/javascripts/vendor/jquery-3.5.1.min.js"></script>
+<script src="{{ cdnHost }}/javascripts/lib/navbar.js"></script>
 <script type="module">
     import {initAll} from "{{ cdnUrlJs }}/govuk-frontend.min.js"
     initAll()

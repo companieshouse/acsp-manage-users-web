@@ -16,13 +16,16 @@ import { loggedUserAcspMembershipMiddleware } from "./middleware/loggedUserAcspM
 import * as url from "node:url";
 import { LANGUAGE_CONFIG } from "./types/language";
 import { convertUserRole } from "./lib/utils/userRoleUtils";
+import { getLoggedInUserEmail, getLoggedUserAcspMembership } from "./lib/utils/sessionUtils";
 
 const app = express();
 
 app.set("views", [
     path.join(__dirname, "views"),
     path.join(__dirname, "/../node_modules/govuk-frontend/dist"),
-    path.join(__dirname, "node_modules/govuk-frontend/dist")
+    path.join(__dirname, "node_modules/govuk-frontend/dist"),
+    path.join(__dirname, "/../node_modules/@companieshouse/ch-node-utils/templates"),
+    path.join(__dirname, "node_modules/@companieshouse/ch-node-utils/templates")
 ]);
 
 const nunjucksLoaderOpts = {
@@ -45,6 +48,7 @@ njk.addGlobal("cdnUrlCss", process.env.CDN_URL_CSS);
 njk.addGlobal("cdnUrlJs", process.env.CDN_URL_JS);
 njk.addGlobal("cdnHost", process.env.ANY_PROTOCOL_CDN_HOST);
 njk.addGlobal("chsUrl", process.env.CHS_URL);
+njk.addGlobal("chsMonitorGuiUrl", process.env.CHS_MONITOR_GUI_URL);
 njk.addGlobal("UserRole", UserRole);
 njk.addGlobal("AcspStatus", AcspStatus);
 njk.addGlobal("PIWIK_URL", process.env.PIWIK_URL);
@@ -67,6 +71,7 @@ app.use(`${constants.LANDING_URL}*`, authenticationMiddleware);
 enableI18next(app);
 
 app.use((req: Request, res: Response, next: NextFunction) => {
+    res.locals.userEmailAddress = getLoggedInUserEmail(req.session);
     res.locals.locale = req.language as string || LANGUAGE_CONFIG.defaultLanguage;
     res.locals.languageConfig = LANGUAGE_CONFIG;
     res.locals.feedbackSource = req.originalUrl;
@@ -79,6 +84,9 @@ app.use((req: Request, res: Response, next: NextFunction) => {
         });
     };
     res.locals.convertUserRole = convertUserRole;
+    if (getLoggedUserAcspMembership(req.session)) {
+        res.locals.displayAuthorisedAgent = "yes";
+    }
     next();
 });
 
