@@ -70,6 +70,7 @@ export const getViewData = async (req: Request): Promise<AnyRecord> => {
                 setTabIds(viewData, foundUser[0]?.userRole);
             } catch (error) {
                 logger.error(`ACSP membership for email ${search} not found.`);
+                viewData.manageUsersTabId = constants.ACCOUNT_OWNERS_TAB_ID;
             }
         } else {
             errorMessage = constants.ERRORS_ENTER_AN_EMAIL_ADDRESS_IN_THE_CORRECT_FORMAT;
@@ -78,6 +79,9 @@ export const getViewData = async (req: Request): Promise<AnyRecord> => {
                     text: errorMessage
                 }
             };
+            ownerMembers = (await getAcspMemberships(req, acspNumber, false, 0, 10000, [UserRole.OWNER])).items;
+            adminMembers = (await getAcspMemberships(req, acspNumber, false, 0, 10000, [UserRole.ADMIN])).items;
+            standardMembers = (await getAcspMemberships(req, acspNumber, false, 0, 10000, [UserRole.STANDARD])).items;
         }
         viewData.search = search;
     } else {
