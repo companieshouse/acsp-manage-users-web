@@ -60,5 +60,10 @@ describe("getAcspMembersService", () => {
             await expect(updateOrRemoveUserAcspMembership(request, mockAcspMemberId, { userRole: UserRole.STANDARD }))
                 .rejects.toThrow(HttpError);
         });
+
+        it("should throw an error if no sdk response returned", async () => {
+            await expect(updateOrRemoveUserAcspMembership(request, mockAcspMemberId, { userRole: UserRole.STANDARD }))
+                .rejects.toThrow(Error);
+        });
     });
 });

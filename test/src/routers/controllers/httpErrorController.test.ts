@@ -23,7 +23,7 @@ describe("httpErrorHandler", () => {
         jest.clearAllMocks();
     });
 
-    it("should detect a http-error Error, call logger.errorRequest and render an service unavailable template", async () => {
+    it("should detect a http-error Error, call logger.errorRequest and render an service unavailable template when status code provided", async () => {
         // Given
         const HTTP_STATUS_CODE = StatusCodes.UNAUTHORIZED;
         request.originalUrl = "/originalUrl";
@@ -38,6 +38,23 @@ describe("httpErrorHandler", () => {
         expect(logger.errorRequest).toHaveBeenCalledTimes(1);
         expect(logger.errorRequest).toHaveBeenCalledWith(request,
             expect.stringContaining(`A 401 UnauthorizedError`)
+        );
+    });
+
+    it("should detect a http-error Error, call logger.errorRequest and render an service unavailable template when status code not provided", async () => {
+        // Given
+        request.originalUrl = "/originalUrl";
+        request.method = "POST";
+        mockGetTranslationsForView.mockReturnValueOnce({});
+
+        const internalServerError = createError(`An error messsage`);
+        // When
+        httpErrorHandler(internalServerError, request, response, mockNext);
+        // Then
+        expect(response.render).toHaveBeenCalledWith("partials/service_unavailable", expect.anything());
+        expect(logger.errorRequest).toHaveBeenCalledTimes(1);
+        expect(logger.errorRequest).toHaveBeenCalledWith(request,
+            expect.stringContaining(`A 500 InternalServerError`)
         );
     });
 
