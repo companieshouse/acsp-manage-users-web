@@ -7,7 +7,7 @@ describe("getLink", () => {
         // Given
         const href = "/unit/test";
         const displayText = "Click me";
-        const expectedLink = "<a href=\"/unit/test\">Click me</a>";
+        const expectedLink = "<a data-event-id=\"remove\" href=\"/unit/test\">Click me</a>";
         // When
         const result = getLink(href, displayText);
         // Then
