@@ -64,8 +64,6 @@ export const CANNOT_ADD_USER_FULL_URL = `${LANDING_URL}${CANNOT_ADD_USER_URL}`;
 
 export const HEALTHCHECK = "/healthcheck";
 
-export const getRemoveMemberCheckDetailsFullUrl = (id: string): string => `${LANDING_URL}/${REMOVE_MEMBER_PAGE}/${id}`;
-
 // External URLs
 export const YOU_HAVE_VERIFIED_SOMEONES_IDENTITY_URL = "/placeholder-url-to-service-build-by-other-team";
 export const UPDATE_AUTHORISED_AGENTS_DETAILS_URL = "/placeholder-url-to-service-build-by-other-team";

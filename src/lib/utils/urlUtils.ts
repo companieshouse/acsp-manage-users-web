@@ -5,3 +5,5 @@ const WHITELISTED_URLS: string[] = [
 ];
 
 export const isWhitelistedUrl = (url: string): boolean => WHITELISTED_URLS.includes(url);
+
+export const getRemoveMemberCheckDetailsFullUrl = (id: string): string => `${constants.LANDING_URL}/${constants.REMOVE_MEMBER_PAGE}/${id}`;

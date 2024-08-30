@@ -11,6 +11,7 @@ import { getAcspMemberships, membershipLookup } from "../../services/acspMemberS
 import { sanitizeUrl } from "@braintree/sanitize-url";
 import { validateEmailString } from "../../lib/validation/email.validation";
 import logger from "../../lib/Logger";
+import { getRemoveMemberCheckDetailsFullUrl } from "../../lib/utils/urlUtils";
 import { buildPaginationElement, getCurrentPageNumber, setLangForPagination, stringToPositiveInteger } from "../../lib/helpers/buildPaginationHelper";
 import { validatePageNumber } from "../../lib/validation/page.number.validation";
 import { validateActiveTabId } from "../../lib/validation/string.validation";
@@ -156,7 +157,7 @@ const getUserTableData = (membership: AcspMembership[], translations: AnyRecord,
             { text: member.userDisplayName }
         ];
         if (hasRemoveLink) {
-            tableEntry[2] = { html: getLink(constants.getRemoveMemberCheckDetailsFullUrl(member.id), `${translations.remove as string} ${getHiddenText(member.userEmail)}`) };
+            tableEntry[2] = { html: getLink(getRemoveMemberCheckDetailsFullUrl(member.id), `${translations.remove as string} ${getHiddenText(member.userEmail)}`) };
         }
         userTableDate.push(tableEntry);
     }

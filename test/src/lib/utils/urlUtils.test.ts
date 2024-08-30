@@ -1,5 +1,6 @@
 import {
-    isWhitelistedUrl
+    isWhitelistedUrl,
+    getRemoveMemberCheckDetailsFullUrl
 } from "../../../../src/lib/utils/urlUtils";
 
 describe("isWhitelistedUrl", () => {
@@ -28,5 +29,25 @@ describe("isWhitelistedUrl", () => {
         const result = isWhitelistedUrl(url);
         // Then
         expect(result).toBeFalsy();
+    });
+});
+
+describe("getRemoveMemberCheckDetailsFullUrl", () => {
+    it("Should return the check member details URL with the ID", () => {
+        // Given
+        const id = "123";
+        // When
+        const result = getRemoveMemberCheckDetailsFullUrl(id);
+        // Then
+        expect(result).toEqual("/authorised-agent/remove-member/123");
+    });
+
+    it("Should return the check member details URL without an ID", () => {
+        // Given
+        const id = "";
+        // When
+        const result = getRemoveMemberCheckDetailsFullUrl(id);
+        // Then
+        expect(result).toEqual("/authorised-agent/remove-member/");
     });
 });

@@ -50,6 +50,7 @@ describe("GET /authorised-agent/confirmation-member-removed", () => {
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
         expect(mocks.mockLoggedUserAcspMembershipMiddleware).toHaveBeenCalled();
+        expect(mocks.mockNavigationMiddleware).toHaveBeenCalled();
     });
 
     it("should return status 200", async () => {

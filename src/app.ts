@@ -17,7 +17,7 @@ import * as url from "node:url";
 import { LANGUAGE_CONFIG } from "./types/language";
 import { convertUserRole } from "./lib/utils/userRoleUtils";
 import { getLoggedInUserEmail, getLoggedUserAcspMembership } from "./lib/utils/sessionUtils";
-
+import { navigationMiddleware } from "./middleware/navigationMiddleware";
 const app = express();
 
 app.set("views", [
@@ -91,6 +91,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 });
 
 app.use(`${constants.LANDING_URL}*`, loggedUserAcspMembershipMiddleware);
+app.use(navigationMiddleware);
 
 // Channel all requests through router dispatch
 routerDispatch(app);
