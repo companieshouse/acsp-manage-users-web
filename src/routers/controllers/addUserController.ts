@@ -10,7 +10,6 @@ import { clearFormSessionValues } from "../../lib/validation/clear.form.validati
 import { validateAndSetErrors } from "../../lib/validation/add.user.validation";
 import { NewUserDetails } from "../../types/user";
 import logger from "../../lib/Logger";
-import { getUserDetails } from "../../services/userAccountService";
 import { AcspMembership } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
 
 export const addUserControllerGet = async (req: Request, res: Response): Promise<void> => {
