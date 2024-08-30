@@ -27,7 +27,7 @@ const getViewData = (req: Request): AnyRecord => {
         newUserDetails,
         userRole,
         companyName,
-        buttonHref: constants.MANAGE_USER_FULL_URL,
+        buttonHref: constants.MANAGE_USERS_FULL_URL,
         templateName: constants.CONFIRMATION_MEMBER_ADDED_PAGE
     };
 };

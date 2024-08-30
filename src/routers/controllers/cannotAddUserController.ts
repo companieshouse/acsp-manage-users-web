@@ -17,7 +17,7 @@ export const cannotAddUserController = async (req: Request, res: Response): Prom
         title: translations.cannot_add_user_title,
         backLinkUrl: constants.CHECK_MEMBER_DETAILS_FULL_URL,
         manageUsersLinkText: `${translations.manage_users_link_text} ${acspName}.`,
-        manageUsersLinkHref: constants.MANAGE_USER_FULL_URL,
+        manageUsersLinkHref: constants.MANAGE_USERS_FULL_URL,
         lang: translations,
         templateName: constants.CANNOT_ADD_USER
     });
