@@ -22,7 +22,7 @@ export const dashboardControllerGet = async (req: Request, res: Response): Promi
             agentStatus,
             userRole,
             userRoleTag,
-            managePeopleLink: constants.MANAGE_USER_FULL_URL,
+            managePeopleLink: constants.MANAGE_USERS_FULL_URL,
             youHaveVerifiedSomeonesIdentityLink: constants.YOU_HAVE_VERIFIED_SOMEONES_IDENTITY_URL,
             updateAuthorisedAgentsDetailsLink: constants.UPDATE_AUTHORISED_AGENTS_DETAILS_URL,
             viewUsersLink: constants.VIEW_USERS_FULL_URL,

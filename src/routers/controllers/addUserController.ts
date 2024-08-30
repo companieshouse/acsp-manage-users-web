@@ -3,8 +3,7 @@ import * as constants from "../../lib/constants";
 import { getTranslationsForView } from "../../lib/utils/translationUtils";
 import {
     setExtraData,
-    getExtraData,
-    getLoggedInUserEmail
+    getExtraData
 } from "../../lib/utils/sessionUtils";
 import { ViewData } from "../../types/utilTypes";
 import { clearFormSessionValues } from "../../lib/validation/clear.form.validation";
@@ -12,7 +11,7 @@ import { validateAndSetErrors } from "../../lib/validation/add.user.validation";
 import { NewUserDetails } from "../../types/user";
 import logger from "../../lib/Logger";
 import { getUserDetails } from "../../services/userAccountService";
-import { AcspMembership, UserRole } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
+import { AcspMembership } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
 
 export const addUserControllerGet = async (req: Request, res: Response): Promise<void> => {
     const loggedInUserMembership: AcspMembership = getExtraData(req.session, constants.LOGGED_USER_ACSP_MEMBERSHIP);
@@ -21,7 +20,7 @@ export const addUserControllerGet = async (req: Request, res: Response): Promise
     const viewData: ViewData = {
         lang: getTranslationsForView(req.t, constants.ADD_USER_PAGE),
         companyName: loggedInUserMembership.acspName,
-        backLinkUrl: constants.MANAGE_USER_FULL_URL,
+        backLinkUrl: constants.MANAGE_USERS_FULL_URL,
         loggedInUserRole,
         templateName: constants.ADD_USER_PAGE
     };
@@ -52,7 +51,7 @@ export const addUserControllerPost = async (req: Request, res: Response): Promis
     const viewData: ViewData = {
         lang: getTranslationsForView(req.t, constants.ADD_USER_PAGE),
         companyName: acspMembership.acspName,
-        backLinkUrl: constants.MANAGE_USER_FULL_URL,
+        backLinkUrl: constants.MANAGE_USERS_FULL_URL,
         email,
         userRole,
         loggedInUserRole,

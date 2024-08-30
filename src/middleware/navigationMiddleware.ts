@@ -8,31 +8,31 @@ import { getRemoveMemberCheckDetailsFullUrl } from "../lib/utils/urlUtils";
 export const NAVIGATION: Navigation = {
     [constants.CHECK_MEMBER_DETAILS_FULL_URL]: {
         allowedReferers: [constants.ADD_USER_FULL_URL, constants.CHECK_MEMBER_DETAILS_FULL_URL, constants.CANNOT_ADD_USER_FULL_URL],
-        redirectTo: constants.MANAGE_USER_FULL_URL
+        redirectTo: constants.MANAGE_USERS_FULL_URL
     },
     [constants.CONFIRMATION_MEMBER_ADDED_FULL_URL]: {
         allowedReferers: [constants.CHECK_MEMBER_DETAILS_FULL_URL, constants.CONFIRMATION_MEMBER_ADDED_FULL_URL],
-        redirectTo: constants.MANAGE_USER_FULL_URL
+        redirectTo: constants.MANAGE_USERS_FULL_URL
     },
     [getRemoveMemberCheckDetailsFullUrl("")]: {
-        allowedReferers: [getRemoveMemberCheckDetailsFullUrl(""), constants.MANAGE_USER_FULL_URL, constants.STOP_PAGE_ADD_ACCOUNT_OWNER_URL_FULL_URL],
-        redirectTo: constants.MANAGE_USER_FULL_URL
+        allowedReferers: [getRemoveMemberCheckDetailsFullUrl(""), constants.MANAGE_USERS_FULL_URL, constants.STOP_PAGE_ADD_ACCOUNT_OWNER_URL_FULL_URL],
+        redirectTo: constants.MANAGE_USERS_FULL_URL
     },
     [constants.CONFIRMATION_MEMBER_REMOVED_FULL_URL]: {
         allowedReferers: [getRemoveMemberCheckDetailsFullUrl(""), constants.CONFIRMATION_MEMBER_REMOVED_FULL_URL],
-        redirectTo: constants.MANAGE_USER_FULL_URL
+        redirectTo: constants.MANAGE_USERS_FULL_URL
     },
     [constants.CONFIRMATION_YOU_ARE_REMOVED_FULL_URL]: {
         allowedReferers: [getRemoveMemberCheckDetailsFullUrl(""), constants.CONFIRMATION_YOU_ARE_REMOVED_FULL_URL],
-        redirectTo: constants.MANAGE_USER_FULL_URL
+        redirectTo: constants.MANAGE_USERS_FULL_URL
     },
     [constants.CANNOT_ADD_USER_FULL_URL]: {
         allowedReferers: [constants.CHECK_MEMBER_DETAILS_FULL_URL, constants.CANNOT_ADD_USER_FULL_URL],
-        redirectTo: constants.MANAGE_USER_FULL_URL
+        redirectTo: constants.MANAGE_USERS_FULL_URL
     },
     [constants.STOP_PAGE_ADD_ACCOUNT_OWNER_URL_FULL_URL]: {
         allowedReferers: [getRemoveMemberCheckDetailsFullUrl(""), constants.STOP_PAGE_ADD_ACCOUNT_OWNER_URL_FULL_URL],
-        redirectTo: constants.MANAGE_USER_FULL_URL
+        redirectTo: constants.MANAGE_USERS_FULL_URL
     }
 };
 
