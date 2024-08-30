@@ -11,6 +11,7 @@ import { getAcspMemberships, membershipLookup } from "../../services/acspMemberS
 import { sanitizeUrl } from "@braintree/sanitize-url";
 import { validateEmailString } from "../../lib/validation/email.validation";
 import logger from "../../lib/Logger";
+import { getRemoveMemberCheckDetailsFullUrl } from "../../lib/utils/urlUtils";
 
 export const manageUsersControllerGet = async (req: Request, res: Response): Promise<void> => {
     const viewData = await getViewData(req);
@@ -130,7 +131,7 @@ const getUserTableData = (membership: AcspMembership[], translations: AnyRecord,
             { text: member.userDisplayName }
         ];
         if (hasRemoveLink) {
-            tableEntry[2] = { html: getLink(constants.getRemoveMemberCheckDetailsFullUrl(member.id), `${translations.remove as string} ${getHiddenText(member.userEmail)}`) };
+            tableEntry[2] = { html: getLink(getRemoveMemberCheckDetailsFullUrl(member.id), `${translations.remove as string} ${getHiddenText(member.userEmail)}`) };
         }
         userTableDate.push(tableEntry);
     }

@@ -5,6 +5,7 @@ import { getExtraData, getLoggedUserAcspMembership } from "../../lib/utils/sessi
 import { AcspMembership } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
 import { MemberForRemoval } from "types/membership";
 import logger from "../../lib/Logger";
+import { getRemoveMemberCheckDetailsFullUrl } from "../../lib/utils/urlUtils";
 
 export const stopPageAddOwnerControllerGet: RequestHandler = async (req: Request, res: Response) => {
     const loggedUserAcspMembership: AcspMembership = getLoggedUserAcspMembership(req.session);
@@ -20,7 +21,7 @@ export const stopPageAddOwnerControllerGet: RequestHandler = async (req: Request
         lang: getTranslationsForView(req.t, constants.STOP_PAGE_ADD_ACCOUNT_OWNER),
         companyName: loggedUserAcspMembership.acspName,
         linkHref: constants.MANAGE_USER_FULL_URL,
-        backLinkUrl: constants.getRemoveMemberCheckDetailsFullUrl(userToRemove.id),
+        backLinkUrl: getRemoveMemberCheckDetailsFullUrl(userToRemove.id),
         templateName: constants.STOP_PAGE_ADD_ACCOUNT_OWNER
     });
 };

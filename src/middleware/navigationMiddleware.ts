@@ -3,6 +3,7 @@ import * as constants from "../lib/constants";
 import * as url from "node:url";
 import logger from "../lib/Logger";
 import { Navigation } from "types/navigation";
+import { getRemoveMemberCheckDetailsFullUrl } from "../lib/utils/urlUtils";
 
 export const NAVIGATION: Navigation = {
     [constants.CHECK_MEMBER_DETAILS_FULL_URL]: {
@@ -13,16 +14,16 @@ export const NAVIGATION: Navigation = {
         allowedReferers: [constants.CHECK_MEMBER_DETAILS_FULL_URL, constants.CONFIRMATION_MEMBER_ADDED_FULL_URL],
         redirectTo: constants.MANAGE_USER_FULL_URL
     },
-    [constants.getRemoveMemberCheckDetailsFullUrl("")]: {
-        allowedReferers: [constants.getRemoveMemberCheckDetailsFullUrl(""), constants.MANAGE_USER_FULL_URL, constants.STOP_PAGE_ADD_ACCOUNT_OWNER_URL_FULL_URL],
+    [getRemoveMemberCheckDetailsFullUrl("")]: {
+        allowedReferers: [getRemoveMemberCheckDetailsFullUrl(""), constants.MANAGE_USER_FULL_URL, constants.STOP_PAGE_ADD_ACCOUNT_OWNER_URL_FULL_URL],
         redirectTo: constants.MANAGE_USER_FULL_URL
     },
     [constants.CONFIRMATION_MEMBER_REMOVED_FULL_URL]: {
-        allowedReferers: [constants.getRemoveMemberCheckDetailsFullUrl(""), constants.CONFIRMATION_MEMBER_REMOVED_FULL_URL],
+        allowedReferers: [getRemoveMemberCheckDetailsFullUrl(""), constants.CONFIRMATION_MEMBER_REMOVED_FULL_URL],
         redirectTo: constants.MANAGE_USER_FULL_URL
     },
     [constants.CONFIRMATION_YOU_ARE_REMOVED_FULL_URL]: {
-        allowedReferers: [constants.getRemoveMemberCheckDetailsFullUrl(""), constants.CONFIRMATION_YOU_ARE_REMOVED_FULL_URL],
+        allowedReferers: [getRemoveMemberCheckDetailsFullUrl(""), constants.CONFIRMATION_YOU_ARE_REMOVED_FULL_URL],
         redirectTo: constants.MANAGE_USER_FULL_URL
     },
     [constants.CANNOT_ADD_USER_FULL_URL]: {
@@ -30,18 +31,16 @@ export const NAVIGATION: Navigation = {
         redirectTo: constants.MANAGE_USER_FULL_URL
     },
     [constants.STOP_PAGE_ADD_ACCOUNT_OWNER_URL_FULL_URL]: {
-        allowedReferers: [constants.getRemoveMemberCheckDetailsFullUrl(""), constants.STOP_PAGE_ADD_ACCOUNT_OWNER_URL_FULL_URL],
+        allowedReferers: [getRemoveMemberCheckDetailsFullUrl(""), constants.STOP_PAGE_ADD_ACCOUNT_OWNER_URL_FULL_URL],
         redirectTo: constants.MANAGE_USER_FULL_URL
     }
-
 };
 
 export const navigationMiddleware = (req: Request, res: Response, next: NextFunction): void => {
-
     const callerURL = url.parse(req.headers.referer || "", true).pathname || "";
     let currentPath = url.parse(req.originalUrl, true).pathname || "";
-    if (currentPath.startsWith(constants.getRemoveMemberCheckDetailsFullUrl(""))) {
-        currentPath = constants.getRemoveMemberCheckDetailsFullUrl("");
+    if (currentPath.startsWith(getRemoveMemberCheckDetailsFullUrl(""))) {
+        currentPath = getRemoveMemberCheckDetailsFullUrl("");
     }
 
     if (!NAVIGATION[currentPath]) {
