@@ -1,13 +1,9 @@
 import { NextFunction, Request, Response } from "express";
 import * as constants from "../lib/constants";
 import * as url from "node:url";
+import logger from "../lib/Logger";
+import { Navigation } from "types/navigation";
 
-export interface Navigation {
-    [x: string]: {
-        allowedReferers: string[];
-        redirectTo: string;
-    };
-}
 export const NAVIGATION: Navigation = {
     [constants.CHECK_MEMBER_DETAILS_FULL_URL]: {
         allowedReferers: [constants.ADD_USER_FULL_URL, constants.CHECK_MEMBER_DETAILS_FULL_URL],
@@ -48,22 +44,19 @@ export const navigationMiddleware = (req: Request, res: Response, next: NextFunc
         currentPath = constants.getRemoveMemberCheckDetailsFullUrl("");
     }
 
-    console.log("caller URL ", callerURL);
-    console.log("current path ", currentPath);
-    // if the current path is the check member details page before you add a user
-    // then the referrer must be manage users page
     if (!NAVIGATION[currentPath]) {
-        console.log("navigation for this path not found.");
+        logger.info("navigation not found for the current path.");
         return next();
-
     }
+
     const { allowedReferers, redirectTo } = NAVIGATION[currentPath];
     const refererAllowed = allowedReferers.some(ref => callerURL.includes(ref));
+
     if (!refererAllowed) {
-        console.log("redirecting...");
+        logger.info(`calling redirect, callerurl: ${callerURL}, currentPath: ${currentPath}`);
         return res.redirect(redirectTo);
     } else {
-        console.log("navigation found, refferrer is ok.");
+        logger.info("referer is ok.");
         return next();
     }
 };
