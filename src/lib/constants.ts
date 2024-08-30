@@ -97,6 +97,9 @@ export const ERRORS_ENTER_AN_EMAIL_ADDRESS_IN_THE_CORRECT_FORMAT = "errors_enter
 // query params
 export const CLEAR_FORM = "cf";
 export const CLEAR_FORM_TRUE = "?cf=true";
+export const OWNER_PAGE_QUERY_PARAM = "ownerPage";
+export const ADMIN_PAGE_QUERY_PARAM = "adminPage";
+export const STANDARD_PAGE_QUERY_PARAM = "standardPage";
 
 // session.extra_data
 export const DETAILS_OF_USER_TO_ADD = "detailsOfUserToAdd";
@@ -112,3 +115,4 @@ export const ACCOUNT_OWNERS_TAB_ID = `tab_${ACCOUNT_OWNERS_ID}`;
 export const ADMINISTRATORS_TAB_ID = `tab_${ADMINISTRATORS_ID}`;
 export const STANDARD_USERS_TAB_ID = `tab_${STANDARD_USERS_ID}`;
 export const NOT_PROVIDED = "Not Provided";
+export const ITEMS_PER_PAGE_DEFAULT = 15;

@@ -1,6 +1,6 @@
 import mocks from "../../../mocks/all.middleware.mock";
 import { userAdamBrownRemoveDetails } from "../../../mocks/user.mock";
-import { mockAcspMembersResource, getMockAcspMembersResource, accountOwnerAcspMembership } from "../../../mocks/acsp.members.mock";
+import { getMockAcspMembersResource, accountOwnerAcspMembership } from "../../../mocks/acsp.members.mock";
 import supertest from "supertest";
 import app from "../../../../src/app";
 import { Session } from "@companieshouse/node-session-handler";
@@ -69,7 +69,7 @@ describe("POST /authorised-agent/try-removing-user", () => {
         session.setExtraData(constants.DETAILS_OF_USER_TO_REMOVE, userToRemove);
         getLoggedUserAcspMembershipSpy.mockReturnValue({ ...userAdamBrownRemoveDetails });
         mockUpdateOrRemoveUserAcspMembership.mockResolvedValue();
-        mockGetAcspMemberships.mockResolvedValue(mockAcspMembersResource);
+        mockGetAcspMemberships.mockResolvedValue(getMockAcspMembersResource([accountOwnerAcspMembership]));
         const expectedPageHeading = "Found. Redirecting to /authorised-agent/confirmation-you-are-removed";
         // When
         const response = await router.post(url);
@@ -82,7 +82,7 @@ describe("POST /authorised-agent/try-removing-user", () => {
         session.setExtraData(constants.DETAILS_OF_USER_TO_REMOVE, accountOwnerAcspMembership);
         getLoggedUserAcspMembershipSpy.mockReturnValue(accountOwnerAcspMembership);
         mockUpdateOrRemoveUserAcspMembership.mockResolvedValue();
-        mockGetAcspMemberships.mockResolvedValue(getMockAcspMembersResource(accountOwnerAcspMembership));
+        mockGetAcspMemberships.mockResolvedValue(getMockAcspMembersResource([accountOwnerAcspMembership]));
         const expectedPageHeading = "Found. Redirecting to /authorised-agent/stop-page-add-account-owner";
         // When
         const response = await router.post(url);

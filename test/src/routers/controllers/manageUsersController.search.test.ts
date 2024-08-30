@@ -37,7 +37,7 @@ describe("manageUsersControllerGet - search", () => {
         const search = "not valid email address";
         getLoggedUserAcspMembershipSpy.mockReturnValue(loggedAccountOwnerAcspMembership);
         getAcspMembershipsSpy
-            .mockResolvedValue(getMockAcspMembersResource(accountOwnerAcspMembership));
+            .mockResolvedValue(getMockAcspMembersResource([accountOwnerAcspMembership]));
         // When
         const response = await router.get(`${url}?search=${search}`);
         // Then
@@ -49,7 +49,7 @@ describe("manageUsersControllerGet - search", () => {
         // Given
         const search = "james.morris@gmail.com";
         getLoggedUserAcspMembershipSpy.mockReturnValue(loggedAccountOwnerAcspMembership);
-        membershipLookupSpy.mockResolvedValue(getMockAcspMembersResource(accountOwnerAcspMembership));
+        membershipLookupSpy.mockResolvedValue(getMockAcspMembersResource([accountOwnerAcspMembership]));
         // When
         const response = await router.get(`${url}?search=${search}`);
         // Then
@@ -64,7 +64,7 @@ describe("manageUsersControllerGet - search", () => {
         // Given
         const search = "jeremy.lloris@gmail.com";
         getLoggedUserAcspMembershipSpy.mockReturnValue(loggedAccountOwnerAcspMembership);
-        membershipLookupSpy.mockResolvedValue(getMockAcspMembersResource(administratorAcspMembership));
+        membershipLookupSpy.mockResolvedValue(getMockAcspMembersResource([administratorAcspMembership]));
         // When
         const response = await router.get(`${url}?search=${search}`);
         // Then
@@ -79,7 +79,7 @@ describe("manageUsersControllerGet - search", () => {
         // Given
         const search = "jane.doe@gmail.com";
         getLoggedUserAcspMembershipSpy.mockReturnValue(loggedAccountOwnerAcspMembership);
-        membershipLookupSpy.mockResolvedValue(getMockAcspMembersResource(standardUserAcspMembership));
+        membershipLookupSpy.mockResolvedValue(getMockAcspMembersResource([standardUserAcspMembership]));
         // When
         const response = await router.get(`${url}?search=${search}`);
         // Then
