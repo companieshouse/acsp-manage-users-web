@@ -1,5 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import * as constants from "../lib/constants";
+import * as url from "node:url";
+
 export interface Navigation {
     [x: string]: {
         allowedReferers: string[];
@@ -15,19 +17,35 @@ export const NAVIGATION: Navigation = {
         allowedReferers: [constants.CHECK_MEMBER_DETAILS_FULL_URL, constants.CONFIRMATION_MEMBER_ADDED_FULL_URL],
         redirectTo: constants.MANAGE_USER_FULL_URL
     },
-    [constants.REMOVE_MEMBER_CHECK_DETAILS_FULL_URL]: {
-        allowedReferers: [constants.CHECK_MEMBER_DETAILS_FULL_URL, constants.REMOVE_MEMBER_CHECK_DETAILS_FULL_URL],
+    [constants.getRemoveMemberCheckDetailsFullUrl("")]: {
+        allowedReferers: [constants.getRemoveMemberCheckDetailsFullUrl(""), constants.MANAGE_USER_FULL_URL],
+        redirectTo: constants.MANAGE_USER_FULL_URL
+    },
+    [constants.CONFIRMATION_MEMBER_REMOVED_FULL_URL]: {
+        allowedReferers: [constants.getRemoveMemberCheckDetailsFullUrl(""), constants.CONFIRMATION_MEMBER_REMOVED_FULL_URL],
+        redirectTo: constants.MANAGE_USER_FULL_URL
+    },
+    [constants.CONFIRMATION_YOU_ARE_REMOVED_FULL_URL]: {
+        allowedReferers: [constants.getRemoveMemberCheckDetailsFullUrl(""), constants.CONFIRMATION_YOU_ARE_REMOVED_FULL_URL],
+        redirectTo: constants.MANAGE_USER_FULL_URL
+    },
+    [constants.CANNOT_ADD_USER_FULL_URL]: {
+        allowedReferers: [constants.CHECK_MEMBER_DETAILS_FULL_URL, constants.CANNOT_ADD_USER_FULL_URL],
+        redirectTo: constants.MANAGE_USER_FULL_URL
+    },
+    [constants.STOP_PAGE_ADD_ACCOUNT_OWNER_URL_FULL_URL]: {
+        allowedReferers: [constants.getRemoveMemberCheckDetailsFullUrl(""), constants.STOP_PAGE_ADD_ACCOUNT_OWNER_URL_FULL_URL],
         redirectTo: constants.MANAGE_USER_FULL_URL
     }
+
 };
 
 export const navigationMiddleware = (req: Request, res: Response, next: NextFunction): void => {
 
-    const callerURL = req.headers.referer || "";
-    let currentPath = req.path;
-
-    if (req.params.id) {
-        currentPath = currentPath.replace(req.params.id, ":id");
+    const callerURL = url.parse(req.headers.referer || "", true).pathname || "";
+    let currentPath = url.parse(req.originalUrl, true).pathname || "";
+    if (currentPath.startsWith(constants.getRemoveMemberCheckDetailsFullUrl(""))) {
+        currentPath = constants.getRemoveMemberCheckDetailsFullUrl("");
     }
 
     console.log("caller URL ", callerURL);

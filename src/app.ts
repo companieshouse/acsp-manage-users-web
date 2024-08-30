@@ -91,7 +91,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 });
 
 app.use(`${constants.LANDING_URL}*`, loggedUserAcspMembershipMiddleware);
-// app.use(navigationMiddleware);
+app.use(navigationMiddleware);
 
 // Channel all requests through router dispatch
 routerDispatch(app);
