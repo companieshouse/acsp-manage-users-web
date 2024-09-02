@@ -6,7 +6,8 @@ import fs from "fs";
 import { setExtraData, getExtraData } from "../lib/utils/sessionUtils";
 import { AnyRecord } from "../types/utilTypes";
 const locales = path.join(__dirname, "/../locales");
-const chNodeUtilsLocales = path.join(__dirname, "/../../node_modules/@companieshouse/ch-node-utils/locales");
+const chNodeUtilsLocalesLocal = path.join(__dirname, "/../../node_modules/@companieshouse/ch-node-utils/locales");
+const chNodeUtilsLocalesEnvironment = path.join(__dirname, "/../node_modules/@companieshouse/ch-node-utils/locales");
 
 const LANG = "lang";
 const supportedLanguages: string[] = ["en", "cy"];
@@ -35,7 +36,12 @@ export const enableI18next = (app: Application): void => {
      * - Maintain the ability to override or extend translations as needed
      */
     const resources = ["en", "cy"].reduce((acc: AnyRecord, lang) => {
-        const chNodeUtilsTranslations: AnyRecord = loadJsonFiles(path.join(chNodeUtilsLocales, lang));
+        let chNodeUtilsTranslations: AnyRecord;
+        try {
+            chNodeUtilsTranslations = loadJsonFiles(path.join(chNodeUtilsLocalesLocal, lang));
+        } catch {
+            chNodeUtilsTranslations = loadJsonFiles(path.join(chNodeUtilsLocalesEnvironment, lang));
+        }
         const localTranslations: AnyRecord = loadJsonFiles(path.join(locales, lang, "translation"));
 
         acc[lang] = {
