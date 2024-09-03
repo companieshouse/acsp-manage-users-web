@@ -15,6 +15,7 @@ import { getRemoveMemberCheckDetailsFullUrl } from "../../lib/utils/urlUtils";
 import { buildPaginationElement, getCurrentPageNumber, setLangForPagination, stringToPositiveInteger } from "../../lib/helpers/buildPaginationHelper";
 import { validatePageNumber } from "../../lib/validation/page.number.validation";
 import { validateActiveTabId } from "../../lib/validation/string.validation";
+import { NOT_PROVIDED_CY } from "../../lib/constants";
 
 export const manageUsersControllerGet = async (req: Request, res: Response): Promise<void> => {
     const viewData = await getViewData(req);
@@ -119,13 +120,28 @@ export const getViewData = async (req: Request): Promise<AnyRecord> => {
     const title = getTitle(translations, userRole, !!errorMessage);
     viewData.title = title;
 
-    const accountOwnersTableData: TableEntry[][] = getUserTableData(foundUser[0]?.userRole === UserRole.OWNER ? foundUser : ownerMembers, translations, userRole === UserRole.OWNER);
+    const accountOwnersTableData: TableEntry[][] = getUserTableData(
+        foundUser[0]?.userRole === UserRole.OWNER ? foundUser : ownerMembers,
+        translations,
+        userRole === UserRole.OWNER,
+        req.language
+    );
     viewData.accountOwnersTableData = accountOwnersTableData;
 
-    const administratorsTableData: TableEntry[][] = getUserTableData(foundUser[0]?.userRole === UserRole.ADMIN ? foundUser : adminMembers, translations, userRole !== UserRole.STANDARD);
+    const administratorsTableData: TableEntry[][] = getUserTableData(
+        foundUser[0]?.userRole === UserRole.ADMIN ? foundUser : adminMembers,
+        translations,
+        userRole !== UserRole.STANDARD,
+        req.language
+    );
     viewData.administratorsTableData = administratorsTableData;
 
-    const standardUsersTableData: TableEntry[][] = getUserTableData(foundUser[0]?.userRole === UserRole.STANDARD ? foundUser : standardMembers, translations, userRole !== UserRole.STANDARD);
+    const standardUsersTableData: TableEntry[][] = getUserTableData(
+        foundUser[0]?.userRole === UserRole.STANDARD ? foundUser : standardMembers,
+        translations,
+        userRole !== UserRole.STANDARD,
+        req.language
+    );
     viewData.standardUsersTableData = standardUsersTableData;
 
     const allMembersForThisAcsp = [...ownerMembers, ...adminMembers, ...standardMembers, ...foundUser].map<Membership>(member => ({
@@ -134,7 +150,7 @@ export const getViewData = async (req: Request): Promise<AnyRecord> => {
         userEmail: member.userEmail,
         acspNumber: member.acspNumber,
         userRole: member.userRole,
-        userDisplayName: member.userDisplayName,
+        userDisplayName: getDisplayNameOrNotProvided(req.language, member),
         displayNameOrEmail: getDisplayNameOrEmail(member)
     }));
 
@@ -147,14 +163,16 @@ const getActiveTabId = (req: Request): string => validateActiveTabId(req.query?.
 
 const getCancelSearchHref = (userRole: UserRole): string => userRole === UserRole.STANDARD ? constants.VIEW_USERS_FULL_URL : constants.MANAGE_USERS_FULL_URL;
 
-const getDisplayNameOrEmail = (member: AcspMembership): string => !member.userDisplayName || member.userDisplayName === constants.NOT_PROVIDED ? member.userEmail : member.userDisplayName;
+export const getDisplayNameOrEmail = (member: AcspMembership): string => !member.userDisplayName || member.userDisplayName === constants.NOT_PROVIDED ? member.userEmail : member.userDisplayName;
 
-const getUserTableData = (membership: AcspMembership[], translations: AnyRecord, hasRemoveLink: boolean): TableEntry[][] => {
+export const getDisplayNameOrNotProvided = (locale: string, member: AcspMembership): string => member.userDisplayName === constants.NOT_PROVIDED && locale === "cy" ? NOT_PROVIDED_CY : member.userDisplayName;
+
+const getUserTableData = (membership: AcspMembership[], translations: AnyRecord, hasRemoveLink: boolean, locale: string): TableEntry[][] => {
     const userTableDate: TableEntry[][] = [];
     for (const member of membership) {
         const tableEntry: TableEntry[] = [
             { text: member.userEmail },
-            { text: member.userDisplayName }
+            { text: getDisplayNameOrNotProvided(locale, member) }
         ];
         if (hasRemoveLink) {
             tableEntry[2] = { html: getLink(getRemoveMemberCheckDetailsFullUrl(member.id), `${translations.remove as string} ${getHiddenText(member.userEmail)}`) };

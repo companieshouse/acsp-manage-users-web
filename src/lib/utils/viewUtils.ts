@@ -1,7 +1,7 @@
 import { ViewData } from "../../types/utilTypes";
-import { UserRoleTag } from "../../types/userRoleTag";
-import { KnownUserRole } from "../../types/viewTypes";
+import { UserRoleTagEn, UserRoleTagCy } from "../../types/userRoleTagEn";
 import { UserRole } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
+import { KnownUserRole } from "../../types/viewTypes";
 
 export const getLink = (href: string, displayText: string): string => {
     return `<a data-event-id="remove" href="${href}">${displayText}</a>`;
@@ -24,20 +24,21 @@ export const addErrorToViewData = (
     };
 };
 
-export const getUserRoleTag = (userRole: KnownUserRole, isLowerCase: boolean): string => {
-    let tag = "";
-
-    switch (userRole) {
-    case UserRole.ADMIN:
-        tag = UserRoleTag.ADMIN.toString();
-        break;
-    case UserRole.OWNER:
-        tag = UserRoleTag.OWNER.toString();
-        break;
-    case UserRole.STANDARD:
-        tag = UserRoleTag.STANDARD.toString();
-        break;
+const translations = {
+    en: {
+        [UserRole.OWNER]: UserRoleTagEn.OWNER,
+        [UserRole.ADMIN]: UserRoleTagEn.ADMIN,
+        [UserRole.STANDARD]: UserRoleTagEn.STANDARD
+    },
+    cy: {
+        [UserRole.OWNER]: UserRoleTagCy.OWNER,
+        [UserRole.ADMIN]: UserRoleTagCy.ADMIN,
+        [UserRole.STANDARD]: UserRoleTagCy.STANDARD
     }
+};
 
+export const getUserRoleTag = (userRole: KnownUserRole, locale: string, isLowerCase: boolean): string => {
+    const translationMap = translations[locale as keyof typeof translations] || translations.en;
+    const tag = translationMap[userRole] || userRole;
     return isLowerCase ? tag.toLowerCase() : tag;
 };

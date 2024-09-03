@@ -1,6 +1,7 @@
 import { UserRole } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
 import { addErrorToViewData, getHiddenText, getLink, getUserRoleTag } from "../../../../src/lib/utils/viewUtils";
 import { ViewData } from "../../../../src/types/utilTypes";
+import { UserRoleTagCy, UserRoleTagEn } from "../../../../src/types/userRoleTagEn";
 
 describe("getLink", () => {
     it("should return a link when href and text provided", () => {
@@ -82,23 +83,23 @@ describe("addErrorToViewData", () => {
 });
 
 describe("getUserRoleTag", () => {
-    it("should return an unmodified user role tag text when user role provided and isLowerCase false", () => {
-        // Given
-        const userRole = UserRole.ADMIN;
-        const expectedDisplayText = "Administrator";
-        // When
-        const result = getUserRoleTag(userRole, false);
-        // Then
-        expect(result).toEqual(expectedDisplayText);
-    });
+    const testCases = [
+        { userRole: UserRole.OWNER, locale: "en", isLowerCase: false, expected: UserRoleTagEn.OWNER },
+        { userRole: UserRole.ADMIN, locale: "en", isLowerCase: false, expected: UserRoleTagEn.ADMIN },
+        { userRole: UserRole.STANDARD, locale: "en", isLowerCase: false, expected: UserRoleTagEn.STANDARD },
+        { userRole: UserRole.OWNER, locale: "cy", isLowerCase: false, expected: UserRoleTagCy.OWNER },
+        { userRole: UserRole.ADMIN, locale: "cy", isLowerCase: false, expected: UserRoleTagCy.ADMIN },
+        { userRole: UserRole.STANDARD, locale: "cy", isLowerCase: false, expected: UserRoleTagCy.STANDARD },
+        { userRole: UserRole.OWNER, locale: "en", isLowerCase: true, expected: UserRoleTagEn.OWNER.toLowerCase() },
+        { userRole: UserRole.ADMIN, locale: "cy", isLowerCase: true, expected: UserRoleTagCy.ADMIN.toLowerCase() },
+        { userRole: UserRole.STANDARD, locale: "fr", isLowerCase: false, expected: UserRoleTagEn.STANDARD }, // fallback to 'en'
+        { userRole: UserRole.OWNER, locale: "fr", isLowerCase: true, expected: UserRoleTagEn.OWNER.toLowerCase() } // fallback to 'en' and lowercase
+    ];
 
-    it("should return a user role tag text in lower case when user role provided and isLowerCase true", () => {
-        // Given
-        const userRole = UserRole.ADMIN;
-        const expectedDisplayText = "administrator";
-        // When
-        const result = getUserRoleTag(userRole, true);
-        // Then
-        expect(result).toEqual(expectedDisplayText);
-    });
+    test.each(testCases)("returns correct tag for role: $userRole, locale: $locale, isLowerCase: $isLowerCase",
+        ({ userRole, locale, isLowerCase, expected }) => {
+            const result = getUserRoleTag(userRole, locale, isLowerCase);
+            expect(result).toEqual(expected);
+        }
+    );
 });

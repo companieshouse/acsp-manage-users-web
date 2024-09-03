@@ -9,7 +9,7 @@ import cookieParser from "cookie-parser";
 import * as constants from "./lib/constants";
 import { authenticationMiddleware } from "./middleware/authentication.middleware";
 import { sessionMiddleware } from "./middleware/session.middleware";
-import { getTranslationsForView } from "./lib/utils/translationUtils";
+import { getTranslationsForView, translateEnum } from "./lib/utils/translationUtils";
 import { httpErrorHandler } from "./routers/controllers/httpErrorController";
 import { UserRole, AcspStatus } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
 import { loggedUserAcspMembershipMiddleware } from "./middleware/loggedUserAcspMembership.middleware";
@@ -84,6 +84,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
         });
     };
     res.locals.convertUserRole = convertUserRole;
+    res.locals.translateEnum = translateEnum(res.locals.locale);
     if (getLoggedUserAcspMembership(req.session)) {
         res.locals.displayAuthorisedAgent = "yes";
     }

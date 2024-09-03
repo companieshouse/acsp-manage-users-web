@@ -5,12 +5,18 @@ import * as en from "../../../../src/locales/en/translation/manage-users.json";
 import * as enCommon from "../../../../src/locales/en/translation/common.json";
 import * as sessionUtils from "../../../../src/lib/utils/sessionUtils";
 import * as acspMemberService from "../../../../src/services/acspMemberService";
+import * as constants from "../../../../src/lib/constants";
 import {
     accountOwnerAcspMembership,
     getMockAcspMembersResource,
     loggedAccountOwnerAcspMembership,
     standardUserAcspMembership
 } from "../../../mocks/acsp.members.mock";
+import { AcspMembership } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
+import {
+    getDisplayNameOrEmail,
+    getDisplayNameOrNotProvided
+} from "../../../../src/routers/controllers/manageUsersController";
 
 const router = supertest(app);
 
@@ -85,5 +91,28 @@ describe("GET /authorised-agent/manage-users", () => {
         expect(result.text).toContain(en.search);
         expect(result.text).toContain(en.cancel_search);
         expect(result.text).toContain(expectedTitle);
+    });
+});
+
+describe("getDisplayNameOrEmail", () => {
+    test.each([
+        [{ userDisplayName: "John Doe", userEmail: "john@example.com" }, "John Doe"],
+        [{ userDisplayName: null, userEmail: "jane@example.com" }, "jane@example.com"],
+        [{ userDisplayName: constants.NOT_PROVIDED, userEmail: "bob@example.com" }, "bob@example.com"],
+        [{ userDisplayName: "", userEmail: "empty@example.com" }, "empty@example.com"]
+    ])("returns correct display name or email for %p", (member, expected) => {
+        expect(getDisplayNameOrEmail(member as AcspMembership)).toBe(expected);
+    });
+});
+
+describe("getDisplayNameOrNotProvided", () => {
+    test.each([
+        ["en", { userDisplayName: "Alice Smith" }, "Alice Smith"],
+        ["en", { userDisplayName: constants.NOT_PROVIDED }, constants.NOT_PROVIDED],
+        ["cy", { userDisplayName: "Bob Jones" }, "Bob Jones"],
+        ["cy", { userDisplayName: constants.NOT_PROVIDED }, constants.NOT_PROVIDED_CY],
+        ["fr", { userDisplayName: constants.NOT_PROVIDED }, constants.NOT_PROVIDED] // Test with a different locale
+    ])("returns correct display name or \"Not Provided\" for locale %s and member %p", (locale, member, expected) => {
+        expect(getDisplayNameOrNotProvided(locale, member as AcspMembership)).toBe(expected);
     });
 });
