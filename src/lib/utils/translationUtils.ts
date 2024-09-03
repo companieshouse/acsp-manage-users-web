@@ -17,7 +17,7 @@ const translations = {
         // From UserRole enum
         owner: "Owner",
         admin: "Administrator",
-        standard: "Standard User",
+        standard: "Standard",
 
         // From AcspStatus enum
         suspended: "Suspended",
@@ -33,7 +33,7 @@ const translations = {
         // From UserRole enum
         owner: "[CY] Owner",
         admin: "[CY] Administrator",
-        standard: "[CY] Standard User",
+        standard: "[CY] Standard",
 
         // From AcspStatus enum
         suspended: "[CY] Suspended",
