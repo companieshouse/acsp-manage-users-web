@@ -11,7 +11,7 @@ export const dashboardControllerGet = async (req: Request, res: Response): Promi
     const agentNumber = loggedUserAcspMembership.acspNumber;
     const agentStatus = loggedUserAcspMembership.acspStatus;
     const userRole = loggedUserAcspMembership.userRole;
-    const userRoleTag = getUserRoleTag(userRole, true);
+    const userRoleTag = getUserRoleTag(userRole, req.language, true);
     const companyName = loggedUserAcspMembership.acspName;
 
     res.render(constants.DASHBOARD_PAGE,

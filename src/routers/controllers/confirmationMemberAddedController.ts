@@ -17,7 +17,7 @@ const getViewData = (req: Request): AnyRecord => {
 
     // Hardcoded data will be replaced once relevant API calls available
     const newUserDetails: NewUserDetails = getExtraData(req.session, constants.DETAILS_OF_USER_TO_ADD);
-    const userRole = getUserRoleTag(newUserDetails.userRole as UserRole, true);
+    const userRole = getUserRoleTag(newUserDetails.userRole as UserRole, req.language, true);
 
     const loggedInUserMembership: AcspMembership = getExtraData(req.session, constants.LOGGED_USER_ACSP_MEMBERSHIP);
     const companyName = loggedInUserMembership.acspName;
