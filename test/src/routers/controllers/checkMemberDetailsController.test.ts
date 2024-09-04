@@ -6,6 +6,7 @@ import { Session } from "@companieshouse/node-session-handler";
 import { NextFunction, Request, Response } from "express";
 import * as constants from "../../../../src/lib/constants";
 import * as en from "../../../../src/locales/en/translation/check-member-details.json";
+import * as enCommon from "../../../../src/locales/en/translation/common.json";
 import { UserRoleTagEn } from "../../../../src/types/userRoleTagEn";
 import { loggedAccountOwnerAcspMembership } from "../../../mocks/acsp.members.mock";
 
@@ -44,7 +45,7 @@ describe("GET /authorised-agent/check-member-details", () => {
         const response = await router.get(url);
         // Then
         expect(response.status).toEqual(200);
-        expect(response.text).toContain(en.back_link);
+        expect(response.text).toContain(enCommon.back_link);
         expect(response.text).toContain(en.change_details);
         expect(response.text).toContain(en.confirm_and_add_user);
         expect(response.text).toContain(en.page_header);
