@@ -5,6 +5,7 @@ import { Session } from "@companieshouse/node-session-handler";
 import { NextFunction, Request, Response } from "express";
 import * as constants from "../../../../src/lib/constants";
 import * as en from "../../../../src/locales/en/translation/cannot-add-user.json";
+import * as enCommon from "../../../../src/locales/en/translation/common.json";
 import { loggedAccountOwnerAcspMembership } from "../../../mocks/acsp.members.mock";
 
 const session: Session = new Session();
@@ -38,7 +39,7 @@ describe("GET /authorised-agent/cannot-add-user", () => {
         expect(response.text).toContain(en.cannot_add_user_title);
         expect(response.text).toContain(en.cannot_add_user_heading);
         expect(response.text).toContain(en.cannot_add_user_paragraph1);
-        expect(response.text).toContain(en.back_link);
+        expect(response.text).toContain(enCommon.back_link);
         expect(response.text).toContain(constants.CHECK_MEMBER_DETAILS_FULL_URL);
         expect(response.text).toContain(constants.MANAGE_USERS_FULL_URL);
         expect(response.text).toContain(loggedAccountOwnerAcspMembership.acspName);
