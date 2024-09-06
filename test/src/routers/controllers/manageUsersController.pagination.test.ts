@@ -22,7 +22,7 @@ import {
 } from "../../../mocks/acsp.members.mock";
 import { when } from "jest-when";
 import { UserRole } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
-import * as enCommon from "../../../../src/locales/en/translation/common.json";
+import * as enCommon from "../../../../locales/en/common.json";
 
 const router = supertest(app);
 const baseUrl = "/authorised-agent/manage-users";

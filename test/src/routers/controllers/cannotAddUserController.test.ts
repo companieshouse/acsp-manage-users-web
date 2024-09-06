@@ -4,8 +4,8 @@ import app from "../../../../src/app";
 import { Session } from "@companieshouse/node-session-handler";
 import { NextFunction, Request, Response } from "express";
 import * as constants from "../../../../src/lib/constants";
-import * as en from "../../../../src/locales/en/translation/cannot-add-user.json";
-import * as enCommon from "../../../../src/locales/en/translation/common.json";
+import * as en from "../../../../locales/en/cannot-add-user.json";
+import * as enCommon from "../../../../locales/en/common.json";
 import { loggedAccountOwnerAcspMembership } from "../../../mocks/acsp.members.mock";
 
 const session: Session = new Session();

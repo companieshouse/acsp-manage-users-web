@@ -51,7 +51,7 @@ export const getViewData = async (req: Request): Promise<AnyRecord> => {
         standardPage: stringToPositiveInteger(standardPage)
     };
 
-    const translations = getTranslationsForView(req.t, constants.MANAGE_USERS_PAGE);
+    const translations = getTranslationsForView((req as any).lang, constants.MANAGE_USERS_PAGE);
     const loggedUserAcspMembership: AcspMembership = getLoggedUserAcspMembership(req.session);
 
     const {
@@ -124,7 +124,7 @@ export const getViewData = async (req: Request): Promise<AnyRecord> => {
         foundUser[0]?.userRole === UserRole.OWNER ? foundUser : ownerMembers,
         translations,
         userRole === UserRole.OWNER,
-        req.language
+        (req as any).lang
     );
     viewData.accountOwnersTableData = accountOwnersTableData;
 
@@ -132,7 +132,7 @@ export const getViewData = async (req: Request): Promise<AnyRecord> => {
         foundUser[0]?.userRole === UserRole.ADMIN ? foundUser : adminMembers,
         translations,
         userRole !== UserRole.STANDARD,
-        req.language
+        (req as any).lang
     );
     viewData.administratorsTableData = administratorsTableData;
 
@@ -140,7 +140,7 @@ export const getViewData = async (req: Request): Promise<AnyRecord> => {
         foundUser[0]?.userRole === UserRole.STANDARD ? foundUser : standardMembers,
         translations,
         userRole !== UserRole.STANDARD,
-        req.language
+        (req as any).lang
     );
     viewData.standardUsersTableData = standardUsersTableData;
 
@@ -150,7 +150,7 @@ export const getViewData = async (req: Request): Promise<AnyRecord> => {
         userEmail: member.userEmail,
         acspNumber: member.acspNumber,
         userRole: member.userRole,
-        userDisplayName: getDisplayNameOrNotProvided(req.language, member),
+        userDisplayName: getDisplayNameOrNotProvided((req as any).lang, member),
         displayNameOrEmail: getDisplayNameOrEmail(member)
     }));
 

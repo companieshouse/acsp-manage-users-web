@@ -1,7 +1,7 @@
 import mocks from "../../../mocks/all.middleware.mock";
 import supertest from "supertest";
 import app from "../../../../src/app";
-import * as en from "../../../../src/locales/en/translation/stop-page-add-account-owner.json";
+import * as en from "../../../../locales/en/stop-page-add-account-owner.json";
 import { Session } from "@companieshouse/node-session-handler";
 import { Request, Response, NextFunction } from "express";
 import * as sessionUtils from "../../../../src/lib/utils/sessionUtils";

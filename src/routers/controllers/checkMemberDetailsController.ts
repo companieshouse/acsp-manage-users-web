@@ -13,9 +13,9 @@ export const checkMemberDetailsControllerGet = async (req: Request, res: Respons
 };
 
 const getViewData = (req: Request): AnyRecord => {
-    const translations = getTranslationsForView(req.t, constants.CHECK_MEMBER_DETAILS_PAGE);
+    const translations = getTranslationsForView((req as any).lang, constants.CHECK_MEMBER_DETAILS_PAGE);
     const newUserDetails: NewUserDetails = getExtraData(req.session, constants.DETAILS_OF_USER_TO_ADD);
-    const userRoleTag = getUserRoleTag(newUserDetails.userRole as UserRole, req.language, false);
+    const userRoleTag = getUserRoleTag(newUserDetails.userRole as UserRole, (req as any).lang, false);
 
     const loggedInUserMembership: AcspMembership = getExtraData(req.session, constants.LOGGED_USER_ACSP_MEMBERSHIP);
     const companyName = loggedInUserMembership.acspName;

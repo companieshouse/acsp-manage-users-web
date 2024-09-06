@@ -1,8 +1,8 @@
 import mocks from "../../../mocks/all.middleware.mock";
 import supertest from "supertest";
 import app from "../../../../src/app";
-import * as en from "../../../../src/locales/en/translation/confirmation-member-removed.json";
-import * as enCommon from "../../../../src/locales/en/translation/common.json";
+import * as en from "../../../../locales/en/confirmation-member-removed.json";
+import * as enCommon from "../../../../locales/en/common.json";
 import * as constants from "../../../../src/lib/constants";
 import { Session } from "@companieshouse/node-session-handler";
 import { Request, Response, NextFunction } from "express";

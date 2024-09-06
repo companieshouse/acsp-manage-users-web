@@ -13,11 +13,11 @@ export const confirmationMemberAddedControllerGet = async (req: Request, res: Re
 };
 
 const getViewData = (req: Request): AnyRecord => {
-    const translations = getTranslationsForView(req.t, constants.CONFIRMATION_MEMBER_ADDED_PAGE);
+    const translations = getTranslationsForView((req as any).lang, constants.CONFIRMATION_MEMBER_ADDED_PAGE);
 
     // Hardcoded data will be replaced once relevant API calls available
     const newUserDetails: NewUserDetails = getExtraData(req.session, constants.DETAILS_OF_USER_TO_ADD);
-    const userRole = getUserRoleTag(newUserDetails.userRole as UserRole, req.language, true);
+    const userRole = getUserRoleTag(newUserDetails.userRole as UserRole, (req as any).lang, true);
 
     const loggedInUserMembership: AcspMembership = getExtraData(req.session, constants.LOGGED_USER_ACSP_MEMBERSHIP);
     const companyName = loggedInUserMembership.acspName;

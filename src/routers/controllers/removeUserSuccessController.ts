@@ -12,7 +12,7 @@ export const removeUserSuccessControllerGet = async (req: Request, res: Response
 };
 
 const getViewData = (req: Request): AnyRecord => {
-    const translations = getTranslationsForView(req.t, constants.USER_REMOVE_CONFIRMATION_PAGE);
+    const translations = getTranslationsForView((req as any).lang, constants.USER_REMOVE_CONFIRMATION_PAGE);
     const removedMember: MemberForRemoval = getExtraData(req.session, constants.DETAILS_OF_USER_TO_REMOVE);
     const loggedUserAcspMembership: AcspMembership = getLoggedUserAcspMembership(req.session);
 

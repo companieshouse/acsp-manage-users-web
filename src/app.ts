@@ -4,7 +4,6 @@ import nunjucks from "nunjucks";
 import path from "path";
 import logger from "./lib/Logger";
 import routerDispatch from "./router.dispatch";
-import { enableI18next } from "./middleware/i18next.language";
 import cookieParser from "cookie-parser";
 import * as constants from "./lib/constants";
 import { authenticationMiddleware } from "./middleware/authentication.middleware";
@@ -18,6 +17,7 @@ import { LANGUAGE_CONFIG } from "./types/language";
 import { convertUserRole } from "./lib/utils/userRoleUtils";
 import { getLoggedInUserEmail, getLoggedUserAcspMembership } from "./lib/utils/sessionUtils";
 import { navigationMiddleware } from "./middleware/navigationMiddleware";
+import { LocalesMiddleware, LocalesService } from "@companieshouse/ch-node-utils";
 const app = express();
 
 app.set("views", [
@@ -67,12 +67,12 @@ app.use(cookieParser());
 app.use(`${constants.LANDING_URL}*`, sessionMiddleware);
 app.use(`${constants.LANDING_URL}*`, authenticationMiddleware);
 
-// Add i18next middleware
-enableI18next(app);
+LocalesService.getInstance("locales", true);
+app.use(LocalesMiddleware());
 
 app.use((req: Request, res: Response, next: NextFunction) => {
     res.locals.userEmailAddress = getLoggedInUserEmail(req.session);
-    res.locals.locale = req.language as string || LANGUAGE_CONFIG.defaultLanguage;
+    res.locals.locale = (req as any).lang as string || LANGUAGE_CONFIG.defaultLanguage;
     res.locals.languageConfig = LANGUAGE_CONFIG;
     res.locals.feedbackSource = req.originalUrl;
     res.locals.addLangToUrl = (lang: string): string => {
@@ -104,7 +104,7 @@ app.use(httpErrorHandler);
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 app.use((err: Error, req: Request, res: Response, next: NextFunction): void => {
     logger.error(`${err.name} - appError: ${err.message} - ${err.stack}`);
-    const translations = getTranslationsForView(req.t, constants.SERVICE_UNAVAILABLE);
+    const translations = getTranslationsForView((req as any).lang, constants.SERVICE_UNAVAILABLE);
     res.status(500).render(constants.SERVICE_UNAVAILABLE_TEMPLATE, { lang: translations });
 });
 
