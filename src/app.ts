@@ -72,7 +72,7 @@ enableI18next(app);
 
 app.use((req: Request, res: Response, next: NextFunction) => {
     res.locals.userEmailAddress = getLoggedInUserEmail(req.session);
-    res.locals.locale = req.language as string || LANGUAGE_CONFIG.defaultLanguage;
+    res.locals.locale = req.language || LANGUAGE_CONFIG.defaultLanguage;
     res.locals.languageConfig = LANGUAGE_CONFIG;
     res.locals.feedbackSource = req.originalUrl;
     res.locals.addLangToUrl = (lang: string): string => {
