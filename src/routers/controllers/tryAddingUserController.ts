@@ -34,7 +34,7 @@ export const tryAddingUserControllerPost = async (req: Request, res: Response): 
         return res.redirect(constants.CANNOT_ADD_USER_FULL_URL);
     }
 
-    const firstUser = userDetailsFromApi[0] as User;
+    const firstUser = userDetailsFromApi[0];
     try {
         await createAcspMembership(req, acspNumber, firstUser.userId as string, newUserDetails.userRole as UserRole);
         logger.info(`${tryAddingUserControllerPost.name}: Successfully added user ${firstUser.userId} to ACSP ${acspNumber}`);
