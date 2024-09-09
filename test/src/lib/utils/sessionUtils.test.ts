@@ -78,9 +78,38 @@ describe("Session Utils", () => {
             setExtraData(session, key, value);
             expect(session.data.extra_data[key]).toEqual(value);
             // When
-            deleteExtraData(session, key);
+            const result = deleteExtraData(session, key);
             // Then
             expect(session.data.extra_data[key]).toEqual(undefined);
+            expect(result).toBeTruthy();
+        });
+
+        it("should not delete extra data from session if exist and wrong key provided", () => {
+            // Given
+            const session: Session = new Session();
+            const key = "testKey";
+            const value = "testValue";
+            setExtraData(session, key, value);
+            expect(session.data.extra_data[key]).toEqual(value);
+            // When
+            const result = deleteExtraData(session, "wrongKey");
+            // Then
+            expect(session.data.extra_data[key]).toEqual(value);
+            expect(result).toBeTruthy();
+        });
+
+        it("should not delete extra data from session if session not provided", () => {
+            // Given
+            const session: Session = new Session();
+            const key = "testKey";
+            const value = "testValue";
+            setExtraData(session, key, value);
+            expect(session.data.extra_data[key]).toEqual(value);
+            // When
+            const result = deleteExtraData(undefined, key);
+            // Then
+            expect(session.data.extra_data[key]).toEqual(value);
+            expect(result).toBeFalsy();
         });
     });
 
@@ -89,7 +118,7 @@ describe("Session Utils", () => {
             // Given
             const accessToken = "access token";
             const session: Session = new Session();
-            (session.data.signin_info as any) = { access_token: { access_token: accessToken } };
+            (session.data.signin_info as unknown) = { access_token: { access_token: accessToken } };
             // When
             const result = getAccessToken(session);
             // Then
