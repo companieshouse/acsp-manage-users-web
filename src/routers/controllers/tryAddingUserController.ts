@@ -9,7 +9,6 @@ import { NewUserDetails } from "../../types/user";
 import { getExtraData } from "../../lib/utils/sessionUtils";
 import { createAcspMembership } from "../../services/acspMemberService";
 import { getUserDetails } from "../../services/userAccountService";
-import { User } from "private-api-sdk-node/dist/services/user-account/types";
 
 export const tryAddingUserControllerPost = async (req: Request, res: Response): Promise<void> => {
     const newUserDetails: NewUserDetails | undefined = getExtraData(req.session, constants.DETAILS_OF_USER_TO_ADD);
