@@ -8,6 +8,9 @@ import { getLoggedUserAcspMembership } from "../../lib/utils/sessionUtils";
 export const dashboardControllerGet = async (req: Request, res: Response): Promise<void> => {
     const translations = getTranslationsForView((req as any).lang, constants.DASHBOARD_PAGE);
     const loggedUserAcspMembership: AcspMembership = getLoggedUserAcspMembership(req.session);
+    if (loggedUserAcspMembership) {
+        res.locals.displayAuthorisedAgent = "yes";
+    }
     const agentNumber = loggedUserAcspMembership.acspNumber;
     const agentStatus = loggedUserAcspMembership.acspStatus;
     const userRole = loggedUserAcspMembership.userRole;

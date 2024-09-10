@@ -9,7 +9,6 @@ import { NewUserDetails } from "../../types/user";
 import { getExtraData } from "../../lib/utils/sessionUtils";
 import { createAcspMembership } from "../../services/acspMemberService";
 import { getUserDetails } from "../../services/userAccountService";
-import { User } from "private-api-sdk-node/dist/services/user-account/types";
 
 export const tryAddingUserControllerPost = async (req: Request, res: Response): Promise<void> => {
     const newUserDetails: NewUserDetails | undefined = getExtraData(req.session, constants.DETAILS_OF_USER_TO_ADD);
@@ -34,7 +33,7 @@ export const tryAddingUserControllerPost = async (req: Request, res: Response): 
         return res.redirect(constants.CANNOT_ADD_USER_FULL_URL);
     }
 
-    const firstUser = userDetailsFromApi[0] as User;
+    const firstUser = userDetailsFromApi[0];
     try {
         await createAcspMembership(req, acspNumber, firstUser.userId as string, newUserDetails.userRole as UserRole);
         logger.info(`${tryAddingUserControllerPost.name}: Successfully added user ${firstUser.userId} to ACSP ${acspNumber}`);
