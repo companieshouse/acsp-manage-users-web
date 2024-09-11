@@ -70,7 +70,8 @@ export const getViewData = async (req: Request): Promise<AnyRecord> => {
         accountOwnersTabId: constants.ACCOUNT_OWNERS_ID,
         administratorsTabId: constants.ADMINISTRATORS_ID,
         standardUsersTabId: constants.STANDARD_USERS_ID,
-        templateName: constants.MANAGE_USERS_PAGE
+        templateName: constants.MANAGE_USERS_PAGE,
+        manageUsersTabId: activeTabId
     };
 
     let foundUser: AcspMembership[] = [];
@@ -95,26 +96,24 @@ export const getViewData = async (req: Request): Promise<AnyRecord> => {
                     text: errorMessage
                 }
             };
-            ownerMembers = (await getAcspMemberships(req, acspNumber, false, 0, 10000, [UserRole.OWNER])).items;
-            adminMembers = (await getAcspMemberships(req, acspNumber, false, 0, 10000, [UserRole.ADMIN])).items;
-            standardMembers = (await getAcspMemberships(req, acspNumber, false, 0, 10000, [UserRole.STANDARD])).items;
+            pageNumbers.ownerPage = 1;
+            pageNumbers.adminPage = 1;
+            pageNumbers.standardPage = 1;
         }
         viewData.search = search;
-    } else {
-        const ownerMemberRawViewData = await getMemberRawViewData(req, acspNumber, pageNumbers, UserRole.OWNER, constants.ACCOUNT_OWNERS_TAB_ID, translations);
-        ownerMembers = ownerMemberRawViewData.memberships;
-        viewData.accoutOwnerPadinationData = ownerMemberRawViewData.pagination;
-
-        const adminMemberRawViewData = await getMemberRawViewData(req, acspNumber, pageNumbers, UserRole.ADMIN, constants.ADMINISTRATORS_TAB_ID, translations);
-        adminMembers = adminMemberRawViewData.memberships;
-        viewData.adminPadinationData = adminMemberRawViewData.pagination;
-
-        const standardMemberRawViewData = await getMemberRawViewData(req, acspNumber, pageNumbers, UserRole.STANDARD, constants.STANDARD_USERS_TAB_ID, translations);
-        standardMembers = standardMemberRawViewData.memberships;
-        viewData.standardUserPadinationData = standardMemberRawViewData.pagination;
-
-        viewData.manageUsersTabId = activeTabId;
     }
+
+    const ownerMemberRawViewData = await getMemberRawViewData(req, acspNumber, pageNumbers, UserRole.OWNER, constants.ACCOUNT_OWNERS_TAB_ID, translations);
+    ownerMembers = ownerMemberRawViewData.memberships;
+    viewData.accoutOwnerPadinationData = ownerMemberRawViewData.pagination;
+
+    const adminMemberRawViewData = await getMemberRawViewData(req, acspNumber, pageNumbers, UserRole.ADMIN, constants.ADMINISTRATORS_TAB_ID, translations);
+    adminMembers = adminMemberRawViewData.memberships;
+    viewData.adminPadinationData = adminMemberRawViewData.pagination;
+
+    const standardMemberRawViewData = await getMemberRawViewData(req, acspNumber, pageNumbers, UserRole.STANDARD, constants.STANDARD_USERS_TAB_ID, translations);
+    standardMembers = standardMemberRawViewData.memberships;
+    viewData.standardUserPadinationData = standardMemberRawViewData.pagination;
 
     const title = getTitle(translations, userRole, !!errorMessage);
     viewData.title = title;

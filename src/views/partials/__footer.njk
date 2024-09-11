@@ -85,7 +85,7 @@
             if ("{{errors}}" !== "") {
                 history.pushState(null, document.title, location.pathname + location.search);
                 window.scrollTo(0, 0);
-            } else {
+            } else if (window.location.search) {
                 let element = document.getElementById("{{manageUsersTabId}}".substring(4))
                 if (element) {
                     element.scrollIntoView();
