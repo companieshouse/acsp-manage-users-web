@@ -1,7 +1,7 @@
 import mocks from "../../../mocks/all.middleware.mock";
 import supertest from "supertest";
 import app from "../../../../src/app";
-import * as en from "../../../../src/locales/en/translation/manage-users.json";
+import * as en from "../../../../locales/en/manage-users.json";
 import * as acspMemberService from "../../../../src/services/acspMemberService";
 import {
     accountOwnerAcspMembership,

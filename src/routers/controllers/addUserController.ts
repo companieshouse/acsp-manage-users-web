@@ -17,7 +17,7 @@ export const addUserControllerGet = async (req: Request, res: Response): Promise
     const loggedInUserRole = loggedInUserMembership.userRole;
 
     const viewData: ViewData = {
-        lang: getTranslationsForView(req.t, constants.ADD_USER_PAGE),
+        lang: getTranslationsForView((req as any).lang, constants.ADD_USER_PAGE),
         companyName: loggedInUserMembership.acspName,
         backLinkUrl: constants.MANAGE_USERS_FULL_URL,
         loggedInUserRole,
@@ -48,7 +48,7 @@ export const addUserControllerPost = async (req: Request, res: Response): Promis
     const loggedInUserRole = acspMembership.userRole;
 
     const viewData: ViewData = {
-        lang: getTranslationsForView(req.t, constants.ADD_USER_PAGE),
+        lang: getTranslationsForView((req as any).lang, constants.ADD_USER_PAGE),
         companyName: acspMembership.acspName,
         backLinkUrl: constants.MANAGE_USERS_FULL_URL,
         email,

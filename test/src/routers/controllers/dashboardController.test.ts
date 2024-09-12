@@ -1,8 +1,8 @@
 import mocks from "../../../mocks/all.middleware.mock";
 import supertest from "supertest";
 import app from "../../../../src/app";
-import * as en from "../../../../src/locales/en/translation/dashboard.json";
-import * as cy from "../../../../src/locales/cy/translation/dashboard.json";
+import * as en from "../../../../locales/en/dashboard.json";
+import * as cy from "../../../../locales/cy/dashboard.json";
 import * as sessionUtils from "../../../../src/lib/utils/sessionUtils";
 import { accountOwnerAcspMembership, administratorAcspMembership, standardUserAcspMembership } from "../../../mocks/acsp.members.mock";
 import { Session } from "@companieshouse/node-session-handler";

@@ -1,5 +1,5 @@
-import * as en from "../../../../src/locales/en/translation/manage-users.json";
-import * as enCommon from "../../../../src/locales/en/translation/common.json";
+import * as en from "../../../../locales/en/manage-users.json";
+import * as enCommon from "../../../../locales/en/common.json";
 import { AnyRecord } from "../../../../src/types/utilTypes";
 import { UserRole } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
 import { getTitle } from "../../../../src/routers/controllers/manageUsersController";

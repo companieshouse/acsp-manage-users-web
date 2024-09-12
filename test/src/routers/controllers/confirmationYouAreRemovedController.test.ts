@@ -1,7 +1,7 @@
 import mocks from "../../../mocks/all.middleware.mock";
 import supertest from "supertest";
 import app from "../../../../src/app";
-import * as en from "../../../../src/locales/en/translation/confirmation-you-are-removed.json";
+import * as en from "../../../../locales/en/confirmation-you-are-removed.json";
 import * as constants from "../../../../src/lib/constants";
 import { Session } from "@companieshouse/node-session-handler";
 import { Request, Response, NextFunction } from "express";
