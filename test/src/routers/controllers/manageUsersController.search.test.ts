@@ -55,8 +55,8 @@ describe("manageUsersControllerGet - search", () => {
         // Then
         expect(response.text).toContain(accountOwnerAcspMembership.userEmail);
         expect(response.text).not.toContain(en.errors_enter_an_email_address_in_the_correct_format);
-        expect(response.text).not.toContain(en.you_have_no_admin_users);
-        expect(response.text).not.toContain(en.you_have_no_standard_users);
+        expect(response.text).toContain(en.you_have_no_admin_users);
+        expect(response.text).toContain(en.you_have_no_standard_users);
         expect(response.text).not.toContain(en.you_have_no_account_owners_users);
     });
 
@@ -71,8 +71,8 @@ describe("manageUsersControllerGet - search", () => {
         expect(response.text).toContain(administratorAcspMembership.userEmail);
         expect(response.text).not.toContain(en.errors_enter_an_email_address_in_the_correct_format);
         expect(response.text).not.toContain(en.you_have_no_admin_users);
-        expect(response.text).not.toContain(en.you_have_no_standard_users);
-        expect(response.text).not.toContain(en.you_have_no_account_owners_users);
+        expect(response.text).toContain(en.you_have_no_standard_users);
+        expect(response.text).toContain(en.you_have_no_account_owners_users);
     });
 
     it("should return an expected response if search string is a valid email address that has standard user ACSP membership", async () => {
@@ -85,9 +85,9 @@ describe("manageUsersControllerGet - search", () => {
         // Then
         expect(response.text).toContain(standardUserAcspMembership.userEmail);
         expect(response.text).not.toContain(en.errors_enter_an_email_address_in_the_correct_format);
-        expect(response.text).not.toContain(en.you_have_no_admin_users);
+        expect(response.text).toContain(en.you_have_no_admin_users);
         expect(response.text).not.toContain(en.you_have_no_standard_users);
-        expect(response.text).not.toContain(en.you_have_no_account_owners_users);
+        expect(response.text).toContain(en.you_have_no_account_owners_users);
     });
 
     it("should return nothing if search string is a valid email address that has no ACSP membership", async () => {
@@ -99,9 +99,9 @@ describe("manageUsersControllerGet - search", () => {
         const response = await router.get(`${url}?search=${search}`);
         // Then
         expect(response.text).not.toContain(en.errors_enter_an_email_address_in_the_correct_format);
-        expect(response.text).not.toContain(en.you_have_no_admin_users);
-        expect(response.text).not.toContain(en.you_have_no_standard_users);
-        expect(response.text).not.toContain(en.you_have_no_account_owners_users);
+        expect(response.text).toContain(en.you_have_no_admin_users);
+        expect(response.text).toContain(en.you_have_no_standard_users);
+        expect(response.text).toContain(en.you_have_no_account_owners_users);
     });
 });
 
