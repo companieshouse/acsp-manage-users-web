@@ -18,6 +18,8 @@ import { convertUserRole } from "./lib/utils/userRoleUtils";
 import { getLoggedInUserEmail, getLoggedUserAcspMembership } from "./lib/utils/sessionUtils";
 import { navigationMiddleware } from "./middleware/navigationMiddleware";
 import { LocalesMiddleware, LocalesService } from "@companieshouse/ch-node-utils";
+import { acspAuthMiddleware } from "./middleware/acsp.authentication.middleware";
+
 const app = express();
 
 app.set("views", [
@@ -66,6 +68,7 @@ app.use(cookieParser());
 
 app.use(`${constants.LANDING_URL}*`, sessionMiddleware);
 app.use(`${constants.LANDING_URL}*`, authenticationMiddleware);
+// app.use(`${constants.LANDING_URL}*`, acspAuthMiddleware);
 
 LocalesService.getInstance("locales", true);
 app.use(LocalesMiddleware());
