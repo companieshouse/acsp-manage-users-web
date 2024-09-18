@@ -80,69 +80,66 @@ export const getViewData = async (req: Request): Promise<AnyRecord> => {
     let standardMembers: AcspMembership[] = [];
     let errorMessage;
 
-    if (search) {
-        if (validateEmailString(search)) {
-            try {
-                foundUser = (await membershipLookup(req, acspNumber, search)).items;
-                setTabIds(viewData, foundUser[0]?.userRole);
-            } catch (error) {
-                logger.error(`ACSP membership for email ${search} not found.`);
+    if (search && validateEmailString(search)) {
+        try {
+            foundUser = (await membershipLookup(req, acspNumber, search)).items;
+            if (foundUser.length > 0) {
+                setTabIds(viewData, foundUser[0].userRole);
+                switch (foundUser[0].userRole) {
+                case UserRole.OWNER:
+                    ownerMembers = foundUser;
+                    break;
+                case UserRole.ADMIN:
+                    adminMembers = foundUser;
+                    break;
+                case UserRole.STANDARD:
+                    standardMembers = foundUser;
+                    break;
+                }
+            } else {
                 viewData.manageUsersTabId = constants.ACCOUNT_OWNERS_TAB_ID;
             }
-        } else {
-            errorMessage = constants.ERRORS_ENTER_AN_EMAIL_ADDRESS_IN_THE_CORRECT_FORMAT;
-            viewData.errors = {
-                search: {
-                    text: errorMessage
-                }
-            };
-            pageNumbers.ownerPage = 1;
-            pageNumbers.adminPage = 1;
-            pageNumbers.standardPage = 1;
+        } catch (error) {
+            logger.error(`ACSP membership for email ${search} not found.`);
+            viewData.manageUsersTabId = constants.ACCOUNT_OWNERS_TAB_ID;
         }
-        viewData.search = search;
+    } else if (search) {
+        errorMessage = constants.ERRORS_ENTER_AN_EMAIL_ADDRESS_IN_THE_CORRECT_FORMAT;
+        viewData.errors = {
+            search: {
+                text: errorMessage
+            }
+        };
+        pageNumbers.ownerPage = 1;
+        pageNumbers.adminPage = 1;
+        pageNumbers.standardPage = 1;
     }
 
-    const ownerMemberRawViewData = await getMemberRawViewData(req, acspNumber, pageNumbers, UserRole.OWNER, constants.ACCOUNT_OWNERS_TAB_ID, translations);
-    ownerMembers = ownerMemberRawViewData.memberships;
-    viewData.accoutOwnerPadinationData = ownerMemberRawViewData.pagination;
+    if (search) {
+        viewData.search = search;
+    } else {
+        // Only fetch all users if there's no search
+        const ownerMemberRawViewData = await getMemberRawViewData(req, acspNumber, pageNumbers, UserRole.OWNER, constants.ACCOUNT_OWNERS_TAB_ID, translations);
+        ownerMembers = ownerMemberRawViewData.memberships;
+        viewData.accoutOwnerPadinationData = ownerMemberRawViewData.pagination;
 
-    const adminMemberRawViewData = await getMemberRawViewData(req, acspNumber, pageNumbers, UserRole.ADMIN, constants.ADMINISTRATORS_TAB_ID, translations);
-    adminMembers = adminMemberRawViewData.memberships;
-    viewData.adminPadinationData = adminMemberRawViewData.pagination;
+        const adminMemberRawViewData = await getMemberRawViewData(req, acspNumber, pageNumbers, UserRole.ADMIN, constants.ADMINISTRATORS_TAB_ID, translations);
+        adminMembers = adminMemberRawViewData.memberships;
+        viewData.adminPadinationData = adminMemberRawViewData.pagination;
 
-    const standardMemberRawViewData = await getMemberRawViewData(req, acspNumber, pageNumbers, UserRole.STANDARD, constants.STANDARD_USERS_TAB_ID, translations);
-    standardMembers = standardMemberRawViewData.memberships;
-    viewData.standardUserPadinationData = standardMemberRawViewData.pagination;
+        const standardMemberRawViewData = await getMemberRawViewData(req, acspNumber, pageNumbers, UserRole.STANDARD, constants.STANDARD_USERS_TAB_ID, translations);
+        standardMembers = standardMemberRawViewData.memberships;
+        viewData.standardUserPadinationData = standardMemberRawViewData.pagination;
+    }
 
     const title = getTitle(translations, userRole, !!errorMessage);
     viewData.title = title;
 
-    const accountOwnersTableData: TableEntry[][] = getUserTableData(
-        foundUser[0]?.userRole === UserRole.OWNER ? foundUser : ownerMembers,
-        translations,
-        userRole === UserRole.OWNER,
-        (req as any).lang
-    );
-    viewData.accountOwnersTableData = accountOwnersTableData;
+    viewData.accountOwnersTableData = getUserTableData(ownerMembers, translations, userRole === UserRole.OWNER, (req as any).lang);
+    viewData.administratorsTableData = getUserTableData(adminMembers, translations, userRole !== UserRole.STANDARD, (req as any).lang);
+    viewData.standardUsersTableData = getUserTableData(standardMembers, translations, userRole !== UserRole.STANDARD, (req as any).lang);
 
-    const administratorsTableData: TableEntry[][] = getUserTableData(
-        foundUser[0]?.userRole === UserRole.ADMIN ? foundUser : adminMembers,
-        translations,
-        userRole !== UserRole.STANDARD,
-        (req as any).lang
-    );
-    viewData.administratorsTableData = administratorsTableData;
-
-    const standardUsersTableData: TableEntry[][] = getUserTableData(
-        foundUser[0]?.userRole === UserRole.STANDARD ? foundUser : standardMembers,
-        translations,
-        userRole !== UserRole.STANDARD,
-        (req as any).lang
-    );
-    viewData.standardUsersTableData = standardUsersTableData;
-
-    const allMembersForThisAcsp = [...ownerMembers, ...adminMembers, ...standardMembers, ...foundUser].map<Membership>(member => ({
+    const allMembersForThisAcsp = [...ownerMembers, ...adminMembers, ...standardMembers].map<Membership>(member => ({
         id: member.id,
         userId: member.userId,
         userEmail: member.userEmail,
