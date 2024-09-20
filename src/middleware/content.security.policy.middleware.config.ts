@@ -6,20 +6,16 @@ export const prepareCSPConfig = (nonce: string) : HelmetOptions => {
     const SELF = `'self'`;
     const NONCE = `'nonce-${nonce}'`;
     return {
-        // originAgentCluster: false,
-        // hsts: {
-        //     maxAge: ONE_YEAR_SECONDS,
-        //     includeSubDomains: true
-        // },
         contentSecurityPolicy: {
             directives: {
                 upgradeInsecureRequests: null,
-                defaultSrc: [SELF],
-                fontSrc: [CDN],
-                imgSrc: [CDN],
-                styleSrc: [NONCE, CDN],
+                defaultSrc: [SELF, PIWIK_URL],
+                fontSrc: [CDN, SELF],
+                imgSrc: [CDN, PIWIK_URL, SELF],
+                styleSrc: [SELF, NONCE, CDN],
                 connectSrc: [SELF, PIWIK_URL],
                 scriptSrc: [
+                    SELF,
                     NONCE,
                     CDN,
                     PIWIK_URL
