@@ -2,10 +2,14 @@ import { HelmetOptions } from "helmet";
 
 const CDN = process.env.ANY_PROTOCOL_CDN_HOST as string;
 const PIWIK_URL = process.env.PIWIK_URL as string;
+// const ONE_YEAR_SECONDS = 31536000;
 
 export const prepareCSPConfig = (nonce: string) : HelmetOptions => ({
-    crossOriginResourcePolicy: false,
-    originAgentCluster: false,
+    // originAgentCluster: false,
+    // hsts: {
+    //     maxAge: ONE_YEAR_SECONDS,
+    //     includeSubDomains: true
+    // },
     contentSecurityPolicy: {
         directives: {
             defaultSrc: [`'self'`],
