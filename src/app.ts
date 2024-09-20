@@ -18,6 +18,10 @@ import { convertUserRole } from "./lib/utils/userRoleUtils";
 import { getLoggedInUserEmail, getLoggedUserAcspMembership } from "./lib/utils/sessionUtils";
 import { navigationMiddleware } from "./middleware/navigationMiddleware";
 import { LocalesMiddleware, LocalesService } from "@companieshouse/ch-node-utils";
+import helmet from "helmet";
+import { v4 as uuidv4 } from "uuid";
+import { prepareCSPConfig } from "./middleware/content.security.policy.middleware.config";
+
 const app = express();
 
 app.set("views", [
@@ -64,6 +68,9 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use(cookieParser());
 
+const nonce: string = uuidv4();
+app.use(helmet(prepareCSPConfig(nonce)));
+
 app.use(`${constants.LANDING_URL}*`, sessionMiddleware);
 app.use(`${constants.LANDING_URL}*`, authenticationMiddleware);
 
@@ -88,6 +95,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
     if (getLoggedUserAcspMembership(req.session)) {
         res.locals.displayAuthorisedAgent = "yes";
     }
+    res.locals.nonce = nonce;
     next();
 });
 
