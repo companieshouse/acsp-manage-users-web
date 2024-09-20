@@ -1,29 +1,34 @@
 import { HelmetOptions } from "helmet";
 
-const CDN = process.env.ANY_PROTOCOL_CDN_HOST as string;
-const PIWIK_URL = process.env.PIWIK_URL as string;
-// const ONE_YEAR_SECONDS = 31536000;
-
-export const prepareCSPConfig = (nonce: string) : HelmetOptions => ({
-    // originAgentCluster: false,
-    // hsts: {
-    //     maxAge: ONE_YEAR_SECONDS,
-    //     includeSubDomains: true
-    // },
-    contentSecurityPolicy: {
-        directives: {
-            defaultSrc: [`'self'`],
-            fontSrc: [CDN],
-            upgradeInsecureRequests: null,
-            imgSrc: [CDN],
-            styleSrc: [`'nonce-${nonce}'`, CDN],
-            connectSrc: [`'self'`, PIWIK_URL],
-            scriptSrc: [
-                `'nonce-${nonce}'`,
-                CDN,
-                PIWIK_URL
-            ],
-            objectSrc: [`'none'`]
+export const prepareCSPConfig = (nonce: string) : HelmetOptions => {
+    const CDN = process.env.ANY_PROTOCOL_CDN_HOST as string;
+    const PIWIK_URL = process.env.PIWIK_URL as string;
+    const SELF = `'self'`;
+    const NONCE = `'nonce-${nonce}'`;
+    return {
+        // originAgentCluster: false,
+        // hsts: {
+        //     maxAge: ONE_YEAR_SECONDS,
+        //     includeSubDomains: true
+        // },
+        contentSecurityPolicy: {
+            directives: {
+                upgradeInsecureRequests: null,
+                defaultSrc: [SELF],
+                fontSrc: [CDN],
+                imgSrc: [CDN],
+                styleSrc: [NONCE, CDN],
+                connectSrc: [SELF, PIWIK_URL],
+                scriptSrc: [
+                    NONCE,
+                    CDN,
+                    PIWIK_URL
+                ],
+                objectSrc: [`'none'`]
+            }
+        },
+        referrerPolicy: {
+            policy: ["same-origin"]
         }
-    }
-});
+    };
+};
