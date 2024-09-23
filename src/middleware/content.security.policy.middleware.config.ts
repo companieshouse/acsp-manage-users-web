@@ -5,6 +5,8 @@ export const prepareCSPConfig = (nonce: string) : HelmetOptions => {
     const PIWIK_URL = process.env.PIWIK_URL as string;
     const SELF = `'self'`;
     const NONCE = `'nonce-${nonce}'`;
+    const ONE_YEAR_SECONDS = 31536000;
+
     return {
         contentSecurityPolicy: {
             directives: {
@@ -24,6 +26,10 @@ export const prepareCSPConfig = (nonce: string) : HelmetOptions => {
         },
         referrerPolicy: {
             policy: ["same-origin"]
+        },
+        hsts: {
+            maxAge: ONE_YEAR_SECONDS,
+            includeSubDomains: true
         }
     };
 };

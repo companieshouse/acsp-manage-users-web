@@ -55,6 +55,7 @@
     "ioredis": "5.4.1",
     "js-yaml": "^3.14.0",
     "luxon": "^3.4.4",
+    "nocache": "^4.0.0",
     "nunjucks": "3.2.4",
     "private-api-sdk-node": "github:companieshouse/private-api-sdk-node#1.0.29",
     "require-directory": "^2.1.1",

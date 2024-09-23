@@ -7,8 +7,8 @@ const sessionStore = new SessionStore(new Redis(`redis://${constants.CACHE_SERVE
 /*
     Passing true to SessionMiddleware means that a session will be created if none found.
 
-    cookieSecureFlag will default to true unless there is an env variable COOKIE_SECURE_ONLY
-    which has a string value of "false"
+    cookieSecureFlag will default to true unless env variable COOKIE_SECURE_ONLY
+    has a value of "false"
 */
 
 export const sessionMiddleware = SessionMiddleware({

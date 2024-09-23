@@ -21,6 +21,7 @@ import { LocalesMiddleware, LocalesService } from "@companieshouse/ch-node-utils
 import helmet from "helmet";
 import { v4 as uuidv4 } from "uuid";
 import { prepareCSPConfig } from "./middleware/content.security.policy.middleware.config";
+import nocache from "nocache";
 
 const app = express();
 
@@ -69,6 +70,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 const nonce: string = uuidv4();
+
+app.use(nocache());
 app.use(helmet(prepareCSPConfig(nonce)));
 
 app.use(`${constants.LANDING_URL}*`, sessionMiddleware);
