@@ -80,6 +80,7 @@ export const COOKIE_SECRET = getEnvironmentValue("COOKIE_SECRET");
 export const INTERNAL_API_URL = getEnvironmentValue("INTERNAL_API_URL");
 export const ACCOUNTS_USER_INTERNAL_API_KEY = getEnvironmentValue("ACCOUNTS_USER_INTERNAL_API_KEY");
 export const ACCOUNT_URL = getEnvironmentValue("ACCOUNT_URL");
+export const COOKIE_SECURE_ONLY = getEnvironmentValue("COOKIE_SECURE_ONLY");
 
 export const SERVICE_NAME = "ACSP Manage Users Web";
 
