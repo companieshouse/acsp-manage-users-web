@@ -8,7 +8,7 @@
 
     <body class="govuk-template__body" >
 
-        <script>
+        <script nonce={{ nonce | dump | safe }}>
             document.body.className += ' js-enabled' + (
                 'noModule' in HTMLScriptElement.prototype
                 ? ' govuk-frontend-supported'
