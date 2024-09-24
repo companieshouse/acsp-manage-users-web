@@ -36,12 +36,7 @@ export const getTitle = (translations: AnyRecord, loggedInUserRole: UserRole, is
 
 export const getViewData = async (req: Request): Promise<AnyRecord> => {
     const search = req.query?.search as string;
-    const {
-        ownerPage,
-        adminPage,
-        standardPage
-    } = getPageQueryParams(req);
-
+    const { ownerPage, adminPage, standardPage } = getPageQueryParams(req);
     const activeTabId = getActiveTabId(req);
 
     const pageNumbers: PageNumbers = {
@@ -51,13 +46,7 @@ export const getViewData = async (req: Request): Promise<AnyRecord> => {
     };
 
     const translations = getTranslationsForView((req as any).lang, constants.MANAGE_USERS_PAGE);
-    const loggedUserAcspMembership: AcspMembership = getLoggedUserAcspMembership(req.session);
-
-    const {
-        userRole,
-        acspNumber,
-        acspName
-    } = loggedUserAcspMembership;
+    const { userRole, acspNumber, acspName } = getLoggedUserAcspMembership(req.session);
 
     const viewData: AnyRecord = {
         lang: translations,
@@ -75,42 +64,41 @@ export const getViewData = async (req: Request): Promise<AnyRecord> => {
     };
 
     let errorMessage;
+    const isSearchValid = !search || validateEmailString(search);
 
-    if (search) {
-        if (validateEmailString(search)) {
-            try {
-                const foundUser = await membershipLookup(req, acspNumber, search);
-                if (foundUser.items.length > 0) {
-                    setTabIds(viewData, foundUser.items[0].userRole);
-                    const memberData = getUserTableData(foundUser.items, translations, userRole !== UserRole.STANDARD, (req as any).lang);
-                    switch (foundUser.items[0].userRole) {
-                    case UserRole.OWNER:
-                        viewData.accountOwnersTableData = memberData;
-                        break;
-                    case UserRole.ADMIN:
-                        viewData.administratorsTableData = memberData;
-                        break;
-                    case UserRole.STANDARD:
-                        viewData.standardUsersTableData = memberData;
-                        break;
-                    }
-                } else {
-                    viewData.manageUsersTabId = constants.ACCOUNT_OWNERS_TAB_ID;
+    if (search && !isSearchValid) {
+        errorMessage = constants.ERRORS_ENTER_AN_EMAIL_ADDRESS_IN_THE_CORRECT_FORMAT;
+        viewData.errors = {
+            search: {
+                text: errorMessage
+            }
+        };
+        viewData.search = search;
+    }
+
+    if (isSearchValid && search) {
+        try {
+            const foundUser = await membershipLookup(req, acspNumber, search);
+            if (foundUser.items.length > 0) {
+                setTabIds(viewData, foundUser.items[0].userRole);
+                const memberData = getUserTableData(foundUser.items, translations, userRole !== UserRole.STANDARD, (req as any).lang);
+                switch (foundUser.items[0].userRole) {
+                case UserRole.OWNER:
+                    viewData.accountOwnersTableData = memberData;
+                    break;
+                case UserRole.ADMIN:
+                    viewData.administratorsTableData = memberData;
+                    break;
+                case UserRole.STANDARD:
+                    viewData.standardUsersTableData = memberData;
+                    break;
                 }
-            } catch (error) {
-                logger.error(`ACSP membership for email ${search} not found.`);
+            } else {
                 viewData.manageUsersTabId = constants.ACCOUNT_OWNERS_TAB_ID;
             }
-        } else {
-            errorMessage = constants.ERRORS_ENTER_AN_EMAIL_ADDRESS_IN_THE_CORRECT_FORMAT;
-            viewData.errors = {
-                search: {
-                    text: errorMessage
-                }
-            };
-            pageNumbers.ownerPage = 1;
-            pageNumbers.adminPage = 1;
-            pageNumbers.standardPage = 1;
+        } catch (error) {
+            logger.error(`ACSP membership for email ${search} not found.`);
+            viewData.manageUsersTabId = constants.ACCOUNT_OWNERS_TAB_ID;
         }
         viewData.search = search;
     } else {
@@ -132,7 +120,7 @@ export const getViewData = async (req: Request): Promise<AnyRecord> => {
             ...ownerMemberRawViewData.memberships,
             ...adminMemberRawViewData.memberships,
             ...standardMemberRawViewData.memberships
-        ].map<Membership>(member => ({
+        ].map(member => ({
             id: member.id,
             userId: member.userId,
             userEmail: member.userEmail,
