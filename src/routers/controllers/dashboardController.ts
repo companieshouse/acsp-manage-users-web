@@ -6,7 +6,7 @@ import { getUserRoleTag } from "../../lib/utils/viewUtils";
 import { getLoggedUserAcspMembership } from "../../lib/utils/sessionUtils";
 
 export const dashboardControllerGet = async (req: Request, res: Response): Promise<void> => {
-    const translations = getTranslationsForView((req as any).lang, constants.DASHBOARD_PAGE);
+    const translations = getTranslationsForView(req.lang, constants.DASHBOARD_PAGE);
     const loggedUserAcspMembership: AcspMembership = getLoggedUserAcspMembership(req.session);
     if (loggedUserAcspMembership) {
         res.locals.displayAuthorisedAgent = "yes";
@@ -14,7 +14,7 @@ export const dashboardControllerGet = async (req: Request, res: Response): Promi
     const agentNumber = loggedUserAcspMembership.acspNumber;
     const agentStatus = loggedUserAcspMembership.acspStatus;
     const userRole = loggedUserAcspMembership.userRole;
-    const userRoleTag = getUserRoleTag(userRole, (req as any).lang, true);
+    const userRoleTag = getUserRoleTag(userRole, req.lang, true);
     const companyName = loggedUserAcspMembership.acspName;
 
     res.render(constants.DASHBOARD_PAGE,
