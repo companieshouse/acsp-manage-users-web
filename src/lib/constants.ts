@@ -17,6 +17,7 @@ export const MEMBER_ALREADY_REMOVED_PAGE = "member-already-removed";
 export const CONFIRMATION_YOU_ARE_REMOVED = "confirmation-you-are-removed";
 export const STOP_PAGE_ADD_ACCOUNT_OWNER = "stop-page-add-account-owner";
 export const CANNOT_ADD_USER = "cannot-add-user";
+export const EDIT_MEMBER_ROLE_PAGE = "edit-member-role";
 
 // Other Nunjucks template files
 export const SERVICE_UNAVAILABLE_TEMPLATE = "partials/service_unavailable";
@@ -61,6 +62,7 @@ export const STOP_PAGE_ADD_ACCOUNT_OWNER_URL = `/${STOP_PAGE_ADD_ACCOUNT_OWNER}`
 export const STOP_PAGE_ADD_ACCOUNT_OWNER_URL_FULL_URL = `${LANDING_URL}${STOP_PAGE_ADD_ACCOUNT_OWNER_URL}`;
 export const CANNOT_ADD_USER_URL = `/${CANNOT_ADD_USER}`;
 export const CANNOT_ADD_USER_FULL_URL = `${LANDING_URL}${CANNOT_ADD_USER_URL}`;
+export const EDIT_MEMBER_ROLE_URL = `${EDIT_MEMBER_ROLE_PAGE}/:id`;
 
 export const HEALTHCHECK = "/healthcheck";
 
