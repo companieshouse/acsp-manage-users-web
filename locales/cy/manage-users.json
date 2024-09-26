@@ -4,6 +4,8 @@
     "administrators": "[CY] Administrators",
     "back_link": "[CY] Return to authorised agent services",
     "cancel_search": "[CY] Cancel search",
+    "change_role": "[CY] Change role",
+    "change_users_role": "[CY] Change user’s role",
     "email_address": "[CY] Email address",
     "enter_the_users_full_email_address": "[CY] Enter the user’s full email address",
     "errors_enter_an_email_address_in_the_correct_format": "[CY] Enter an email address in the correct format, like name@example.com",

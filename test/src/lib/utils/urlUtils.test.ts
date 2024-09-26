@@ -1,6 +1,7 @@
 import {
     isWhitelistedUrl,
-    getRemoveMemberCheckDetailsFullUrl
+    getRemoveMemberCheckDetailsFullUrl,
+    getChangeMemberRoleFullUrl
 } from "../../../../src/lib/utils/urlUtils";
 
 describe("isWhitelistedUrl", () => {
@@ -49,5 +50,25 @@ describe("getRemoveMemberCheckDetailsFullUrl", () => {
         const result = getRemoveMemberCheckDetailsFullUrl(id);
         // Then
         expect(result).toEqual("/authorised-agent/remove-member/");
+    });
+});
+
+describe("getChangeMemberRoleFullUrl", () => {
+    it("Should return the change member role URL with the ID", () => {
+        // Given
+        const id = "123";
+        // When
+        const result = getChangeMemberRoleFullUrl(id);
+        // Then
+        expect(result).toEqual("/authorised-agent/edit-member-role/123");
+    });
+
+    it("Should return the change member role URL without an ID", () => {
+        // Given
+        const id = "";
+        // When
+        const result = getChangeMemberRoleFullUrl(id);
+        // Then
+        expect(result).toEqual("/authorised-agent/edit-member-role/");
     });
 });
