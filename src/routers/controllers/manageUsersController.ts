@@ -4,7 +4,6 @@ import { getTranslationsForView } from "../../lib/utils/translationUtils";
 import { AnyRecord, MemberRawViewData, PageNumbers, PageQueryParams } from "../../types/utilTypes";
 import { TableEntry } from "../../types/viewTypes";
 import { getHiddenText, getLink } from "../../lib/utils/viewUtils";
-import { Membership } from "../../types/membership";
 import { setExtraData, getLoggedUserAcspMembership } from "../../lib/utils/sessionUtils";
 import { AcspMembership, UserRole } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
 import { getAcspMemberships, membershipLookup } from "../../services/acspMemberService";
@@ -45,7 +44,7 @@ export const getViewData = async (req: Request): Promise<AnyRecord> => {
         standardPage: stringToPositiveInteger(standardPage)
     };
 
-    const translations = getTranslationsForView((req as any).lang, constants.MANAGE_USERS_PAGE);
+    const translations = getTranslationsForView(req.lang, constants.MANAGE_USERS_PAGE);
     const { userRole, acspNumber, acspName } = getLoggedUserAcspMembership(req.session);
 
     const viewData: AnyRecord = {
@@ -81,7 +80,7 @@ export const getViewData = async (req: Request): Promise<AnyRecord> => {
             const foundUser = await membershipLookup(req, acspNumber, search);
             if (foundUser.items.length > 0) {
                 setTabIds(viewData, foundUser.items[0].userRole);
-                const memberData = getUserTableData(foundUser.items, translations, userRole !== UserRole.STANDARD, (req as any).lang);
+                const memberData = getUserTableData(foundUser.items, translations, userRole !== UserRole.STANDARD, req.lang);
                 switch (foundUser.items[0].userRole) {
                 case UserRole.OWNER:
                     viewData.accountOwnersTableData = memberData;
@@ -108,9 +107,9 @@ export const getViewData = async (req: Request): Promise<AnyRecord> => {
             getMemberRawViewData(req, acspNumber, pageNumbers, UserRole.STANDARD, constants.STANDARD_USERS_TAB_ID, translations)
         ]);
 
-        viewData.accountOwnersTableData = getUserTableData(ownerMemberRawViewData.memberships, translations, userRole === UserRole.OWNER, (req as any).lang);
-        viewData.administratorsTableData = getUserTableData(adminMemberRawViewData.memberships, translations, userRole !== UserRole.STANDARD, (req as any).lang);
-        viewData.standardUsersTableData = getUserTableData(standardMemberRawViewData.memberships, translations, userRole !== UserRole.STANDARD, (req as any).lang);
+        viewData.accountOwnersTableData = getUserTableData(ownerMemberRawViewData.memberships, translations, userRole === UserRole.OWNER, req.lang);
+        viewData.administratorsTableData = getUserTableData(adminMemberRawViewData.memberships, translations, userRole !== UserRole.STANDARD, req.lang);
+        viewData.standardUsersTableData = getUserTableData(standardMemberRawViewData.memberships, translations, userRole !== UserRole.STANDARD, req.lang);
 
         viewData.accoutOwnerPadinationData = ownerMemberRawViewData.pagination;
         viewData.adminPadinationData = adminMemberRawViewData.pagination;
@@ -126,7 +125,7 @@ export const getViewData = async (req: Request): Promise<AnyRecord> => {
             userEmail: member.userEmail,
             acspNumber: member.acspNumber,
             userRole: member.userRole,
-            userDisplayName: getDisplayNameOrNotProvided((req as any).lang, member),
+            userDisplayName: getDisplayNameOrNotProvided(req.lang, member),
             displayNameOrEmail: getDisplayNameOrEmail(member)
         }));
 

@@ -6,7 +6,7 @@ import { getExtraData } from "../../lib/utils/sessionUtils";
 import { AcspMembership } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
 
 export const cannotAddUserController = async (req: Request, res: Response): Promise<void> => {
-    const translations = getTranslationsForView((req as any).lang, constants.CANNOT_ADD_USER);
+    const translations = getTranslationsForView(req.lang, constants.CANNOT_ADD_USER);
 
     const loggedInUserMembership: AcspMembership = getExtraData(req.session, constants.LOGGED_USER_ACSP_MEMBERSHIP);
     const { acspName } = loggedInUserMembership ?? {};

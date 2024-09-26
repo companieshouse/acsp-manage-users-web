@@ -18,7 +18,7 @@ export const stopPageAddOwnerControllerGet: RequestHandler = async (req: Request
 
     res.render(constants.STOP_PAGE_ADD_ACCOUNT_OWNER, {
         buttonHref: constants.ADD_USER_FULL_URL,
-        lang: getTranslationsForView((req as any).lang, constants.STOP_PAGE_ADD_ACCOUNT_OWNER),
+        lang: getTranslationsForView(req.lang, constants.STOP_PAGE_ADD_ACCOUNT_OWNER),
         companyName: loggedUserAcspMembership.acspName,
         linkHref: constants.MANAGE_USERS_FULL_URL,
         backLinkUrl: getRemoveMemberCheckDetailsFullUrl(userToRemove.id),

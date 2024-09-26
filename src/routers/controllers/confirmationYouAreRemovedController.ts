@@ -12,7 +12,7 @@ export const removeYourselfControllerGet = async (req: Request, res: Response): 
 };
 
 const getViewData = (req: Request): AnyRecord => {
-    const translations = getTranslationsForView((req as any).lang, constants.CONFIRMATION_YOU_ARE_REMOVED);
+    const translations = getTranslationsForView(req.lang, constants.CONFIRMATION_YOU_ARE_REMOVED);
     const removedUserDetails: MemberForRemoval = getExtraData(req.session, constants.DETAILS_OF_USER_TO_REMOVE);
     const loggedUserAcspMembership: AcspMembership = getLoggedUserAcspMembership(req.session);
 

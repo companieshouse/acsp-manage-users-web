@@ -82,7 +82,7 @@ app.use(LocalesMiddleware());
 
 app.use((req: Request, res: Response, next: NextFunction) => {
     res.locals.userEmailAddress = getLoggedInUserEmail(req.session);
-    res.locals.locale = (req as any).lang as string || LANGUAGE_CONFIG.defaultLanguage;
+    res.locals.locale = req.lang || LANGUAGE_CONFIG.defaultLanguage;
     res.locals.languageConfig = LANGUAGE_CONFIG;
     res.locals.feedbackSource = req.originalUrl;
     res.locals.addLangToUrl = (lang: string): string => {
@@ -115,7 +115,7 @@ app.use(httpErrorHandler);
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 app.use((err: Error, req: Request, res: Response, next: NextFunction): void => {
     logger.error(`${err.name} - appError: ${err.message} - ${err.stack}`);
-    const translations = getTranslationsForView((req as any).lang, constants.SERVICE_UNAVAILABLE);
+    const translations = getTranslationsForView(req.lang, constants.SERVICE_UNAVAILABLE);
     res.status(500).render(constants.SERVICE_UNAVAILABLE_TEMPLATE, { lang: translations });
 });
 
