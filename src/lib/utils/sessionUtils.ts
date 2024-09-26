@@ -19,6 +19,11 @@ export const getLoggedUserAcspMembership = (session: Session | undefined): AcspM
     return getExtraData(session, constants.LOGGED_USER_ACSP_MEMBERSHIP);
 };
 
+export const getLoggedInAcspNumber = (session: Session | undefined): string => {
+    const signInInfo = getSignInInfo(session);
+    return signInInfo?.[SignInInfoKeys.AcspNumber] as string;
+};
+
 export const setExtraData = (session: Session | undefined, key: string, data: unknown): void => {
     return session?.setExtraData(key, data);
 };

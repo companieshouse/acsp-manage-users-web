@@ -1,5 +1,5 @@
 import "express-async-errors";
-import express, { NextFunction, Request, Response } from "express";
+import express, { NextFunction, Request, RequestHandler, Response } from "express";
 import nunjucks from "nunjucks";
 import path from "path";
 import logger from "./lib/Logger";
@@ -22,6 +22,7 @@ import helmet from "helmet";
 import { v4 as uuidv4 } from "uuid";
 import { prepareCSPConfig } from "./middleware/content.security.policy.middleware.config";
 import nocache from "nocache";
+import { acspAuthMiddleware } from "./middleware/acsp.authentication.middleware";
 
 const app = express();
 
@@ -74,8 +75,9 @@ const nonce: string = uuidv4();
 app.use(nocache());
 app.use(helmet(prepareCSPConfig(nonce)));
 
-app.use(`${constants.LANDING_URL}*`, sessionMiddleware);
+app.use(`${constants.LANDING_URL}*`, sessionMiddleware as RequestHandler);
 app.use(`${constants.LANDING_URL}*`, authenticationMiddleware);
+app.use(`${constants.LANDING_URL}*`, acspAuthMiddleware);
 
 LocalesService.getInstance("locales", true);
 app.use(LocalesMiddleware());
