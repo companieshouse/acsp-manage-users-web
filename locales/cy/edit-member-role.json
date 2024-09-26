@@ -1,0 +1,24 @@
+{
+    "all_users_who_are_added": "[CY] All users who are added to this account will be able to:",
+    "all_users_who_are_added_bullet_points": [
+        "[CY] verify people’s identity for Companies House from ",
+        "[CY] file as an authorised agent from "
+    ],
+    "change_role_for": "[CY] Change role for ",
+    "they_will_be_able_to": "[CY] They will be able to:",
+    "they_will_be_able_to_add_and_remove": "[CY] They will be able to add and remove:",
+    "they_will_be_able_to_add_and_remove_bullet_points": [
+        "[CY] administrators",
+        "[CY] standard users"
+    ],
+    "they_will_be_able_to_bullet_points": [
+        "[CY] make changes to the authorised agent's details",
+        "[CY] add and remove all users"
+    ],
+    "they_will_not_be_able": "[CY] They will not be able to add or remove other users.",
+    "user_role_tags": {
+        "account_owner": "[CY] Account owner",
+        "administrator": "[CY] Administrator",
+        "standard_user": "[CY] Standard user"
+    }
+}

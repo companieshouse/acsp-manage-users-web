@@ -15,7 +15,9 @@ export type ViewData = {
     email?: string;
     userRole?: string;
     loggedInUserRole?: UserRole,
-    templateName: string
+    templateName: string,
+    verifyPeopleIdentityFromDate?: string,
+    fileAsAuthorisedAgentFromDate?: string
 };
 
 export type MemberRawViewData = {

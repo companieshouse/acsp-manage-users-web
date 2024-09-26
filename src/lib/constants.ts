@@ -84,6 +84,7 @@ export const SOMETHING_WENT_WRONG_URL = `/${SOMETHING_WENT_WRONG}`;
 export const SOMETHING_WENT_WRONG_FULL_URL = `${LANDING_URL}${SOMETHING_WENT_WRONG_URL}`;
 export const SIGN_OUT_URL = `${CHS_URL}/signout`;
 export const EDIT_MEMBER_ROLE_URL = `${EDIT_MEMBER_ROLE_PAGE}/:id`;
+export const EDIT_MEMBER_ROLE_FULL_URL = `${LANDING_URL}${EDIT_MEMBER_ROLE_URL}`;
 
 export const HEALTHCHECK = "/healthcheck";
 
