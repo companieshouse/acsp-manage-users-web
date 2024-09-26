@@ -19,6 +19,10 @@ import { getLoggedInUserEmail, getLoggedUserAcspMembership } from "./lib/utils/s
 import { navigationMiddleware } from "./middleware/navigationMiddleware";
 import { LocalesMiddleware, LocalesService } from "@companieshouse/ch-node-utils";
 import { acspAuthMiddleware } from "./middleware/acsp.authentication.middleware";
+import helmet from "helmet";
+import { v4 as uuidv4 } from "uuid";
+import { prepareCSPConfig } from "./middleware/content.security.policy.middleware.config";
+import nocache from "nocache";
 
 const app = express();
 
@@ -66,9 +70,14 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use(cookieParser());
 
+const nonce: string = uuidv4();
+
+app.use(nocache());
+app.use(helmet(prepareCSPConfig(nonce)));
+
 app.use(`${constants.LANDING_URL}*`, sessionMiddleware);
 app.use(`${constants.LANDING_URL}*`, authenticationMiddleware);
-// app.use(`${constants.LANDING_URL}*`, acspAuthMiddleware);
+app.use(`${constants.LANDING_URL}*`, acspAuthMiddleware);
 
 LocalesService.getInstance("locales", true);
 app.use(LocalesMiddleware());
@@ -91,6 +100,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
     if (getLoggedUserAcspMembership(req.session)) {
         res.locals.displayAuthorisedAgent = "yes";
     }
+    res.locals.nonce = nonce;
     next();
 });
 

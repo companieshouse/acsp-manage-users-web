@@ -36,12 +36,7 @@ export const getTitle = (translations: AnyRecord, loggedInUserRole: UserRole, is
 
 export const getViewData = async (req: Request): Promise<AnyRecord> => {
     const search = req.query?.search as string;
-    const {
-        ownerPage,
-        adminPage,
-        standardPage
-    } = getPageQueryParams(req);
-
+    const { ownerPage, adminPage, standardPage } = getPageQueryParams(req);
     const activeTabId = getActiveTabId(req);
 
     const pageNumbers: PageNumbers = {
@@ -51,13 +46,7 @@ export const getViewData = async (req: Request): Promise<AnyRecord> => {
     };
 
     const translations = getTranslationsForView((req as any).lang, constants.MANAGE_USERS_PAGE);
-    const loggedUserAcspMembership: AcspMembership = getLoggedUserAcspMembership(req.session);
-
-    const {
-        userRole,
-        acspNumber,
-        acspName
-    } = loggedUserAcspMembership;
+    const { userRole, acspNumber, acspName } = getLoggedUserAcspMembership(req.session);
 
     const viewData: AnyRecord = {
         lang: translations,
@@ -74,85 +63,78 @@ export const getViewData = async (req: Request): Promise<AnyRecord> => {
         manageUsersTabId: activeTabId
     };
 
-    let foundUser: AcspMembership[] = [];
-    let ownerMembers: AcspMembership[] = [];
-    let adminMembers: AcspMembership[] = [];
-    let standardMembers: AcspMembership[] = [];
     let errorMessage;
+    const isSearchValid = !search || validateEmailString(search);
 
-    if (search) {
-        if (validateEmailString(search)) {
-            try {
-                foundUser = (await membershipLookup(req, acspNumber, search)).items;
-                setTabIds(viewData, foundUser[0]?.userRole);
-            } catch (error) {
-                logger.error(`ACSP membership for email ${search} not found.`);
-                viewData.manageUsersTabId = constants.ACCOUNT_OWNERS_TAB_ID;
+    if (search && !isSearchValid) {
+        errorMessage = constants.ERRORS_ENTER_AN_EMAIL_ADDRESS_IN_THE_CORRECT_FORMAT;
+        viewData.errors = {
+            search: {
+                text: errorMessage
             }
-        } else {
-            errorMessage = constants.ERRORS_ENTER_AN_EMAIL_ADDRESS_IN_THE_CORRECT_FORMAT;
-            viewData.errors = {
-                search: {
-                    text: errorMessage
-                }
-            };
-            pageNumbers.ownerPage = 1;
-            pageNumbers.adminPage = 1;
-            pageNumbers.standardPage = 1;
-        }
+        };
         viewData.search = search;
     }
 
-    const ownerMemberRawViewData = await getMemberRawViewData(req, acspNumber, pageNumbers, UserRole.OWNER, constants.ACCOUNT_OWNERS_TAB_ID, translations);
-    ownerMembers = ownerMemberRawViewData.memberships;
-    viewData.accoutOwnerPadinationData = ownerMemberRawViewData.pagination;
+    if (isSearchValid && search) {
+        try {
+            const foundUser = await membershipLookup(req, acspNumber, search);
+            if (foundUser.items.length > 0) {
+                setTabIds(viewData, foundUser.items[0].userRole);
+                const memberData = getUserTableData(foundUser.items, translations, userRole !== UserRole.STANDARD, (req as any).lang);
+                switch (foundUser.items[0].userRole) {
+                case UserRole.OWNER:
+                    viewData.accountOwnersTableData = memberData;
+                    break;
+                case UserRole.ADMIN:
+                    viewData.administratorsTableData = memberData;
+                    break;
+                case UserRole.STANDARD:
+                    viewData.standardUsersTableData = memberData;
+                    break;
+                }
+            } else {
+                viewData.manageUsersTabId = constants.ACCOUNT_OWNERS_TAB_ID;
+            }
+        } catch (error) {
+            logger.error(`ACSP membership for email ${search} not found.`);
+            viewData.manageUsersTabId = constants.ACCOUNT_OWNERS_TAB_ID;
+        }
+        viewData.search = search;
+    } else {
+        const [ownerMemberRawViewData, adminMemberRawViewData, standardMemberRawViewData] = await Promise.all([
+            getMemberRawViewData(req, acspNumber, pageNumbers, UserRole.OWNER, constants.ACCOUNT_OWNERS_TAB_ID, translations),
+            getMemberRawViewData(req, acspNumber, pageNumbers, UserRole.ADMIN, constants.ADMINISTRATORS_TAB_ID, translations),
+            getMemberRawViewData(req, acspNumber, pageNumbers, UserRole.STANDARD, constants.STANDARD_USERS_TAB_ID, translations)
+        ]);
 
-    const adminMemberRawViewData = await getMemberRawViewData(req, acspNumber, pageNumbers, UserRole.ADMIN, constants.ADMINISTRATORS_TAB_ID, translations);
-    adminMembers = adminMemberRawViewData.memberships;
-    viewData.adminPadinationData = adminMemberRawViewData.pagination;
+        viewData.accountOwnersTableData = getUserTableData(ownerMemberRawViewData.memberships, translations, userRole === UserRole.OWNER, (req as any).lang);
+        viewData.administratorsTableData = getUserTableData(adminMemberRawViewData.memberships, translations, userRole !== UserRole.STANDARD, (req as any).lang);
+        viewData.standardUsersTableData = getUserTableData(standardMemberRawViewData.memberships, translations, userRole !== UserRole.STANDARD, (req as any).lang);
 
-    const standardMemberRawViewData = await getMemberRawViewData(req, acspNumber, pageNumbers, UserRole.STANDARD, constants.STANDARD_USERS_TAB_ID, translations);
-    standardMembers = standardMemberRawViewData.memberships;
-    viewData.standardUserPadinationData = standardMemberRawViewData.pagination;
+        viewData.accoutOwnerPadinationData = ownerMemberRawViewData.pagination;
+        viewData.adminPadinationData = adminMemberRawViewData.pagination;
+        viewData.standardUserPadinationData = standardMemberRawViewData.pagination;
+
+        const allMembersForThisAcsp = [
+            ...ownerMemberRawViewData.memberships,
+            ...adminMemberRawViewData.memberships,
+            ...standardMemberRawViewData.memberships
+        ].map(member => ({
+            id: member.id,
+            userId: member.userId,
+            userEmail: member.userEmail,
+            acspNumber: member.acspNumber,
+            userRole: member.userRole,
+            userDisplayName: getDisplayNameOrNotProvided((req as any).lang, member),
+            displayNameOrEmail: getDisplayNameOrEmail(member)
+        }));
+
+        setExtraData(req.session, constants.MANAGE_USERS_MEMBERSHIP, allMembersForThisAcsp);
+    }
 
     const title = getTitle(translations, userRole, !!errorMessage);
     viewData.title = title;
-
-    const accountOwnersTableData: TableEntry[][] = getUserTableData(
-        foundUser[0]?.userRole === UserRole.OWNER ? foundUser : ownerMembers,
-        translations,
-        userRole === UserRole.OWNER,
-        (req as any).lang
-    );
-    viewData.accountOwnersTableData = accountOwnersTableData;
-
-    const administratorsTableData: TableEntry[][] = getUserTableData(
-        foundUser[0]?.userRole === UserRole.ADMIN ? foundUser : adminMembers,
-        translations,
-        userRole !== UserRole.STANDARD,
-        (req as any).lang
-    );
-    viewData.administratorsTableData = administratorsTableData;
-
-    const standardUsersTableData: TableEntry[][] = getUserTableData(
-        foundUser[0]?.userRole === UserRole.STANDARD ? foundUser : standardMembers,
-        translations,
-        userRole !== UserRole.STANDARD,
-        (req as any).lang
-    );
-    viewData.standardUsersTableData = standardUsersTableData;
-
-    const allMembersForThisAcsp = [...ownerMembers, ...adminMembers, ...standardMembers, ...foundUser].map<Membership>(member => ({
-        id: member.id,
-        userId: member.userId,
-        userEmail: member.userEmail,
-        acspNumber: member.acspNumber,
-        userRole: member.userRole,
-        userDisplayName: getDisplayNameOrNotProvided((req as any).lang, member),
-        displayNameOrEmail: getDisplayNameOrEmail(member)
-    }));
-
-    setExtraData(req.session, constants.MANAGE_USERS_MEMBERSHIP, allMembersForThisAcsp);
 
     return viewData;
 };

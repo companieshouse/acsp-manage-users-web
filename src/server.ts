@@ -2,7 +2,9 @@ import fs from "fs";
 import http from "http";
 import https from "https";
 import logger from "./lib/Logger";
-import app from "./app";
+import dotenv from "dotenv";
+dotenv.config();
+import app from "./app"; // eslint-disable-line
 
 // start the HTTP server
 const httpServer = http.createServer(app);
