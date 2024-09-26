@@ -71,11 +71,13 @@
         }, {
             text: lang.users_name
         }, {
+            text: lang.change_users_role
+        }, {
             text: lang.remove_user
         }
     ] %}
 
-    {% set headersWithoutRemoveUser = [
+    {% set basicHeaders = [
         {
             text: lang.email_address
         }, {
@@ -84,9 +86,9 @@
     ] %}
 
     {% set accountOwnersTableHeaders = allHeaders if loggedInUserRole === UserRole.OWNER else 
-        headersWithoutRemoveUser %}
+        basicHeaders %}
 
-    {% set otherTableHeaders = headersWithoutRemoveUser if loggedInUserRole === UserRole.STANDARD else 
+    {% set otherTableHeaders = basicHeaders if loggedInUserRole === UserRole.STANDARD else 
         allHeaders %}
 
     {% set accountOwnersTabContent %}
