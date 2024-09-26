@@ -18,6 +18,7 @@ export const CONFIRMATION_YOU_ARE_REMOVED = "confirmation-you-are-removed";
 export const STOP_PAGE_ADD_ACCOUNT_OWNER = "stop-page-add-account-owner";
 export const CANNOT_ADD_USER = "cannot-add-user";
 export const SOMETHING_WENT_WRONG = "something-went-wrong";
+export const EDIT_MEMBER_ROLE_PAGE = "edit-member-role";
 
 // Other Nunjucks template files
 export const SERVICE_UNAVAILABLE_TEMPLATE = "partials/service_unavailable";
@@ -64,6 +65,7 @@ export const CANNOT_ADD_USER_URL = `/${CANNOT_ADD_USER}`;
 export const CANNOT_ADD_USER_FULL_URL = `${LANDING_URL}${CANNOT_ADD_USER_URL}`;
 export const SOMETHING_WENT_WRONG_URL = `/${SOMETHING_WENT_WRONG}`;
 export const SOMETHING_WENT_WRONG_FULL_URL = `${LANDING_URL}${SOMETHING_WENT_WRONG_URL}`;
+export const EDIT_MEMBER_ROLE_URL = `${EDIT_MEMBER_ROLE_PAGE}/:id`;
 
 export const HEALTHCHECK = "/healthcheck";
 
