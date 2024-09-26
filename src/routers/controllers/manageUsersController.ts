@@ -10,7 +10,7 @@ import { getAcspMemberships, membershipLookup } from "../../services/acspMemberS
 import { sanitizeUrl } from "@braintree/sanitize-url";
 import { validateEmailString } from "../../lib/validation/email.validation";
 import logger from "../../lib/Logger";
-import { getRemoveMemberCheckDetailsFullUrl } from "../../lib/utils/urlUtils";
+import { getChangeMemberRoleFullUrl, getRemoveMemberCheckDetailsFullUrl } from "../../lib/utils/urlUtils";
 import { buildPaginationElement, getCurrentPageNumber, setLangForPagination, stringToPositiveInteger } from "../../lib/helpers/buildPaginationHelper";
 import { validatePageNumber } from "../../lib/validation/page.number.validation";
 import { validateActiveTabId } from "../../lib/validation/string.validation";
@@ -82,7 +82,7 @@ export const getViewData = async (req: Request): Promise<AnyRecord> => {
             const foundUser = await membershipLookup(req, acspNumber, search);
             if (foundUser.items.length > 0) {
                 setTabIds(viewData, foundUser.items[0].userRole);
-                const memberData = getUserTableData(foundUser.items, translations, userRole !== UserRole.STANDARD, req.lang);
+                const memberData = getUserTableData(foundUser.items, translations, userRole !== UserRole.STANDARD, userRole !== UserRole.STANDARD, req.lang);
                 switch (foundUser.items[0].userRole) {
                 case UserRole.OWNER:
                     viewData.accountOwnersTableData = memberData;
@@ -109,9 +109,9 @@ export const getViewData = async (req: Request): Promise<AnyRecord> => {
             getMemberRawViewData(req, acspNumber, pageNumbers, UserRole.STANDARD, constants.STANDARD_USERS_TAB_ID, translations)
         ]);
 
-        viewData.accountOwnersTableData = getUserTableData(ownerMemberRawViewData.memberships, translations, userRole === UserRole.OWNER, req.lang);
-        viewData.administratorsTableData = getUserTableData(adminMemberRawViewData.memberships, translations, userRole !== UserRole.STANDARD, req.lang);
-        viewData.standardUsersTableData = getUserTableData(standardMemberRawViewData.memberships, translations, userRole !== UserRole.STANDARD, req.lang);
+        viewData.accountOwnersTableData = getUserTableData(ownerMemberRawViewData.memberships, translations, userRole === UserRole.OWNER, userRole === UserRole.OWNER, req.lang);
+        viewData.administratorsTableData = getUserTableData(adminMemberRawViewData.memberships, translations, userRole !== UserRole.STANDARD, userRole !== UserRole.STANDARD, req.lang);
+        viewData.standardUsersTableData = getUserTableData(standardMemberRawViewData.memberships, translations, userRole !== UserRole.STANDARD, userRole !== UserRole.STANDARD, req.lang);
 
         viewData.accoutOwnerPadinationData = ownerMemberRawViewData.pagination;
         viewData.adminPadinationData = adminMemberRawViewData.pagination;
@@ -148,15 +148,20 @@ export const getDisplayNameOrEmail = (member: AcspMembership): string => !member
 
 export const getDisplayNameOrNotProvided = (locale: string, member: AcspMembership): string => member.userDisplayName === constants.NOT_PROVIDED && locale === "cy" ? constants.NOT_PROVIDED_CY : member.userDisplayName;
 
-const getUserTableData = (membership: AcspMembership[], translations: AnyRecord, hasRemoveLink: boolean, locale: string): TableEntry[][] => {
+const getUserTableData = (membership: AcspMembership[], translations: AnyRecord, hasChangeRoleLink: boolean, hasRemoveLink: boolean, locale: string): TableEntry[][] => {
     const userTableDate: TableEntry[][] = [];
     for (const member of membership) {
         const tableEntry: TableEntry[] = [
             { text: member.userEmail },
             { text: getDisplayNameOrNotProvided(locale, member) }
         ];
+
+        if (hasChangeRoleLink) {
+            tableEntry[2] = { html: getLink(getChangeMemberRoleFullUrl(member.id), `${translations.change_role as string} ${getHiddenText(member.userEmail)}`, "change-role") };
+        }
+
         if (hasRemoveLink) {
-            tableEntry[2] = { html: getLink(getRemoveMemberCheckDetailsFullUrl(member.id), `${translations.remove as string} ${getHiddenText(member.userEmail)}`) };
+            tableEntry[hasChangeRoleLink ? 3 : 2] = { html: getLink(getRemoveMemberCheckDetailsFullUrl(member.id), `${translations.remove as string} ${getHiddenText(member.userEmail)}`, "remove") };
         }
         userTableDate.push(tableEntry);
     }
