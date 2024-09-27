@@ -4,7 +4,9 @@
         "[CY] verify people’s identity for Companies House from ",
         "[CY] file as an authorised agent from "
     ],
+    "back_link_to_manage_users": "[CY] Return to manage users",
     "change_role_for": "[CY] Change role for ",
+    "errors_select_user_role_to_change_for_the_user": "[CY] Select user role to change for the user",
     "they_will_be_able_to": "[CY] They will be able to:",
     "they_will_be_able_to_add_and_remove": "[CY] They will be able to add and remove:",
     "they_will_be_able_to_add_and_remove_bullet_points": [
