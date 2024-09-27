@@ -1,6 +1,7 @@
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "govuk/components/back-link/macro.njk" import govukBackLink %}
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/inset-text/macro.njk" import govukInsetText %}
 
 {% extends "layouts/default.njk" %}
 
@@ -20,39 +21,30 @@
 {% set accountOwnerOption %}
 <span class="govuk-body govuk-!-font-weight-bold">
     {{lang.user_role_tags.account_owner}}</span>
-{% endset %}
-
-{% set administratorOption %}
-<span class="govuk-body govuk-!-font-weight-bold">
-    {{lang.user_role_tags.administrator}}</span>
-{% endset %}
-
-{% set standardUserOption %}
-<span class="govuk-body govuk-!-font-weight-bold">
-    {{lang.user_role_tags.standard_user}}</span>
-{% endset %}
-
-{% set accountOwnerOptionHint %}
 <p class="govuk-body govuk-!-static-padding-top-2">
     {{lang.they_will_be_able_to}}
 </p>
-<ul class="govuk-body govuk-list govuk-list--bullet" style="padding-inline-start: 40px;">
+<ul class="govuk-list govuk-list--bullet govuk-!-margin-left-4">
     <li>{{ lang.they_will_be_able_to_bullet_points[0] }}</li>
     <li>{{ lang.they_will_be_able_to_bullet_points[1] }}</li>
 </ul>
 {% endset %}
 
-{% set administratorOptionHint %}
+{% set administratorOption %}
+<span class="govuk-body govuk-!-font-weight-bold">
+    {{lang.user_role_tags.administrator}}</span>
 <p class="govuk-body govuk-!-static-padding-top-2">
     {{lang.they_will_be_able_to_add_and_remove}}
 </p>
-<ul class="govuk-body govuk-list govuk-list--bullet"  style="padding-inline-start: 40px;">
+<ul class="govuk-list govuk-list--bullet govuk-!-margin-left-4">
     <li>{{ lang.they_will_be_able_to_add_and_remove_bullet_points[0] }}</li>
     <li>{{ lang.they_will_be_able_to_add_and_remove_bullet_points[1] }}</li>
 </ul>
 {% endset %}
 
-{% set standardUserOptionHint %}
+{% set standardUserOption %}
+<span class="govuk-body govuk-!-font-weight-bold">
+    {{lang.user_role_tags.standard_user}}</span>
 <p class="govuk-body">
     {{lang.they_will_not_be_able}}
 </p>
@@ -64,9 +56,6 @@
             value: UserRole.OWNER,
             html: accountOwnerOption,
             checked: userRole === UserRole.OWNER,
-            hint: {
-                html: accountOwnerOptionHint
-            },
             attributes: {
                 "data-event-id": "account-owner-option"
             }
@@ -76,9 +65,6 @@
         value: UserRole.ADMIN,
         html: administratorOption,
         checked: userRole === UserRole.ADMIN,
-        hint: {
-            html: administratorOptionHint
-        },
         attributes: {
             "data-event-id": "admin-option"
         }
@@ -87,13 +73,20 @@
         value: UserRole.STANDARD,
         html: standardUserOption,
         checked: userRole === UserRole.STANDARD,
-        hint: {
-            html: standardUserOptionHint
-        },
-            attributes: {
+        attributes: {
             "data-event-id": "standard-user-option"
         }
     }), radios_items) %}
+
+{% set start_date_info %}
+<p class="govuk-body">{{lang.all_users_who_are_added}}</p>
+<ul class="govuk-list govuk-list--bullet govuk-!-margin-bottom-6">
+    <li>{{lang.all_users_who_are_added_bullet_points[0]}}
+        {{verifyPeopleIdentityFromDate}}</li>
+    <li>{{lang.all_users_who_are_added_bullet_points[1]}}
+        {{fileAsAuthorisedAgentFromDate}}</li>
+</ul>
+{% endset %}
 
 {% block back_link %}
     <div role="navigation" aria-label="{{lang.back_link_to_the_previous_page}}">
@@ -119,13 +112,15 @@
                             legend: {
                                 text: page_header,
                                 isPageHeading: true,
-                                classes: "govuk-fieldset__legend--m govuk-!-static-padding-top-3"
+                                classes: "govuk-fieldset__legend--l"
                             }
                         },
                         items: radios_items,
                         errorMessage: message
                     })
                 }}
+
+                {{ govukInsetText({ html: start_date_info }) }}
 
                 {% set button_attributes = {
                         role: "button",

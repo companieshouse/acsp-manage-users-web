@@ -37,3 +37,9 @@ export type PageNumbers = {
     adminPage: number;
     standardPage: number;
 }
+
+export type UserRoleChangeData = {
+    userRole: string;
+    userEmail: string;
+    changeRolePageUrl: string;
+}
