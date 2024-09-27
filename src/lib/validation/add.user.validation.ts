@@ -4,7 +4,7 @@ import { addErrorToViewData } from "../../lib/utils/viewUtils";
 import { validateRole } from "./user.role.validation";
 import * as constants from "../constants";
 
-const FormInputNames = {
+export const FormInputNames = {
     EMAIL: "email",
     USER_ROLE: "userRole"
 } as const;
