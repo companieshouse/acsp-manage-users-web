@@ -32,7 +32,7 @@ describe("manageUsersController - getViewData", () => {
             .mockResolvedValue(getMockAcspMembersResource([loggedAccountOwnerAcspMembership]));
         when(getAcspMembershipsSpy)
             .calledWith(expect.anything(), expect.anything(), expect.anything(), expect.anything(), expect.anything(), [UserRole.OWNER])
-            .mockResolvedValue(getMockAcspMembersResource([accountOwnerAcspMembership]));
+            .mockResolvedValue(getMockAcspMembersResource([accountOwnerAcspMembership, loggedAccountOwnerAcspMembership]));
         when(getAcspMembershipsSpy)
             .calledWith(expect.anything(), expect.anything(), expect.anything(), expect.anything(), expect.anything(), [UserRole.ADMIN])
             .mockResolvedValue(getMockAcspMembersResource([administratorAcspMembership]));
@@ -52,6 +52,18 @@ describe("manageUsersController - getViewData", () => {
                 },
                 {
                     html: "<a data-event-id=\"remove\" href=\"/authorised-agent/remove-member/JGyB\">Remove <span class=\"govuk-visually-hidden\">james.morris@gmail.com</span></a>"
+                }
+
+            ],
+            [
+
+                { text: "j.smith@domain.com" },
+                { text: "Not Provided" },
+                {
+                    html: "<a data-event-id=\"change-role\" href=\"/authorised-agent/edit-member-role/JGyBds2w\">Change role <span class=\"govuk-visually-hidden\">j.smith@domain.com</span></a>"
+                },
+                {
+                    html: "<a data-event-id=\"remove\" href=\"/authorised-agent/remove-member/JGyBds2w\">Remove <span class=\"govuk-visually-hidden\">j.smith@domain.com</span></a>"
                 }
 
             ]],
