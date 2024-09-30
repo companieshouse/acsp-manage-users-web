@@ -1,0 +1,74 @@
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+{% from "govuk/components/tag/macro.njk" import govukTag %}
+
+{% extends "layouts/default.njk" %}
+
+{% block back_link %}
+    {% include "partials/back_link.njk" %}
+{% endblock %}
+
+{% block main_content %}
+    <div class="govuk-grid-column-two-thirds">
+        <span class="govuk-caption-l">{{companyName}}</span>
+        <h1 class="govuk-heading-l">{{lang.page_header}}</h1>
+
+        {% if userRole === UserRole.OWNER %}
+            {% set tag_colour = "govuk-tag--blue" %}
+        {% elif userRole === UserRole.ADMIN %}
+            {% set tag_colour = "govuk-tag--turquoise" %}
+        {% else %}
+            {% set tag_colour = "govuk-tag--yellow" %}
+        {% endif %}
+
+        {% set tag %}
+        {{ govukTag({
+                text: userRoleTag,
+                classes: tag_colour
+            })
+        }}
+        {% endset %}
+
+        {{ govukSummaryList({
+            rows: [
+                    {
+                        key: {
+                            text: lang.email_address
+                        },
+                        value: {
+                            text: email
+                        }
+                    },
+                    {
+                        key: {
+                            text: lang.role
+                        },
+                        value: {
+                            html: tag
+                        },
+                        actions: {
+                            items: [
+                                {
+                                    href: backLinkUrl,
+                                    text: lang.change,
+                                    visuallyHiddenText: lang.change_role
+                                }
+                            ]
+                        }
+                    }
+                ]
+            })
+        }}
+
+        <form action="{{ tryEditUserRoleUrl }}" method="POST">
+            {{ govukButton({
+                text: lang.confirm_users_role,
+                attributes: {
+                    id: "confirm-user-button",
+                    type: "submit",
+                    "data-event-id": "confirm-user-role"
+                }
+            }) }}
+        </form>
+    </div>
+{% endblock %}
