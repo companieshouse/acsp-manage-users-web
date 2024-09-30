@@ -18,7 +18,8 @@ export const CONFIRMATION_YOU_ARE_REMOVED = "confirmation-you-are-removed";
 export const STOP_PAGE_ADD_ACCOUNT_OWNER = "stop-page-add-account-owner";
 export const CANNOT_ADD_USER = "cannot-add-user";
 export const EDIT_MEMBER_ROLE_PAGE = "edit-member-role";
-export const CHECK_EDIT_MEMBER_ROLE_DETAILS = "check-edit-member-role-details";
+export const CHECK_EDIT_MEMBER_ROLE_DETAILS_PAGE = "check-edit-member-role-details";
+export const CONFIRMATION_MEMBER_ROLE_EDITED_PAGE = "confirmation-member-role-edited";
 
 // Other Nunjucks template files
 export const SERVICE_UNAVAILABLE_TEMPLATE = "partials/service_unavailable";
@@ -65,8 +66,12 @@ export const CANNOT_ADD_USER_URL = `/${CANNOT_ADD_USER}`;
 export const CANNOT_ADD_USER_FULL_URL = `${LANDING_URL}${CANNOT_ADD_USER_URL}`;
 export const EDIT_MEMBER_ROLE_URL = `/${EDIT_MEMBER_ROLE_PAGE}/:id`;
 export const EDIT_MEMBER_ROLE_FULL_URL = `${LANDING_URL}${EDIT_MEMBER_ROLE_URL}`;
-export const CHECK_EDIT_MEMBER_ROLE_DETAILS_URL = `/${CHECK_EDIT_MEMBER_ROLE_DETAILS}`;
+export const CHECK_EDIT_MEMBER_ROLE_DETAILS_URL = `/${CHECK_EDIT_MEMBER_ROLE_DETAILS_PAGE}`;
 export const CHECK_EDIT_MEMBER_ROLE_DETAILS_FULL_URL = `${LANDING_URL}${CHECK_EDIT_MEMBER_ROLE_DETAILS_URL}`;
+export const TRY_EDIT_MEMBER_ROLE_URL = "/try-edit-member-role";
+export const TRY_EDIT_MEMBER_ROLE_FULL_URL = `${LANDING_URL}${TRY_EDIT_MEMBER_ROLE_URL}`;
+export const CONFIRMATION_MEMBER_ROLE_EDITED_URL = `/${CONFIRMATION_MEMBER_ROLE_EDITED_PAGE}`;
+export const CONFIRMATION_MEMBER_ROLE_EDITED_FULL_URL = `${LANDING_URL}${CONFIRMATION_MEMBER_ROLE_EDITED_URL}`;
 
 export const HEALTHCHECK = "/healthcheck";
 

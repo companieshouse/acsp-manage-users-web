@@ -25,6 +25,7 @@ export const editMemberRoleControllerPost = async (req: Request, res: Response):
         const url = `${constants.EDIT_MEMBER_ROLE_FULL_URL.replace(":id", id)}`;
         const sanitizedUrl = sanitizeUrl(url);
         const userRoleChangeData: UserRoleChangeData = {
+            acspMembershipId: id,
             userRole: newUserRole,
             userEmail: viewData.email as string,
             changeRolePageUrl: sanitizedUrl
