@@ -53,7 +53,7 @@ describe("GET /authorised-agent/check-member-details", () => {
         expect(response.text).toContain(en.change_details);
         expect(response.text).toContain(en.confirm_and_add_user);
         expect(response.text).toContain(en.page_header);
-        expect(response.text).toContain(en.role);
+        expect(response.text).toContain(enCommon.role);
         expect(response.text).toContain(userAdamBrownDetails.email);
         expect(response.text).toContain(expectedUserRoleTag);
         expect(response.text).toContain(loggedInEmail);
