@@ -14,10 +14,12 @@ export type ViewData = {
     backLinkUrl?: string;
     email?: string;
     userRole?: string;
+    userRoleTag?: string,
     loggedInUserRole?: UserRole,
     templateName: string,
     verifyPeopleIdentityFromDate?: string,
-    fileAsAuthorisedAgentFromDate?: string
+    fileAsAuthorisedAgentFromDate?: string,
+    tryEditUserRoleUrl?: string
 };
 
 export type MemberRawViewData = {
@@ -39,6 +41,7 @@ export type PageNumbers = {
 }
 
 export type UserRoleChangeData = {
+    acspMembershipId: string;
     userRole: string;
     userEmail: string;
     changeRolePageUrl: string;
