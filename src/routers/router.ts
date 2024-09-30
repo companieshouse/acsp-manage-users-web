@@ -15,6 +15,7 @@ import { stopPageAddOwnerControllerGet } from "./controllers/stopPageAddOwnerCon
 import { cannotAddUserController } from "./controllers/cannotAddUserController";
 import { stopPageController } from "./controllers/stopPageController";
 import { editMemberRoleControllerGet, editMemberRoleControllerPost } from "./controllers/editMemberRoleController";
+import { checkEditMemberRoleDetailsControllerGet } from "./controllers/checkEditMemberRoleDetailsController";
 
 const router: Router = Router();
 
@@ -45,6 +46,8 @@ router.get(constants.STOP_PAGE_ADD_ACCOUNT_OWNER_URL, stopPageAddOwnerController
 
 router.get(constants.EDIT_MEMBER_ROLE_URL, editMemberRoleControllerGet);
 router.post(constants.EDIT_MEMBER_ROLE_URL, editMemberRoleControllerPost);
+
+router.get(constants.CHECK_EDIT_MEMBER_ROLE_DETAILS_URL, checkEditMemberRoleDetailsControllerGet);
 
 router.get(constants.HEALTHCHECK, healthCheckController);
 
