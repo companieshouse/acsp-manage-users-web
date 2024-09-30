@@ -19,7 +19,7 @@ export const NAVIGATION: Navigation = {
         allowedUserRoles: [UserRole.OWNER, UserRole.ADMIN]
     },
     [getRemoveMemberCheckDetailsFullUrl("")]: {
-        allowedReferers: [getRemoveMemberCheckDetailsFullUrl(""), constants.MANAGE_USERS_FULL_URL, constants.STOP_PAGE_ADD_ACCOUNT_OWNER_URL_FULL_URL],
+        allowedReferers: [getRemoveMemberCheckDetailsFullUrl(""), constants.MANAGE_USERS_FULL_URL, constants.STOP_PAGE_ADD_ACCOUNT_OWNER_FULL_URL],
         redirectTo: constants.MANAGE_USERS_FULL_URL,
         allowedUserRoles: [UserRole.OWNER, UserRole.ADMIN]
     },
@@ -38,8 +38,8 @@ export const NAVIGATION: Navigation = {
         redirectTo: constants.MANAGE_USERS_FULL_URL,
         allowedUserRoles: [UserRole.OWNER, UserRole.ADMIN]
     },
-    [constants.STOP_PAGE_ADD_ACCOUNT_OWNER_URL_FULL_URL]: {
-        allowedReferers: [getRemoveMemberCheckDetailsFullUrl(""), constants.STOP_PAGE_ADD_ACCOUNT_OWNER_URL_FULL_URL],
+    [constants.STOP_PAGE_ADD_ACCOUNT_OWNER_FULL_URL]: {
+        allowedReferers: [getRemoveMemberCheckDetailsFullUrl(""), constants.STOP_PAGE_ADD_ACCOUNT_OWNER_FULL_URL],
         redirectTo: constants.MANAGE_USERS_FULL_URL,
         allowedUserRoles: [UserRole.OWNER, UserRole.ADMIN]
     },
