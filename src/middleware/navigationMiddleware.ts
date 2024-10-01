@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import * as constants from "../lib/constants";
 import * as url from "node:url";
 import logger from "../lib/Logger";
-import { Navigation } from "types/navigation";
+import { Navigation } from "../types/navigation";
 import { getRemoveMemberCheckDetailsFullUrl } from "../lib/utils/urlUtils";
 import { UserRole, AcspMembership } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
 import { getExtraData } from "../lib/utils/sessionUtils";
@@ -39,7 +39,7 @@ export const NAVIGATION: Navigation = {
         allowedUserRoles: [UserRole.OWNER, UserRole.ADMIN]
     },
     [constants.STOP_PAGE_ADD_ACCOUNT_OWNER_FULL_URL]: {
-        allowedReferers: [getRemoveMemberCheckDetailsFullUrl(""), constants.STOP_PAGE_ADD_ACCOUNT_OWNER_FULL_URL],
+        allowedReferers: [getRemoveMemberCheckDetailsFullUrl(""), constants.MANAGE_USERS_FULL_URL, constants.STOP_PAGE_ADD_ACCOUNT_OWNER_FULL_URL],
         redirectTo: constants.MANAGE_USERS_FULL_URL,
         allowedUserRoles: [UserRole.OWNER, UserRole.ADMIN]
     },
