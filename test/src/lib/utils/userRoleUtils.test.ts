@@ -4,30 +4,18 @@ import {
 } from "../../../../src/lib/utils/userRoleUtils";
 
 describe("convertUserRole", () => {
-    it("Should return admin when user is an administrator", () => {
+    it.each([
         // Given
-        const role = UserRole.ADMIN;
+        [UserRoleMatomoFormat.ADMIN, UserRole.ADMIN],
+        [UserRoleMatomoFormat.STANDARD, UserRole.STANDARD],
+        [UserRoleMatomoFormat.OWNER, UserRole.OWNER]
+    ])("Should return %s when user is %s", (expected, userRole) => {
         // When
-        const result = convertUserRole(role);
+        const result = convertUserRole(userRole);
         // Then
-        expect(result).toBe(UserRoleMatomoFormat.ADMIN);
+        expect(result).toBe(expected);
     });
-    it("Should return standard-user when user is a standard user", () => {
-        // Given
-        const role = UserRole.STANDARD;
-        // When
-        const result = convertUserRole(role);
-        // Then
-        expect(result).toBe(UserRoleMatomoFormat.STANDARD);
-    });
-    it("Should return account-owner when user is an owner", () => {
-        // Given
-        const role = UserRole.OWNER;
-        // When
-        const result = convertUserRole(role);
-        // Then
-        expect(result).toBe(UserRoleMatomoFormat.OWNER);
-    });
+
     it("Should return default empty string if not match found", () => {
         // Given
         const role = "";
