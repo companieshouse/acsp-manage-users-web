@@ -1,0 +1,13 @@
+{
+    "is_now_a_standard_user_for": " is now a standard user for ",
+    "is_now_an_account_owner_for": " is now an account owner for ",
+    "is_now_an_administrator_for": " is now an administrator for ",
+    "page_header": "What they can do",
+    "theyll_also_be_able_to": "They’ll also be able to:",
+    "theyll_also_be_able_to_bullet_points_account_owner": [
+        "make changes to the authorised agent’s details",
+        "add and remove all users"
+    ],
+    "users_role_changed": "User’s role changed",
+    "will_be_able_to_access_services": "will be able to access services for the authorised agent when they sign in to their Companies House account."
+}
