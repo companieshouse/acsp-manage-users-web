@@ -1,6 +1,6 @@
 import { UserRole } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
 import {
-    convertUserRole, UserRoleMatomoFormat
+    convertUserRole, getUserRole, UserRoleMatomoFormat
 } from "../../../../src/lib/utils/userRoleUtils";
 
 describe("convertUserRole", () => {
@@ -23,5 +23,25 @@ describe("convertUserRole", () => {
         const result = convertUserRole(role as UserRole);
         // Then
         expect(result).toBe("");
+    });
+});
+
+describe("getUserRole", () => {
+    it.each([
+        // Given
+        [UserRole.ADMIN, "admin"],
+        [UserRole.OWNER, "owner"],
+        [UserRole.STANDARD, "standard"]
+    ])("Should return %s when the requested user role is %s", (expectedUserRole, requestedUserRole) => {
+        // When
+        const result = getUserRole(requestedUserRole);
+        // Then
+        expect(result).toEqual(expectedUserRole);
+    });
+
+    it.each([
+        "", undefined, null, "something else"
+    ])("Should throw an error if the requested role '%s' doesn't exist", (param) => {
+        expect(() => getUserRole(param!)).toThrow(`A user role ${param} does not exist.`);
     });
 });
