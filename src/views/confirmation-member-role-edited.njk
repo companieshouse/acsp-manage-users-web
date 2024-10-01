@@ -1,0 +1,64 @@
+{% from "govuk/components/notification-banner/macro.njk" import govukNotificationBanner %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
+{% extends "layouts/default.njk" %}
+
+{% if userRole === UserRole.OWNER %}
+    {% set roleSentencePart = lang.is_now_an_account_owner_for %}
+    {% set bulletPoints %}
+    <li>{{lang.theyll_also_be_able_to_bullet_points_account_owner[0]}}</li>
+    <li>{{lang.theyll_also_be_able_to_bullet_points_account_owner[1]}}</li>
+    {% endset %}
+{% elif userRole === UserRole.ADMIN %}
+    {% set roleSentencePart = lang.is_now_an_administrator_for %}
+{% else %}
+    {% set roleSentencePart = lang.is_now_a_standard_user_for %}
+{% endif %}
+
+{% set bannerHtml %}
+<h3 class="govuk-notification-banner__heading">
+    {{lang.users_role_changed}}
+</h3>
+<p class="govuk-body">
+    <span class="govuk-!-font-weight-bold">{{email}}</span>{{roleSentencePart}}{{companyName}}.
+</p>
+{% endset %}
+
+{% block main_content %}
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            {{ govukNotificationBanner({
+                    html: bannerHtml,
+                    type: "success",
+                    titleText: lang.success
+                })
+            }}
+
+            <span class="govuk-caption-l">{{companyName}}</span>
+            <h1 class="govuk-heading-l">{{lang.page_header}}</h1>
+
+            <p class="govuk-body">
+                <span class="govuk-!-font-weight-bold">{{email}}</span>{{lang.will_be_able_to_access_services}}
+            </p>
+
+            <p class="govuk-body">
+                {{lang.theyll_also_be_able_to}}
+            </p>
+
+            <ul class="govuk-list govuk-list--bullet">
+                {{bulletPoints}}
+            </ul>
+
+            {{ govukButton({
+                    text: lang.go_to_manage_users,
+                    href: backLinkUrl,
+                    role: "button",
+                    classes: 'govuk-!-margin-top-3',
+                    attributes: {
+                        "data-event-id": "go-to-manage-users-change-user-role"
+                    }
+                })
+            }}
+        </div>
+    </div>
+{% endblock %}
