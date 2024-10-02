@@ -2,6 +2,7 @@ import { UserRole } from "private-api-sdk-node/dist/services/acsp-manage-users/t
 import { NewUserDetails } from "../../src/types/user";
 import { Membership } from "../../src/types/membership";
 import { User } from "private-api-sdk-node/dist/services/user-account/types";
+import { UserRoleChangeData } from "../../src/types/utilTypes";
 
 export const createUserMock = (
     userId: string,
@@ -51,6 +52,36 @@ export const userJohnSmithRemoveDetails: Membership = {
     acspNumber: "LL0RPG",
     userRole: UserRole.STANDARD,
     displayNameOrEmail: "John Smith"
+};
+
+export const standardUserMembership: Membership = {
+    id: "111111",
+    userId: "123456",
+    userEmail: "a.brown@test.com",
+    userDisplayName: "Adam Brown",
+    acspNumber: "LL0RPG",
+    userRole: UserRole.STANDARD,
+    displayNameOrEmail: "Adam Brown"
+};
+
+export const adminUserMembership: Membership = {
+    id: "222222",
+    userId: "543210",
+    userEmail: "e.wood@test.com",
+    userDisplayName: "Eva Wood",
+    acspNumber: "LL0RPG",
+    userRole: UserRole.ADMIN,
+    displayNameOrEmail: "Eva Wood"
+};
+
+export const ownerUserMembership: Membership = {
+    id: "333333",
+    userId: "515151",
+    userEmail: "a.black@test.com",
+    userDisplayName: "Anna Black",
+    acspNumber: "LL0RPG",
+    userRole: UserRole.OWNER,
+    displayNameOrEmail: "Anna Black"
 };
 
 // NOTE: All the below is based upon the TestDataManager on the acsp-manage-users-api
@@ -309,3 +340,24 @@ export const allUsers: User[] = [
     gambitUser,
     demoUser
 ];
+
+export const ownerUserRoleChangeDataMock: UserRoleChangeData = {
+    acspMembershipId: "12345",
+    userRole: UserRole.OWNER.toString(),
+    userEmail: "j.smith@test.com",
+    changeRolePageUrl: "/change-user-role-page-url"
+};
+
+export const adminUserRoleChangeDataMock: UserRoleChangeData = {
+    acspMembershipId: "23456",
+    userRole: UserRole.ADMIN.toString(),
+    userEmail: "a.black@test.com",
+    changeRolePageUrl: "/change-user-role-page-url"
+};
+
+export const standardUserRoleChangeDataMock: UserRoleChangeData = {
+    acspMembershipId: "54321",
+    userRole: UserRole.STANDARD.toString(),
+    userEmail: "e.brown@test.com",
+    changeRolePageUrl: "/change-user-role-page-url"
+};
