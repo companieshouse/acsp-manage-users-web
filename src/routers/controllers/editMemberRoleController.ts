@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import logger from "../../lib/Logger";
 import * as constants from "../../lib/constants";
 import { getTranslationsForView } from "../../lib/utils/translationUtils";
 import { UserRoleChangeData, ViewData } from "../../types/utilTypes";
@@ -8,6 +9,7 @@ import { isValidRole } from "../../lib/validation/user.role.validation";
 import { addErrorToViewData } from "../../lib/utils/viewUtils";
 import { FormInputNames } from "../../lib/validation/add.user.validation";
 import { sanitizeUrl } from "@braintree/sanitize-url";
+import { UserRole } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
 
 export const editMemberRoleControllerGet = async (req: Request, res: Response): Promise<void> => {
     const viewData = await getViewData(req);
@@ -37,7 +39,14 @@ export const editMemberRoleControllerPost = async (req: Request, res: Response):
 
 const getViewData = async (req: Request): Promise<ViewData> => {
     const translations = getTranslationsForView(req.lang, constants.EDIT_MEMBER_ROLE_PAGE);
-    const { acspName, userRole } = getLoggedUserAcspMembership(req.session);
+    const { acspName, userRole, userEmail } = getLoggedUserAcspMembership(req.session);
+
+    if (userRole === UserRole.STANDARD) {
+        const errorMessage = `User ${userEmail} with user role ${userRole} is not allowed to change another user role.`;
+        logger.error(errorMessage);
+        throw new Error(errorMessage);
+    }
+
     const id = req.params.id;
     const existingUsers = getExtraData(req.session, constants.MANAGE_USERS_MEMBERSHIP);
     const userToChangeRole: Membership = existingUsers.find((member: Membership) => member.id === id);
