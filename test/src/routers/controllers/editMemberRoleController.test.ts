@@ -12,6 +12,7 @@ import * as enCommon from "../../../../locales/en/common.json";
 import * as cy from "../../../../locales/cy/edit-member-role.json";
 import * as cyCommon from "../../../../locales/cy/common.json";
 import * as sessionUtils from "../../../../src/lib/utils/sessionUtils";
+import * as constants from "../../../../src/lib/constants";
 import { UserRole } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
 import { Membership } from "../../../../src/types/membership";
 
@@ -28,7 +29,7 @@ describe("GET /authorised-agent/edit-member-role", () => {
 
     it("should check session, user auth and ACSP membership before returning the page", async () => {
         // Given
-        getExtraDataSpy.mockReturnValue(standardUserMembership);
+        getExtraDataSpy.mockReturnValue([standardUserMembership]);
         // When
         await router.get(`${url}/${standardUserMembership.id}`);
         // Then
@@ -61,6 +62,43 @@ describe("GET /authorised-agent/edit-member-role", () => {
             }
             expect(containsContent(loggedUserRole, decodedResponseText, mockUserData, lang, langCommon)).toBeTruthy();
         });
+});
+
+describe("POST /authorised-agent/edit-member-role", () => {
+    beforeEach(() => {
+        jest.clearAllMocks();
+        getLoggedUserAcspMembershipSpy.mockReturnValue(loggedAccountOwnerAcspMembership);
+    });
+
+    it("should check session, user auth and ACSP membership before returning the page", async () => {
+        // Given
+        getExtraDataSpy.mockReturnValue([standardUserMembership]);
+        // When
+        await router.post(`${url}/${standardUserMembership.id}`);
+        // Then
+        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+        expect(mocks.mockLoggedUserAcspMembershipMiddleware).toHaveBeenCalled();
+    });
+
+    it("should return error message if no new role selected", async () => {
+        // Given
+        getExtraDataSpy.mockReturnValue([standardUserMembership]);
+        // When
+        const response = await router.post(`${url}/${standardUserMembership.id}`).send({ userRole: standardUserMembership.userRole });
+        // Then
+        expect(response.text).toContain(en.errors_select_user_role_to_change_for_the_user);
+    });
+
+    it("should redirect to the next page if a new role selected", async () => {
+        // Given
+        getExtraDataSpy.mockReturnValue([standardUserMembership]);
+        // When
+        const response = await router.post(`${url}/${standardUserMembership.id}`).send({ userRole: UserRole.ADMIN });
+        // Then
+        expect(response.status).toEqual(302);
+        expect(response.header.location).toEqual(constants.CHECK_EDIT_MEMBER_ROLE_DETAILS_FULL_URL);
+    });
 });
 
 const containsContent = (
