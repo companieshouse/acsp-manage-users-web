@@ -15,7 +15,8 @@ const SIGN_IN_INFO = {
     [SignInInfoKeys.AccessToken]: {
         ...ACCESS_TOKEN_MOCK,
         ...REFRESH_TOKEN_MOCK
-    }
+    },
+    [SignInInfoKeys.AcspNumber]: "ABC123"
 };
 
 export function getSessionRequestWithPermission (): Session {
