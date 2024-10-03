@@ -1,7 +1,7 @@
 import { SessionKey } from "@companieshouse/node-session-handler/lib/session/keys/SessionKey";
 import { ISignInInfo } from "@companieshouse/node-session-handler/lib/session/model/SessionInterfaces";
 import { SignInInfoKeys } from "@companieshouse/node-session-handler/lib/session/keys/SignInInfoKeys";
-import { UserProfileKeys } from "@companieshouse/node-session-handler//lib/session/keys/UserProfileKeys";
+import { UserProfileKeys } from "@companieshouse/node-session-handler/lib/session/keys/UserProfileKeys";
 import { Session } from "@companieshouse/node-session-handler";
 import { AcspMembership } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
 import * as constants from "../constants";
