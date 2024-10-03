@@ -31,6 +31,9 @@ describe("invalidAcspNumberErrorHandler", () => {
         // Then
         expect(response.render).toHaveBeenCalledWith("partials/service_unavailable", expect.anything());
         expect(logger.error).toHaveBeenCalledTimes(1);
+        expect(logger.error).toHaveBeenCalledWith(
+            expect.stringContaining(`Unauthorised - the user does not have a valid ACSP number in session.`)
+        );
     });
 
     it("should ignore errors that are not of type InvalidAcspNumberError and pass then to next", async () => {

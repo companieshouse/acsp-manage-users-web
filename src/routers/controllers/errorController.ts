@@ -34,7 +34,7 @@ export const httpErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
 };
 /*
     If an user does not have a valid ACSP in their session after login
-    and invalidAcspNumber error can occur (from web secuirty node).
+    an invalidAcspNumber error can occur from web secuirty node.
 */
 export const invalidAcspNumberErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
     if (err instanceof InvalidAcspNumberError) {
