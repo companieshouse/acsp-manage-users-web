@@ -164,10 +164,10 @@ export const getMockAcspMembersResource = (
         self: "http://localhost:8080/",
         next: "http://localhost:8080/"
     },
-    itemsPerPage: itemsPerPage || 1,
-    pageNumber: pageNumber || 2,
-    totalResults: totalResults || acspMemberships.length,
-    totalPages: totalPages || acspMemberships.length
+    itemsPerPage: itemsPerPage ?? 1,
+    pageNumber: pageNumber ?? 2,
+    totalResults: totalResults ?? acspMemberships.length,
+    totalPages: totalPages ?? acspMemberships.length
 });
 
 // NOTE: All the below is based upon the TestDataManager on the acsp-manage-users-api
