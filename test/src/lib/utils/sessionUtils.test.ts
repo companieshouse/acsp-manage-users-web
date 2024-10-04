@@ -1,6 +1,6 @@
 import { Session } from "@companieshouse/node-session-handler";
 import { getSessionRequestWithPermission, userMail } from "../../../mocks/session.mock";
-import { deleteExtraData, getAccessToken, getExtraData, getLoggedInUserEmail, getLoggedUserAcspMembership, setExtraData } from "../../../../src/lib/utils/sessionUtils";
+import { deleteExtraData, getAccessToken, getExtraData, getLoggedInUserEmail, getLoggedUserAcspMembership, setExtraData, getLoggedInAcspNumber } from "../../../../src/lib/utils/sessionUtils";
 import * as constants from "../../../../src/lib/constants";
 import { accountOwnerAcspMembership } from "../../../mocks/acsp.members.mock";
 
@@ -17,6 +17,21 @@ describe("Session Utils", () => {
 
         it("should return undefined instead of user email address if session data is missing", () => {
             expect(getLoggedInUserEmail(new Session())).toBeUndefined;
+        });
+    });
+
+    describe("getLoggedInAcspNumber", () => {
+        const testSessionWithPermission: Session = getSessionRequestWithPermission();
+        it("should return ACSP number if user is logged in", () => {
+            expect(getLoggedInAcspNumber(testSessionWithPermission)).toEqual("ABC123");
+        });
+
+        it("should return undefined if user is not logged in", () => {
+            expect(getLoggedInAcspNumber(undefined)).toBeUndefined;
+        });
+
+        it("should return undefined if session data is missing", () => {
+            expect(getLoggedInAcspNumber(new Session())).toBeUndefined;
         });
     });
 

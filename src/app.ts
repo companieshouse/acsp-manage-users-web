@@ -1,5 +1,5 @@
 import "express-async-errors";
-import express, { NextFunction, Request, Response } from "express";
+import express, { NextFunction, Request, RequestHandler, Response } from "express";
 import nunjucks from "nunjucks";
 import path from "path";
 import logger from "./lib/Logger";
@@ -9,7 +9,7 @@ import * as constants from "./lib/constants";
 import { authenticationMiddleware } from "./middleware/authentication.middleware";
 import { sessionMiddleware } from "./middleware/session.middleware";
 import { getTranslationsForView, translateEnum } from "./lib/utils/translationUtils";
-import { httpErrorHandler } from "./routers/controllers/httpErrorController";
+import errorHandler from "./routers/controllers/errorController";
 import { UserRole, AcspStatus } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
 import { loggedUserAcspMembershipMiddleware } from "./middleware/loggedUserAcspMembership.middleware";
 import * as url from "node:url";
@@ -22,6 +22,7 @@ import helmet from "helmet";
 import { v4 as uuidv4 } from "uuid";
 import { prepareCSPConfig } from "./middleware/content.security.policy.middleware.config";
 import nocache from "nocache";
+import { acspAuthMiddleware } from "./middleware/acsp.authentication.middleware";
 
 const app = express();
 
@@ -74,8 +75,9 @@ const nonce: string = uuidv4();
 app.use(nocache());
 app.use(helmet(prepareCSPConfig(nonce)));
 
-app.use(`${constants.LANDING_URL}*`, sessionMiddleware);
+app.use(`${constants.LANDING_URL}*`, sessionMiddleware as RequestHandler);
 app.use(`${constants.LANDING_URL}*`, authenticationMiddleware);
+app.use(`${constants.LANDING_URL}*`, acspAuthMiddleware);
 
 LocalesService.getInstance("locales", true);
 app.use(LocalesMiddleware());
@@ -108,14 +110,14 @@ app.use(navigationMiddleware);
 // Channel all requests through router dispatch
 routerDispatch(app);
 
-// http-error error handler
-app.use(httpErrorHandler);
+// error handler
+app.use(...errorHandler);
 
 // Unhandled errors
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 app.use((err: Error, req: Request, res: Response, next: NextFunction): void => {
     logger.error(`${err.name} - appError: ${err.message} - ${err.stack}`);
-    const translations = getTranslationsForView(req.lang, constants.SERVICE_UNAVAILABLE);
+    const translations = getTranslationsForView(req.lang || "en", constants.SERVICE_UNAVAILABLE);
     res.status(500).render(constants.SERVICE_UNAVAILABLE_TEMPLATE, { lang: translations });
 });
 
