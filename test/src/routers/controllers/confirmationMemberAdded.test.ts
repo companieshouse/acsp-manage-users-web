@@ -3,6 +3,8 @@ import supertest from "supertest";
 import app from "../../../../src/app";
 import * as en from "../../../../locales/en/confirmation-member-added.json";
 import * as enCommon from "../../../../locales/en/common.json";
+import * as cy from "../../../../locales/cy/confirmation-member-added.json";
+import * as cyCommon from "../../../../locales/cy/common.json";
 import * as constants from "../../../../src/lib/constants";
 import { setExtraData } from "../../../../src/lib/utils/sessionUtils";
 import { NewUserDetails } from "../../../../src/types/user";
@@ -10,6 +12,7 @@ import { NextFunction, Request, Response } from "express";
 import { Session } from "@companieshouse/node-session-handler";
 import { UserRole } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
 import { loggedAccountOwnerAcspMembership } from "../../../mocks/acsp.members.mock";
+import { getUserRoleTag } from "../../../../src/lib/utils/viewUtils";
 
 const router = supertest(app);
 
@@ -26,6 +29,12 @@ mocks.mockSessionMiddleware.mockImplementation((req: Request, res: Response, nex
     req.session = session;
     next();
 });
+
+const getNewUserDetails = (userRole: UserRole, email: string, userName?: string): NewUserDetails => {
+    return {
+        userRole, userId: "12345", isValid: true, email, userName
+    };
+};
 
 describe("GET /authorised-agent/confirmation-member-added", () => {
 
@@ -45,84 +54,41 @@ describe("GET /authorised-agent/confirmation-member-added", () => {
         await router.get(url).expect(200);
     });
 
-    it("should return expected English content if person has been added and if userName is provided", async () => {
-
-        // Given
-        const userRole: UserRole = UserRole.STANDARD;
-        const userDetails: NewUserDetails = { userRole: userRole, userId: "12345", isValid: true, email: "d.jones@example.com", userName: "Davy Jones" };
-        setExtraData(session, constants.DETAILS_OF_USER_TO_ADD, userDetails);
-
-        // When
-        const response = await router.get(url);
-
-        // Then
-        expect(response.text).toContain(en.user_added);
-        expect(response.text).toContain(en.you_have_added);
-        expect(response.text).toContain(userDetails.userName);
-        expect(response.text).toContain(`${en.as_a}${en.standard_user}${en.for}${companyName}`);
-        expect(response.text).toContain(en.what_happens_now);
-        expect(response.text).toContain(`${en.theyll_be_able_to_use_services}`);
-        expect(response.text).toContain(`${enCommon.go_to_manage_users}`);
-    });
-
-    it("should return expected English content if person has been added and userName is not provided", async () => {
-
-        // Given
-        const userRole: UserRole = UserRole.STANDARD;
-        const userDetails: NewUserDetails = { userRole: userRole, userId: "12345", isValid: true, email: "d.jones@example.com" };
-        setExtraData(session, constants.DETAILS_OF_USER_TO_ADD, userDetails);
-
-        // When
-        const response = await router.get(url);
-
-        // Then
-        expect(response.text).toContain(en.user_added);
-        expect(response.text).toContain(en.you_have_added);
-        expect(response.text).toContain(userDetails.email);
-        expect(response.text).toContain(`${en.as_a}${en.standard_user}${en.for}${companyName}`);
-        expect(response.text).toContain(en.what_happens_now);
-        expect(response.text).toContain(`${en.theyll_be_able_to_use_services}`);
-        expect(response.text).toContain(`${enCommon.go_to_manage_users}`);
-    });
-
-    it("should return expected English content if person has been added and userRole is administrator", async () => {
-
-        // Given
-        const userRole: UserRole = UserRole.ADMIN;
-        const userDetails: NewUserDetails = { userRole: userRole, userId: "12345", isValid: true, email: "k.williams@example.com" };
-        setExtraData(session, constants.DETAILS_OF_USER_TO_ADD, userDetails);
-
-        // When
-        const response = await router.get(url);
-
-        // Then
-        expect(response.text).toContain(en.user_added);
-        expect(response.text).toContain(en.you_have_added);
-        expect(response.text).toContain(userDetails.email);
-        expect(response.text).toContain(`${en.as_an}${en.administrator}${en.for}${companyName}`);
-        expect(response.text).toContain(en.what_happens_now);
-        expect(response.text).toContain(`${en.theyll_be_able_to_use_services}`);
-        expect(response.text).toContain(`${enCommon.go_to_manage_users}`);
-    });
-
-    it("should return expected English content if person has been added and userRole is account owner", async () => {
-
-        // Given
-        const userRole: UserRole = UserRole.OWNER;
-        const userDetails: NewUserDetails = { userRole: userRole, userId: "12345", isValid: true, email: "j.smith@example.com" };
-        setExtraData(session, constants.DETAILS_OF_USER_TO_ADD, userDetails);
-
-        // When
-        const response = await router.get(url);
-
-        // Then
-        expect(response.text).toContain(en.user_added);
-        expect(response.text).toContain(en.you_have_added);
-        expect(response.text).toContain(userDetails.email);
-        expect(response.text).toContain(`${en.as_an}${en.account_owner}${en.for}${companyName}`);
-        expect(response.text).toContain(en.what_happens_now);
-        expect(response.text).toContain(`${en.theyll_be_able_to_use_services}`);
-        expect(response.text).toContain(`${enCommon.go_to_manage_users}`);
-    });
+    test.each([
+        ["English", "userName is provided", UserRole.STANDARD, getNewUserDetails(UserRole.STANDARD, "d.jones@example.com", "Davy Jones"), "en", en, enCommon],
+        ["Welsh", "userName is provided", UserRole.STANDARD, getNewUserDetails(UserRole.STANDARD, "d.jones@example.com", "Davy Jones"), "cy", cy, cyCommon],
+        ["English", "userName is not provided", UserRole.STANDARD, getNewUserDetails(UserRole.STANDARD, "d.jones@example.com"), "en", en, enCommon],
+        ["Welsh", "userName is not provided", UserRole.STANDARD, getNewUserDetails(UserRole.STANDARD, "d.jones@example.com"), "cy", cy, cyCommon],
+        ["English", "userName is provided", UserRole.ADMIN, getNewUserDetails(UserRole.ADMIN, "k.williams@example.com", "Katy Williams"), "en", en, enCommon],
+        ["Welsh", "userName is provided", UserRole.ADMIN, getNewUserDetails(UserRole.ADMIN, "k.williams@example.com", "Katy Williams"), "cy", cy, cyCommon],
+        ["English", "userName is not provided", UserRole.ADMIN, getNewUserDetails(UserRole.ADMIN, "k.williams@example.com"), "en", en, enCommon],
+        ["Welsh", "userName is not provided", UserRole.ADMIN, getNewUserDetails(UserRole.ADMIN, "k.williams@example.com"), "cy", cy, cyCommon],
+        ["English", "userName is provided", UserRole.OWNER, getNewUserDetails(UserRole.OWNER, "j.smith@example.com", "John Smith"), "en", en, enCommon],
+        ["Welsh", "userName is provided", UserRole.OWNER, getNewUserDetails(UserRole.OWNER, "j.smith@example.com", "John Smith"), "cy", cy, cyCommon],
+        ["English", "userName is not provided", UserRole.OWNER, getNewUserDetails(UserRole.OWNER, "j.smith@example.com"), "en", en, enCommon],
+        ["Welsh", "userName is not provided", UserRole.OWNER, getNewUserDetails(UserRole.OWNER, "j.smith@example.com"), "cy", cy, cyCommon]
+    ])("should return expected %s content if person has been added and if %s and userRole is %s",
+        async (_langInfo, condition, userRole, userDetails, langVersion, lang, langCommon) => {
+            // Given
+            setExtraData(session, constants.DETAILS_OF_USER_TO_ADD, userDetails);
+            // When
+            const response = await router.get(`${url}?lang=${langVersion}`);
+            // Then
+            expect(response.text).toContain(lang.user_added);
+            expect(response.text).toContain(lang.you_have_added);
+            if (condition === "userName is provided") {
+                expect(response.text).toContain(userDetails.userName);
+            } else {
+                expect(response.text).toContain(userDetails.email);
+            }
+            if (userRole === UserRole.STANDARD) {
+                expect(response.text).toContain(`${lang.as_a}${getUserRoleTag(userDetails.userRole as UserRole, langVersion, true)}${lang.for}${companyName}`);
+            } else {
+                expect(response.text).toContain(`${lang.as_an}${getUserRoleTag(userDetails.userRole as UserRole, langVersion, true)}${lang.for}${companyName}`);
+            }
+            expect(response.text).toContain(lang.what_happens_now);
+            expect(response.text).toContain(`${lang.theyll_be_able_to_use_services}`);
+            expect(response.text).toContain(`${langCommon.go_to_manage_users}`);
+        });
 
 });
