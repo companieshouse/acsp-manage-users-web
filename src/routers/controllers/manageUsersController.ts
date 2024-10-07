@@ -59,7 +59,9 @@ export const getViewData = async (req: Request): Promise<AnyRecord> => {
         administratorsTabId: constants.ADMINISTRATORS_ID,
         standardUsersTabId: constants.STANDARD_USERS_ID,
         templateName: constants.MANAGE_USERS_PAGE,
-        manageUsersTabId: activeTabId
+        manageUsersTabId: activeTabId,
+        MATOMO_ADD_USER_GOAL_ID: constants.MATOMO_ADD_USER_GOAL_ID,
+        MATOMO_REMOVE_USER_GOAL_ID: constants.MATOMO_REMOVE_USER_GOAL_ID
     };
 
     let errorMessage;

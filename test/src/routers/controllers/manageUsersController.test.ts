@@ -69,6 +69,7 @@ describe("GET /authorised-agent/manage-users", () => {
         expect(result.text).toContain(en.search);
         expect(result.text).toContain(en.cancel_search);
         expect(result.text).toContain(expectedTitle);
+        expect(result.text).toContain("<a data-event-id=\"remove\"");
     });
 
     it("should return expected title and page header, and not contain add button if user role standard", async () => {
@@ -86,7 +87,7 @@ describe("GET /authorised-agent/manage-users", () => {
         expect(result.text).toContain(enCommon.email_address);
         expect(result.text).toContain(en.users_name);
         expect(result.text).not.toContain(en.remove_user);
-        expect(result.text).not.toContain(en.remove);
+        expect(result.text).not.toContain("<a data-event-id=\"remove\"");
         expect(result.text).not.toContain(en.add_a_user);
         expect(result.text).toContain(en.search);
         expect(result.text).toContain(en.cancel_search);
