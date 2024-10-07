@@ -194,9 +194,9 @@ function trackGoal(elementId, goalId) {
 }
 
 function trackRemoveButtons(goalId) {
-    let removeBtnsArray = document.querySelectorAll(`[data-event-id="remove"]`);
+    const removeBtns = document.querySelectorAll(`[data-event-id="remove"]`);
 
-    removeBtnsArray.forEach(function (elem) {
+    removeBtns.forEach(function (elem) {
         elem
             .addEventListener("click", () => {
                 _paq.push(["trackGoal", goalId]);
