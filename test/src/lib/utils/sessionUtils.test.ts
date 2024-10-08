@@ -1,8 +1,18 @@
 import { Session } from "@companieshouse/node-session-handler";
 import { getSessionRequestWithPermission, userMail } from "../../../mocks/session.mock";
-import { deleteExtraData, getAccessToken, getExtraData, getLoggedInUserEmail, getLoggedUserAcspMembership, setExtraData, getLoggedInAcspNumber } from "../../../../src/lib/utils/sessionUtils";
+import {
+    deleteExtraData,
+    getAccessToken,
+    getExtraData,
+    getLoggedInUserEmail,
+    getLoggedUserAcspMembership,
+    setExtraData,
+    getLoggedInAcspNumber,
+    isAuthorisedAgent
+} from "../../../../src/lib/utils/sessionUtils";
 import * as constants from "../../../../src/lib/constants";
 import { accountOwnerAcspMembership } from "../../../mocks/acsp.members.mock";
+import * as sessionUtils from "../../../../src/lib/utils/sessionUtils";
 
 describe("Session Utils", () => {
     describe("getLoggedInUserEmail", () => {
@@ -165,5 +175,30 @@ describe("Session Utils", () => {
             // Then
             expect(result).toBeUndefined();
         });
+    });
+
+    describe("isAuthorisedAgent", () => {
+        const getLoggedInAcspNumberSpy: jest.SpyInstance = jest.spyOn(sessionUtils, "getLoggedInAcspNumber");
+        const session: Session = new Session();
+
+        test.each([
+            [true, "ABC123"],
+            [true, "_Is_A_String_With_32_Characters_"],
+            [true, "VPGVIfopFzULZ00p9BH9GUVLei1k4DKH"],
+            [false, ""],
+            [false, undefined],
+            [false, null],
+            [false, "IsStringWith%Special$Characters"],
+            [false, "Is_String_With_Over_32_Characters"],
+            [false, "AA/01"]
+        ])("should return %s if logged in ACSP number is %s",
+            (expectedResult, acspNumber) => {
+                // Given
+                getLoggedInAcspNumberSpy.mockReturnValue(acspNumber);
+                // When
+                const result = isAuthorisedAgent(session);
+                // Then
+                expect(result).toEqual(expectedResult);
+            });
     });
 });

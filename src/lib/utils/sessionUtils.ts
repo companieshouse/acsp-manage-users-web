@@ -24,6 +24,12 @@ export const getLoggedInAcspNumber = (session: Session | undefined): string => {
     return signInInfo?.[SignInInfoKeys.AcspNumber] as string;
 };
 
+export const isAuthorisedAgent = (session: Session | undefined): boolean => {
+    const acspNumber: string = getLoggedInAcspNumber(session);
+    const regex = new RegExp(constants.ACSP_NUMBER_REGEX_PATTERN);
+    return !!acspNumber && regex.test(acspNumber);
+};
+
 export const setExtraData = (session: Session | undefined, key: string, data: unknown): void => {
     return session?.setExtraData(key, data);
 };
