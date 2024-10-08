@@ -7,8 +7,8 @@ dotenv.config();
 import app from "./app"; // eslint-disable-line
 
 // start the HTTP server
-const httpServer = http.createServer(app);
-httpServer.listen(process.env.NODE_PORT, () => {
+const server = http.createServer(app);
+server.listen(process.env.NODE_PORT, () => {
     console.log(`Server started at: ${process.env.NODE_HOSTNAME}:${process.env.NODE_PORT}`);
 }).on("error", err => {
     logger.error(`${err.name} - HTTP Server error: ${err.message} - ${err.stack}`);
@@ -29,4 +29,4 @@ if (process.env.NODE_SSL_ENABLED === "ON") {
     });
 }
 
-export default httpServer;
+export default server;

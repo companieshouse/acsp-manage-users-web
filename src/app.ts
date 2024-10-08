@@ -1,9 +1,9 @@
 import "express-async-errors";
-import express, { NextFunction, Request, RequestHandler, Response } from "express";
+import express, { NextFunction, Request, Response } from "express";
 import nunjucks from "nunjucks";
 import path from "path";
 import logger from "./lib/Logger";
-import routerDispatch from "./router.dispatch";
+import routerDispatch from "./routerDispatch";
 import cookieParser from "cookie-parser";
 import * as constants from "./lib/constants";
 import { authenticationMiddleware } from "./middleware/authentication.middleware";
@@ -75,7 +75,7 @@ const nonce: string = uuidv4();
 app.use(nocache());
 app.use(helmet(prepareCSPConfig(nonce)));
 
-app.use(`${constants.LANDING_URL}*`, sessionMiddleware as RequestHandler);
+app.use(`${constants.LANDING_URL}*`, sessionMiddleware);
 app.use(`${constants.LANDING_URL}*`, authenticationMiddleware);
 app.use(`${constants.LANDING_URL}*`, acspAuthMiddleware);
 
