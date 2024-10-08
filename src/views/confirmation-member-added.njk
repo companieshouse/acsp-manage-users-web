@@ -3,44 +3,50 @@
 
 {% extends "layouts/default.njk" %}
 
-{% set userDetails = newUserDetails.userName if newUserDetails.userName else newUserDetails.email %}
-{% set roleText = lang.as_a + userRole if userRole == lang.standard_user else lang.as_an + userRole%}
+{% set userDetails = newUserDetails.userName if newUserDetails.userName else 
+    newUserDetails.email %}
+{% set roleText = lang.as_a + userRole if (userRole | lower === lang.standard_user | lower) 
+    else 
+        lang.as_an + userRole %}
 
 {% set bannerHtml %}
-        <h3 class="govuk-notification-banner__heading">
-            {{lang.user_added}}
-        </h3>
-        <p class="govuk-body">{{lang.you_have_added}}<strong>{{userDetails}}</strong>{{roleText}}{{lang.for}}{{companyName}}.</p>
+<h3 class="govuk-notification-banner__heading">
+    {{lang.user_added}}
+</h3>
+<p class="govuk-body">{{lang.you_have_added}}
+    <strong>{{userDetails}}</strong>{{roleText}}{{lang.for}}{{companyName}}.</p>
 {% endset %}
 
 {% set title = lang.what_happens_now + lang.title_end %}
 
 {% block main_content %}
 
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
 
-    {{ govukNotificationBanner({
-        html: bannerHtml,
-        type: "success",
-        titleText: lang.success
-    }) }}
+            {{ govukNotificationBanner({
+                    html: bannerHtml,
+                    type: "success",
+                    titleText: lang.success
+                })
+            }}
 
-    <span class="govuk-caption-l">{{companyName}}</span>
-    <h1 class="govuk-heading-l">{{lang.what_happens_now}}</h1>
+            <span class="govuk-caption-l">{{companyName}}</span>
+            <h1 class="govuk-heading-l">{{lang.what_happens_now}}</h1>
 
-    <p class="govuk-body">{{lang.theyll_be_able_to_use_services}}</p>
+            <p class="govuk-body">{{lang.theyll_be_able_to_use_services}}</p>
 
-    {{ govukButton({
-        text: lang.go_to_manage_users,
-        href: buttonHref,
-        role: "button",
-        classes: 'govuk-!-margin-top-3',
-        attributes: {
-            "data-event-id": "go-to-manage-users"
-        }
-    }) }}
+            {{ govukButton({
+                    text: lang.go_to_manage_users,
+                    href: buttonHref,
+                    role: "button",
+                    classes: 'govuk-!-margin-top-3',
+                    attributes: {
+                        "data-event-id": "go-to-manage-users"
+                    }
+                })
+            }}
 
-  </div>
-</div>
+        </div>
+    </div>
 {% endblock %}
