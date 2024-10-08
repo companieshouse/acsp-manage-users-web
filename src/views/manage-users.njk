@@ -184,4 +184,38 @@
         })
     }}
 
+<script nonce={{ nonce | dump | safe }}>
+function trackGoal(elementId, goalId) {
+    document
+        .getElementById(elementId)
+        .addEventListener("click", () => {
+            _paq.push(["trackGoal", goalId]);
+        });
+}
+
+function trackRemoveButtons(goalId) {
+    const removeBtns = document.querySelectorAll(`[data-event-id="remove"]`);
+
+    removeBtns.forEach(function (elem) {
+        elem
+            .addEventListener("click", () => {
+                _paq.push(["trackGoal", goalId]);
+            });
+    });
+}
+
+function addGoalEventListeners(){
+        trackGoal("add-a-user-button", {{MATOMO_ADD_USER_GOAL_ID}});
+        trackRemoveButtons({{MATOMO_REMOVE_USER_GOAL_ID}});
+}
+
+if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", function (e) {
+        addGoalEventListeners()
+    });
+} else {
+    addGoalEventListeners()
+}
+</script>
+
 {% endblock %}
