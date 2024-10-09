@@ -271,6 +271,7 @@ describe("navigiationMiddleware", () => {
         expect(mockedNext).not.toHaveBeenCalled();
         expect(response.redirect).toHaveBeenCalledWith("/authorised-agent/manage-users");
     });
+
     it("should not allow a standard user to access the add user page", () => {
         // Given
         const mockedNext = jest.fn();
@@ -288,6 +289,7 @@ describe("navigiationMiddleware", () => {
         expect(mockedNext).not.toHaveBeenCalled();
         expect(response.redirect).toHaveBeenCalledWith("/authorised-agent/view-users");
     });
+
     it("should not allow a standard user to access the remove member page", () => {
         // Given
         const mockedNext = jest.fn();
@@ -305,6 +307,7 @@ describe("navigiationMiddleware", () => {
         expect(mockedNext).not.toHaveBeenCalled();
         expect(response.redirect).toHaveBeenCalledWith("/authorised-agent/manage-users");
     });
+
     it("should throw an error when the user has removed themselves", () => {
         // Given
         const mockedNext = jest.fn();
