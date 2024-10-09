@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import * as constants from "../../lib/constants";
 import { AcspMembership, UserRole } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
-import { getExtraData, getLoggedUserAcspMembership } from "../../lib/utils/sessionUtils";
+import { getExtraData, setExtraData, getLoggedUserAcspMembership } from "../../lib/utils/sessionUtils";
 import { MemberForRemoval } from "../../types/membership";
 import { getAcspMemberships, updateOrRemoveUserAcspMembership } from "../../services/acspMemberService";
 
@@ -22,6 +22,7 @@ export const tryRemovingUserControllerPost = async (req: Request, res: Response)
     await updateOrRemoveUserAcspMembership(req, memberForRemoval.id, { removeUser: true });
 
     if (removingThemselves) {
+        setExtraData(req.session, constants.ACSP_MEMBERSHIP_REMOVED, true);
         res.redirect(constants.CONFIRMATION_YOU_ARE_REMOVED_FULL_URL);
     } else {
         res.redirect(constants.CONFIRMATION_MEMBER_REMOVED_FULL_URL);
