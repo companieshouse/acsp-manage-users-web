@@ -7,5 +7,5 @@ const mongodbConfigs = {
 const USE_ENV = process.env.USE_ENV || "local";
 
 export const MONGODB_URI = process.env.MONGODB_URI || mongodbConfigs[USE_ENV];
-export const DEFAULT_PASSWORD = process.env.DEFAULT_PASSWORD || "password";
+export const DEFAULT_PASSWORD = process.env.DEFAULT_PASSWORD || "$2a$10$6a..eerV1kSiNW3sBlcYv.VmEXyI7ABWuoo3w7zKzcdh18YKyvPbm";
 export const NO_USERS_TO_CREATE = process.env.NO_USERS_TO_CREATE ? parseInt(process.env.NO_USERS_TO_CREATE, 10) : 100;
