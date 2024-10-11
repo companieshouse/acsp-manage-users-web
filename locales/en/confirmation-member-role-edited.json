@@ -1,13 +1,29 @@
 {
+    "a_standard_user_can": "A standard user can access services for the authorised agent.",
+    "account_owner_page_header": "What an account owner can do",
+    "administrator_page_header": "What an administrator can do",
+    "an_account_owner_can": "An account owner can access services for the authorised agent.",
+    "an_administrator_can": "An administrator can access services for the authorised agent.",
     "is_now_a_standard_user_for": " is now a standard user for ",
     "is_now_an_account_owner_for": " is now an account owner for ",
     "is_now_an_administrator_for": " is now an administrator for ",
-    "page_header": "What they can do",
-    "theyll_also_be_able_to": "They’ll also be able to:",
-    "theyll_also_be_able_to_bullet_points_account_owner": [
-        "make changes to the authorised agent’s details",
-        "add and remove all users"
+    "standard_user_page_header": "What a standard user can do",
+    "they_can_add_and_remove": "They can also view all users who have been added to this account. They can add and remove:",
+    "they_can_add_and_remove_bullet_points": [
+        "administrators",
+        "standard users"
     ],
+    "they_can_also": "They can also:",
+    "they_can_also_bullet_points": [
+        "make changes to the authorised agent’s details",
+        "view all users who have been added to this account",
+        "add and remove all users",
+        "close the account"
+    ],
+    "they_can_also_view_all_users": "They can also view all users who have been added to this account.",
+    "they_cannot_add_or_remove_users": "They cannot add or remove users.",
+    "to_tell_them_youve_chanaged_their_role": " to tell them you’ve changed their role.",
     "users_role_changed": "User’s role changed",
-    "will_be_able_to_access_services": "will be able to access services for the authorised agent when they sign in to their Companies House account."
+    "weve_sent_an_email_to": "We’ve sent an email to ",
+    "weve_sent_them_an_email": "We’ve sent them an email to tell them you’ve changed their role."
 }
