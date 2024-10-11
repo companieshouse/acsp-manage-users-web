@@ -1,6 +1,7 @@
 {
     "add_acc_owner_btn": "Add an account owner",
     "before_you_remove": " before you remove yourself from the account.",
+    "before_you_change_your_role": " before you can change your role.",
     "details": {
         "p1": "Account owners receive essential emails with information about the authorised agent account.",
         "p2": "They must make sure the authorised agent complies with its legal responsibilities. This includes telling us about any changes to the agent's information within 14 days.",
