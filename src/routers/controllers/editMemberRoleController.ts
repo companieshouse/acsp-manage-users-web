@@ -30,6 +30,7 @@ export const editMemberRoleControllerPost = async (req: Request, res: Response):
             acspMembershipId: id,
             userRole: newUserRole,
             userEmail: viewData.email as string,
+            userDisplayName: viewData.userDisplayName,
             changeRolePageUrl: sanitizedUrl
         };
         setExtraData(req.session, constants.USER_ROLE_CHANGE_DATA, userRoleChangeData);
@@ -57,6 +58,7 @@ const getViewData = async (req: Request): Promise<ViewData> => {
         companyName: acspName,
         email: userToChangeRole.userEmail,
         userRole: userToChangeRole.userRole,
+        userDisplayName: userToChangeRole.userDisplayName === constants.NOT_PROVIDED ? undefined : userToChangeRole.userDisplayName,
         backLinkUrl: constants.MANAGE_USERS_FULL_URL,
         templateName: constants.EDIT_MEMBER_ROLE_PAGE,
         verifyPeopleIdentityFromDate: "XX DATE", // TODO - replace with live data once known

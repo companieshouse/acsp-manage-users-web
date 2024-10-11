@@ -348,6 +348,14 @@ export const ownerUserRoleChangeDataMock: UserRoleChangeData = {
     changeRolePageUrl: "/change-user-role-page-url"
 };
 
+export const ownerUserRoleChangeDataWithDisplayNameMock: UserRoleChangeData = {
+    acspMembershipId: "12345",
+    userRole: UserRole.OWNER.toString(),
+    userEmail: "j.smith@test.com",
+    userDisplayName: "John Smith",
+    changeRolePageUrl: "/change-user-role-page-url"
+};
+
 export const adminUserRoleChangeDataMock: UserRoleChangeData = {
     acspMembershipId: "23456",
     userRole: UserRole.ADMIN.toString(),
@@ -355,9 +363,25 @@ export const adminUserRoleChangeDataMock: UserRoleChangeData = {
     changeRolePageUrl: "/change-user-role-page-url"
 };
 
+export const adminUserRoleChangeDataWithDisplayNameMock: UserRoleChangeData = {
+    acspMembershipId: "23456",
+    userRole: UserRole.ADMIN.toString(),
+    userEmail: "a.black@test.com",
+    userDisplayName: "Adam Black",
+    changeRolePageUrl: "/change-user-role-page-url"
+};
+
 export const standardUserRoleChangeDataMock: UserRoleChangeData = {
     acspMembershipId: "54321",
     userRole: UserRole.STANDARD.toString(),
     userEmail: "e.brown@test.com",
+    changeRolePageUrl: "/change-user-role-page-url"
+};
+
+export const standardUserRoleChangeDataWithDisplayNameMock: UserRoleChangeData = {
+    acspMembershipId: "54321",
+    userRole: UserRole.STANDARD.toString(),
+    userEmail: "e.brown@test.com",
+    userDisplayName: "Eva Brown",
     changeRolePageUrl: "/change-user-role-page-url"
 };

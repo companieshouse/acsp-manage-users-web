@@ -4,15 +4,22 @@
 {% extends "layouts/default.njk" %}
 
 {% if userRole === UserRole.OWNER %}
+    {% set pageHeader = lang.account_owner_page_header %}
     {% set roleSentencePart = lang.is_now_an_account_owner_for %}
-    {% set bulletPoints %}
-    <li>{{lang.theyll_also_be_able_to_bullet_points_account_owner[0]}}</li>
-    <li>{{lang.theyll_also_be_able_to_bullet_points_account_owner[1]}}</li>
-    {% endset %}
+    {% set accessServiceInfo = lang.an_account_owner_can %}
+    {% set additionalPrivilagesInfo = lang.they_can_also %}
+    {% set bulletPoints = lang.they_can_also_bullet_points %}
 {% elif userRole === UserRole.ADMIN %}
+    {% set pageHeader = lang.administrator_page_header %}
     {% set roleSentencePart = lang.is_now_an_administrator_for %}
+    {% set accessServiceInfo = lang.an_administrator_can %}
+    {% set additionalPrivilagesInfo = lang.they_can_also_view_all_users + " " + lang.they_can_add_and_remove %}
+    {% set bulletPoints = lang.they_can_add_and_remove_bullet_points %}
 {% else %}
+    {% set pageHeader = lang.standard_user_page_header %}
     {% set roleSentencePart = lang.is_now_a_standard_user_for %}
+    {% set accessServiceInfo = lang.a_standard_user_can %}
+    {% set additionalPrivilagesInfo = lang.they_can_also_view_all_users + " " + lang.they_cannot_add_or_remove_users %}
 {% endif %}
 
 {% set bannerHtml %}
@@ -20,9 +27,24 @@
     {{lang.users_role_changed}}
 </h3>
 <p class="govuk-body">
-    <span class="govuk-!-font-weight-bold">{{email}}</span>{{roleSentencePart}}{{companyName}}.
+    {% if userDisplayName %}
+        {{userDisplayName}}
+    {% else %}
+        <span class="govuk-!-font-weight-bold">{{email}}</span>
+    {% endif %}
+    {{roleSentencePart}}{{companyName}}.
+</p>
+<p>
+    {% if userDisplayName %}
+        {{lang.weve_sent_an_email_to}}
+        <span class="govuk-!-font-weight-bold">{{email}}</span>{{lang.to_tell_them_youve_chanaged_their_role}}
+    {% else %}
+        {{lang.weve_sent_them_an_email}}
+    {% endif %}
 </p>
 {% endset %}
+
+{% set title = pageHeader + lang.title_end %}
 
 {% block main_content %}
     <div class="govuk-grid-row">
@@ -35,19 +57,18 @@
             }}
 
             <span class="govuk-caption-l">{{companyName}}</span>
-            <h1 class="govuk-heading-l">{{lang.page_header}}</h1>
+            <h1 class="govuk-heading-l">{{pageHeader}}</h1>
 
-            <p class="govuk-body">
-                <span class="govuk-!-font-weight-bold">{{email}}</span>{{lang.will_be_able_to_access_services}}
-            </p>
+            <p class="govuk-body">{{accessServiceInfo}}</p>
+            <p class="govuk-body">{{additionalPrivilagesInfo}}</p>
 
-            <p class="govuk-body">
-                {{lang.theyll_also_be_able_to}}
-            </p>
-
-            <ul class="govuk-list govuk-list--bullet">
-                {{bulletPoints}}
-            </ul>
+            {% if bulletPoints %}
+                <ul class="govuk-list govuk-list--bullet">
+                    {% for bullet in bulletPoints %}
+                        <li>{{bullet}}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
 
             {{ govukButton({
                     text: lang.go_to_manage_users,

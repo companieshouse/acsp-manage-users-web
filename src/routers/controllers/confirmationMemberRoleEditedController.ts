@@ -19,6 +19,7 @@ const getViewData = async (req: Request): Promise<ViewData> => {
         templateName: constants.CONFIRMATION_MEMBER_ROLE_EDITED_PAGE,
         companyName: acspName,
         email: userRoleChangeData.userEmail,
+        userDisplayName: userRoleChangeData.userDisplayName,
         userRole: userRoleChangeData.userRole,
         backLinkUrl: constants.MANAGE_USERS_FULL_URL
     };
