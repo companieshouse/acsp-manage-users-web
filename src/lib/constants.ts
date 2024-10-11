@@ -81,8 +81,8 @@ export const INTERNAL_API_URL = getEnvironmentValue("INTERNAL_API_URL");
 export const ACCOUNTS_USER_INTERNAL_API_KEY = getEnvironmentValue("ACCOUNTS_USER_INTERNAL_API_KEY");
 export const ACCOUNT_URL = getEnvironmentValue("ACCOUNT_URL");
 export const COOKIE_SECURE_ONLY = getEnvironmentValue("COOKIE_SECURE_ONLY");
-export const MATOMO_ADD_USER_GOAL_ID = ():string => getEnvironmentValue("MATOMO_ADD_USER_GOAL_ID");
-export const MATOMO_REMOVE_USER_GOAL_ID = ():string => getEnvironmentValue("MATOMO_REMOVE_USER_GOAL_ID");
+export const MATOMO_ADD_USER_GOAL_ID = getEnvironmentValue("MATOMO_ADD_USER_GOAL_ID");
+export const MATOMO_REMOVE_USER_GOAL_ID = getEnvironmentValue("MATOMO_REMOVE_USER_GOAL_ID");
 
 export const SERVICE_NAME = "ACSP Manage Users Web";
 

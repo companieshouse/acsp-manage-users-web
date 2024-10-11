@@ -7,7 +7,7 @@ import routerDispatch from "./routerDispatch";
 import cookieParser from "cookie-parser";
 import * as constants from "./lib/constants";
 import { authenticationMiddleware } from "./middleware/authentication.middleware";
-import { sessionMiddleware } from "./middleware/session.middleware";
+import { sessionMiddleware, csrfProtectionMiddleware } from "./middleware/session.middleware";
 import { getTranslationsForView, translateEnum } from "./lib/utils/translationUtils";
 import errorHandler from "./routers/controllers/errorController";
 import { UserRole, AcspStatus } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
@@ -31,7 +31,9 @@ app.set("views", [
     path.join(__dirname, "/../node_modules/govuk-frontend/dist"),
     path.join(__dirname, "node_modules/govuk-frontend/dist"),
     path.join(__dirname, "/../node_modules/@companieshouse/ch-node-utils/templates"),
-    path.join(__dirname, "node_modules/@companieshouse/ch-node-utils/templates")
+    path.join(__dirname, "node_modules/@companieshouse/ch-node-utils/templates"),
+    path.join(__dirname, "/../node_modules/@companieshouse"),
+    path.join(__dirname, "node_modules/@companieshouse")
 ]);
 
 const nunjucksLoaderOpts = {
@@ -76,6 +78,8 @@ app.use(nocache());
 app.use(helmet(prepareCSPConfig(nonce)));
 
 app.use(`${constants.LANDING_URL}*`, sessionMiddleware);
+app.use(`${constants.LANDING_URL}*`, csrfProtectionMiddleware);
+
 app.use(`${constants.LANDING_URL}*`, authenticationMiddleware);
 app.use(`${constants.LANDING_URL}*`, acspAuthMiddleware);
 
