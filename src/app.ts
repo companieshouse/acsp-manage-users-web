@@ -15,7 +15,7 @@ import { loggedUserAcspMembershipMiddleware } from "./middleware/loggedUserAcspM
 import * as url from "node:url";
 import { LANGUAGE_CONFIG } from "./types/language";
 import { convertUserRole } from "./lib/utils/userRoleUtils";
-import { getLoggedInUserEmail, isAuthorisedAgent } from "./lib/utils/sessionUtils";
+import { getLoggedInUserEmail } from "./lib/utils/sessionUtils";
 import { navigationMiddleware } from "./middleware/navigationMiddleware";
 import { LocalesMiddleware, LocalesService } from "@companieshouse/ch-node-utils";
 import helmet from "helmet";
@@ -97,9 +97,6 @@ app.use((req: Request, res: Response, next: NextFunction) => {
     };
     res.locals.convertUserRole = convertUserRole;
     res.locals.translateEnum = translateEnum(res.locals.locale);
-    if (isAuthorisedAgent(req.session)) {
-        res.locals.displayAuthorisedAgent = "yes";
-    }
     res.locals.nonce = nonce;
     next();
 });

@@ -166,29 +166,4 @@ describe("Session Utils", () => {
             expect(result).toBeUndefined();
         });
     });
-
-    describe("isAuthorisedAgent", () => {
-        const getLoggedInAcspNumberSpy: jest.SpyInstance = jest.spyOn(sessionUtils, "getLoggedInAcspNumber");
-        const session: Session = new Session();
-
-        test.each([
-            [true, "ABC123"],
-            [true, "_Is_A_String_With_32_Characters_"],
-            [true, "VPGVIfopFzULZ00p9BH9GUVLei1k4DKH"],
-            [false, ""],
-            [false, undefined],
-            [false, null],
-            [false, "IsStringWith%Special$Characters"],
-            [false, "Is_String_With_Over_32_Characters"],
-            [false, "AA/01"]
-        ])("should return %s if logged in ACSP number is %s",
-            (expectedResult, acspNumber) => {
-                // Given
-                getLoggedInAcspNumberSpy.mockReturnValue(acspNumber);
-                // When
-                const result = sessionUtils.isAuthorisedAgent(session);
-                // Then
-                expect(result).toEqual(expectedResult);
-            });
-    });
 });
