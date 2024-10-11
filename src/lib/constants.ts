@@ -118,4 +118,3 @@ export const STANDARD_USERS_TAB_ID = `tab_${STANDARD_USERS_ID}`;
 export const NOT_PROVIDED = "Not Provided";
 export const NOT_PROVIDED_CY = "[CY] Not Provided";
 export const ITEMS_PER_PAGE_DEFAULT = 15;
-export const ACSP_NUMBER_REGEX_PATTERN = "^[0-9A-Za-z-_]{0,32}$";
