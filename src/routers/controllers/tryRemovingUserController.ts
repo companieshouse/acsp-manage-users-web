@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import * as constants from "../../lib/constants";
 import { AcspMembership, UserRole } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
-import { getExtraData, getLoggedUserAcspMembership } from "../../lib/utils/sessionUtils";
+import { deleteExtraData, getExtraData, getLoggedUserAcspMembership, setExtraData } from "../../lib/utils/sessionUtils";
 import { MemberForRemoval } from "../../types/membership";
 import { getAcspMemberships, updateOrRemoveUserAcspMembership } from "../../services/acspMemberService";
 import logger from "../../lib/Logger";
@@ -21,6 +21,8 @@ export const tryRemovingUserControllerPost = async (req: Request, res: Response)
         }
     }
     await updateOrRemoveUserAcspMembership(req, memberForRemoval.id, { removeUser: true });
+
+    deleteExtraData(req.session, constants.DETAILS_OF_USER_TO_REMOVE);
 
     if (removingThemselves) {
         logger.info("User has removed themselves, redirecting to sign out now ... ");

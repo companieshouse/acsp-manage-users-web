@@ -5,15 +5,17 @@ import { getExtraData, getLoggedUserAcspMembership } from "../../lib/utils/sessi
 import { AcspMembership } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
 import { MemberForRemoval } from "types/membership";
 import logger from "../../lib/Logger";
-import { getRemoveMemberCheckDetailsFullUrl } from "../../lib/utils/urlUtils";
+import { getChangeMemberRoleFullUrl, getRemoveMemberCheckDetailsFullUrl } from "../../lib/utils/urlUtils";
+import { UserRoleChangeData } from "types/utilTypes";
 
 export const stopPageAddOwnerControllerGet: RequestHandler = async (req: Request, res: Response) => {
     const loggedUserAcspMembership: AcspMembership = getLoggedUserAcspMembership(req.session);
     const userToRemove: MemberForRemoval | undefined = getExtraData(req.session, constants.DETAILS_OF_USER_TO_REMOVE);
+    const userToChangeRole: UserRoleChangeData | undefined = getExtraData(req.session, constants.USER_ROLE_CHANGE_DATA);
 
-    if (!userToRemove) {
-        logger.error(`${stopPageAddOwnerControllerGet.name}: DETAILS_OF_USER_TO_REMOVE not found in session`);
-        throw Error("DETAILS_OF_USER_TO_REMOVE not found in session");
+    if (!userToRemove && !userToChangeRole) {
+        logger.error(`${stopPageAddOwnerControllerGet.name}: neither DETAILS_OF_USER_TO_REMOVE nor DETAILS_OF_USER_TO_REMOVE found in session`);
+        throw Error("Neither DETAILS_OF_USER_TO_REMOVE nor DETAILS_OF_USER_TO_REMOVE found in session");
     }
 
     res.render(constants.STOP_PAGE_ADD_ACCOUNT_OWNER, {
@@ -21,7 +23,8 @@ export const stopPageAddOwnerControllerGet: RequestHandler = async (req: Request
         lang: getTranslationsForView(req.lang, constants.STOP_PAGE_ADD_ACCOUNT_OWNER),
         companyName: loggedUserAcspMembership.acspName,
         linkHref: constants.MANAGE_USERS_FULL_URL,
-        backLinkUrl: getRemoveMemberCheckDetailsFullUrl(userToRemove.id),
-        templateName: constants.STOP_PAGE_ADD_ACCOUNT_OWNER
+        backLinkUrl: userToRemove ? getRemoveMemberCheckDetailsFullUrl(userToRemove.id) : getChangeMemberRoleFullUrl(userToChangeRole?.acspMembershipId as string),
+        templateName: constants.STOP_PAGE_ADD_ACCOUNT_OWNER,
+        isRemoval: !!userToRemove
     });
 };
