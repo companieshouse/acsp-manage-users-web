@@ -84,6 +84,16 @@ export const ownerUserMembership: Membership = {
     displayNameOrEmail: "Anna Black"
 };
 
+export const loggedOwnerUserMembership: Membership = {
+    id: "333333",
+    userId: "Wgu21K54",
+    userEmail: "j.smith@domain.com",
+    userDisplayName: "Not Provided",
+    acspNumber: "123456",
+    userRole: UserRole.OWNER,
+    displayNameOrEmail: "j.smith@domain.com"
+};
+
 // NOTE: All the below is based upon the TestDataManager on the acsp-manage-users-api
 // https://github.com/companieshouse/acsp-manage-users-api/blob/main/src/test/java/uk/gov/companieshouse/acsp/manage/users/common/TestDataManager.java
 export const buzzUser: User = createUserMock(
