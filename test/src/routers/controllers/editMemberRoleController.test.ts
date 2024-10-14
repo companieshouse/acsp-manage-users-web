@@ -2,6 +2,7 @@ import mocks from "../../../mocks/all.middleware.mock";
 import { loggedOwnerUserMembership, standardUserMembership } from "../../../mocks/user.mock";
 import {
     administratorAcspMembership,
+    getMockAcspMembersResource,
     loggedAccountOwnerAcspMembership,
     standardUserAcspMembership
 } from "../../../mocks/acsp.members.mock";
@@ -15,12 +16,14 @@ import * as sessionUtils from "../../../../src/lib/utils/sessionUtils";
 import * as constants from "../../../../src/lib/constants";
 import { UserRole } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
 import { Membership } from "../../../../src/types/membership";
+import * as acspMemberService from "../../../../src/services/acspMemberService";
 
 const router = supertest(app);
 
 const url = "/authorised-agent/edit-member-role";
 const getExtraDataSpy: jest.SpyInstance = jest.spyOn(sessionUtils, "getExtraData");
 const getLoggedUserAcspMembershipSpy: jest.SpyInstance = jest.spyOn(sessionUtils, "getLoggedUserAcspMembership");
+const getAcspMembershipsSpy: jest.SpyInstance = jest.spyOn(acspMemberService, "getAcspMemberships");
 
 describe("GET /authorised-agent/edit-member-role", () => {
     beforeEach(() => {
@@ -52,6 +55,7 @@ describe("GET /authorised-agent/edit-member-role", () => {
             // Given
             getLoggedUserAcspMembershipSpy.mockReturnValue(loggedUserMembership);
             getExtraDataSpy.mockReturnValue([mockUserData]);
+            getAcspMembershipsSpy.mockResolvedValue(getMockAcspMembersResource([loggedUserMembership]));
             // When
             const response = await router.get(`${url}/${mockUserData.id}?lang=${langVersion}`);
             // Then
