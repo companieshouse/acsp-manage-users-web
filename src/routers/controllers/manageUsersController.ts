@@ -150,7 +150,6 @@ export const getDisplayNameOrNotProvided = (locale: string, member: AcspMembersh
 
 const getUserTableData = (membership: AcspMembership[], translations: AnyRecord, hasChangeRoleLink: boolean, hasRemoveLink: boolean, locale: string): TableEntry[][] => {
     const userTableDate: TableEntry[][] = [];
-    const isTheOnlyAccountOwner = membership.length === 1 && membership[0].userRole === UserRole.OWNER;
     for (const member of membership) {
         const tableEntry: TableEntry[] = [
             { text: member.userEmail },
@@ -158,7 +157,7 @@ const getUserTableData = (membership: AcspMembership[], translations: AnyRecord,
         ];
 
         if (hasChangeRoleLink) {
-            const fullUrl = isTheOnlyAccountOwner ? constants.STOP_PAGE_ADD_ACCOUNT_OWNER_FULL_URL : getChangeMemberRoleFullUrl(member.id);
+            const fullUrl = getChangeMemberRoleFullUrl(member.id);
             tableEntry[2] = { html: getLink(fullUrl, `${translations.change_role as string} ${getHiddenText(member.userEmail)}`, "change-role") };
         }
 

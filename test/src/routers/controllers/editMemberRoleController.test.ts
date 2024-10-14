@@ -1,5 +1,5 @@
 import mocks from "../../../mocks/all.middleware.mock";
-import { standardUserMembership } from "../../../mocks/user.mock";
+import { loggedOwnerUserMembership, standardUserMembership } from "../../../mocks/user.mock";
 import {
     administratorAcspMembership,
     loggedAccountOwnerAcspMembership,
@@ -44,7 +44,9 @@ describe("GET /authorised-agent/edit-member-role", () => {
         [200, "English", UserRole.ADMIN, administratorAcspMembership, standardUserMembership, "en", en, enCommon],
         [200, "Welsh", UserRole.ADMIN, administratorAcspMembership, standardUserMembership, "cy", cy, cyCommon],
         [500, "English", UserRole.STANDARD, standardUserAcspMembership, standardUserMembership, "en", en, enCommon],
-        [500, "Welsh", UserRole.STANDARD, standardUserAcspMembership, standardUserMembership, "cy", cy, cyCommon]
+        [500, "Welsh", UserRole.STANDARD, standardUserAcspMembership, standardUserMembership, "cy", cy, cyCommon],
+        [302, "English", UserRole.OWNER, loggedAccountOwnerAcspMembership, loggedOwnerUserMembership, "en", en, enCommon],
+        [302, "Welsh", UserRole.OWNER, loggedAccountOwnerAcspMembership, loggedOwnerUserMembership, "cy", cy, cyCommon]
     ])("should return status %s and the expected content if the language is set to %s and the loggedin user role is %s",
         async (status, _langVersionInfo, loggedUserRole, loggedUserMembership, mockUserData, langVersion, lang, langCommon) => {
             // Given
@@ -55,12 +57,16 @@ describe("GET /authorised-agent/edit-member-role", () => {
             // Then
             const decodedResponseText = response.text.replace(/&#39;/g, "'");
             expect(response.status).toEqual(status);
-            if (loggedUserRole === UserRole.STANDARD) {
-                expect(decodedResponseText).not.toContain(loggedUserMembership.acspName);
+            if (response.status === 302 && loggedUserMembership.userRole === UserRole.OWNER && loggedUserMembership.userId === mockUserData.userId) {
+                expect(response.text).toContain("Found. Redirecting to /authorised-agent/stop-page-add-account-owner");
             } else {
-                expect(decodedResponseText).toContain(loggedUserMembership.acspName);
+                if (loggedUserRole === UserRole.STANDARD) {
+                    expect(decodedResponseText).not.toContain(loggedUserMembership.acspName);
+                } else {
+                    expect(decodedResponseText).toContain(loggedUserMembership.acspName);
+                }
+                expect(containsContent(loggedUserRole, decodedResponseText, mockUserData, lang, langCommon)).toBeTruthy();
             }
-            expect(containsContent(loggedUserRole, decodedResponseText, mockUserData, lang, langCommon)).toBeTruthy();
         });
 });
 

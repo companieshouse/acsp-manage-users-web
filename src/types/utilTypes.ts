@@ -21,6 +21,7 @@ export type ViewData = {
     verifyPeopleIdentityFromDate?: string;
     fileAsAuthorisedAgentFromDate?: string;
     tryEditUserRoleUrl?: string;
+    isTheOnlyOwner?: boolean;
 };
 
 export type MemberRawViewData = {

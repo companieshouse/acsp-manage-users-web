@@ -13,7 +13,13 @@ import { UserRole } from "private-api-sdk-node/dist/services/acsp-manage-users/t
 
 export const editMemberRoleControllerGet = async (req: Request, res: Response): Promise<void> => {
     const viewData = await getViewData(req);
-    res.render(constants.EDIT_MEMBER_ROLE_PAGE, viewData);
+    if (viewData.isTheOnlyOwner) {
+        const userRoleChangeData = getUserRoleChangeData(req, viewData);
+        setExtraData(req.session, constants.USER_ROLE_CHANGE_DATA, userRoleChangeData);
+        res.redirect(constants.STOP_PAGE_ADD_ACCOUNT_OWNER_FULL_URL);
+    } else {
+        res.render(constants.EDIT_MEMBER_ROLE_PAGE, viewData);
+    }
 };
 
 export const editMemberRoleControllerPost = async (req: Request, res: Response): Promise<void> => {
@@ -23,16 +29,7 @@ export const editMemberRoleControllerPost = async (req: Request, res: Response):
         addErrorToViewData(FormInputNames.USER_ROLE, constants.ERRORS_SELECT_USER_ROLE_TO_CHANGE_FOR_THE_USER, viewData);
         return res.render(constants.EDIT_MEMBER_ROLE_PAGE, viewData);
     } else {
-        const id = req.params.id;
-        const url = `${constants.EDIT_MEMBER_ROLE_FULL_URL.replace(":id", id)}`;
-        const sanitizedUrl = sanitizeUrl(url);
-        const userRoleChangeData: UserRoleChangeData = {
-            acspMembershipId: id,
-            userRole: newUserRole,
-            userEmail: viewData.email as string,
-            userDisplayName: viewData.userDisplayName,
-            changeRolePageUrl: sanitizedUrl
-        };
+        const userRoleChangeData = getUserRoleChangeData(req, viewData);
         setExtraData(req.session, constants.USER_ROLE_CHANGE_DATA, userRoleChangeData);
         return res.redirect(constants.CHECK_EDIT_MEMBER_ROLE_DETAILS_FULL_URL);
     }
@@ -65,5 +62,25 @@ const getViewData = async (req: Request): Promise<ViewData> => {
         fileAsAuthorisedAgentFromDate: "XX DATE" // TODO - replace with live data once known
     };
 
+    if (userToChangeRole.userRole === UserRole.OWNER && isTheOnlyOwner(existingUsers)) {
+        viewData.isTheOnlyOwner = true;
+    }
+
     return viewData;
+};
+
+const isTheOnlyOwner = (users: Membership[]): boolean => users.filter(user => user.userRole === UserRole.OWNER).length === 1;
+
+const getUserRoleChangeData = (req: Request, viewData: ViewData): UserRoleChangeData => {
+    const newUserRole = req.body.userRole;
+    const id = req.params.id;
+    const url = `${constants.EDIT_MEMBER_ROLE_FULL_URL.replace(":id", id)}`;
+    const sanitizedUrl = sanitizeUrl(url);
+    return {
+        acspMembershipId: id,
+        userRole: newUserRole,
+        userEmail: viewData.email as string,
+        userDisplayName: viewData.userDisplayName,
+        changeRolePageUrl: sanitizedUrl
+    };
 };
