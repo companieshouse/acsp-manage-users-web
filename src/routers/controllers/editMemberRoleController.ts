@@ -10,6 +10,7 @@ import { addErrorToViewData } from "../../lib/utils/viewUtils";
 import { FormInputNames } from "../../lib/validation/add.user.validation";
 import { sanitizeUrl } from "@braintree/sanitize-url";
 import { UserRole } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
+import { getAcspMemberships } from "../../services/acspMemberService";
 
 export const editMemberRoleControllerGet = async (req: Request, res: Response): Promise<void> => {
     const viewData = await getViewData(req);
@@ -62,14 +63,17 @@ const getViewData = async (req: Request): Promise<ViewData> => {
         fileAsAuthorisedAgentFromDate: "XX DATE" // TODO - replace with live data once known
     };
 
-    if (userToChangeRole.userRole === UserRole.OWNER && isTheOnlyOwner(existingUsers)) {
+    if (userToChangeRole.userRole === UserRole.OWNER && await isTheOnlyOwner(req, userToChangeRole.acspNumber, userToChangeRole.userId)) {
         viewData.isTheOnlyOwner = true;
     }
 
     return viewData;
 };
 
-const isTheOnlyOwner = (users: Membership[]): boolean => users.filter(user => user.userRole === UserRole.OWNER).length === 1;
+const isTheOnlyOwner = async (req: Request, acspNumber: string, userId: string): Promise<boolean> => {
+    const ownerMembers = await getAcspMemberships(req, acspNumber, false, 0, 20, [UserRole.OWNER]);
+    return ownerMembers?.items?.length === 1 && ownerMembers.items[0].userId === userId;
+};
 
 const getUserRoleChangeData = (req: Request, viewData: ViewData): UserRoleChangeData => {
     const newUserRole = req.body.userRole;
