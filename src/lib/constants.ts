@@ -107,6 +107,7 @@ export const DETAILS_OF_USER_TO_ADD = "detailsOfUserToAdd";
 export const DETAILS_OF_USER_TO_REMOVE = "detailsOfUserToRemove";
 export const MANAGE_USERS_MEMBERSHIP = "manageUsersMembership";
 export const LOGGED_USER_ACSP_MEMBERSHIP = "loggedUserAcspMembership";
+export const ACSP_MEMBERSHIP_REMOVED = "AcspMembershipRemoved";
 
 // Various
 export const ACCOUNT_OWNERS_ID = "account-owners";
