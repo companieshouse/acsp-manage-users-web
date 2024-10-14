@@ -3,7 +3,8 @@ import type { ErrorRequestHandler } from "express";
 import { HttpError } from "http-errors";
 import { getTranslationsForView } from "../../lib/utils/translationUtils";
 import * as constants from "../../lib/constants";
-import { InvalidAcspNumberError } from "@companieshouse/web-security-node";
+import { InvalidAcspNumberError, CsrfError } from "@companieshouse/web-security-node";
+
 /*  This controller catches and logs HTTP errors from the http-errors module.
     It returns an error template back to the user.
 
@@ -49,4 +50,20 @@ export const invalidAcspNumberErrorHandler: ErrorRequestHandler = (err, req, res
     }
 };
 
-export default [httpErrorHandler, invalidAcspNumberErrorHandler];
+export const csrfErrorHandler:ErrorRequestHandler = (err, req, res, next) => {
+
+    // If CSRF error, respond with a 403 forbidden status and render default error template.
+    if (err instanceof CsrfError) {
+        logger.error(
+            `CSRF Error occured ${err.message}, Stack: ${err.stack}`
+        );
+        res.status(403).render(constants.SERVICE_UNAVAILABLE_TEMPLATE, {
+            lang: getTranslationsForView(req.lang || "en", constants.SERVICE_UNAVAILABLE),
+            csrfErrors: true
+        });
+    } else {
+        next(err);
+    }
+};
+
+export default [httpErrorHandler, invalidAcspNumberErrorHandler, csrfErrorHandler];
