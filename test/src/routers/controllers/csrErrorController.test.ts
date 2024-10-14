@@ -23,7 +23,7 @@ describe("csrfErrorHandler", () => {
         // Given
         request.originalUrl = "/originalUrl";
         request.method = "GET";
-        mockGetTranslationsForView.mockReturnValueOnce({});
+        mockGetTranslationsForView.mockReturnValue({});
 
         const err = new CsrfError();
         // When
@@ -36,10 +36,11 @@ describe("csrfErrorHandler", () => {
         );
     });
 
-    it("should ignore errors that are not of type InvalidAcspNumberError and pass then to next", async () => {
+    it("should ignore errors that are not of type CsrfError and pass then to next", async () => {
         // Given
         request.originalUrl = "/originalUrl";
         request.method = "GET";
+
         const error = new Error();
         // When
         csrfErrorHandler(error, request, response, mockNext);
