@@ -41,6 +41,8 @@
     {% set inputClasses = "govuk-input govuk-input--error govuk-input--width-10 govuk-!-margin-right-1" if message else "govuk-input govuk-input--width-10 govuk-!-margin-right-1" %}
 
     <form method="post">
+            {% include "partials/csrf_token.njk" %}
+
         <div class="{{formClasses}}">
             <label class="govuk-label govuk-label--m" for="search">
                 {{lang.search_for_a_user}}

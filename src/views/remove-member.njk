@@ -25,6 +25,8 @@
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
             <form method="post" action="{{ tryRemovingUserUrl }}">
+                    {% include "partials/csrf_token.njk" %}
+
                 <span class="govuk-caption-xl">{{companyName}}</span>
 
                 {% if removingThemselves %}

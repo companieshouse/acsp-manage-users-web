@@ -23,6 +23,7 @@ import { v4 as uuidv4 } from "uuid";
 import { prepareCSPConfig } from "./middleware/content.security.policy.middleware.config";
 import nocache from "nocache";
 import { acspAuthMiddleware } from "./middleware/acsp.authentication.middleware";
+import { csrfProtectionMiddleware } from "./middleware/csrf.protection.middleware";
 
 const app = express();
 
@@ -31,7 +32,9 @@ app.set("views", [
     path.join(__dirname, "/../node_modules/govuk-frontend/dist"),
     path.join(__dirname, "node_modules/govuk-frontend/dist"),
     path.join(__dirname, "/../node_modules/@companieshouse/ch-node-utils/templates"),
-    path.join(__dirname, "node_modules/@companieshouse/ch-node-utils/templates")
+    path.join(__dirname, "node_modules/@companieshouse/ch-node-utils/templates"),
+    path.join(__dirname, "/../node_modules/@companieshouse"),
+    path.join(__dirname, "node_modules/@companieshouse")
 ]);
 
 const nunjucksLoaderOpts = {
@@ -76,6 +79,8 @@ app.use(nocache());
 app.use(helmet(prepareCSPConfig(nonce)));
 
 app.use(`${constants.LANDING_URL}*`, sessionMiddleware);
+app.use(`${constants.LANDING_URL}*`, csrfProtectionMiddleware);
+
 app.use(`${constants.LANDING_URL}*`, authenticationMiddleware);
 app.use(`${constants.LANDING_URL}*`, acspAuthMiddleware);
 
