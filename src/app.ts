@@ -7,7 +7,7 @@ import routerDispatch from "./routerDispatch";
 import cookieParser from "cookie-parser";
 import * as constants from "./lib/constants";
 import { authenticationMiddleware } from "./middleware/authentication.middleware";
-import { sessionMiddleware, csrfProtectionMiddleware } from "./middleware/session.middleware";
+import { sessionMiddleware } from "./middleware/session.middleware";
 import { getTranslationsForView, translateEnum } from "./lib/utils/translationUtils";
 import errorHandler from "./routers/controllers/errorController";
 import { UserRole, AcspStatus } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
@@ -23,6 +23,7 @@ import { v4 as uuidv4 } from "uuid";
 import { prepareCSPConfig } from "./middleware/content.security.policy.middleware.config";
 import nocache from "nocache";
 import { acspAuthMiddleware } from "./middleware/acsp.authentication.middleware";
+import { csrfProtectionMiddleware } from "./middleware/csrf.protection.middleware";
 
 const app = express();
 
