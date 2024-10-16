@@ -90,7 +90,6 @@ app.use((req: Request, res: Response, next: NextFunction) => {
     res.locals.addLangToUrl = (lang: string): string => {
         const parsedUrl = url.parse(req.originalUrl, true);
         parsedUrl.query.lang = lang;
-        delete parsedUrl.query.cf;
         return url.format({
             pathname: parsedUrl.pathname,
             query: parsedUrl.query
