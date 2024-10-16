@@ -15,6 +15,8 @@ import { AcspMembership } from "private-api-sdk-node/dist/services/acsp-manage-u
 export const addUserControllerGet = async (req: Request, res: Response): Promise<void> => {
     const loggedInUserMembership: AcspMembership = getExtraData(req.session, constants.LOGGED_USER_ACSP_MEMBERSHIP);
     const loggedInUserRole = loggedInUserMembership.userRole;
+    const referrer: string | undefined = req.get("Referrer");
+    const hrefA = constants.MANAGE_USERS_FULL_URL;
 
     const viewData: ViewData = {
         lang: getTranslationsForView(req.lang, constants.ADD_USER_PAGE),
@@ -23,7 +25,9 @@ export const addUserControllerGet = async (req: Request, res: Response): Promise
         loggedInUserRole,
         templateName: constants.ADD_USER_PAGE
     };
-    clearFormSessionValues(req, constants.DETAILS_OF_USER_TO_ADD);
+
+    clearFormSessionValues(req, constants.DETAILS_OF_USER_TO_ADD, referrer, hrefA);
+
     const savedNewUserDetails = getExtraData(
         req.session,
         constants.DETAILS_OF_USER_TO_ADD

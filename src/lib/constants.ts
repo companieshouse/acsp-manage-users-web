@@ -81,8 +81,8 @@ export const INTERNAL_API_URL = getEnvironmentValue("INTERNAL_API_URL");
 export const ACCOUNTS_USER_INTERNAL_API_KEY = getEnvironmentValue("ACCOUNTS_USER_INTERNAL_API_KEY");
 export const ACCOUNT_URL = getEnvironmentValue("ACCOUNT_URL");
 export const COOKIE_SECURE_ONLY = getEnvironmentValue("COOKIE_SECURE_ONLY");
-export const MATOMO_ADD_USER_GOAL_ID = ():string => getEnvironmentValue("MATOMO_ADD_USER_GOAL_ID");
-export const MATOMO_REMOVE_USER_GOAL_ID = ():string => getEnvironmentValue("MATOMO_REMOVE_USER_GOAL_ID");
+export const MATOMO_ADD_USER_GOAL_ID = (): string => getEnvironmentValue("MATOMO_ADD_USER_GOAL_ID");
+export const MATOMO_REMOVE_USER_GOAL_ID = (): string => getEnvironmentValue("MATOMO_REMOVE_USER_GOAL_ID");
 
 export const SERVICE_NAME = "ACSP Manage Users Web";
 
@@ -96,8 +96,6 @@ export const MEMBER_ALREADY_REMOVED_ERROR = "Member already removed";
 export const ERRORS_ENTER_AN_EMAIL_ADDRESS_IN_THE_CORRECT_FORMAT = "errors_enter_an_email_address_in_the_correct_format";
 
 // query params
-export const CLEAR_FORM = "cf";
-export const CLEAR_FORM_TRUE = "?cf=true";
 export const OWNER_PAGE_QUERY_PARAM = "ownerPage";
 export const ADMIN_PAGE_QUERY_PARAM = "adminPage";
 export const STANDARD_PAGE_QUERY_PARAM = "standardPage";
