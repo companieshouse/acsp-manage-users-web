@@ -23,7 +23,7 @@ const getViewData = (req: Request): AnyRecord => {
     return {
         lang: translations,
         companyName,
-        userEmailAddress: newUserDetails.email,
+        newUserEmailAddress: newUserDetails.email,
         userRole: newUserDetails.userRole,
         userRoleTag,
         backLinkUrl: constants.ADD_USER_FULL_URL,
