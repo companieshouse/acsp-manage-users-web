@@ -4,6 +4,7 @@ import { HttpError } from "http-errors";
 import { getTranslationsForView } from "../../lib/utils/translationUtils";
 import * as constants from "../../lib/constants";
 import { InvalidAcspNumberError, CsrfError } from "@companieshouse/web-security-node";
+import { getLoggedInUserEmail } from "../../lib/utils/sessionUtils";
 
 /*  This controller catches and logs HTTP errors from the http-errors module.
     It returns an error template back to the user.
@@ -43,14 +44,15 @@ export const invalidAcspNumberErrorHandler: ErrorRequestHandler = (err, req, res
             `Unauthorised - the user does not have a valid ACSP number in session. Message: ${err.message}, Stack: ${err.stack}`
         );
         res.status(500).render(constants.SERVICE_UNAVAILABLE_TEMPLATE, {
-            lang: getTranslationsForView(req.lang || "en", constants.SERVICE_UNAVAILABLE)
+            userEmailAddress: getLoggedInUserEmail(req.session),
+            lang: getTranslationsForView(req.lang ?? "en", constants.SERVICE_UNAVAILABLE)
         });
     } else {
         next(err);
     }
 };
 
-export const csrfErrorHandler:ErrorRequestHandler = (err, req, res, next) => {
+export const csrfErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
     if (err instanceof CsrfError) {
         logger.error(
             `CSRF Error occured, redirecting to ${constants.SOMETHING_WENT_WRONG_FULL_URL} ${err.message}, Stack: ${err.stack}`

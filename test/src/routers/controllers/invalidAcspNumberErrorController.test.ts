@@ -5,8 +5,10 @@ import { NextFunction } from "express";
 import logger from "../../../../src/lib/Logger";
 import * as getTranslationsForView from "../../../../src/lib/utils/translationUtils";
 import { InvalidAcspNumberError } from "@companieshouse/web-security-node";
+import * as sessionUtils from "../../../../src/lib/utils/sessionUtils";
 
 const mockGetTranslationsForView = jest.spyOn(getTranslationsForView, "getTranslationsForView");
+const getLoggedInUserEmailSpy: jest.SpyInstance = jest.spyOn(sessionUtils, "getLoggedInUserEmail");
 
 logger.error = jest.fn();
 const request = mockRequest();
@@ -24,12 +26,16 @@ describe("invalidAcspNumberErrorHandler", () => {
         request.originalUrl = "/originalUrl";
         request.method = "GET";
         mockGetTranslationsForView.mockReturnValueOnce({});
-
+        const loggedInEmail = "test@test.com";
+        getLoggedInUserEmailSpy.mockReturnValue(loggedInEmail);
         const err = new InvalidAcspNumberError();
         // When
         invalidAcspNumberErrorHandler(err, request, response, mockNext);
         // Then
-        expect(response.render).toHaveBeenCalledWith("partials/service_unavailable", expect.anything());
+        expect(response.render).toHaveBeenCalledWith("partials/service_unavailable", expect.objectContaining({
+            userEmailAddress: loggedInEmail,
+            lang: expect.any(Object)
+        }));
         expect(logger.error).toHaveBeenCalledTimes(1);
         expect(logger.error).toHaveBeenCalledWith(
             expect.stringContaining(`Unauthorised - the user does not have a valid ACSP number in session.`)
