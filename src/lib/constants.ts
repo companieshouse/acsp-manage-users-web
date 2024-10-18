@@ -17,6 +17,7 @@ export const MEMBER_ALREADY_REMOVED_PAGE = "member-already-removed";
 export const CONFIRMATION_YOU_ARE_REMOVED = "confirmation-you-are-removed";
 export const STOP_PAGE_ADD_ACCOUNT_OWNER = "stop-page-add-account-owner";
 export const CANNOT_ADD_USER = "cannot-add-user";
+export const SOMETHING_WENT_WRONG = "something-went-wrong";
 
 // Other Nunjucks template files
 export const SERVICE_UNAVAILABLE_TEMPLATE = "partials/service_unavailable";
@@ -61,6 +62,8 @@ export const STOP_PAGE_ADD_ACCOUNT_OWNER_URL = `/${STOP_PAGE_ADD_ACCOUNT_OWNER}`
 export const STOP_PAGE_ADD_ACCOUNT_OWNER_URL_FULL_URL = `${LANDING_URL}${STOP_PAGE_ADD_ACCOUNT_OWNER_URL}`;
 export const CANNOT_ADD_USER_URL = `/${CANNOT_ADD_USER}`;
 export const CANNOT_ADD_USER_FULL_URL = `${LANDING_URL}${CANNOT_ADD_USER_URL}`;
+export const SOMETHING_WENT_WRONG_URL = `/${SOMETHING_WENT_WRONG}`;
+export const SOMETHING_WENT_WRONG_FULL_URL = `${LANDING_URL}${SOMETHING_WENT_WRONG_URL}`;
 
 export const HEALTHCHECK = "/healthcheck";
 
@@ -81,8 +84,8 @@ export const INTERNAL_API_URL = getEnvironmentValue("INTERNAL_API_URL");
 export const ACCOUNTS_USER_INTERNAL_API_KEY = getEnvironmentValue("ACCOUNTS_USER_INTERNAL_API_KEY");
 export const ACCOUNT_URL = getEnvironmentValue("ACCOUNT_URL");
 export const COOKIE_SECURE_ONLY = getEnvironmentValue("COOKIE_SECURE_ONLY");
-export const MATOMO_ADD_USER_GOAL_ID = (): string => getEnvironmentValue("MATOMO_ADD_USER_GOAL_ID");
-export const MATOMO_REMOVE_USER_GOAL_ID = (): string => getEnvironmentValue("MATOMO_REMOVE_USER_GOAL_ID");
+export const MATOMO_ADD_USER_GOAL_ID = getEnvironmentValue("MATOMO_ADD_USER_GOAL_ID");
+export const MATOMO_REMOVE_USER_GOAL_ID = getEnvironmentValue("MATOMO_REMOVE_USER_GOAL_ID");
 
 export const SERVICE_NAME = "ACSP Manage Users Web";
 

@@ -2,7 +2,7 @@ import { SessionMiddleware, SessionStore, CookieConfig } from "@companieshouse/n
 import Redis from "ioredis";
 import * as constants from "../lib/constants";
 
-const sessionStore = new SessionStore(new Redis(`redis://${constants.CACHE_SERVER}`));
+export const sessionStore = new SessionStore(new Redis(`redis://${constants.CACHE_SERVER}`));
 
 const cookieConfig: CookieConfig = {
     cookieName: constants.COOKIE_NAME,

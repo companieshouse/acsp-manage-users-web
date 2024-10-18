@@ -3,7 +3,8 @@ import type { ErrorRequestHandler } from "express";
 import { HttpError } from "http-errors";
 import { getTranslationsForView } from "../../lib/utils/translationUtils";
 import * as constants from "../../lib/constants";
-import { InvalidAcspNumberError } from "@companieshouse/web-security-node";
+import { InvalidAcspNumberError, CsrfError } from "@companieshouse/web-security-node";
+
 /*  This controller catches and logs HTTP errors from the http-errors module.
     It returns an error template back to the user.
 
@@ -49,4 +50,15 @@ export const invalidAcspNumberErrorHandler: ErrorRequestHandler = (err, req, res
     }
 };
 
-export default [httpErrorHandler, invalidAcspNumberErrorHandler];
+export const csrfErrorHandler:ErrorRequestHandler = (err, req, res, next) => {
+    if (err instanceof CsrfError) {
+        logger.error(
+            `CSRF Error occured, redirecting to ${constants.SOMETHING_WENT_WRONG_FULL_URL} ${err.message}, Stack: ${err.stack}`
+        );
+        res.redirect(constants.SOMETHING_WENT_WRONG_FULL_URL);
+    } else {
+        next(err);
+    }
+};
+
+export default [httpErrorHandler, invalidAcspNumberErrorHandler, csrfErrorHandler];
