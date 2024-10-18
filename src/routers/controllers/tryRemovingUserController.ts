@@ -1,9 +1,10 @@
 import { Request, Response } from "express";
 import * as constants from "../../lib/constants";
 import { AcspMembership, UserRole } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
-import { getExtraData, setExtraData, getLoggedUserAcspMembership } from "../../lib/utils/sessionUtils";
+import { getExtraData, getLoggedUserAcspMembership } from "../../lib/utils/sessionUtils";
 import { MemberForRemoval } from "../../types/membership";
 import { getAcspMemberships, updateOrRemoveUserAcspMembership } from "../../services/acspMemberService";
+import logger from "../../lib/Logger";
 
 export const tryRemovingUserControllerPost = async (req: Request, res: Response): Promise<void> => {
     const memberForRemoval: MemberForRemoval = getExtraData(req.session, constants.DETAILS_OF_USER_TO_REMOVE);
@@ -22,8 +23,11 @@ export const tryRemovingUserControllerPost = async (req: Request, res: Response)
     await updateOrRemoveUserAcspMembership(req, memberForRemoval.id, { removeUser: true });
 
     if (removingThemselves) {
-        setExtraData(req.session, constants.ACSP_MEMBERSHIP_REMOVED, true);
-        res.redirect(constants.CONFIRMATION_YOU_ARE_REMOVED_FULL_URL);
+        res.set("Referrer-Policy", "no-referrer"); // hide referrer
+        // check if redirect should be full url - http://account.chs.local/signout
+        // or just the path /signout
+        logger.info("User has removed themselves, redirecting to sign out now ... ");
+        return res.redirect("/signout");
     } else {
         res.redirect(constants.CONFIRMATION_MEMBER_REMOVED_FULL_URL);
     }

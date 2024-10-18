@@ -2,7 +2,6 @@ import { mockRequest } from "../../mocks/request.mock";
 import { mockResponse } from "../../mocks/response.mock";
 import { navigationMiddleware } from "../../../src/middleware/navigationMiddleware";
 import * as sessionUtils from "../../../src/lib/utils/sessionUtils";
-import { InvalidAcspNumberError } from "@companieshouse/web-security-node";
 
 describe("navigiationMiddleware", () => {
     const getExtraDataSpy: jest.SpyInstance = jest.spyOn(sessionUtils, "getExtraData");
@@ -44,8 +43,7 @@ describe("navigiationMiddleware", () => {
 
         request.originalUrl = "/authorised-agent/check-member-details";
         request.headers.referer = "/authorised-agent/add-user";
-        getExtraDataSpy.mockReturnValueOnce(undefined)
-            .mockReturnValue(adminUser);
+        getExtraDataSpy.mockReturnValue(adminUser);
 
         // When
         navigationMiddleware(request, response, mockedNext);
@@ -61,7 +59,6 @@ describe("navigiationMiddleware", () => {
         const response = mockResponse();
         request.originalUrl = "/authorised-agent/check-member-details";
         request.headers.referer = "/authorised-agent/confirmation-you-are-removed";
-        getExtraDataSpy.mockReturnValueOnce(undefined);
         // When
         navigationMiddleware(request, response, mockedNext);
 
@@ -77,8 +74,7 @@ describe("navigiationMiddleware", () => {
         const response = mockResponse();
         request.originalUrl = "/authorised-agent/confirmation-member-added";
         request.headers.referer = "/authorised-agent/check-member-details";
-        getExtraDataSpy.mockReturnValueOnce(undefined)
-            .mockReturnValue(adminUser);
+        getExtraDataSpy.mockReturnValue(adminUser);
         // When
         navigationMiddleware(request, response, mockedNext);
 
@@ -93,7 +89,6 @@ describe("navigiationMiddleware", () => {
         const response = mockResponse();
         request.originalUrl = "/authorised-agent/confirmation-member-added";
         request.headers.referer = "/authorised-agent/confirmation-you-are-removed";
-        getExtraDataSpy.mockReturnValueOnce(undefined);
 
         // When
         navigationMiddleware(request, response, mockedNext);
@@ -110,8 +105,7 @@ describe("navigiationMiddleware", () => {
         const response = mockResponse();
         request.originalUrl = "/authorised-agent/remove-member/123";
         request.headers.referer = "/authorised-agent/remove-member/123";
-        getExtraDataSpy.mockReturnValueOnce(undefined)
-            .mockReturnValue(adminUser);
+        getExtraDataSpy.mockReturnValue(adminUser);
         // When
         navigationMiddleware(request, response, mockedNext);
 
@@ -126,7 +120,6 @@ describe("navigiationMiddleware", () => {
         const response = mockResponse();
         request.originalUrl = "/authorised-agent/remove-member/123";
         request.headers.referer = "/authorised-agent/confirmation-member-removed";
-        getExtraDataSpy.mockReturnValueOnce(undefined);
 
         // When
         navigationMiddleware(request, response, mockedNext);
@@ -143,8 +136,7 @@ describe("navigiationMiddleware", () => {
         const response = mockResponse();
         request.originalUrl = "/authorised-agent/confirmation-member-removed";
         request.headers.referer = "/authorised-agent/remove-member/123";
-        getExtraDataSpy.mockReturnValueOnce(undefined)
-            .mockReturnValue(adminUser);
+        getExtraDataSpy.mockReturnValue(adminUser);
 
         // When
         navigationMiddleware(request, response, mockedNext);
@@ -160,7 +152,6 @@ describe("navigiationMiddleware", () => {
         const response = mockResponse();
         request.originalUrl = "/authorised-agent/confirmation-member-removed";
         request.headers.referer = "/authorised-agent/cannot";
-        getExtraDataSpy.mockReturnValueOnce(undefined);
 
         // When
         navigationMiddleware(request, response, mockedNext);
@@ -177,8 +168,7 @@ describe("navigiationMiddleware", () => {
         const response = mockResponse();
         request.originalUrl = "/authorised-agent/confirmation-you-are-removed";
         request.headers.referer = "/authorised-agent/remove-member/123";
-        getExtraDataSpy.mockReturnValueOnce(undefined)
-            .mockReturnValue(adminUser);
+        getExtraDataSpy.mockReturnValue(adminUser);
 
         // When
         navigationMiddleware(request, response, mockedNext);
@@ -194,7 +184,6 @@ describe("navigiationMiddleware", () => {
         const response = mockResponse();
         request.originalUrl = "/authorised-agent/confirmation-member-removed";
         request.headers.referer = "/authorised-agent/cannot";
-        getExtraDataSpy.mockReturnValueOnce(undefined);
 
         // When
         navigationMiddleware(request, response, mockedNext);
@@ -211,8 +200,7 @@ describe("navigiationMiddleware", () => {
         const response = mockResponse();
         request.originalUrl = "/authorised-agent/cannot-add-user";
         request.headers.referer = "/authorised-agent/check-member-details";
-        getExtraDataSpy.mockReturnValueOnce(undefined)
-            .mockReturnValue(adminUser);
+        getExtraDataSpy.mockReturnValue(adminUser);
 
         // When
         navigationMiddleware(request, response, mockedNext);
@@ -228,7 +216,6 @@ describe("navigiationMiddleware", () => {
         const response = mockResponse();
         request.originalUrl = "/authorised-agent/cannot-add-user";
         request.headers.referer = "/authorised-agent/cannot";
-        getExtraDataSpy.mockReturnValueOnce(undefined);
 
         // When
         navigationMiddleware(request, response, mockedNext);
@@ -245,8 +232,7 @@ describe("navigiationMiddleware", () => {
         const response = mockResponse();
         request.originalUrl = "/authorised-agent/stop-page-add-account-owner";
         request.headers.referer = "/authorised-agent/remove-member/123";
-        getExtraDataSpy.mockReturnValueOnce(undefined)
-            .mockReturnValue(adminUser);
+        getExtraDataSpy.mockReturnValue(adminUser);
 
         // When
         navigationMiddleware(request, response, mockedNext);
@@ -262,7 +248,6 @@ describe("navigiationMiddleware", () => {
         const response = mockResponse();
         request.originalUrl = "/authorised-agent/stop-page-add-account-owner";
         request.headers.referer = "/authorised-agent/cannot";
-        getExtraDataSpy.mockReturnValueOnce(undefined);
 
         // When
         navigationMiddleware(request, response, mockedNext);
@@ -279,8 +264,7 @@ describe("navigiationMiddleware", () => {
         const response = mockResponse();
         request.originalUrl = "/authorised-agent/add-user";
         request.headers.referer = "/authorised-agent/any-referer";
-        getExtraDataSpy.mockReturnValueOnce(undefined)
-            .mockReturnValue(standardUser);
+        getExtraDataSpy.mockReturnValue(standardUser);
 
         // When
         navigationMiddleware(request, response, mockedNext);
@@ -297,8 +281,7 @@ describe("navigiationMiddleware", () => {
         const response = mockResponse();
         request.originalUrl = "/authorised-agent/remove-member/123";
         request.headers.referer = "/authorised-agent/any-referer";
-        getExtraDataSpy.mockReturnValueOnce(undefined)
-            .mockReturnValue(standardUser);
+        getExtraDataSpy.mockReturnValue(standardUser);
 
         // When
         navigationMiddleware(request, response, mockedNext);
@@ -308,35 +291,4 @@ describe("navigiationMiddleware", () => {
         expect(response.redirect).toHaveBeenCalledWith("/authorised-agent/manage-users");
     });
 
-    it("should throw an error when the user has removed themselves", () => {
-        // Given
-        const mockedNext = jest.fn();
-        const request = mockRequest();
-        const response = mockResponse();
-        request.originalUrl = "/authorised-agent/remove-member/123";
-        request.headers.referer = "/authorised-agent/any-referer";
-        getExtraDataSpy.mockReturnValueOnce(true);
-
-        expect(() => navigationMiddleware(request, response, mockedNext))
-            .toThrow(InvalidAcspNumberError);
-
-        expect(mockedNext).not.toHaveBeenCalled();
-        expect(response.redirect).not.toHaveBeenCalled();
-    });
-
-    it("should allow the user to access the confirmation you are removed page when they removed themselves", () => {
-        // Given
-        const mockedNext = jest.fn();
-        const request = mockRequest();
-        const response = mockResponse();
-        request.originalUrl = "/authorised-agent/confirmation-you-are-removed";
-        request.headers.referer = "/authorised-agent/remove-member/123";
-        getExtraDataSpy.mockReturnValueOnce(true)
-            .mockReturnValue(adminUser);
-        // When
-        navigationMiddleware(request, response, mockedNext);
-        // Then
-        expect(mockedNext).toHaveBeenCalled();
-        expect(response.redirect).not.toHaveBeenCalled();
-    });
 });
