@@ -158,7 +158,8 @@ const getUserTableData = (membership: AcspMembership[], translations: AnyRecord,
 
         if (hasChangeRoleLink) {
             const fullUrl = getChangeMemberRoleFullUrl(member.id);
-            tableEntry[2] = { html: getLink(fullUrl, `${translations.change_role as string} ${getHiddenText(member.userEmail)}`, "change-role") };
+            const hiddenText = getHiddenText(`${translations.for} ${member.userEmail}`);
+            tableEntry[2] = { html: getLink(fullUrl, `${translations.change_role as string} ${hiddenText}`, "change-role") };
         }
 
         if (hasRemoveLink) {
