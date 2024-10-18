@@ -5,6 +5,9 @@
 
 {% extends "layouts/default.njk" %}
 
+{% set infoEnd = lang.before_you_remove if isRemoval else 
+    lang.before_you_change_your_role %}
+
 {% block back_link %}
     {% include "partials/back_link.njk" %}
 {% endblock %}
@@ -17,7 +20,7 @@
             {{lang.p1}}
         </p>
         <p class="govuk-body">
-            {{lang.you_need_to_add}}{{companyName}}{{lang.before_you_remove}}
+            {{lang.you_need_to_add}}{{companyName}}{{infoEnd}}
         </p>
 
         <details class="govuk-details">
@@ -30,10 +33,10 @@
                 <p class="govuk-body">{{ lang.details.p1 }}</p>
                 <p class="govuk-body">{{ lang.details.p2 }}</p>
                 <p class="govuk-body">{{ lang.details.p3_start }}
-                <a class="govuk-link" href="/authorised-agent/guidance-for-authorised-agents-placeholder">
-                {{ lang.details.p3_link_text }}
-                </a>
-                {{ lang.details.p3_end }}
+                    <a class="govuk-link" href="/authorised-agent/guidance-for-authorised-agents-placeholder">
+                        {{ lang.details.p3_link_text }}
+                    </a>
+                    {{ lang.details.p3_end }}
                 </p>
             </div>
         </details>

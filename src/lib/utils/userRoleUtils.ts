@@ -15,3 +15,12 @@ export const convertUserRole = (userRole: UserRole): string => {
     default: return "";
     }
 };
+
+export const getUserRole = (userRole: string): UserRole => {
+    for (const role of Object.values(UserRole)) {
+        if (role.toString() === userRole) {
+            return role;
+        }
+    }
+    throw new Error(`A user role ${userRole} does not exist.`);
+};
