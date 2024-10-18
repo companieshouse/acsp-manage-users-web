@@ -5,6 +5,7 @@ import { NextFunction } from "express";
 import logger from "../../../../src/lib/Logger";
 import * as getTranslationsForView from "../../../../src/lib/utils/translationUtils";
 import { CsrfError } from "@companieshouse/web-security-node";
+import * as contants from "../../../../src/lib/constants";
 
 const mockGetTranslationsForView = jest.spyOn(getTranslationsForView, "getTranslationsForView");
 
@@ -29,7 +30,7 @@ describe("csrfErrorHandler", () => {
         // When
         csrfErrorHandler(err, request, response, mockNext);
         // Then
-        expect(response.render).toHaveBeenCalledWith("partials/service_unavailable", expect.anything());
+        expect(response.redirect).toHaveBeenCalledWith(contants.SOMETHING_WENT_WRONG_FULL_URL);
         expect(logger.error).toHaveBeenCalledTimes(1);
         expect(logger.error).toHaveBeenCalledWith(
             expect.stringContaining(`CSRF Error occured`)

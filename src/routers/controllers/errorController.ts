@@ -4,7 +4,6 @@ import { HttpError } from "http-errors";
 import { getTranslationsForView } from "../../lib/utils/translationUtils";
 import * as constants from "../../lib/constants";
 import { InvalidAcspNumberError, CsrfError } from "@companieshouse/web-security-node";
-import { AnyRecord } from "../../types/utilTypes";
 
 /*  This controller catches and logs HTTP errors from the http-errors module.
     It returns an error template back to the user.
@@ -54,18 +53,9 @@ export const invalidAcspNumberErrorHandler: ErrorRequestHandler = (err, req, res
 export const csrfErrorHandler:ErrorRequestHandler = (err, req, res, next) => {
     if (err instanceof CsrfError) {
         logger.error(
-            `CSRF Error occured ${err.message}, Stack: ${err.stack}`
+            `CSRF Error occured, redirecting to ${constants.SOMETHING_WENT_WRONG_FULL_URL} ${err.message}, Stack: ${err.stack}`
         );
-
-        const lang = getTranslationsForView(req.lang || "en", constants.SERVICE_UNAVAILABLE);
-        const getTitle = (translations: AnyRecord): string =>
-            `${translations.sorry_something_went_wrong}${translations.title_end}`;
-
-        res.status(403).render(constants.SERVICE_UNAVAILABLE_TEMPLATE, {
-            lang: getTranslationsForView(req.lang || "en", constants.SERVICE_UNAVAILABLE),
-            csrfErrors: true,
-            title: getTitle(lang)
-        });
+        res.redirect(constants.SOMETHING_WENT_WRONG_FULL_URL);
     } else {
         next(err);
     }
