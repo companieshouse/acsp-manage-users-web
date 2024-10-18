@@ -24,7 +24,8 @@ describe("manageUsersController - getViewData", () => {
         const request = mockRequest();
         getTranslationsForViewSpy.mockReturnValueOnce({
             remove: "Remove",
-            change_role: "Change role"
+            change_role: "Change role",
+            for: "for"
         });
         getLoggedUserAcspMembershipSpy.mockReturnValue(loggedAccountOwnerAcspMembership);
         when(getMembershipForLoggedInUserSpy)
@@ -48,7 +49,7 @@ describe("manageUsersController - getViewData", () => {
                 { text: "james.morris@gmail.com" },
                 { text: "Not Provided" },
                 {
-                    html: "<a data-event-id=\"change-role\" href=\"/authorised-agent/edit-member-role/JGyB\">Change role <span class=\"govuk-visually-hidden\">james.morris@gmail.com</span></a>"
+                    html: "<a data-event-id=\"change-role\" href=\"/authorised-agent/edit-member-role/JGyB\">Change role <span class=\"govuk-visually-hidden\">for james.morris@gmail.com</span></a>"
                 },
                 {
                     html: "<a data-event-id=\"remove\" href=\"/authorised-agent/remove-member/JGyB\">Remove <span class=\"govuk-visually-hidden\">james.morris@gmail.com</span></a>"
@@ -60,7 +61,7 @@ describe("manageUsersController - getViewData", () => {
                 { text: "j.smith@domain.com" },
                 { text: "Not Provided" },
                 {
-                    html: "<a data-event-id=\"change-role\" href=\"/authorised-agent/edit-member-role/JGyBds2w\">Change role <span class=\"govuk-visually-hidden\">j.smith@domain.com</span></a>"
+                    html: "<a data-event-id=\"change-role\" href=\"/authorised-agent/edit-member-role/JGyBds2w\">Change role <span class=\"govuk-visually-hidden\">for j.smith@domain.com</span></a>"
                 },
                 {
                     html: "<a data-event-id=\"remove\" href=\"/authorised-agent/remove-member/JGyBds2w\">Remove <span class=\"govuk-visually-hidden\">j.smith@domain.com</span></a>"
@@ -72,7 +73,7 @@ describe("manageUsersController - getViewData", () => {
                 { text: "jane.doe@gmail.com" },
                 { text: "Not Provided" },
                 {
-                    html: "<a data-event-id=\"change-role\" href=\"/authorised-agent/edit-member-role/WSC838\">Change role <span class=\"govuk-visually-hidden\">jane.doe@gmail.com</span></a>"
+                    html: "<a data-event-id=\"change-role\" href=\"/authorised-agent/edit-member-role/WSC838\">Change role <span class=\"govuk-visually-hidden\">for jane.doe@gmail.com</span></a>"
                 },
                 {
                     html: "<a data-event-id=\"remove\" href=\"/authorised-agent/remove-member/WSC838\">Remove <span class=\"govuk-visually-hidden\">jane.doe@gmail.com</span></a>"
@@ -84,7 +85,7 @@ describe("manageUsersController - getViewData", () => {
                 { text: "jeremy.lloris@gmail.com" },
                 { text: "Not Provided" },
                 {
-                    html: "<a data-event-id=\"change-role\" href=\"/authorised-agent/edit-member-role/ABC123\">Change role <span class=\"govuk-visually-hidden\">jeremy.lloris@gmail.com</span></a>"
+                    html: "<a data-event-id=\"change-role\" href=\"/authorised-agent/edit-member-role/ABC123\">Change role <span class=\"govuk-visually-hidden\">for jeremy.lloris@gmail.com</span></a>"
                 },
                 {
                     html: "<a data-event-id=\"remove\" href=\"/authorised-agent/remove-member/ABC123\">Remove <span class=\"govuk-visually-hidden\">jeremy.lloris@gmail.com</span></a>"
