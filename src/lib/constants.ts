@@ -99,8 +99,6 @@ export const MEMBER_ALREADY_REMOVED_ERROR = "Member already removed";
 export const ERRORS_ENTER_AN_EMAIL_ADDRESS_IN_THE_CORRECT_FORMAT = "errors_enter_an_email_address_in_the_correct_format";
 
 // query params
-export const CLEAR_FORM = "cf";
-export const CLEAR_FORM_TRUE = "?cf=true";
 export const OWNER_PAGE_QUERY_PARAM = "ownerPage";
 export const ADMIN_PAGE_QUERY_PARAM = "adminPage";
 export const STANDARD_PAGE_QUERY_PARAM = "standardPage";
