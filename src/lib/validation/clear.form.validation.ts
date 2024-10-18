@@ -13,8 +13,8 @@ export function validateClearForm (clearForm: string): boolean {
     }
 }
 
-export const clearFormSessionValues = (req: Request, sessionKey: string): void => {
-    if (validateClearForm(req.query.cf as string)) {
+export const clearFormSessionValues = (req: Request, sessionKey: string, referrer: string | undefined, hrefA: string): void => {
+    if (referrer?.includes(hrefA) || referrer === undefined) {
         deleteExtraData(req.session, sessionKey);
     }
 };
