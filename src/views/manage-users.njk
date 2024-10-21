@@ -41,7 +41,7 @@
     {% set inputClasses = "govuk-input govuk-input--error govuk-input--width-10 govuk-!-margin-right-1" if message else "govuk-input govuk-input--width-10 govuk-!-margin-right-1" %}
 
     <form method="post">
-            {% include "partials/csrf_token.njk" %}
+        {% include "partials/csrf_token.njk" %}
 
         <div class="{{formClasses}}">
             <label class="govuk-label govuk-label--m" for="search">
@@ -65,15 +65,23 @@
         </div>
     </form>
 
+    {% set changeUsersRoleHiddenHeader %}
+    <span class="govuk-visually-hidden">{{lang.change_users_role}}</span>
+    {% endset%}
+
+    {% set removeUserHiddenHeader %}
+    <span class="govuk-visually-hidden">{{lang.remove_user}}</span>
+    {% endset%}
+
     {% set allHeaders = [
         {
             text: lang.email_address
         }, {
             text: lang.users_name
         }, {
-            text: lang.change_users_role
+            html: changeUsersRoleHiddenHeader
         }, {
-            text: lang.remove_user
+            html: removeUserHiddenHeader
         }
     ] %}
 
@@ -188,38 +196,37 @@
         })
     }}
 
-<script nonce={{ nonce | dump | safe }}>
-function trackGoal(elementId, goalId) {
-    document
-        .getElementById(elementId)
-        .addEventListener("click", () => {
-            _paq.push(["trackGoal", goalId]);
-        });
-}
+    <script nonce={{ nonce | dump | safe }}>
+        function trackGoal(elementId, goalId) {
+            document
+                .getElementById(elementId)
+                .addEventListener("click", () => {
+                    _paq.push(["trackGoal", goalId]);
+                });
+        }
 
-function trackRemoveButtons(goalId) {
-    const removeBtns = document.querySelectorAll(`[data-event-id="remove"]`);
+        function trackRemoveButtons(goalId) {
+            const removeBtns = document.querySelectorAll(`[data-event-id="remove"]`);
 
-    removeBtns.forEach(function (elem) {
-        elem
-            .addEventListener("click", () => {
-                _paq.push(["trackGoal", goalId]);
+            removeBtns.forEach(function (elem) {
+                elem.addEventListener("click", () => {
+                    _paq.push(["trackGoal", goalId]);
+                });
             });
-    });
-}
+        }
 
-function addGoalEventListeners(){
-        trackGoal("add-a-user-button", {{MATOMO_ADD_USER_GOAL_ID}});
-        trackRemoveButtons({{MATOMO_REMOVE_USER_GOAL_ID}});
-}
+        function addGoalEventListeners() {
+            trackGoal("add-a-user-button", {{MATOMO_ADD_USER_GOAL_ID}});
+            trackRemoveButtons({{MATOMO_REMOVE_USER_GOAL_ID}});
+        }
 
-if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", function (e) {
-        addGoalEventListeners()
-    });
-} else {
-    addGoalEventListeners()
-}
-</script>
+        if (document.readyState === "loading") {
+            document.addEventListener("DOMContentLoaded", function (e) {
+                addGoalEventListeners()
+            });
+        } else {
+            addGoalEventListeners()
+        }
+    </script>
 
 {% endblock %}
