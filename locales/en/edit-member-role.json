@@ -6,7 +6,7 @@
     ],
     "back_link_to_manage_users": "Return to manage users",
     "change_role_for": "Change role for ",
-    "errors_select_user_role_to_change_for_the_user": "Select user role to change for the user",
+    "errors_select_user_role_to_change_for_the_user": "You have not selected a new role. Select the new role or cancel if you do not need to change it.",
     "they_will_be_able_to": "They will be able to:",
     "they_will_be_able_to_add_and_remove": "They will be able to add and remove:",
     "they_will_be_able_to_add_and_remove_bullet_points": [
