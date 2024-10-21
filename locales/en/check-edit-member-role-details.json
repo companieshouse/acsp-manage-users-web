@@ -1,6 +1,6 @@
 {
     "change": "Change",
-    "change_role": "change role",
     "confirm_users_role": "Confirm user’s role",
-    "page_header": "Confirm the details"
+    "page_header": "Confirm the details",
+    "role_hidden_text": " role"
 }
