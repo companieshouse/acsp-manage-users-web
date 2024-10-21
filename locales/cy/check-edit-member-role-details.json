@@ -1,6 +1,6 @@
 {
     "change": "[CY] Change",
-    "change_role": "[CY] change role",
     "confirm_users_role": "[CY] Confirm user’s role",
-    "page_header": "[CY] Confirm the details"
+    "page_header": "[CY] Confirm the details",
+    "role_hidden_text": "[CY] role"
 }
