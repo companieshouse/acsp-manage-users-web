@@ -21,6 +21,9 @@
 {% set accountOwnerOption %}
 <span class="govuk-body govuk-!-font-weight-bold">
     {{lang.user_role_tags.account_owner}}</span>
+{% endset %}
+
+{% set accountOwnerOptionHint %}
 <p class="govuk-body govuk-!-static-padding-top-2">
     {{lang.they_will_be_able_to}}
 </p>
@@ -33,6 +36,9 @@
 {% set administratorOption %}
 <span class="govuk-body govuk-!-font-weight-bold">
     {{lang.user_role_tags.administrator}}</span>
+{% endset %}
+
+{% set administratorOptionHint %}
 <p class="govuk-body govuk-!-static-padding-top-2">
     {{lang.they_will_be_able_to_add_and_remove}}
 </p>
@@ -45,7 +51,10 @@
 {% set standardUserOption %}
 <span class="govuk-body govuk-!-font-weight-bold">
     {{lang.user_role_tags.standard_user}}</span>
-<p class="govuk-body">
+{% endset %}
+
+{% set standardUserOptionHint %}
+<p class="govuk-body govuk-!-static-padding-top-2">
     {{lang.they_will_not_be_able}}
 </p>
 {% endset %}
@@ -56,6 +65,9 @@
             value: UserRole.OWNER,
             html: accountOwnerOption,
             checked: userRole === UserRole.OWNER,
+            hint: {
+                html: accountOwnerOptionHint
+            },
             attributes: {
                 "data-event-id": "account-owner-option"
             }
@@ -65,6 +77,9 @@
         value: UserRole.ADMIN,
         html: administratorOption,
         checked: userRole === UserRole.ADMIN,
+        hint: {
+            html: administratorOptionHint
+        },
         attributes: {
             "data-event-id": "admin-option"
         }
@@ -73,6 +88,9 @@
         value: UserRole.STANDARD,
         html: standardUserOption,
         checked: userRole === UserRole.STANDARD,
+        hint: {
+            html: standardUserOptionHint
+        },
         attributes: {
             "data-event-id": "standard-user-option"
         }
