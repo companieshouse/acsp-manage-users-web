@@ -8,7 +8,7 @@
     "is_now_an_account_owner_for": "[CY]  is now an account owner for ",
     "is_now_an_administrator_for": "[CY]  is now an administrator for ",
     "standard_user_page_header": "[CY] What a standard user can do",
-    "they_can_add_and_remove": "[CY] They can also view all users who have been added to this account. They can add and remove:",
+    "they_can_add_and_remove": "[CY] They can add and remove:",
     "they_can_add_and_remove_bullet_points": [
         "[CY] administrators",
         "[CY] standard users"
