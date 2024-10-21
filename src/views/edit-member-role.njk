@@ -124,6 +124,7 @@
         <div class="govuk-grid-column-two-thirds">
             <span class="govuk-caption-l">{{companyName}}</span>
             <form method="post" novalidate="novalidate">
+                {% include "partials/csrf_token.njk" %}
                 {{ govukRadios({
                         name: "userRole",
                         fieldset: {
