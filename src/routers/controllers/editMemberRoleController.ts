@@ -67,6 +67,11 @@ const getViewData = async (req: Request): Promise<ViewData> => {
         viewData.isTheOnlyOwner = true;
     }
 
+    const savedUserRoleChangeData = getExtraData(req.session, constants.USER_ROLE_CHANGE_DATA) as UserRoleChangeData;
+    if (savedUserRoleChangeData) {
+        viewData.userRole = savedUserRoleChangeData.userRole;
+    }
+
     return viewData;
 };
 

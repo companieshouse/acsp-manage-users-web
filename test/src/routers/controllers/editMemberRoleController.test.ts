@@ -17,6 +17,7 @@ import * as constants from "../../../../src/lib/constants";
 import { UserRole } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
 import { Membership } from "../../../../src/types/membership";
 import * as acspMemberService from "../../../../src/services/acspMemberService";
+import { when } from "jest-when";
 
 const router = supertest(app);
 
@@ -54,7 +55,8 @@ describe("GET /authorised-agent/edit-member-role", () => {
         async (status, _langVersionInfo, loggedUserRole, loggedUserMembership, mockUserData, langVersion, lang, langCommon) => {
             // Given
             getLoggedUserAcspMembershipSpy.mockReturnValue(loggedUserMembership);
-            getExtraDataSpy.mockReturnValue([mockUserData]);
+            when(getExtraDataSpy).calledWith(expect.anything(), constants.MANAGE_USERS_MEMBERSHIP).mockReturnValue([mockUserData]);
+            when(getExtraDataSpy).calledWith(expect.anything(), constants.USER_ROLE_CHANGE_DATA).mockReturnValue(undefined);
             getAcspMembershipsSpy.mockResolvedValue(getMockAcspMembersResource([loggedUserMembership]));
             // When
             const response = await router.get(`${url}/${mockUserData.id}?lang=${langVersion}`);
@@ -93,7 +95,8 @@ describe("POST /authorised-agent/edit-member-role", () => {
 
     it("should return error message if no new role selected", async () => {
         // Given
-        getExtraDataSpy.mockReturnValue([standardUserMembership]);
+        when(getExtraDataSpy).calledWith(expect.anything(), constants.MANAGE_USERS_MEMBERSHIP).mockReturnValue([standardUserMembership]);
+        when(getExtraDataSpy).calledWith(expect.anything(), constants.USER_ROLE_CHANGE_DATA).mockReturnValue(undefined);
         // When
         const response = await router.post(`${url}/${standardUserMembership.id}`).send({ userRole: standardUserMembership.userRole });
         // Then
