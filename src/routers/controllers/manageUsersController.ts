@@ -4,7 +4,7 @@ import { getTranslationsForView } from "../../lib/utils/translationUtils";
 import { AnyRecord, MemberRawViewData, PageNumbers, PageQueryParams } from "../../types/utilTypes";
 import { TableEntry } from "../../types/viewTypes";
 import { getHiddenText, getLink } from "../../lib/utils/viewUtils";
-import { setExtraData, getLoggedUserAcspMembership } from "../../lib/utils/sessionUtils";
+import { setExtraData, getLoggedUserAcspMembership, deleteExtraData } from "../../lib/utils/sessionUtils";
 import { AcspMembership, UserRole } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
 import { getAcspMemberships, membershipLookup } from "../../services/acspMemberService";
 import { sanitizeUrl } from "@braintree/sanitize-url";
@@ -34,6 +34,7 @@ export const getTitle = (translations: AnyRecord, loggedInUserRole: UserRole, is
 };
 
 export const getViewData = async (req: Request): Promise<AnyRecord> => {
+    deleteExtraData(req.session, constants.USER_ROLE_CHANGE_DATA);
     const search = req.query?.search as string;
     const { ownerPage, adminPage, standardPage } = getPageQueryParams(req);
     const activeTabId = getActiveTabId(req);
