@@ -123,6 +123,7 @@ export const MANAGE_USERS_MEMBERSHIP = "manageUsersMembership";
 export const LOGGED_USER_ACSP_MEMBERSHIP = "loggedUserAcspMembership";
 export const ACSP_MEMBERSHIP_REMOVED = "AcspMembershipRemoved";
 export const USER_ROLE_CHANGE_DATA = "userRoleChangeData";
+export const IS_SELECT_USER_ROLE_ERROR = "isSelectUserRoleError";
 
 // Various
 export const ACCOUNT_OWNERS_ID = "account-owners";
