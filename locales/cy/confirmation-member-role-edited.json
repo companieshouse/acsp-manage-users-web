@@ -1,13 +1,12 @@
 {
     "a_standard_user_can": "[CY] A standard user can access services for the authorised agent.",
-    "account_owner_page_header": "[CY] What an account owner can do",
-    "administrator_page_header": "[CY] What an administrator can do",
     "an_account_owner_can": "[CY] An account owner can access services for the authorised agent.",
     "an_administrator_can": "[CY] An administrator can access services for the authorised agent.",
+    "if_any_of_the_details": "[CY] If any of the details we hold about the authorised agent change, an account owner must update the account details. They must do this within 14 days.",
     "is_now_a_standard_user_for": "[CY]  is now a standard user for ",
     "is_now_an_account_owner_for": "[CY]  is now an account owner for ",
     "is_now_an_administrator_for": "[CY]  is now an administrator for ",
-    "standard_user_page_header": "[CY] What a standard user can do",
+    "page_header": "[CY] What happens next",
     "they_can_add_and_remove": "[CY] They can add and remove:",
     "they_can_add_and_remove_bullet_points": [
         "[CY] administrators",
@@ -24,6 +23,9 @@
     "they_cannot_add_or_remove_users": "[CY] They cannot add or remove users.",
     "to_tell_them_youve_chanaged_their_role": "[CY]  to tell them you’ve changed their role.",
     "users_role_changed": "[CY] User’s role changed",
-    "weve_sent_an_email_to": "[CY] We’ve sent an email to ",
-    "weve_sent_them_an_email": "[CY] We’ve sent them an email to tell them you’ve changed their role."
+    "well_sent_an_email_to": "[CY] We’ll sent an email to ",
+    "weve_sent_them_an_email": "[CY] We’ve sent them an email to tell them you’ve changed their role.",
+    "what_a_standard_user_can_do": "[CY] What a standard user can do",
+    "what_an_account_owner_can_do": "[CY] What an account owner can do",
+    "what_an_administrator_can_do": "[CY] What an administrator can do"
 }

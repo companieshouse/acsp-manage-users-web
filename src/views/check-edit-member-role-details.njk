@@ -1,6 +1,6 @@
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
-{% from "govuk/components/tag/macro.njk" import govukTag %}
+{% from "govuk/components/inset-text/macro.njk" import govukInsetText %}
 
 {% extends "layouts/default.njk" %}
 
@@ -13,30 +13,17 @@
         <span class="govuk-caption-l">{{companyName}}</span>
         <h1 class="govuk-heading-l">{{lang.page_header}}</h1>
 
-        {% if userRole === UserRole.OWNER %}
-            {% set tag_colour = "govuk-tag--blue" %}
-        {% elif userRole === UserRole.ADMIN %}
-            {% set tag_colour = "govuk-tag--turquoise" %}
-        {% else %}
-            {% set tag_colour = "govuk-tag--yellow" %}
-        {% endif %}
-
-        {% set tag %}
-        {{ govukTag({
-                text: userRoleTag,
-                classes: tag_colour
-            })
-        }}
-        {% endset %}
+        {% set userNameOrEmail = userDisplayName if userDisplayName else 
+            email %}
 
         {{ govukSummaryList({
             rows: [
                     {
                         key: {
-                            text: lang.email_address
+                            text: lang.user
                         },
                         value: {
-                            text: email
+                            text: userNameOrEmail
                         }
                     },
                     {
@@ -44,7 +31,7 @@
                             text: lang.role
                         },
                         value: {
-                            html: tag
+                            text: userRoleTag
                         },
                         actions: {
                             items: [
@@ -57,6 +44,17 @@
                         }
                     }
                 ]
+            })
+        }}
+
+        {% set insetText %}
+        {{lang.well_send_an_email_to}}
+        <span class="govuk-body govuk-!-font-weight-bold">{{email}}</span>
+        {{lang.to_tell_them_youve_changed_their_role}}
+        {% endset %}
+
+        {{ govukInsetText({
+                html: insetText
             })
         }}
 

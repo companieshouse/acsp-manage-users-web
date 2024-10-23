@@ -52,7 +52,7 @@ describe("GET /authorised-agent/check-edit-member-role-details", () => {
             expect(response.status).toEqual(200);
             expect(response.text).toContain(loggedAccountOwnerAcspMembership.acspName);
             expect(response.text).toContain(lang.page_header);
-            expect(response.text).toContain(langCommon.email_address);
+            expect(response.text).toContain(lang.user);
             expect(response.text).toContain(mockUserRoleChangeData.userEmail);
             expect(response.text).toContain(langCommon.role);
             expect(response.text).toContain(expectedUserRoleTag);
@@ -60,5 +60,7 @@ describe("GET /authorised-agent/check-edit-member-role-details", () => {
             expect(response.text).toContain(mockUserRoleChangeData.changeRolePageUrl);
             expect((response.text.match(new RegExp(mockUserRoleChangeData.changeRolePageUrl, "g")) || [])).toHaveLength(2);
             expect(response.text).toContain(lang.confirm_users_role);
+            expect(response.text).toContain(lang.well_send_an_email_to);
+            expect(response.text).toContain(lang.to_tell_them_youve_changed_their_role);
         });
 });

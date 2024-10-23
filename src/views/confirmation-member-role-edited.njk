@@ -1,22 +1,23 @@
 {% from "govuk/components/notification-banner/macro.njk" import govukNotificationBanner %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/details/macro.njk" import govukDetails %}
 
 {% extends "layouts/default.njk" %}
 
 {% if userRole === UserRole.OWNER %}
-    {% set pageHeader = lang.account_owner_page_header %}
+    {% set detailsSummaryText = lang.what_an_account_owner_can_do %}
     {% set roleSentencePart = lang.is_now_an_account_owner_for %}
     {% set accessServiceInfo = lang.an_account_owner_can %}
     {% set additionalPrivilagesInfo = lang.they_can_also %}
     {% set bulletPoints = lang.they_can_also_bullet_points %}
 {% elif userRole === UserRole.ADMIN %}
-    {% set pageHeader = lang.administrator_page_header %}
+    {% set detailsSummaryText = lang.what_an_administrator_can_do %}
     {% set roleSentencePart = lang.is_now_an_administrator_for %}
     {% set accessServiceInfo = lang.an_administrator_can %}
     {% set additionalPrivilagesInfo = lang.they_can_also_view_all_users + " " + lang.they_can_add_and_remove %}
     {% set bulletPoints = lang.they_can_add_and_remove_bullet_points %}
 {% else %}
-    {% set pageHeader = lang.standard_user_page_header %}
+    {% set detailsSummaryText = lang.what_a_standard_user_can_do %}
     {% set roleSentencePart = lang.is_now_a_standard_user_for %}
     {% set accessServiceInfo = lang.a_standard_user_can %}
     {% set additionalPrivilagesInfo = lang.they_can_also_view_all_users + " " + lang.they_cannot_add_or_remove_users %}
@@ -34,17 +35,24 @@
     {% endif %}
     {{roleSentencePart}}{{companyName}}.
 </p>
-<p>
-    {% if userDisplayName %}
-        {{lang.weve_sent_an_email_to}}
-        <span class="govuk-!-font-weight-bold">{{email}}</span>{{lang.to_tell_them_youve_chanaged_their_role}}
-    {% else %}
-        {{lang.weve_sent_them_an_email}}
-    {% endif %}
-</p>
 {% endset %}
 
-{% set title = pageHeader + lang.title_end %}
+{% set detailsHtml %}
+<p class="govuk-body">{{accessServiceInfo}}</p>
+<p class="govuk-body">{{additionalPrivilagesInfo}}</p>
+
+{% if bulletPoints %}
+    <ul class="govuk-list govuk-list--bullet">
+        {% for bullet in bulletPoints %}
+            <li>{{bullet}}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
+{% if userRole === UserRole.OWNER %}
+    <p class="govuk-body">{{lang.if_any_of_the_details}}</p>
+{% endif %}
+{% endset %}
 
 {% block main_content %}
     <div class="govuk-grid-row">
@@ -57,18 +65,22 @@
             }}
 
             <span class="govuk-caption-l">{{companyName}}</span>
-            <h1 class="govuk-heading-l">{{pageHeader}}</h1>
+            <h1 class="govuk-heading-l">{{lang.page_header}}</h1>
 
-            <p class="govuk-body">{{accessServiceInfo}}</p>
-            <p class="govuk-body">{{additionalPrivilagesInfo}}</p>
+            <p class="govuk-body">
+                {% if userDisplayName %}
+                    {{lang.well_sent_an_email_to}}
+                    <span class="govuk-!-font-weight-bold">{{email}}</span>{{lang.to_tell_them_youve_chanaged_their_role}}
+                {% else %}
+                    {{lang.weve_sent_them_an_email}}
+                {% endif %}
+            </p>
 
-            {% if bulletPoints %}
-                <ul class="govuk-list govuk-list--bullet">
-                    {% for bullet in bulletPoints %}
-                        <li>{{bullet}}</li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
+            {{ govukDetails({
+                    summaryText: detailsSummaryText,
+                    html: detailsHtml
+                })
+            }}
 
             {{ govukButton({
                     text: lang.go_to_manage_users,
