@@ -64,7 +64,7 @@ describe("GET /authorised-agent/confirmation-member-role-edited", () => {
             expect(response.text).toContain(`<span class="govuk-caption-l">${loggedAccountOwnerAcspMembership.acspName}</span>`);
             expect(response.text).toContain(lang.users_role_changed);
             if (changeData.userDisplayName) {
-                expect(response.text).toContain(lang.weve_sent_an_email_to);
+                expect(response.text).toContain(lang.well_sent_an_email_to);
                 expect(response.text).toContain(`<span class="govuk-!-font-weight-bold">${changeData.userEmail}</span>${lang.to_tell_them_youve_chanaged_their_role}`);
             } else {
                 expect(response.text).toContain(lang.weve_sent_them_an_email);
@@ -76,7 +76,7 @@ describe("GET /authorised-agent/confirmation-member-role-edited", () => {
                     expect(response.text).toContain(`<span class="govuk-!-font-weight-bold">${changeData.userEmail}</span>`);
                 }
                 expect(response.text).toContain(`${lang.is_now_an_account_owner_for}${loggedAccountOwnerAcspMembership.acspName}`);
-                expect(response.text).toContain(lang.account_owner_page_header);
+                expect(response.text).toContain(lang.what_an_account_owner_can_do);
                 expect(response.text).toContain(lang.an_account_owner_can);
                 expect(response.text).toContain(lang.they_can_also);
                 expect(response.text).toContain(`<li>${lang.they_can_also_bullet_points[0]}</li>`);
@@ -85,6 +85,7 @@ describe("GET /authorised-agent/confirmation-member-role-edited", () => {
                 expect(response.text).toContain(`<li>${lang.they_can_also_bullet_points[3]}</li>`);
                 expect(response.text).not.toContain(`<li>${lang.they_can_add_and_remove_bullet_points[0]}</li>`);
                 expect(response.text).not.toContain(`<li>${lang.they_can_add_and_remove_bullet_points[1]}</li>`);
+                expect(response.text).toContain(lang.if_any_of_the_details);
             } else if (userRole === UserRole.ADMIN) {
                 if (changeData.userDisplayName) {
                     expect(response.text).toContain(`${changeData.userDisplayName}`);
@@ -92,7 +93,7 @@ describe("GET /authorised-agent/confirmation-member-role-edited", () => {
                     expect(response.text).toContain(`<span class="govuk-!-font-weight-bold">${changeData.userEmail}</span>`);
                 }
                 expect(response.text).toContain(`${lang.is_now_an_administrator_for}${loggedAccountOwnerAcspMembership.acspName}`);
-                expect(response.text).toContain(lang.administrator_page_header);
+                expect(response.text).toContain(lang.what_an_administrator_can_do);
                 expect(response.text).toContain(lang.an_administrator_can);
                 expect(response.text).toContain(lang.they_can_also_view_all_users + " " + lang.they_can_add_and_remove);
                 expect(response.text).toContain(`<li>${lang.they_can_add_and_remove_bullet_points[0]}</li>`);
@@ -101,6 +102,7 @@ describe("GET /authorised-agent/confirmation-member-role-edited", () => {
                 expect(response.text).not.toContain(`<li>${lang.they_can_also_bullet_points[1]}</li>`);
                 expect(response.text).not.toContain(`<li>${lang.they_can_also_bullet_points[2]}</li>`);
                 expect(response.text).not.toContain(`<li>${lang.they_can_also_bullet_points[3]}</li>`);
+                expect(response.text).not.toContain(lang.if_any_of_the_details);
             } else {
                 if (changeData.userDisplayName) {
                     expect(response.text).toContain(`${changeData.userDisplayName}`);
@@ -108,7 +110,7 @@ describe("GET /authorised-agent/confirmation-member-role-edited", () => {
                     expect(response.text).toContain(`<span class="govuk-!-font-weight-bold">${changeData.userEmail}</span>`);
                 }
                 expect(response.text).toContain(`${lang.is_now_a_standard_user_for}${loggedAccountOwnerAcspMembership.acspName}`);
-                expect(response.text).toContain(lang.standard_user_page_header);
+                expect(response.text).toContain(lang.what_a_standard_user_can_do);
                 expect(response.text).toContain(lang.a_standard_user_can);
                 expect(response.text).toContain(lang.they_can_also_view_all_users + " " + lang.they_cannot_add_or_remove_users);
                 expect(response.text).not.toContain(`<li>${lang.they_can_also_bullet_points[0]}</li>`);
@@ -117,6 +119,7 @@ describe("GET /authorised-agent/confirmation-member-role-edited", () => {
                 expect(response.text).not.toContain(`<li>${lang.they_can_also_bullet_points[3]}</li>`);
                 expect(response.text).not.toContain(`<li>${lang.they_can_add_and_remove_bullet_points[0]}</li>`);
                 expect(response.text).not.toContain(`<li>${lang.they_can_add_and_remove_bullet_points[1]}</li>`);
+                expect(response.text).not.toContain(lang.if_any_of_the_details);
             }
             expect(response.text).toContain(langCommon.go_to_manage_users);
         });

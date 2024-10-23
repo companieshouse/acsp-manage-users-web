@@ -22,6 +22,7 @@ const getViewData = (req: Request): ViewData => {
         templateName: constants.CHECK_EDIT_MEMBER_ROLE_DETAILS_PAGE,
         companyName: acspName,
         email: userRoleChangeData.userEmail,
+        userDisplayName: userRoleChangeData.userDisplayName,
         userRole: userRoleChangeData.userRole,
         userRoleTag,
         backLinkUrl: userRoleChangeData.changeRolePageUrl,
