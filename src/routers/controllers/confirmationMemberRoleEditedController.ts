@@ -17,7 +17,7 @@ const getViewData = async (req: Request): Promise<ViewData> => {
     const userRoleChangeData: UserRoleChangeData = getExtraData(req.session, constants.USER_ROLE_CHANGE_DATA);
     const { acspName } = getLoggedUserAcspMembership(req.session);
 
-    const viewData: ViewData = {
+    return {
         lang: translations,
         templateName: constants.CONFIRMATION_MEMBER_ROLE_EDITED_PAGE,
         companyName: acspName,
@@ -26,6 +26,4 @@ const getViewData = async (req: Request): Promise<ViewData> => {
         userRole: userRoleChangeData.userRole,
         backLinkUrl: constants.MANAGE_USERS_FULL_URL
     };
-
-    return viewData;
 };
