@@ -14,6 +14,7 @@ export type ViewData = {
     backLinkUrl?: string;
     email?: string;
     userRole?: string;
+    oldUserRole?: string;
     userRoleTag?: string;
     userDisplayName?: string;
     loggedInUserRole?: UserRole;

@@ -3,7 +3,12 @@ import logger from "../../lib/Logger";
 import * as constants from "../../lib/constants";
 import { getTranslationsForView } from "../../lib/utils/translationUtils";
 import { UserRoleChangeData, ViewData } from "../../types/utilTypes";
-import { getExtraData, getLoggedUserAcspMembership, setExtraData } from "../../lib/utils/sessionUtils";
+import {
+    deleteExtraData,
+    getExtraData,
+    getLoggedUserAcspMembership,
+    setExtraData
+} from "../../lib/utils/sessionUtils";
 import { Membership } from "../../types/membership";
 import { isValidRole } from "../../lib/validation/user.role.validation";
 import { addErrorToViewData } from "../../lib/utils/viewUtils";
@@ -14,6 +19,7 @@ import { getAcspMemberships } from "../../services/acspMemberService";
 
 export const editMemberRoleControllerGet = async (req: Request, res: Response): Promise<void> => {
     const viewData = await getViewData(req);
+
     if (viewData.isTheOnlyOwner) {
         const userRoleChangeData = getUserRoleChangeData(req, viewData);
         setExtraData(req.session, constants.USER_ROLE_CHANGE_DATA, userRoleChangeData);
@@ -26,12 +32,15 @@ export const editMemberRoleControllerGet = async (req: Request, res: Response): 
 export const editMemberRoleControllerPost = async (req: Request, res: Response): Promise<void> => {
     const viewData = await getViewData(req);
     const newUserRole = req.body.userRole;
-    if (!isValidRole(newUserRole) || newUserRole === viewData.userRole) {
+    if (!isValidRole(newUserRole) || newUserRole === viewData.oldUserRole) {
+        viewData.userRole = viewData.oldUserRole;
         addErrorToViewData(FormInputNames.USER_ROLE, constants.ERRORS_SELECT_USER_ROLE_TO_CHANGE_FOR_THE_USER, viewData);
+        setExtraData(req.session, constants.IS_SELECT_USER_ROLE_ERROR, true);
         return res.render(constants.EDIT_MEMBER_ROLE_PAGE, viewData);
     } else {
         const userRoleChangeData = getUserRoleChangeData(req, viewData);
         setExtraData(req.session, constants.USER_ROLE_CHANGE_DATA, userRoleChangeData);
+        deleteExtraData(req.session, constants.IS_SELECT_USER_ROLE_ERROR);
         return res.redirect(constants.CHECK_EDIT_MEMBER_ROLE_DETAILS_FULL_URL);
     }
 };
@@ -56,6 +65,7 @@ const getViewData = async (req: Request): Promise<ViewData> => {
         companyName: acspName,
         email: userToChangeRole.userEmail,
         userRole: userToChangeRole.userRole,
+        oldUserRole: userToChangeRole.userRole,
         userDisplayName: userToChangeRole.userDisplayName === constants.NOT_PROVIDED ? undefined : userToChangeRole.userDisplayName,
         backLinkUrl: constants.MANAGE_USERS_FULL_URL,
         templateName: constants.EDIT_MEMBER_ROLE_PAGE,
@@ -67,8 +77,13 @@ const getViewData = async (req: Request): Promise<ViewData> => {
         viewData.isTheOnlyOwner = true;
     }
 
+    const isSelectUserRoleError: boolean = getExtraData(req.session, constants.IS_SELECT_USER_ROLE_ERROR);
+    if (isSelectUserRoleError) {
+        addErrorToViewData(FormInputNames.USER_ROLE, constants.ERRORS_SELECT_USER_ROLE_TO_CHANGE_FOR_THE_USER, viewData);
+    }
+
     const savedUserRoleChangeData = getExtraData(req.session, constants.USER_ROLE_CHANGE_DATA) as UserRoleChangeData;
-    if (savedUserRoleChangeData) {
+    if (!isSelectUserRoleError && savedUserRoleChangeData) {
         viewData.userRole = savedUserRoleChangeData.userRole;
     }
 
