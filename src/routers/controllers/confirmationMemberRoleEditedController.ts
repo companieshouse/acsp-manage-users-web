@@ -3,7 +3,6 @@ import * as constants from "../../lib/constants";
 import { getTranslationsForView } from "../../lib/utils/translationUtils";
 import { UserRoleChangeData, ViewData } from "../../types/utilTypes";
 import {
-    deleteExtraData,
     getExtraData,
     getLoggedUserAcspMembership
 } from "../../lib/utils/sessionUtils";
@@ -27,8 +26,6 @@ const getViewData = async (req: Request): Promise<ViewData> => {
         userRole: userRoleChangeData.userRole,
         backLinkUrl: constants.MANAGE_USERS_FULL_URL
     };
-
-    deleteExtraData(req.session, constants.USER_ROLE_CHANGE_DATA);
 
     return viewData;
 };
