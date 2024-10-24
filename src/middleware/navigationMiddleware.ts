@@ -6,7 +6,6 @@ import { Navigation } from "types/navigation";
 import { getRemoveMemberCheckDetailsFullUrl } from "../lib/utils/urlUtils";
 import { UserRole, AcspMembership } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
 import { getExtraData } from "../lib/utils/sessionUtils";
-import { InvalidAcspNumberError } from "@companieshouse/web-security-node";
 
 export const NAVIGATION: Navigation = {
     [constants.CHECK_MEMBER_DETAILS_FULL_URL]: {
@@ -57,11 +56,6 @@ export const navigationMiddleware = (req: Request, res: Response, next: NextFunc
     let currentPath = url.parse(req.originalUrl, true).pathname || "";
     if (currentPath.startsWith(getRemoveMemberCheckDetailsFullUrl(""))) {
         currentPath = getRemoveMemberCheckDetailsFullUrl("");
-    }
-    // if user has removed themselves
-    const removedThemselves = getExtraData(req.session, constants.ACSP_MEMBERSHIP_REMOVED);
-    if (removedThemselves && !currentPath.includes(constants.CONFIRMATION_YOU_ARE_REMOVED_FULL_URL)) {
-        throw new InvalidAcspNumberError("user removed themselves and no longer has access to /authorised-agents");
     }
 
     if (!NAVIGATION[currentPath]) {

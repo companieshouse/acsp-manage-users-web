@@ -1,5 +1,22 @@
 import { getEnvironmentValue } from "./utils/environmentValue";
 
+// APP config
+export const DEFAULT_SESSION_EXPIRATION = getEnvironmentValue("DEFAULT_SESSION_EXPIRATION", "3600");
+
+export const CACHE_SERVER = getEnvironmentValue("CACHE_SERVER");
+export const CHS_URL = getEnvironmentValue("CHS_URL");
+export const COOKIE_DOMAIN = getEnvironmentValue("COOKIE_DOMAIN");
+export const COOKIE_NAME = getEnvironmentValue("COOKIE_NAME");
+export const COOKIE_SECRET = getEnvironmentValue("COOKIE_SECRET");
+export const INTERNAL_API_URL = getEnvironmentValue("INTERNAL_API_URL");
+export const ACCOUNTS_USER_INTERNAL_API_KEY = getEnvironmentValue("ACCOUNTS_USER_INTERNAL_API_KEY");
+export const ACCOUNT_URL = getEnvironmentValue("ACCOUNT_URL");
+export const COOKIE_SECURE_ONLY = getEnvironmentValue("COOKIE_SECURE_ONLY");
+export const MATOMO_ADD_USER_GOAL_ID = getEnvironmentValue("MATOMO_ADD_USER_GOAL_ID");
+export const MATOMO_REMOVE_USER_GOAL_ID = getEnvironmentValue("MATOMO_REMOVE_USER_GOAL_ID");
+
+export const SERVICE_NAME = "ACSP Manage Users Web";
+
 // English and Welsh translation files AND Nunjucks template files for pages
 export const DASHBOARD_PAGE = "dashboard";
 export const MANAGE_USERS_PAGE = "manage-users";
@@ -64,6 +81,7 @@ export const CANNOT_ADD_USER_URL = `/${CANNOT_ADD_USER}`;
 export const CANNOT_ADD_USER_FULL_URL = `${LANDING_URL}${CANNOT_ADD_USER_URL}`;
 export const SOMETHING_WENT_WRONG_URL = `/${SOMETHING_WENT_WRONG}`;
 export const SOMETHING_WENT_WRONG_FULL_URL = `${LANDING_URL}${SOMETHING_WENT_WRONG_URL}`;
+export const SIGN_OUT_URL = `${CHS_URL}/signout`;
 
 export const HEALTHCHECK = "/healthcheck";
 
@@ -71,23 +89,6 @@ export const HEALTHCHECK = "/healthcheck";
 export const YOU_HAVE_VERIFIED_SOMEONES_IDENTITY_URL = "/tell-companies-house-you-have-verified-someones-identity";
 export const UPDATE_AUTHORISED_AGENTS_DETAILS_URL = "/placeholder-url-to-service-build-by-other-team";
 export const CHS_SEARCH_REGISTER_PAGE = "https://find-and-update.company-information.service.gov.uk/";
-
-// APP config
-export const DEFAULT_SESSION_EXPIRATION = getEnvironmentValue("DEFAULT_SESSION_EXPIRATION", "3600");
-
-export const CACHE_SERVER = getEnvironmentValue("CACHE_SERVER");
-export const CHS_URL = getEnvironmentValue("CHS_URL");
-export const COOKIE_DOMAIN = getEnvironmentValue("COOKIE_DOMAIN");
-export const COOKIE_NAME = getEnvironmentValue("COOKIE_NAME");
-export const COOKIE_SECRET = getEnvironmentValue("COOKIE_SECRET");
-export const INTERNAL_API_URL = getEnvironmentValue("INTERNAL_API_URL");
-export const ACCOUNTS_USER_INTERNAL_API_KEY = getEnvironmentValue("ACCOUNTS_USER_INTERNAL_API_KEY");
-export const ACCOUNT_URL = getEnvironmentValue("ACCOUNT_URL");
-export const COOKIE_SECURE_ONLY = getEnvironmentValue("COOKIE_SECURE_ONLY");
-export const MATOMO_ADD_USER_GOAL_ID = getEnvironmentValue("MATOMO_ADD_USER_GOAL_ID");
-export const MATOMO_REMOVE_USER_GOAL_ID = getEnvironmentValue("MATOMO_REMOVE_USER_GOAL_ID");
-
-export const SERVICE_NAME = "ACSP Manage Users Web";
 
 // errors
 export const VALIDATION_ERRORS = "VALIDATION_ERRORS";
@@ -108,7 +109,6 @@ export const DETAILS_OF_USER_TO_ADD = "detailsOfUserToAdd";
 export const DETAILS_OF_USER_TO_REMOVE = "detailsOfUserToRemove";
 export const MANAGE_USERS_MEMBERSHIP = "manageUsersMembership";
 export const LOGGED_USER_ACSP_MEMBERSHIP = "loggedUserAcspMembership";
-export const ACSP_MEMBERSHIP_REMOVED = "AcspMembershipRemoved";
 
 // Various
 export const ACCOUNT_OWNERS_ID = "account-owners";
