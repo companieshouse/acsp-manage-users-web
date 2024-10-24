@@ -1,0 +1,167 @@
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/inset-text/macro.njk" import govukInsetText %}
+
+{% extends "layouts/default.njk" %}
+
+{% set userNameOrEmail = userDisplayName if userDisplayName else 
+    email %}
+{% set page_header = lang.select_the_new_role_for + userNameOrEmail %}
+{% set title = page_header + lang.title_end %}
+
+{% set message = null %}
+{% for key, value in errors %}
+    {% if key == "userRole" %}
+        {% set message = {
+            text: lang[value.text]
+        } %}
+        {% set title = lang.title_error + page_header + lang.title_end %}
+    {% endif %}
+{% endfor %}
+
+{% set accountOwnerOption %}
+<span class="govuk-body govuk-!-font-weight-bold">
+    {{lang.user_role_tags.account_owner}}</span>
+{% endset %}
+
+{% set accountOwnerOptionHint %}
+<p class="govuk-body govuk-!-static-padding-top-2">
+    {{lang.theyll_be_able_to}}
+</p>
+<ul class="govuk-list govuk-list--bullet govuk-!-margin-left-4">
+    {% for item in lang.theyll_be_able_to_bullet_points %}
+        <li>{{item}}</li>
+    {% endfor %}
+</ul>
+{% endset %}
+
+{% set administratorOption %}
+<span class="govuk-body govuk-!-font-weight-bold">
+    {{lang.user_role_tags.administrator}}</span>
+{% endset %}
+
+{% set administratorOptionHint %}
+<p class="govuk-body govuk-!-static-padding-top-2">
+    {{lang.theyll_be_able_to_view_all_users}}
+</p>
+<ul class="govuk-list govuk-list--bullet govuk-!-margin-left-4">
+    {% for item in lang.theyll_be_able_to_view_all_users_bullet_points %}
+        <li>{{item}}</li>
+    {% endfor %}
+</ul>
+{% endset %}
+
+{% set standardUserOption %}
+<span class="govuk-body govuk-!-font-weight-bold">
+    {{lang.user_role_tags.standard_user}}</span>
+{% endset %}
+
+{% set standardUserOptionHint %}
+<p class="govuk-body govuk-!-static-padding-top-2">
+    {{lang.theyll_be_able_to_view}}
+</p>
+{% endset %}
+
+{% set radios_items = [] %}
+{% if loggedInUserRole === UserRole.OWNER %}
+    {% set radios_items = (radios_items.push({
+            value: UserRole.OWNER,
+            html: accountOwnerOption,
+            checked: userRole === UserRole.OWNER,
+            hint: {
+                html: accountOwnerOptionHint
+            },
+            attributes: {
+                "data-event-id": "account-owner-option"
+            }
+        }), radios_items) %}
+{% endif %}
+{% set radios_items = (radios_items.push({
+        value: UserRole.ADMIN,
+        html: administratorOption,
+        checked: userRole === UserRole.ADMIN,
+        hint: {
+            html: administratorOptionHint
+        },
+        attributes: {
+            "data-event-id": "admin-option"
+        }
+    }), radios_items) %}
+{% set radios_items = (radios_items.push({
+        value: UserRole.STANDARD,
+        html: standardUserOption,
+        checked: userRole === UserRole.STANDARD,
+        hint: {
+            html: standardUserOptionHint
+        },
+        attributes: {
+            "data-event-id": "standard-user-option"
+        }
+    }), radios_items) %}
+
+{% set start_date_info %}
+<p class="govuk-body">{{lang.all_users_who_are_added}}</p>
+<ul class="govuk-list govuk-list--bullet govuk-!-margin-bottom-6">
+    <li>{{lang.all_users_who_are_added_bullet_points[0]}}
+        {{verifyPeopleIdentityFromDate}}</li>
+    <li>{{lang.all_users_who_are_added_bullet_points[1]}}
+        {{fileAsAuthorisedAgentFromDate}}</li>
+</ul>
+{% endset %}
+
+{% block back_link %}
+    <div role="navigation" aria-label="{{lang.back_link_to_the_previous_page}}">
+        {{ govukBackLink({
+                text: lang.back_link_to_manage_users,
+                href: backLinkUrl,
+                attributes: {
+                    id: "back-link-to-previous-page"
+                }
+            })
+        }}
+    </div>
+{% endblock %}
+
+{% block main_content %}
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <span class="govuk-caption-l">{{companyName}}</span>
+            <form method="post" novalidate="novalidate">
+                {% include "partials/csrf_token.njk" %}
+                {{ govukRadios({
+                        name: "userRole",
+                        fieldset: {
+                            legend: {
+                                text: page_header,
+                                isPageHeading: true,
+                                classes: "govuk-fieldset__legend--l"
+                            }
+                        },
+                        items: radios_items,
+                        errorMessage: message
+                    })
+                }}
+
+                {{ govukInsetText({ html: start_date_info }) }}
+
+                {% set button_attributes = {
+                        role: "button",
+                        id: "continue-button",
+                        "data-event-id": "continue-button"             
+                    }
+                %}
+                <div class="govuk-button-group">
+                    {{ govukButton({text: lang.continue,
+                            type: "submit",
+                            attributes: button_attributes,
+                            classes: 'govuk-!-margin-top-3'
+                        })
+                    }}
+                    <a class="govuk-link" href="{{backLinkUrl}}" data-event-id="cancel-edit-user-role" id="cancel-link">{{lang.cancel}}</a>
+                </div>
+            </form>
+
+        </div>
+    </div>
+{% endblock %}

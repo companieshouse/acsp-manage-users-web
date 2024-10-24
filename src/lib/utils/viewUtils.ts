@@ -3,8 +3,8 @@ import { UserRoleTagEn, UserRoleTagCy } from "../../types/userRoleTagEn";
 import { UserRole } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
 import { KnownUserRole } from "../../types/viewTypes";
 
-export const getLink = (href: string, displayText: string): string => {
-    return `<a data-event-id="remove" href="${href}">${displayText}</a>`;
+export const getLink = (href: string, displayText: string, dataEventId: string): string => {
+    return `<a data-event-id="${dataEventId}" href="${href}">${displayText}</a>`;
 };
 
 export const getHiddenText = (hiddenText: string): string => {

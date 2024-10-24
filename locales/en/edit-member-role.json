@@ -1,0 +1,28 @@
+{
+    "all_users_who_are_added": "All users who are added to this account will be able to:",
+    "all_users_who_are_added_bullet_points": [
+        "verify people’s identity for Companies House from ",
+        "file as an authorised agent from "
+    ],
+    "back_link_to_manage_users": "Return to manage users",
+    "errors_select_user_role_to_change_for_the_user": "You have not selected a new role. Select the new role or cancel if you do not need to change it.",
+    "select_the_new_role_for": "Select the new role for ",
+    "theyll_be_able_to": "They’ll be able to:",
+    "theyll_be_able_to_bullet_points": [
+        "make changes to the authorised agent’s details",
+        "view all users who have been added to this account",
+        "add and remove all users",
+        "close the account"
+    ],
+    "theyll_be_able_to_view": "They’ll be able to view all users who have been added to this account. They will not be able to add or remove users.",
+    "theyll_be_able_to_view_all_users": "They’ll be able to view all users who have been added to this account, and can add and remove",
+    "theyll_be_able_to_view_all_users_bullet_points": [
+        "administrators",
+        "standard users"
+    ],
+    "user_role_tags": {
+        "account_owner": "Account owner",
+        "administrator": "Administrator",
+        "standard_user": "Standard user"
+    }
+}
