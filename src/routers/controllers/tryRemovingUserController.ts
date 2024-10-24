@@ -23,11 +23,9 @@ export const tryRemovingUserControllerPost = async (req: Request, res: Response)
     await updateOrRemoveUserAcspMembership(req, memberForRemoval.id, { removeUser: true });
 
     if (removingThemselves) {
-        res.set("Referrer-Policy", "no-referrer"); // hide referrer
-        // check if redirect should be full url - http://account.chs.local/signout
-        // or just the path /signout
         logger.info("User has removed themselves, redirecting to sign out now ... ");
-        return res.redirect("/signout");
+        res.set("Referrer-Policy", "origin");
+        return res.redirect(constants.SIGN_OUT_URL);
     } else {
         res.redirect(constants.CONFIRMATION_MEMBER_REMOVED_FULL_URL);
     }
