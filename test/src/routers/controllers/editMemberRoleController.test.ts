@@ -43,16 +43,16 @@ describe("GET /authorised-agent/edit-member-role", () => {
     });
 
     test.each([
-        [200, "English", UserRole.OWNER, loggedAccountOwnerAcspMembership, standardUserMembership, "en", en, enCommon],
-        [200, "Welsh", UserRole.OWNER, loggedAccountOwnerAcspMembership, standardUserMembership, "cy", cy, cyCommon],
-        [200, "English", UserRole.ADMIN, administratorAcspMembership, standardUserMembership, "en", en, enCommon],
-        [200, "Welsh", UserRole.ADMIN, administratorAcspMembership, standardUserMembership, "cy", cy, cyCommon],
-        [500, "English", UserRole.STANDARD, standardUserAcspMembership, standardUserMembership, "en", en, enCommon],
-        [500, "Welsh", UserRole.STANDARD, standardUserAcspMembership, standardUserMembership, "cy", cy, cyCommon],
-        [302, "English", UserRole.OWNER, loggedAccountOwnerAcspMembership, loggedOwnerUserMembership, "en", en, enCommon],
-        [302, "Welsh", UserRole.OWNER, loggedAccountOwnerAcspMembership, loggedOwnerUserMembership, "cy", cy, cyCommon]
-    ])("should return status %s and the expected content if the language is set to %s and the loggedin user role is %s",
-        async (status, _langVersionInfo, loggedUserRole, loggedUserMembership, mockUserData, langVersion, lang, langCommon) => {
+        [200, "en", UserRole.OWNER, loggedAccountOwnerAcspMembership, standardUserMembership, en, enCommon],
+        [200, "cy", UserRole.OWNER, loggedAccountOwnerAcspMembership, standardUserMembership, cy, cyCommon],
+        [200, "en", UserRole.ADMIN, administratorAcspMembership, standardUserMembership, en, enCommon],
+        [200, "cy", UserRole.ADMIN, administratorAcspMembership, standardUserMembership, cy, cyCommon],
+        [500, "en", UserRole.STANDARD, standardUserAcspMembership, standardUserMembership, en, enCommon],
+        [500, "cy", UserRole.STANDARD, standardUserAcspMembership, standardUserMembership, cy, cyCommon],
+        [302, "en", UserRole.OWNER, loggedAccountOwnerAcspMembership, loggedOwnerUserMembership, en, enCommon],
+        [302, "cy", UserRole.OWNER, loggedAccountOwnerAcspMembership, loggedOwnerUserMembership, cy, cyCommon]
+    ])("should return status %s and the expected content if the language is set to '%s' and the loggedin user role is %s",
+        async (status, langVersion, loggedUserRole, loggedUserMembership, mockUserData, lang, langCommon) => {
             // Given
             getLoggedUserAcspMembershipSpy.mockReturnValue(loggedUserMembership);
             when(getExtraDataSpy).calledWith(expect.anything(), constants.MANAGE_USERS_MEMBERSHIP).mockReturnValue([mockUserData]);
@@ -124,43 +124,48 @@ const containsContent = (
     let containsExpectedContent = true;
 
     if (userRole === UserRole.STANDARD) {
-        containsExpectedContent = !responseText.includes(`${lang.change_role_for}${mockUserData.userEmail}`) &&
+        containsExpectedContent = !responseText.includes(`${lang.select_the_new_role_for}${mockUserData.userEmail}`) &&
+            !responseText.includes(`${lang.select_the_new_role_for}${mockUserData.userDisplayName}`) &&
             !responseText.includes(`${lang.user_role_tags.administrator}`) &&
-            !responseText.includes(`${lang.they_will_be_able_to_add_and_remove}`) &&
-            !responseText.includes(`${lang.they_will_be_able_to_add_and_remove_bullet_points[0]}`) &&
-            !responseText.includes(`${lang.they_will_be_able_to_add_and_remove_bullet_points[1]}`) &&
+            !responseText.includes(`${lang.theyll_be_able_to_view_all_users}`) &&
+            !responseText.includes(`<li>${lang.theyll_be_able_to_view_all_users_bullet_points[0]}`) &&
+            !responseText.includes(`<li>${lang.theyll_be_able_to_view_all_users_bullet_points[1]}`) &&
             !responseText.includes(`${lang.user_role_tags.standard_user}`) &&
-            !responseText.includes(`${lang.they_will_not_be_able}`) &&
-            !responseText.includes(`${lang.all_users_who_are_added}`) &&
-            !responseText.includes(`${lang.all_users_who_are_added_bullet_points[0]}`) &&
-            !responseText.includes(`${lang.all_users_who_are_added_bullet_points[1]}`) &&
+            !responseText.includes(`${lang.theyll_be_able_to_view}`) &&
             !responseText.includes(`${langCommon.continue}`);
     }
 
     if (containsExpectedContent && (userRole === UserRole.ADMIN || userRole === UserRole.STANDARD)) {
         containsExpectedContent = !responseText.includes(`${lang.user_role_tags.account_owner}`) &&
-            !responseText.includes(`${lang.they_will_be_able_to}`) &&
-            !responseText.includes(`${lang.they_will_be_able_to_bullet_points[0]}`) &&
-            !responseText.includes(`${lang.they_will_be_able_to_bullet_points[1]}`);
+            !responseText.includes(`${lang.theyll_be_able_to}`) &&
+            !responseText.includes(`<li>${lang.theyll_be_able_to_bullet_points[0]}`) &&
+            !responseText.includes(`<li>${lang.theyll_be_able_to_bullet_points[1]}`) &&
+            !responseText.includes(`<li>${lang.theyll_be_able_to_bullet_points[2]}`) &&
+            !responseText.includes(`<li>${lang.theyll_be_able_to_bullet_points[3]}`);
     }
 
     if (containsExpectedContent && userRole === UserRole.OWNER) {
         containsExpectedContent = responseText.includes(`${lang.user_role_tags.account_owner}`) &&
-            responseText.includes(`${lang.they_will_be_able_to}`) &&
-            responseText.includes(`${lang.they_will_be_able_to_bullet_points[0]}`) &&
-            responseText.includes(`${lang.they_will_be_able_to_bullet_points[1]}`);
+            responseText.includes(`${lang.theyll_be_able_to}`) &&
+            responseText.includes(`<li>${lang.theyll_be_able_to_bullet_points[0]}`) &&
+            responseText.includes(`<li>${lang.theyll_be_able_to_bullet_points[1]}`) &&
+            responseText.includes(`<li>${lang.theyll_be_able_to_bullet_points[2]}`) &&
+            responseText.includes(`<li>${lang.theyll_be_able_to_bullet_points[3]}`);
     }
 
     if (containsExpectedContent && (userRole === UserRole.OWNER || userRole === UserRole.ADMIN)) {
-        containsExpectedContent = responseText.includes(`${lang.user_role_tags.administrator}`) &&
-            responseText.includes(`${lang.they_will_be_able_to_add_and_remove}`) &&
-            responseText.includes(`${lang.they_will_be_able_to_add_and_remove_bullet_points[0]}`) &&
-            responseText.includes(`${lang.they_will_be_able_to_add_and_remove_bullet_points[1]}`) &&
+        containsExpectedContent = (responseText.includes(`${lang.select_the_new_role_for}${mockUserData.userEmail}`) ||
+            responseText.includes(`${lang.select_the_new_role_for}${mockUserData.userDisplayName}`)) &&
+            responseText.includes(`${lang.user_role_tags.administrator}`) &&
+            responseText.includes(`${lang.theyll_be_able_to_view_all_users}`) &&
+            responseText.includes(`<li>${lang.theyll_be_able_to_view_all_users_bullet_points[0]}`) &&
+            responseText.includes(`<li>${lang.theyll_be_able_to_view_all_users_bullet_points[1]}`) &&
             responseText.includes(`${lang.user_role_tags.standard_user}`) &&
-            responseText.includes(`${lang.they_will_not_be_able}`) &&
+            responseText.includes(`${lang.theyll_be_able_to_view}`) &&
             responseText.includes(`${lang.all_users_who_are_added}`) &&
-            responseText.includes(`${lang.all_users_who_are_added_bullet_points[0]}`) &&
-            responseText.includes(`${lang.all_users_who_are_added_bullet_points[1]}`) &&
+            responseText.includes(`<li>${lang.all_users_who_are_added_bullet_points[0]}`) &&
+            responseText.includes(`<li>${lang.all_users_who_are_added_bullet_points[1]}`) &&
+            responseText.includes(`${langCommon.cancel}`) &&
             responseText.includes(`${langCommon.continue}`);
     }
 

@@ -5,19 +5,21 @@
         "[CY] file as an authorised agent from "
     ],
     "back_link_to_manage_users": "[CY] Return to manage users",
-    "change_role_for": "[CY] Change role for ",
     "errors_select_user_role_to_change_for_the_user": "[CY] You have not selected a new role. Select the new role or cancel if you do not need to change it.",
-    "they_will_be_able_to": "[CY] They will be able to:",
-    "they_will_be_able_to_add_and_remove": "[CY] They will be able to add and remove:",
-    "they_will_be_able_to_add_and_remove_bullet_points": [
+    "select_the_new_role_for": "[CY] Select the new role for ",
+    "theyll_be_able_to": "[CY] They’ll be able to:",
+    "theyll_be_able_to_bullet_points": [
+        "[CY] make changes to the authorised agent’s details",
+        "[CY] view all users who have been added to this account",
+        "[CY] add and remove all users",
+        "[CY] close the account"
+    ],
+    "theyll_be_able_to_view": "[CY] They’ll be able to view all users who have been added to this account. They will not be able to add or remove users.",
+    "theyll_be_able_to_view_all_users": "[CY] They’ll be able to view all users who have been added to this account, and can add and remove",
+    "theyll_be_able_to_view_all_users_bullet_points": [
         "[CY] administrators",
         "[CY] standard users"
     ],
-    "they_will_be_able_to_bullet_points": [
-        "[CY] make changes to the authorised agent's details",
-        "[CY] add and remove all users"
-    ],
-    "they_will_not_be_able": "[CY] They will not be able to add or remove other users.",
     "user_role_tags": {
         "account_owner": "[CY] Account owner",
         "administrator": "[CY] Administrator",
