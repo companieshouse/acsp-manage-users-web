@@ -14,7 +14,7 @@
     ],
     "they_can_also": "They can also:",
     "they_can_also_bullet_points": [
-        "make changes to the authorised agent’s details",
+        "update the authorised agent’s details",
         "view all users who have been added to this account",
         "add and remove all users",
         "close the account"
@@ -24,7 +24,6 @@
     "to_tell_them_youve_chanaged_their_role": " to tell them you’ve changed their role.",
     "users_role_changed": "User’s role changed",
     "well_sent_an_email_to": "We’ll sent an email to ",
-    "weve_sent_them_an_email": "We’ve sent them an email to tell them you’ve changed their role.",
     "what_a_standard_user_can_do": "What a standard user can do",
     "what_an_account_owner_can_do": "What an account owner can do",
     "what_an_administrator_can_do": "What an administrator can do"

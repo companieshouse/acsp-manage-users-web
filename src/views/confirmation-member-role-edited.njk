@@ -68,12 +68,8 @@
             <h1 class="govuk-heading-l">{{lang.page_header}}</h1>
 
             <p class="govuk-body">
-                {% if userDisplayName %}
-                    {{lang.well_sent_an_email_to}}
-                    <span class="govuk-!-font-weight-bold">{{email}}</span>{{lang.to_tell_them_youve_chanaged_their_role}}
-                {% else %}
-                    {{lang.weve_sent_them_an_email}}
-                {% endif %}
+                {{lang.well_sent_an_email_to}}
+                <span class="govuk-!-font-weight-bold">{{email}}</span>{{lang.to_tell_them_youve_chanaged_their_role}}
             </p>
 
             {{ govukDetails({

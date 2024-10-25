@@ -63,12 +63,8 @@ describe("GET /authorised-agent/confirmation-member-role-edited", () => {
             expect(response.status).toEqual(200);
             expect(response.text).toContain(`<span class="govuk-caption-l">${loggedAccountOwnerAcspMembership.acspName}</span>`);
             expect(response.text).toContain(lang.users_role_changed);
-            if (changeData.userDisplayName) {
-                expect(response.text).toContain(lang.well_sent_an_email_to);
-                expect(response.text).toContain(`<span class="govuk-!-font-weight-bold">${changeData.userEmail}</span>${lang.to_tell_them_youve_chanaged_their_role}`);
-            } else {
-                expect(response.text).toContain(lang.weve_sent_them_an_email);
-            }
+            expect(response.text).toContain(lang.well_sent_an_email_to);
+            expect(response.text).toContain(`<span class="govuk-!-font-weight-bold">${changeData.userEmail}</span>${lang.to_tell_them_youve_chanaged_their_role}`);
             if (userRole === UserRole.OWNER) {
                 if (changeData.userDisplayName) {
                     expect(response.text).toContain(`${changeData.userDisplayName}`);
