@@ -35,6 +35,9 @@ export const CONFIRMATION_YOU_ARE_REMOVED = "confirmation-you-are-removed";
 export const STOP_PAGE_ADD_ACCOUNT_OWNER = "stop-page-add-account-owner";
 export const CANNOT_ADD_USER = "cannot-add-user";
 export const SOMETHING_WENT_WRONG = "something-went-wrong";
+export const EDIT_MEMBER_ROLE_PAGE = "edit-member-role";
+export const CHECK_EDIT_MEMBER_ROLE_DETAILS_PAGE = "check-edit-member-role-details";
+export const CONFIRMATION_MEMBER_ROLE_EDITED_PAGE = "confirmation-member-role-edited";
 
 // Other Nunjucks template files
 export const SERVICE_UNAVAILABLE_TEMPLATE = "partials/service_unavailable";
@@ -76,12 +79,20 @@ export const TRY_REMOVING_USER_FULL_URL = `${LANDING_URL}${TRY_REMOVING_USER_URL
 export const CONFIRMATION_YOU_ARE_REMOVED_URL = `/${CONFIRMATION_YOU_ARE_REMOVED}`;
 export const CONFIRMATION_YOU_ARE_REMOVED_FULL_URL = `${LANDING_URL}${CONFIRMATION_YOU_ARE_REMOVED_URL}`;
 export const STOP_PAGE_ADD_ACCOUNT_OWNER_URL = `/${STOP_PAGE_ADD_ACCOUNT_OWNER}`;
-export const STOP_PAGE_ADD_ACCOUNT_OWNER_URL_FULL_URL = `${LANDING_URL}${STOP_PAGE_ADD_ACCOUNT_OWNER_URL}`;
+export const STOP_PAGE_ADD_ACCOUNT_OWNER_FULL_URL = `${LANDING_URL}${STOP_PAGE_ADD_ACCOUNT_OWNER_URL}`;
 export const CANNOT_ADD_USER_URL = `/${CANNOT_ADD_USER}`;
 export const CANNOT_ADD_USER_FULL_URL = `${LANDING_URL}${CANNOT_ADD_USER_URL}`;
 export const SOMETHING_WENT_WRONG_URL = `/${SOMETHING_WENT_WRONG}`;
 export const SOMETHING_WENT_WRONG_FULL_URL = `${LANDING_URL}${SOMETHING_WENT_WRONG_URL}`;
 export const SIGN_OUT_URL = `${CHS_URL}/signout`;
+export const EDIT_MEMBER_ROLE_URL = `/${EDIT_MEMBER_ROLE_PAGE}/:id`;
+export const EDIT_MEMBER_ROLE_FULL_URL = `${LANDING_URL}${EDIT_MEMBER_ROLE_URL}`;
+export const CHECK_EDIT_MEMBER_ROLE_DETAILS_URL = `/${CHECK_EDIT_MEMBER_ROLE_DETAILS_PAGE}`;
+export const CHECK_EDIT_MEMBER_ROLE_DETAILS_FULL_URL = `${LANDING_URL}${CHECK_EDIT_MEMBER_ROLE_DETAILS_URL}`;
+export const TRY_EDIT_MEMBER_ROLE_URL = "/try-edit-member-role";
+export const TRY_EDIT_MEMBER_ROLE_FULL_URL = `${LANDING_URL}${TRY_EDIT_MEMBER_ROLE_URL}`;
+export const CONFIRMATION_MEMBER_ROLE_EDITED_URL = `/${CONFIRMATION_MEMBER_ROLE_EDITED_PAGE}`;
+export const CONFIRMATION_MEMBER_ROLE_EDITED_FULL_URL = `${LANDING_URL}${CONFIRMATION_MEMBER_ROLE_EDITED_URL}`;
 
 export const HEALTHCHECK = "/healthcheck";
 
@@ -98,6 +109,7 @@ export const ERRORS_EMAIL_INVALID = "errors_email_invalid";
 export const ERRORS_SELECT_USER_ROLE = "errors_select_user_role";
 export const MEMBER_ALREADY_REMOVED_ERROR = "Member already removed";
 export const ERRORS_ENTER_AN_EMAIL_ADDRESS_IN_THE_CORRECT_FORMAT = "errors_enter_an_email_address_in_the_correct_format";
+export const ERRORS_SELECT_USER_ROLE_TO_CHANGE_FOR_THE_USER = "errors_select_user_role_to_change_for_the_user";
 
 // query params
 export const OWNER_PAGE_QUERY_PARAM = "ownerPage";
@@ -109,6 +121,9 @@ export const DETAILS_OF_USER_TO_ADD = "detailsOfUserToAdd";
 export const DETAILS_OF_USER_TO_REMOVE = "detailsOfUserToRemove";
 export const MANAGE_USERS_MEMBERSHIP = "manageUsersMembership";
 export const LOGGED_USER_ACSP_MEMBERSHIP = "loggedUserAcspMembership";
+export const ACSP_MEMBERSHIP_REMOVED = "AcspMembershipRemoved";
+export const USER_ROLE_CHANGE_DATA = "userRoleChangeData";
+export const IS_SELECT_USER_ROLE_ERROR = "isSelectUserRoleError";
 
 // Various
 export const ACCOUNT_OWNERS_ID = "account-owners";
