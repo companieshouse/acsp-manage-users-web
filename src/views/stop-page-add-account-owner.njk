@@ -1,12 +1,27 @@
 {% from "govuk/components/button/macro.njk" import govukButton %}
-{% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
-{% from "govuk/components/tag/macro.njk" import govukTag %}
-{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/details/macro.njk" import govukDetails %}
 
 {% extends "layouts/default.njk" %}
 
-{% set infoEnd = lang.before_you_remove if isRemoval else 
-    lang.before_you_change_your_role %}
+{% set pageHeader = lang.page_header_removal if isRemoval else 
+    lang.page_header_change_role %}
+
+{% set title = pageHeader + lang.title_end %}
+
+{% set detailsHtml %}
+<p class="govuk-body">
+    {{lang.details.this_is_because}}
+    <a href="{{linkHref}}" data-event-id="update-the-accout-details-stop-page-add-account-owner">{{lang.details.update_the_accout_details}}</a>.
+    {{lang.details.theyll_need_to_do_this}}
+</p>
+<p class="govuk-body">{{lang.details.the_authorised_agent}}</p>
+<p class="govuk-body">{{lang.details.account_owners_are}}</p>
+<ul class="govuk-list govuk-list--bullet">
+    {% for bullet in lang.details.account_owners_are_bullet_points %}
+        <li>{{bullet}}</li>
+    {% endfor %}
+</ul>
+{% endset %}
 
 {% block back_link %}
     {% include "partials/back_link.njk" %}
@@ -14,44 +29,36 @@
 
 {% block main_content %}
     <div class="govuk-grid-column-two-thirds">
+        <span class="govuk-caption-xl">{{companyName}}</span>
+        <h1 class="govuk-heading-l">{{pageHeader}}</h1>
 
-        <h1 class="govuk-heading-l">{{lang.page_header}}</h1>
-        <p class="govuk-body">
-            {{lang.p1}}
-        </p>
-        <p class="govuk-body">
-            {{lang.you_need_to_add}}{{companyName}}{{infoEnd}}
-        </p>
+        {% if isRemoval %}
+            <p class="govuk-body">
+                {{lang.you_cannot_remove_yourself}}
+            </p>
+        {% else %}
+            <p class="govuk-body">
+                {{lang.you_cannot_change_your_role}}
+            </p>
+            <p class="govuk-body">
+                {{lang.you_need_to_add}}{{companyName}}{{lang.before_you_change_your_role}}
+            </p>
+        {% endif %}
 
-        <details class="govuk-details">
-            <summary class="govuk-details__summary">
-                <span class="govuk-details__summary-text">
-                    {{lang.why_authorised_agents_must}}
-                </span>
-            </summary>
-            <div class="govuk-details__text">
-                <p class="govuk-body">{{ lang.details.p1 }}</p>
-                <p class="govuk-body">{{ lang.details.p2 }}</p>
-                <p class="govuk-body">{{ lang.details.p3_start }}
-                    <a class="govuk-link" href="/authorised-agent/guidance-for-authorised-agents-placeholder">
-                        {{ lang.details.p3_link_text }}
-                    </a>
-                    {{ lang.details.p3_end }}
-                </p>
-            </div>
-        </details>
+        {{ govukDetails({
+                summaryText: lang.details.why_the_authorised_agent_must,
+                html: detailsHtml
+            })
+        }}
 
         {{ govukButton({
-            text: lang.add_acc_owner_btn,
-            href: buttonHref,
-            classes: 'govuk-!-margin-top-3',
-            attributes: {
-            "data-event-id": "add-an-account-owner"
-            }
-        }) }}
-
-        <p class="govuk-body">
-            <a class="govuk-link" href="{{linkHref}}" data-event-id="manage-users">{{lang.manage_users_for}}{{companyName}}</a>
-        </p>
+                text: lang.go_to_manage_users,
+                href: backLinkUrl,
+                classes: 'govuk-!-margin-top-3',
+                attributes: {
+                "data-event-id": "manage-users"
+                }
+            })
+        }}
     </div>
 {% endblock %}

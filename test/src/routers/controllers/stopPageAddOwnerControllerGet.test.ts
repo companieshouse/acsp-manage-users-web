@@ -2,7 +2,9 @@ import mocks from "../../../mocks/all.middleware.mock";
 import supertest from "supertest";
 import app from "../../../../src/app";
 import * as en from "../../../../locales/en/stop-page-add-account-owner.json";
+import * as enCommon from "../../../../locales/en/common.json";
 import * as cy from "../../../../locales/cy/stop-page-add-account-owner.json";
+import * as cyCommon from "../../../../locales/cy/common.json";
 import { Session } from "@companieshouse/node-session-handler";
 import { Request, Response, NextFunction } from "express";
 import * as sessionUtils from "../../../../src/lib/utils/sessionUtils";
@@ -60,12 +62,12 @@ describe("GET /authorised-agent/stop-page-add-account-owner", () => {
     });
 
     test.each([
-        ["English", "is removed", "en", en, constants.DETAILS_OF_USER_TO_REMOVE, userDetails],
-        ["Welsh", "is removed", "cy", cy, constants.DETAILS_OF_USER_TO_REMOVE, userDetails],
-        ["English", "role is changed", "en", en, constants.USER_ROLE_CHANGE_DATA, adminUserRoleChangeDataMock],
-        ["Welsh", "role is changed", "cy", cy, constants.USER_ROLE_CHANGE_DATA, adminUserRoleChangeDataMock]
+        ["English", "is removed", "en", en, enCommon, constants.DETAILS_OF_USER_TO_REMOVE, userDetails],
+        ["Welsh", "is removed", "cy", cy, cyCommon, constants.DETAILS_OF_USER_TO_REMOVE, userDetails],
+        ["English", "role is changed", "en", en, enCommon, constants.USER_ROLE_CHANGE_DATA, adminUserRoleChangeDataMock],
+        ["Welsh", "role is changed", "cy", cy, cyCommon, constants.USER_ROLE_CHANGE_DATA, adminUserRoleChangeDataMock]
     ])("should return expected %s content if admin user %s and languade set to %s",
-        async (_langInfo, _taskInfo, langVersion, lang, key, data) => {
+        async (_langInfo, _taskInfo, langVersion, lang, langCommon, key, data) => {
             // Given
             session.setExtraData(key, data);
             getLoggedUserAcspMembershipSpy.mockReturnValue(loggedInUserMembership);
@@ -75,24 +77,29 @@ describe("GET /authorised-agent/stop-page-add-account-owner", () => {
             // Then
             expect(encodedResponse.status).toEqual(200);
             if (_taskInfo === "is removed") {
-                expect(responseText).toContain(lang.before_you_remove);
+                expect(responseText).toContain(lang.page_header_removal);
+                expect(responseText).toContain(lang.you_cannot_remove_yourself);
+                expect(responseText).not.toContain(lang.page_header_change_role);
+                expect(responseText).not.toContain(lang.you_cannot_change_your_role);
+                expect(responseText).not.toContain(lang.you_need_to_add);
                 expect(responseText).not.toContain(lang.before_you_change_your_role);
-                expect(responseText).toContain(`${constants.LANDING_URL}/${constants.REMOVE_MEMBER_PAGE}/${(data as MemberForRemoval).id}`);
             } else {
+                expect(responseText).toContain(lang.page_header_change_role);
+                expect(responseText).toContain(lang.you_cannot_change_your_role);
+                expect(responseText).toContain(lang.you_need_to_add);
                 expect(responseText).toContain(lang.before_you_change_your_role);
-                expect(responseText).not.toContain(lang.before_you_remove);
-                expect(responseText).toContain(constants.MANAGE_USERS_FULL_URL);
+                expect(responseText).not.toContain(lang.page_header_removal);
+                expect(responseText).not.toContain(lang.you_cannot_remove_yourself);
             }
-            expect(responseText).toContain(lang.manage_users_for);
-            expect(responseText).toContain(lang.p1);
-            expect(responseText).toContain(lang.page_header);
-            expect(responseText).toContain(lang.why_authorised_agents_must);
-            expect(responseText).toContain(lang.details.p1);
-            expect(responseText).toContain(lang.details.p2);
-            expect(responseText).toContain(lang.details.p3_start);
-            expect(responseText).toContain(lang.details.p3_link_text);
-            expect(responseText).toContain(lang.details.p3_end);
-            expect(responseText).toContain(`${lang.you_need_to_add}${companyName}`);
+            expect(responseText).toContain(lang.details.why_the_authorised_agent_must);
+            expect(responseText).toContain(lang.details.this_is_because);
+            expect(responseText).toContain(lang.details.update_the_accout_details);
+            expect(responseText).toContain(lang.details.theyll_need_to_do_this);
+            expect(responseText).toContain(lang.details.the_authorised_agent);
+            expect(responseText).toContain(lang.details.account_owners_are);
+            expect(responseText).toContain(lang.details.account_owners_are_bullet_points[0]);
+            expect(responseText).toContain(lang.details.account_owners_are_bullet_points[1]);
+            expect(responseText).toContain(langCommon.go_to_manage_users);
         });
 
     it("should error when no person for removal or role change is in session", async () => {
