@@ -62,7 +62,7 @@ describe("GET /authorised-agent/manage-users", () => {
         expect(result.text).toContain(en.back_link);
         expect(result.text).toContain(en.standard_users);
         expect(result.text).toContain(enCommon.email_address);
-        expect(result.text).toContain(en.users_name);
+        expect(result.text).toContain(en.name);
         expect(result.text).toContain(en.remove_user);
         expect(result.text).toContain(en.remove);
         expect(result.text).toContain(en.add_a_user);
@@ -85,7 +85,7 @@ describe("GET /authorised-agent/manage-users", () => {
         expect(result.text).toContain(en.back_link);
         expect(result.text).toContain(en.standard_users);
         expect(result.text).toContain(enCommon.email_address);
-        expect(result.text).toContain(en.users_name);
+        expect(result.text).toContain(en.name);
         expect(result.text).not.toContain(en.remove_user);
         expect(result.text).not.toContain("<a data-event-id=\"remove\"");
         expect(result.text).not.toContain(en.add_a_user);
