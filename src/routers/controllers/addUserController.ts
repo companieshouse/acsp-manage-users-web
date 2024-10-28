@@ -26,6 +26,7 @@ export const addUserControllerGet = async (req: Request, res: Response): Promise
         templateName: constants.ADD_USER_PAGE
     };
 
+    // Removes form session values if user has come from manage-users or bookmarked page
     clearFormSessionValues(req, constants.DETAILS_OF_USER_TO_ADD, referrer, hrefA);
 
     const savedNewUserDetails = getExtraData(
