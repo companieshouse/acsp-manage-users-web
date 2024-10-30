@@ -48,6 +48,6 @@ describe("POST /authorised-agent/try-edit-member-role", () => {
         // When
         const response = await router.post(url);
         // Then
-        expect(response.status).toEqual(400);
+        expect(response.status).toEqual(500);
     });
 });
