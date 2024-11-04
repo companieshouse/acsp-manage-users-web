@@ -36,6 +36,7 @@ export const getTitle = (translations: AnyRecord, loggedInUserRole: UserRole, is
 export const getViewData = async (req: Request): Promise<AnyRecord> => {
     deleteExtraData(req.session, constants.USER_ROLE_CHANGE_DATA);
     deleteExtraData(req.session, constants.IS_SELECT_USER_ROLE_ERROR);
+    deleteExtraData(req.session, constants.DETAILS_OF_USER_TO_REMOVE);
     const search = req.query?.search as string;
     const { ownerPage, adminPage, standardPage } = getPageQueryParams(req);
     const activeTabId = getActiveTabId(req);
