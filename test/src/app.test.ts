@@ -7,6 +7,7 @@ const router = supertest(app);
 const url = "/authorised-agent/";
 
 describe("process.on", () => {
+    const processExitMock = jest.spyOn(process, "exit").mockImplementation((number) => { throw new Error("process.exit: " + number); });
 
     it("catches uncaught exceptions", async () => {
         // Given
@@ -14,7 +15,6 @@ describe("process.on", () => {
             process.emit("uncaughtException", new Error("test error"));
             next();
         });
-        const processExitMock = jest.spyOn(process, "exit").mockImplementation((number) => { throw new Error("process.exit: " + number); });
         // When
         await router.get(url);
         // Then
@@ -30,7 +30,6 @@ describe("process.on", () => {
             process.emit("unhandledRejection", "reason", promise);
             next();
         });
-        const processExitMock = jest.spyOn(process, "exit").mockImplementation((number) => { throw new Error("process.exit: " + number); });
         // When
         await router.get(url);
         // Then
