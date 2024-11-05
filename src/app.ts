@@ -124,14 +124,14 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction): void => {
 });
 
 // Unhandled exceptions
-process.on("uncaughtException", (err: Error) => {
-    logger.error(`${err.name} - uncaughtException: ${err.message} - ${err.stack}`);
+process.on(constants.UNCAUGHT_EXCEPTION, (err: Error) => {
+    logger.error(`${err.name} - ${constants.UNCAUGHT_EXCEPTION}: ${err.message} - ${err.stack}`);
     process.exit(1);
 });
 
 // Unhandled promise rejections
-process.on("unhandledRejection", (err: Error) => {
-    logger.error(`${err.name} - unhandledRejection: ${err.message} - ${err.stack}`);
+process.on(constants.UNHANDLED_REJECTION, (err: Error) => {
+    logger.error(`${err.name} - ${constants.UNHANDLED_REJECTION}: ${err.message} - ${err.stack}`);
     process.exit(1);
 });
 

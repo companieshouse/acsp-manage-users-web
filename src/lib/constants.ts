@@ -135,3 +135,5 @@ export const STANDARD_USERS_TAB_ID = `tab_${STANDARD_USERS_ID}`;
 export const NOT_PROVIDED = "Not Provided";
 export const NOT_PROVIDED_CY = "[CY] Not Provided";
 export const ITEMS_PER_PAGE_DEFAULT = 15;
+export const UNCAUGHT_EXCEPTION = "uncaughtException";
+export const UNHANDLED_REJECTION = "unhandledRejection";
