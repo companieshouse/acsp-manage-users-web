@@ -291,4 +291,168 @@ describe("navigiationMiddleware", () => {
         expect(response.redirect).toHaveBeenCalledWith("/authorised-agent/manage-users");
     });
 
+    it("should redirect to manage-users when referer is not in the allowed list for the edit member role", () => {
+        // Given
+        const mockedNext = jest.fn();
+        const request = mockRequest();
+        const response = mockResponse();
+        request.originalUrl = "/authorised-agent/edit-member-role/123";
+        request.headers.referer = "";
+        // When
+        navigationMiddleware(request, response, mockedNext);
+
+        // Then
+        expect(mockedNext).not.toHaveBeenCalled();
+        expect(response.redirect).toHaveBeenCalledWith("/authorised-agent/manage-users");
+    });
+
+    it("should load edit member role page when manage users is the referer", () => {
+        // Given
+        const mockedNext = jest.fn();
+        const request = mockRequest();
+        const response = mockResponse();
+
+        request.originalUrl = "/authorised-agent/edit-member-role/123";
+        request.headers.referer = "/authorised-agent/manage-users";
+        getExtraDataSpy.mockReturnValue(adminUser);
+
+        // When
+        navigationMiddleware(request, response, mockedNext);
+
+        // Then
+        expect(mockedNext).toHaveBeenCalled();
+    });
+
+    it("should load edit member role page when edit member role is the referer (switched language)", () => {
+        // Given
+        const mockedNext = jest.fn();
+        const request = mockRequest();
+        const response = mockResponse();
+
+        request.originalUrl = "/authorised-agent/edit-member-role/123";
+        request.headers.referer = "/authorised-agent/edit-member-role/123";
+        getExtraDataSpy.mockReturnValue(adminUser);
+
+        // When
+        navigationMiddleware(request, response, mockedNext);
+
+        // Then
+        expect(mockedNext).toHaveBeenCalled();
+    });
+
+    it("should load edit member role page when check edit member role details page is the referer", () => {
+        // Given
+        const mockedNext = jest.fn();
+        const request = mockRequest();
+        const response = mockResponse();
+
+        request.originalUrl = "/authorised-agent/edit-member-role/123";
+        request.headers.referer = "/authorised-agent/check-edit-member-role-details";
+        getExtraDataSpy.mockReturnValue(adminUser);
+
+        // When
+        navigationMiddleware(request, response, mockedNext);
+
+        // Then
+        expect(mockedNext).toHaveBeenCalled();
+    });
+
+    it("should redirect to manage-users when referer is not in the allowed list for check-edit-member-role-details page", () => {
+        // Given
+        const mockedNext = jest.fn();
+        const request = mockRequest();
+        const response = mockResponse();
+        request.originalUrl = "/authorised-agent/check-edit-member-role-details";
+        request.headers.referer = "";
+        // When
+        navigationMiddleware(request, response, mockedNext);
+
+        // Then
+        expect(mockedNext).not.toHaveBeenCalled();
+        expect(response.redirect).toHaveBeenCalledWith("/authorised-agent/manage-users");
+    });
+
+    it("should load check-edit-member-role-details page when edit-member-role page is the referer", () => {
+        // Given
+        const mockedNext = jest.fn();
+        const request = mockRequest();
+        const response = mockResponse();
+
+        request.originalUrl = "/authorised-agent/check-edit-member-role-details";
+        request.headers.referer = "/authorised-agent/edit-member-role/123";
+        getExtraDataSpy.mockReturnValue(adminUser);
+
+        // When
+        navigationMiddleware(request, response, mockedNext);
+
+        // Then
+        expect(mockedNext).toHaveBeenCalled();
+    });
+
+    it("should load check-edit-member-role-details page when check-edit-member-role-details is the referer (switched language)", () => {
+        // Given
+        const mockedNext = jest.fn();
+        const request = mockRequest();
+        const response = mockResponse();
+
+        request.originalUrl = "/authorised-agent/check-edit-member-role-details";
+        request.headers.referer = "/authorised-agent/check-edit-member-role-details";
+        getExtraDataSpy.mockReturnValue(adminUser);
+
+        // When
+        navigationMiddleware(request, response, mockedNext);
+
+        // Then
+        expect(mockedNext).toHaveBeenCalled();
+    });
+
+    it("should redirect to manage-users when referer is not in the allowed list for confirmation-member-role-edited page", () => {
+        // Given
+        const mockedNext = jest.fn();
+        const request = mockRequest();
+        const response = mockResponse();
+        request.originalUrl = "/authorised-agent/confirmation-member-role-edited";
+        request.headers.referer = "";
+        // When
+        navigationMiddleware(request, response, mockedNext);
+
+        // Then
+        expect(mockedNext).not.toHaveBeenCalled();
+        expect(response.redirect).toHaveBeenCalledWith("/authorised-agent/manage-users");
+    });
+
+    it("should load confirmation-member-role-edited page when check-edit-member-role-details is the referer", () => {
+        // Given
+        const mockedNext = jest.fn();
+        const request = mockRequest();
+        const response = mockResponse();
+
+        request.originalUrl = "/authorised-agent/confirmation-member-role-edited";
+        request.headers.referer = "/authorised-agent/check-edit-member-role-details";
+        getExtraDataSpy.mockReturnValue(adminUser);
+
+        // When
+        navigationMiddleware(request, response, mockedNext);
+
+        // Then
+        expect(mockedNext).toHaveBeenCalled();
+    });
+
+    it("should load confirmation-member-role-edited page when confirmation-member-role-edited is the referer (switched languages)", () => {
+        // Given
+        const mockedNext = jest.fn();
+        const request = mockRequest();
+        const response = mockResponse();
+
+        request.originalUrl = "/authorised-agent/confirmation-member-role-edited";
+        request.headers.referer = "/authorised-agent/confirmation-member-role-edited";
+        getExtraDataSpy.mockReturnValue(adminUser);
+
+        // When
+        navigationMiddleware(request, response, mockedNext);
+
+        // Then
+        expect(mockedNext).toHaveBeenCalled();
+    });
+
 });

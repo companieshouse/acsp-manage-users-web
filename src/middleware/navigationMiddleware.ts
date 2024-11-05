@@ -3,7 +3,7 @@ import * as constants from "../lib/constants";
 import * as url from "node:url";
 import logger from "../lib/Logger";
 import { Navigation } from "../types/navigation";
-import { getRemoveMemberCheckDetailsFullUrl } from "../lib/utils/urlUtils";
+import { getRemoveMemberCheckDetailsFullUrl, getChangeMemberRoleFullUrl } from "../lib/utils/urlUtils";
 import { UserRole, AcspMembership } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
 import { getExtraData } from "../lib/utils/sessionUtils";
 
@@ -47,6 +47,21 @@ export const NAVIGATION: Navigation = {
         allowedReferers: [],
         redirectTo: constants.VIEW_USERS_FULL_URL,
         allowedUserRoles: [UserRole.OWNER, UserRole.ADMIN]
+    },
+    [getChangeMemberRoleFullUrl("")]: {
+        allowedReferers: [getChangeMemberRoleFullUrl(""), constants.MANAGE_USERS_FULL_URL, constants.CHECK_EDIT_MEMBER_ROLE_DETAILS_FULL_URL],
+        redirectTo: constants.MANAGE_USERS_FULL_URL,
+        allowedUserRoles: [UserRole.OWNER, UserRole.ADMIN]
+    },
+    [constants.CHECK_EDIT_MEMBER_ROLE_DETAILS_FULL_URL]: {
+        allowedReferers: [getChangeMemberRoleFullUrl(""), constants.CHECK_EDIT_MEMBER_ROLE_DETAILS_FULL_URL],
+        redirectTo: constants.MANAGE_USERS_FULL_URL,
+        allowedUserRoles: [UserRole.OWNER, UserRole.ADMIN]
+    },
+    [constants.CONFIRMATION_MEMBER_ROLE_EDITED_FULL_URL]: {
+        allowedReferers: [constants.CHECK_EDIT_MEMBER_ROLE_DETAILS_FULL_URL, constants.CONFIRMATION_MEMBER_ROLE_EDITED_FULL_URL],
+        redirectTo: constants.MANAGE_USERS_FULL_URL,
+        allowedUserRoles: [UserRole.OWNER, UserRole.ADMIN]
     }
 };
 
@@ -56,6 +71,9 @@ export const navigationMiddleware = (req: Request, res: Response, next: NextFunc
     let currentPath = url.parse(req.originalUrl, true).pathname || "";
     if (currentPath.startsWith(getRemoveMemberCheckDetailsFullUrl(""))) {
         currentPath = getRemoveMemberCheckDetailsFullUrl("");
+    }
+    if (currentPath.startsWith(getChangeMemberRoleFullUrl(""))) {
+        currentPath = getChangeMemberRoleFullUrl("");
     }
 
     if (!NAVIGATION[currentPath]) {
