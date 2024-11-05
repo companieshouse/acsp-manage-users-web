@@ -1,7 +1,7 @@
 
 # acsp-manage-users-web
 
-This is a web frontend for the ACSP Manage users journey. It was created based on [Typescript Web Starter for Companies House](https://github.com/companieshouse/node-review-web-starter-ts).
+This is a web frontend for the ACSP Manage Users journey. It was created based on [Typescript Web Starter for Companies House](https://github.com/companieshouse/node-review-web-starter-ts).
 
 ## Frontend Technologies and Utils
 
