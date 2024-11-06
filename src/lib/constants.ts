@@ -93,6 +93,8 @@ export const TRY_EDIT_MEMBER_ROLE_URL = "/try-edit-member-role";
 export const TRY_EDIT_MEMBER_ROLE_FULL_URL = `${LANDING_URL}${TRY_EDIT_MEMBER_ROLE_URL}`;
 export const CONFIRMATION_MEMBER_ROLE_EDITED_URL = `/${CONFIRMATION_MEMBER_ROLE_EDITED_PAGE}`;
 export const CONFIRMATION_MEMBER_ROLE_EDITED_FULL_URL = `${LANDING_URL}${CONFIRMATION_MEMBER_ROLE_EDITED_URL}`;
+export const CHANGE_MEMBER_ROLE_BASE = `${LANDING_URL}/${EDIT_MEMBER_ROLE_PAGE}`;
+export const REMOVE_MEMBER_BASE = `${LANDING_URL}/${REMOVE_MEMBER_PAGE}`;
 
 export const HEALTHCHECK = "/healthcheck";
 
@@ -130,8 +132,8 @@ export const ACCOUNT_OWNERS_ID = "account-owners";
 export const ADMINISTRATORS_ID = "administrators";
 export const STANDARD_USERS_ID = "standard-users";
 export const ACCOUNT_OWNERS_TAB_ID = `tab_${ACCOUNT_OWNERS_ID}`;
-export const ADMINISTRATORS_TAB_ID = `tab_${ADMINISTRATORS_ID}`;
-export const STANDARD_USERS_TAB_ID = `tab_${STANDARD_USERS_ID}`;
+export const ADMINISTRATORS_TAB_ID = `tab_${ADMINISTRATORS_ID} `;
+export const STANDARD_USERS_TAB_ID = `tab_${STANDARD_USERS_ID} `;
 export const NOT_PROVIDED = "Not Provided";
 export const NOT_PROVIDED_CY = "[CY] Not Provided";
 export const ITEMS_PER_PAGE_DEFAULT = 15;
