@@ -23,9 +23,8 @@ export const tryRemovingUserControllerPost = async (req: Request, res: Response)
     await updateOrRemoveUserAcspMembership(req, memberForRemoval.id, { removeUser: true });
 
     if (removingThemselves) {
-        logger.info("User has removed themselves, redirecting to sign out now ... ");
-        res.set("Referrer-Policy", "origin");
-        return res.redirect(constants.SIGN_OUT_URL);
+        logger.info("user has removed themselves, redirecting to confirm");
+        res.redirect(constants.CONFIRMATION_YOU_ARE_REMOVED_FULL_URL);
     } else {
         res.redirect(constants.CONFIRMATION_MEMBER_REMOVED_FULL_URL);
     }

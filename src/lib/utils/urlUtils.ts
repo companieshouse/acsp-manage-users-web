@@ -1,7 +1,8 @@
 import * as constants from "../../lib/constants";
 
 const WHITELISTED_URLS: string[] = [
-    constants.LANDING_URL + constants.HEALTHCHECK
+    constants.LANDING_URL + constants.HEALTHCHECK,
+    constants.LANDING_URL + constants.CONFIRMATION_YOU_ARE_REMOVED
 ];
 
 export const isWhitelistedUrl = (url: string): boolean => WHITELISTED_URLS.includes(url);

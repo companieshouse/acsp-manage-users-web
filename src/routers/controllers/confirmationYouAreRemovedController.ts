@@ -1,26 +1,28 @@
 import { Request, Response } from "express";
 import * as constants from "../../lib/constants";
 import { getTranslationsForView } from "../../lib/utils/translationUtils";
-import { AnyRecord } from "../../types/utilTypes";
-import { getExtraData, getLoggedUserAcspMembership } from "../../lib/utils/sessionUtils";
-import { MemberForRemoval } from "../../types/membership";
-import { AcspMembership } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
+import { ISignInInfo } from "@companieshouse/node-session-handler/lib/session/model/SessionInterfaces";
+import { SessionKey } from "@companieshouse/node-session-handler/lib/session/keys/SessionKey";
+import { SignInInfoKeys } from "@companieshouse/node-session-handler/lib/session/keys/SignInInfoKeys";
+import logger from "../../lib/Logger";
 
 export const removeYourselfControllerGet = async (req: Request, res: Response): Promise<void> => {
-    const viewData = getViewData(req);
-    res.render(constants.CONFIRMATION_YOU_ARE_REMOVED, { ...viewData });
-};
 
-const getViewData = (req: Request): AnyRecord => {
-    const translations = getTranslationsForView(req.lang, constants.CONFIRMATION_YOU_ARE_REMOVED);
-    const removedUserDetails: MemberForRemoval = getExtraData(req.session, constants.DETAILS_OF_USER_TO_REMOVE);
-    const loggedUserAcspMembership: AcspMembership = getLoggedUserAcspMembership(req.session);
+    const signInInfo: ISignInInfo = req?.session?.get<ISignInInfo>(SessionKey.SignInInfo) || {};
+    const signedIn: boolean = signInInfo![SignInInfoKeys.SignedIn] === 1;
+    logger.info("removeYourselfControllerGet: checking if signed in");
 
-    return {
-        lang: translations,
-        companyName: loggedUserAcspMembership.acspName,
-        userDetails: removedUserDetails.displayNameOrEmail,
+    if (signedIn) {
+        logger.info("redirecting to sign out");
+        res.set("Referrer-Policy", "strict-origin-when-cross-origin");
+        return res.redirect(constants.SIGN_OUT_URL);
+    }
+    logger.info("removeYourselfControllerGet: user is signed out, displaying confirmation");
+
+    const viewData = {
+        lang: getTranslationsForView(req.lang, constants.CONFIRMATION_YOU_ARE_REMOVED),
         buttonHref: constants.CHS_SEARCH_REGISTER_PAGE,
         templateName: constants.CONFIRMATION_YOU_ARE_REMOVED
     };
+    res.render(constants.CONFIRMATION_YOU_ARE_REMOVED, viewData);
 };

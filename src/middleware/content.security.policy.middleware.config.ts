@@ -13,6 +13,10 @@ export const prepareCSPConfig = (nonce: string) : HelmetOptions => {
                 upgradeInsecureRequests: null,
                 defaultSrc: [SELF],
                 fontSrc: [CDN],
+                formAction: [
+                    SELF,
+                    PIWIK_URL
+                ],
                 imgSrc: [CDN],
                 styleSrc: [NONCE, CDN],
                 connectSrc: [SELF, PIWIK_URL],

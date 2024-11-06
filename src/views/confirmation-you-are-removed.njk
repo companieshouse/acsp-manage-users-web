@@ -5,7 +5,7 @@
 
 {% set bannerHtml %}
   <p class="govuk-notification-banner__heading">
-    {{lang.you_have_removed}}{{userDetails}}{{lang.from}}{{companyName}}.
+    {{lang.you_have_removed}}
   </p>
 {% endset %}
 
@@ -22,10 +22,9 @@
         titleText: lang.success
     }) }}
 
-    <span class="govuk-caption-l">{{companyName}}</span>
     <h1 class="govuk-heading-l">{{lang.what_happens_now_you_have_been_removed}}</h1>
 
-    <p class="govuk-body">{{lang.you_will_no_longer_be_able_to_access}}{{companyName}}.</p>
+    <p class="govuk-body">{{lang.you_will_no_longer_be_able_to_access}}.</p>
 
     {{ govukButton({
         text: lang.go_to_companies_house_services,
