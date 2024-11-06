@@ -16,15 +16,15 @@ export const prepareCSPConfig = (nonce: string) : HelmetOptions => {
                 fontSrc: [CDN],
                 formAction: [
                     "http://*.chs.local",
-                       "http://chs.local",
-                    'http://api.chs.local',
+                    "http://chs.local",
+                    "http://api.chs.local",
                     CHS_URL + "/signout",
                     CHS_URL + "/authorised-agent/try-removing-user",
                     CHS_URL + "/authorised-agent/confirmation-you-are-removed",
                     CHS_URL,
                     SELF,
                     PIWIK_URL,
-                    'www.example.com'
+                    "www.example.com"
                 ],
                 imgSrc: [CDN],
                 styleSrc: [NONCE, CDN],
