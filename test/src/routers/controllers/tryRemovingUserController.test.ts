@@ -60,7 +60,7 @@ describe("POST /authorised-agent/try-removing-user", () => {
         expect(response.text).toContain(expectedPageHeading);
     });
 
-    it("should return status 302 and sign out the user", async () => {
+    it("should return status 302 and redirect user to confirm you are removed page", async () => {
         // Given
         const userToRemove = {
             ...userAdamBrownRemoveDetails,
@@ -70,7 +70,7 @@ describe("POST /authorised-agent/try-removing-user", () => {
         getLoggedUserAcspMembershipSpy.mockReturnValue({ ...userAdamBrownRemoveDetails });
         mockUpdateOrRemoveUserAcspMembership.mockResolvedValue();
         mockGetAcspMemberships.mockResolvedValue(getMockAcspMembersResource([accountOwnerAcspMembership]));
-        const expectedPageHeading = "Found. Redirecting to http://chsurl.co/signout";
+        const expectedPageHeading = "Found. Redirecting to";
         // When
         const response = await router.post(url);
         // Then
