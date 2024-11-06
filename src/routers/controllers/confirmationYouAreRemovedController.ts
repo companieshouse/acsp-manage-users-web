@@ -9,7 +9,7 @@ import logger from "../../lib/Logger";
 export const removeYourselfControllerGet = async (req: Request, res: Response): Promise<void> => {
 
     const signInInfo: ISignInInfo = req?.session?.get<ISignInInfo>(SessionKey.SignInInfo) || {};
-    const signedIn: boolean = signInInfo![SignInInfoKeys.SignedIn] === 1;
+    const signedIn: boolean = signInInfo?.[SignInInfoKeys.SignedIn] === 1;
     logger.info("removeYourselfControllerGet: checking if signed in");
 
     if (signedIn) {
