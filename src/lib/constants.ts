@@ -31,7 +31,6 @@ export const VIEW_USERS_PAGE = "view-users";
 export const REMOVE_MEMBER_PAGE = "remove-member";
 export const USER_REMOVE_CONFIRMATION_PAGE = "confirmation-member-removed";
 export const MEMBER_ALREADY_REMOVED_PAGE = "member-already-removed";
-export const CONFIRMATION_YOU_ARE_REMOVED = "confirmation-you-are-removed";
 export const STOP_PAGE_ADD_ACCOUNT_OWNER = "stop-page-add-account-owner";
 export const CANNOT_ADD_USER = "cannot-add-user";
 export const SOMETHING_WENT_WRONG = "something-went-wrong";
