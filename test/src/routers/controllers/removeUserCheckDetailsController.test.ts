@@ -3,43 +3,25 @@ import supertest from "supertest";
 import app from "../../../../src/app";
 import * as en from "../../../../locales/en/remove-member.json";
 import * as enCommon from "../../../../locales/en/common.json";
+import * as cy from "../../../../locales/cy/remove-member.json";
+import * as cyCommon from "../../../../locales/cy/common.json";
 import * as constants from "../../../../src/lib/constants";
-import { Session } from "@companieshouse/node-session-handler";
-import { Request, Response, NextFunction } from "express";
-import { setExtraData } from "../../../../src/lib/utils/sessionUtils";
-import { Membership } from "../../../../src/types/membership";
 import * as sessionUtils from "../../../../src/lib/utils/sessionUtils";
+import { loggedAccountOwnerAcspMembership } from "../../../mocks/acsp.members.mock";
+import {
+    loggedOwnerUserMembership,
+    loggedOwnerUserMembershipWithDisplayName,
+    otherOwnerUserMembership,
+    userAdamBrownRemoveDetails,
+    userAdamBrownRemoveDetailsWithDisplayName
+} from "../../../mocks/user.mock";
+import { when } from "jest-when";
 
 const router = supertest(app);
 
-const url = "/authorised-agent/remove-member/111111";
-const companyName = "MORRIS ACCOUNTING LTD";
+const url = "/authorised-agent/remove-member/";
 const getLoggedUserAcspMembershipSpy: jest.SpyInstance = jest.spyOn(sessionUtils, "getLoggedUserAcspMembership");
-
-const session: Session = new Session();
-
-mocks.mockSessionMiddleware.mockImplementation((req: Request, res: Response, next: NextFunction) => {
-    req.session = session;
-    next();
-});
-
-const loggedInUserMembership = {
-    id: "123",
-    userId: "123",
-    userRole: "admin",
-    acspNumber: "123",
-    acspName: companyName,
-    displayNameOrEmail: "Jeremy Lloris"
-};
-
-const userDetails = [{
-    id: "111111",
-    userId: "12345",
-    userEmail: "james.morris@gmail.com",
-    userDisplayName: "James Morris",
-    acspNumber: "B149YU",
-    displayNameOrEmail: "James Morris"
-} as Membership];
+const getExtraDataSpy: jest.SpyInstance = jest.spyOn(sessionUtils, "getExtraData");
 
 describe("GET /authorised-agent/remove-member", () => {
 
@@ -47,91 +29,42 @@ describe("GET /authorised-agent/remove-member", () => {
         jest.clearAllMocks();
     });
 
-    it("should check session, user auth and ACSP membership before returning the page", async () => {
-        getLoggedUserAcspMembershipSpy.mockReturnValue(loggedInUserMembership);
-        setExtraData(session, constants.MANAGE_USERS_MEMBERSHIP, userDetails);
-        await router.get(url);
-        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
-        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
-        expect(mocks.mockLoggedUserAcspMembershipMiddleware).toHaveBeenCalled();
-    });
+    test.each([
+        ["English", "themself", "provided", "en", loggedOwnerUserMembershipWithDisplayName, en, enCommon],
+        ["Welsh", "themself", "provided", "cy", loggedOwnerUserMembershipWithDisplayName, cy, cyCommon],
+        ["English", "themself", "not provided", "en", loggedOwnerUserMembership, en, enCommon],
+        ["Welsh", "themself", "not provided", "cy", loggedOwnerUserMembership, cy, cyCommon],
+        ["English", "other user", "provided", "en", userAdamBrownRemoveDetailsWithDisplayName, en, enCommon],
+        ["Welsh", "other user", "provided", "cy", userAdamBrownRemoveDetailsWithDisplayName, cy, cyCommon],
+        ["English", "other user", "not provided", "en", userAdamBrownRemoveDetails, en, enCommon],
+        ["Welsh", "other user", "not provided", "cy", userAdamBrownRemoveDetails, cy, cyCommon]
+    ])("should check session, user auth and ACSP membership and then return %s content when user intends removing %s, the display name is %s and lang set to %s",
+        async (_expectedLanguage, _whoToRemove, isDisplayNameProvided, langVersion, userData, lang, langCommon) => {
+            // Given
+            getLoggedUserAcspMembershipSpy.mockReturnValue(loggedAccountOwnerAcspMembership);
+            when(getExtraDataSpy).calledWith(expect.anything(), constants.MANAGE_USERS_MEMBERSHIP).mockReturnValue([userData, otherOwnerUserMembership]);
+            // When
+            const response = await router.get(`${url}${userData.id}?lang=${langVersion}`);
+            // Then
+            expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
+            expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
+            expect(mocks.mockLoggedUserAcspMembershipMiddleware).toHaveBeenCalled();
+            expect(response.statusCode).toEqual(200);
+            if (_whoToRemove === "themself") {
+                expect(response.text).toContain(lang.are_you_sure);
+                expect(response.text).toContain(lang.if_remove_yourself);
+                expect(response.text).toContain(lang.youll_be_immediately_signed_out);
+                expect(response.text).toContain(lang.remove_and_sign_out);
+            } else {
+                expect(response.text).toContain(`${lang.remove}${userData.displayNameOrEmail}`);
+                if (isDisplayNameProvided === "provided") {
+                    expect(response.text).toContain(`${lang.if_you_remove}${`${userData.userDisplayName} (${userData.userEmail})`}${lang.they_will_not_be_able_to_use}${loggedAccountOwnerAcspMembership.acspName}.`);
+                } else {
+                    expect(response.text).toContain(`${lang.if_you_remove}${userData.userEmail}${lang.they_will_not_be_able_to_use}${loggedAccountOwnerAcspMembership.acspName}.`);
+                }
 
-    it("should return status 200", async () => {
-        getLoggedUserAcspMembershipSpy.mockReturnValue(loggedInUserMembership);
-        setExtraData(session, constants.MANAGE_USERS_MEMBERSHIP, userDetails);
-        await router.get(url).expect(200);
-    });
+            }
+            expect(response.text).toContain(`${langCommon.cancel}`);
 
-    it("should return expected English content and the user's displayNameOrEmail", async () => {
-
-        // Given
-        getLoggedUserAcspMembershipSpy.mockReturnValue(loggedInUserMembership);
-        setExtraData(session, constants.MANAGE_USERS_MEMBERSHIP, userDetails);
-        setExtraData(session, constants.MANAGE_USERS_MEMBERSHIP, userDetails);
-
-        // When
-        const response = await router.get(url);
-
-        // Then
-        expect(response.text).toContain(`${en.remove}${userDetails[0].displayNameOrEmail}`);
-        expect(response.text).toContain(`${en.if_you_remove}${userDetails[0].displayNameOrEmail} (${userDetails[0].userEmail})${en.they_will_not_be_able_to_use}${companyName}`);
-        expect(response.text).toContain(`${en.remove_user}`);
-        expect(response.text).toContain(`${enCommon.cancel}`);
-    });
-
-    it("should return expected English content when there are multiple userDetail objects", async () => {
-        getLoggedUserAcspMembershipSpy.mockReturnValue(loggedInUserMembership);
-
-        // Given
-        const multipleUserDetails = [{
-            id: "999999",
-            userId: "54321",
-            userDisplayName: "Jeremy Lloris",
-            acspNumber: "P1399I",
-            displayNameOrEmail: "Jeremy Lloris"
-        } as Membership, {
-            id: "111111",
-            userId: "12345",
-            userEmail: "james.morris@gmail.com",
-            userDisplayName: "James Morris",
-            acspNumber: "B149YU",
-            displayNameOrEmail: "James Morris"
-        } as Membership];
-
-        setExtraData(session, constants.MANAGE_USERS_MEMBERSHIP, multipleUserDetails);
-
-        // When
-        const response = await router.get(url);
-
-        // Then
-        expect(response.text).toContain(`${en.remove}${multipleUserDetails[1].displayNameOrEmail}`);
-        expect(response.text).toContain(`${en.if_you_remove}${multipleUserDetails[1].displayNameOrEmail} (${multipleUserDetails[1].userEmail})${en.they_will_not_be_able_to_use}${companyName}`);
-        expect(response.text).toContain(`${en.remove_user}`);
-        expect(response.text).toContain(`${enCommon.cancel}`);
-    });
-
-    it("should display email only if the display name is Not Provided", async () => {
-        getLoggedUserAcspMembershipSpy.mockReturnValue(loggedInUserMembership);
-
-        // Given
-        const userInSession = [{
-            id: "111111",
-            userId: "54321",
-            userDisplayName: "Not Provided",
-            acspNumber: "P1399I",
-            displayNameOrEmail: "james.morris@gmail.com",
-            userEmail: "james.morris@gmail.com"
-        } as Membership];
-
-        setExtraData(session, constants.MANAGE_USERS_MEMBERSHIP, userInSession);
-
-        // When
-        const response = await router.get(url);
-
-        // Then
-        expect(response.text).toContain(`${en.remove}${userInSession[0].displayNameOrEmail}`);
-        expect(response.text).toContain(`${en.if_you_remove}${userInSession[0].userEmail}${en.they_will_not_be_able_to_use}${companyName}`);
-        expect(response.text).toContain(`${en.remove_user}`);
-        expect(response.text).toContain(`${enCommon.cancel}`);
-    });
+        });
 });

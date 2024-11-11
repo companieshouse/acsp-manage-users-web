@@ -34,7 +34,7 @@ export const userJohnSmithDetails: NewUserDetails = {
     userName: "John Smith"
 };
 
-export const userAdamBrownRemoveDetails: Membership = {
+export const userAdamBrownRemoveDetailsWithDisplayName: Membership = {
     id: "222222",
     userId: "1234567890",
     userEmail: "adam.brown@test.com",
@@ -42,6 +42,16 @@ export const userAdamBrownRemoveDetails: Membership = {
     acspNumber: "FP233R",
     userRole: UserRole.STANDARD,
     displayNameOrEmail: "Adam Brown"
+};
+
+export const userAdamBrownRemoveDetails: Membership = {
+    id: "222222",
+    userId: "1234567890",
+    userEmail: "adam.brown@test.com",
+    userDisplayName: "Not Provided",
+    acspNumber: "FP233R",
+    userRole: UserRole.STANDARD,
+    displayNameOrEmail: "adam.brown@test.com"
 };
 
 export const userJohnSmithRemoveDetails: Membership = {
@@ -92,6 +102,26 @@ export const loggedOwnerUserMembership: Membership = {
     acspNumber: "123456",
     userRole: UserRole.OWNER,
     displayNameOrEmail: "j.smith@domain.com"
+};
+
+export const loggedOwnerUserMembershipWithDisplayName: Membership = {
+    id: "333333",
+    userId: "Wgu21K54",
+    userEmail: "j.smith@domain.com",
+    userDisplayName: "John Smith",
+    acspNumber: "123456",
+    userRole: UserRole.OWNER,
+    displayNameOrEmail: "John Smith"
+};
+
+export const otherOwnerUserMembership: Membership = {
+    id: "1234567890",
+    userId: "ABS2020",
+    userEmail: "mark.smith@domain.com",
+    userDisplayName: "Not Provided",
+    acspNumber: "123456",
+    userRole: UserRole.OWNER,
+    displayNameOrEmail: "mark.smith@domain.com"
 };
 
 // NOTE: All the below is based upon the TestDataManager on the acsp-manage-users-api

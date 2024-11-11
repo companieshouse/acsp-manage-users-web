@@ -27,11 +27,6 @@ export const NAVIGATION: Navigation = {
         redirectTo: constants.MANAGE_USERS_FULL_URL,
         allowedUserRoles: [UserRole.OWNER, UserRole.ADMIN]
     },
-    [constants.CONFIRMATION_YOU_ARE_REMOVED_FULL_URL]: {
-        allowedReferers: [constants.REMOVE_MEMBER_BASE, constants.CONFIRMATION_YOU_ARE_REMOVED_FULL_URL],
-        redirectTo: constants.CHS_SEARCH_REGISTER_PAGE,
-        allowedUserRoles: [UserRole.OWNER, UserRole.ADMIN]
-    },
     [constants.CANNOT_ADD_USER_FULL_URL]: {
         allowedReferers: [constants.CHECK_MEMBER_DETAILS_FULL_URL, constants.CANNOT_ADD_USER_FULL_URL],
         redirectTo: constants.MANAGE_USERS_FULL_URL,
