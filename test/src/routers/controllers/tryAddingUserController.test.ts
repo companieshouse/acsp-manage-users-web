@@ -1,8 +1,6 @@
 import mocks from "../../../mocks/all.middleware.mock";
 import supertest from "supertest";
 import app from "../../../../src/app";
-import { Session } from "@companieshouse/node-session-handler";
-import { NextFunction, Request, Response } from "express";
 import * as acspMemberService from "../../../../src/services/acspMemberService";
 import * as userAccountService from "../../../../src/services/userAccountService";
 import * as constants from "../../../../src/lib/constants";
@@ -17,16 +15,10 @@ import {
 } from "../../../mocks/acsp.members.mock";
 import { buzzUser, woodyUser } from "../../../mocks/user.mock";
 import logger from "../../../../src/lib/Logger";
-
-const session: Session = new Session();
+import { session } from "../../../mocks/session.middleware.mock";
 
 jest.mock("../../../../src/services/acspMemberService");
 jest.mock("../../../../src/services/userAccountService");
-
-mocks.mockSessionMiddleware.mockImplementation((req: Request, res: Response, next: NextFunction) => {
-    req.session = session;
-    return next();
-});
 
 const router = supertest(app);
 const url = "/authorised-agent/try-adding-user";
@@ -46,6 +38,12 @@ describe("POST /authorised-agent/try-adding-user", () => {
             )
         );
         session.setExtraData(constants.LOGGED_USER_ACSP_MEMBERSHIP, ToyStoryBuzzAcspMembership);
+    });
+
+    it("should check session and user auth before returning the page", async () => {
+        await router.get(url);
+        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
     });
 
     it("should redirect to cannot add user page when ACSP number is not found", async () => {

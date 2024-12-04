@@ -5,20 +5,18 @@ import * as en from "../../../../locales/en/stop-page-add-account-owner.json";
 import * as enCommon from "../../../../locales/en/common.json";
 import * as cy from "../../../../locales/cy/stop-page-add-account-owner.json";
 import * as cyCommon from "../../../../locales/cy/common.json";
-import { Session } from "@companieshouse/node-session-handler";
-import { Request, Response, NextFunction } from "express";
 import * as sessionUtils from "../../../../src/lib/utils/sessionUtils";
 import * as constants from "../../../../src/lib/constants";
 import { MemberForRemoval } from "../../../../src/types/membership";
 import { UserRole } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
 import { adminUserRoleChangeDataMock } from "../../../mocks/user.mock";
+import { session } from "../../../mocks/session.middleware.mock";
 
 const router = supertest(app);
 
 const url = "/authorised-agent/stop-page-add-account-owner";
 const companyName = "MORRIS ACCOUNTING LTD";
 
-const session: Session = new Session();
 const getLoggedUserAcspMembershipSpy: jest.SpyInstance = jest.spyOn(sessionUtils, "getLoggedUserAcspMembership");
 const loggedInUserMembership = {
     id: "123;",
@@ -27,11 +25,6 @@ const loggedInUserMembership = {
     acspNumber: "123",
     acspName: companyName
 };
-
-mocks.mockSessionMiddleware.mockImplementation((req: Request, res: Response, next: NextFunction) => {
-    req.session = session;
-    next();
-});
 
 const userDetails: MemberForRemoval = {
     userEmail: "james.morris@gmail.com",

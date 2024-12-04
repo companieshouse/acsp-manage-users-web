@@ -5,17 +5,10 @@ import * as en from "../../../../locales/en/dashboard.json";
 import * as cy from "../../../../locales/cy/dashboard.json";
 import * as sessionUtils from "../../../../src/lib/utils/sessionUtils";
 import { accountOwnerAcspMembership, administratorAcspMembership, standardUserAcspMembership } from "../../../mocks/acsp.members.mock";
-import { Session } from "@companieshouse/node-session-handler";
-import { Request, Response, NextFunction } from "express";
+import { session } from "../../../mocks/session.middleware.mock";
 
 const router = supertest(app);
 const url = "/authorised-agent/";
-const session: Session = new Session();
-
-mocks.mockSessionMiddleware.mockImplementation((req: Request, res: Response, next: NextFunction) => {
-    req.session = session;
-    next();
-});
 
 describe(`GET ${url}`, () => {
     const getLoggedUserAcspMembershipSpy: jest.SpyInstance = jest.spyOn(sessionUtils, "getLoggedUserAcspMembership");

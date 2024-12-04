@@ -8,15 +8,12 @@ import * as cyCommon from "../../../../locales/cy/common.json";
 import * as constants from "../../../../src/lib/constants";
 import { setExtraData } from "../../../../src/lib/utils/sessionUtils";
 import { NewUserDetails } from "../../../../src/types/user";
-import { NextFunction, Request, Response } from "express";
-import { Session } from "@companieshouse/node-session-handler";
 import { UserRole } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
 import { loggedAccountOwnerAcspMembership } from "../../../mocks/acsp.members.mock";
 import { getUserRoleTag } from "../../../../src/lib/utils/viewUtils";
+import { session } from "../../../mocks/session.middleware.mock";
 
 const router = supertest(app);
-
-const session: Session = new Session();
 
 const url = "/authorised-agent/confirmation-member-added";
 const companyName = loggedAccountOwnerAcspMembership.acspName;
@@ -24,11 +21,6 @@ const companyName = loggedAccountOwnerAcspMembership.acspName;
 const userRole: UserRole = UserRole.STANDARD;
 const userDetails: NewUserDetails = { userRole: userRole, userId: "12345", isValid: true, email: "test@example.com" };
 setExtraData(session, constants.DETAILS_OF_USER_TO_ADD, userDetails);
-
-mocks.mockSessionMiddleware.mockImplementation((req: Request, res: Response, next: NextFunction) => {
-    req.session = session;
-    next();
-});
 
 const getNewUserDetails = (userRole: UserRole, email: string, userName?: string): NewUserDetails => {
     return {

@@ -3,18 +3,11 @@ import { userAdamBrownRemoveDetails } from "../../../mocks/user.mock";
 import { getMockAcspMembersResource, accountOwnerAcspMembership } from "../../../mocks/acsp.members.mock";
 import supertest from "supertest";
 import app from "../../../../src/app";
-import { Session } from "@companieshouse/node-session-handler";
-import { NextFunction, Request, Response } from "express";
 import * as constants from "../../../../src/lib/constants";
 import * as sessionUtils from "../../../../src/lib/utils/sessionUtils";
 import * as acspMemberService from "../../../../src/services/acspMemberService";
+import { session } from "../../../mocks/session.middleware.mock";
 
-const session: Session = new Session();
-
-mocks.mockSessionMiddleware.mockImplementation((req: Request, res: Response, next: NextFunction) => {
-    req.session = session;
-    return next();
-});
 const getLoggedUserAcspMembershipSpy: jest.SpyInstance = jest.spyOn(sessionUtils, "getLoggedUserAcspMembership");
 const loggedInUserMembership = {
     id: "123;",
@@ -32,6 +25,12 @@ const url = "/authorised-agent/try-removing-user";
 describe("POST /authorised-agent/try-removing-user", () => {
     beforeEach(() => {
         jest.clearAllMocks();
+    });
+
+    it("should check session and user auth before returning the page", async () => {
+        await router.get(url);
+        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
+        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
     });
 
     it("should check session, user auth and ACSP membership before returning the page", async () => {
