@@ -216,7 +216,7 @@ describe("navigiationMiddleware", () => {
             user: standardUser
         },
         {
-            description: "should redirect admin user to manage users",
+            description: "should allow admin user to access manage users",
             url: "/authorised-agent/manage-users",
             referer: "/authorised-agent/any-referer",
             user: adminUser
