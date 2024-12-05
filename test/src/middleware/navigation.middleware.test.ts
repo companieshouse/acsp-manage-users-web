@@ -80,6 +80,12 @@ describe("navigiationMiddleware", () => {
             url: "/authorised-agent/confirmation-member-role-edited",
             referer: "/authorised-agent/any-referer",
             user: ""
+        },
+        {
+            description: "should redirect admin user to manage users from view users",
+            url: "/authorised-agent/view-users",
+            referer: "/authorised-agent/any-referer",
+            user: adminUser
         }
     ];
 
@@ -202,6 +208,18 @@ describe("navigiationMiddleware", () => {
             url: "/authorised-agent/confirmation-member-role-edited",
             referer: "/authorised-agent/confirmation-member-role-edited",
             user: adminUser
+        },
+        {
+            description: "should allow standard user to access view users",
+            url: "/authorised-agent/view-users",
+            referer: "/authorised-agent/any-referer",
+            user: standardUser
+        },
+        {
+            description: "should redirect admin user to manage users",
+            url: "/authorised-agent/manage-users",
+            referer: "/authorised-agent/any-referer",
+            user: adminUser
         }
     ];
 
@@ -233,6 +251,23 @@ describe("navigiationMiddleware", () => {
         const request = mockRequest();
         const response = mockResponse();
         request.originalUrl = "/authorised-agent/add-user";
+        request.headers.referer = "/authorised-agent/any-referer";
+        getExtraDataSpy.mockReturnValue(standardUser);
+
+        // When
+        navigationMiddleware(request, response, mockedNext);
+
+        // Then
+        expect(mockedNext).not.toHaveBeenCalled();
+        expect(response.redirect).toHaveBeenCalledWith("/authorised-agent/view-users");
+    });
+
+    it("should redirect to view-users and not allow a standard user to access manage user page", () => {
+        // Given
+        const mockedNext = jest.fn();
+        const request = mockRequest();
+        const response = mockResponse();
+        request.originalUrl = "/authorised-agent/manage-users";
         request.headers.referer = "/authorised-agent/any-referer";
         getExtraDataSpy.mockReturnValue(standardUser);
 
