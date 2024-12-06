@@ -1,6 +1,8 @@
 import { EnsureSessionCookiePresentMiddleware, SessionMiddleware, SessionStore, CookieConfig } from "@companieshouse/node-session-handler";
 import Redis from "ioredis";
 import * as constants from "../lib/constants";
+import { isWhitelistedUrl } from "../lib/utils/urlUtils";
+import { NextFunction, Request, RequestHandler, Response } from "express";
 
 const environmentsWithInsecureCookies = [
     "local"
@@ -16,8 +18,20 @@ const cookieConfig: CookieConfig = {
     cookieTimeToLiveInSeconds: parseInt(constants.DEFAULT_SESSION_EXPIRATION)
 };
 
-export const sessionMiddleware = SessionMiddleware(cookieConfig, sessionStore, true);
+export const sessionMiddleware: RequestHandler = (req: Request, res: Response, next: NextFunction) => {
+    if (isWhitelistedUrl(req.originalUrl)) {
+        return next();
+    }
 
-export const ensureSessionCookiePresentMiddleware = EnsureSessionCookiePresentMiddleware({
-    ...cookieConfig
-});
+    return SessionMiddleware(cookieConfig, sessionStore, true)(req, res, next);
+};
+
+export const ensureSessionCookiePresentMiddleware: RequestHandler = (req: Request, res: Response, next: NextFunction) => {
+    if (isWhitelistedUrl(req.originalUrl)) {
+        return next();
+    }
+
+    return EnsureSessionCookiePresentMiddleware({
+        ...cookieConfig
+    })(req, res, next);
+};
