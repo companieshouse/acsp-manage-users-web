@@ -56,6 +56,16 @@ export const NAVIGATION: Navigation = {
         allowedReferers: [constants.CHECK_EDIT_MEMBER_ROLE_DETAILS_FULL_URL, constants.CONFIRMATION_MEMBER_ROLE_EDITED_FULL_URL],
         redirectTo: constants.MANAGE_USERS_FULL_URL,
         allowedUserRoles: [UserRole.OWNER, UserRole.ADMIN]
+    },
+    [constants.VIEW_USERS_FULL_URL]: {
+        allowedReferers: [],
+        redirectTo: constants.MANAGE_USERS_FULL_URL,
+        allowedUserRoles: [UserRole.STANDARD]
+    },
+    [constants.MANAGE_USERS_FULL_URL]: {
+        allowedReferers: [],
+        redirectTo: constants.VIEW_USERS_FULL_URL,
+        allowedUserRoles: [UserRole.ADMIN, UserRole.OWNER]
     }
 };
 
@@ -70,8 +80,17 @@ export const navigationMiddleware = (req: Request, res: Response, next: NextFunc
         currentPath = constants.CHANGE_MEMBER_ROLE_BASE;
     }
 
+    if (currentPath.startsWith(constants.VIEW_USERS_FULL_URL)) {
+        currentPath = constants.VIEW_USERS_FULL_URL;
+    }
+
+    if (currentPath.startsWith(constants.MANAGE_USERS_FULL_URL)) {
+        currentPath = constants.MANAGE_USERS_FULL_URL;
+    }
+
     if (!NAVIGATION[currentPath]) {
         logger.info("navigation not found for the current path.");
+        logger.info(currentPath);
         return next();
     }
 
