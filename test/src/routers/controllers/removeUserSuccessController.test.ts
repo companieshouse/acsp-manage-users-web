@@ -4,10 +4,9 @@ import app from "../../../../src/app";
 import * as en from "../../../../locales/en/confirmation-member-removed.json";
 import * as enCommon from "../../../../locales/en/common.json";
 import * as constants from "../../../../src/lib/constants";
-import { Session } from "@companieshouse/node-session-handler";
-import { Request, Response, NextFunction } from "express";
 import { setExtraData } from "../../../../src/lib/utils/sessionUtils";
 import * as sessionUtils from "../../../../src/lib/utils/sessionUtils";
+import { session } from "../../../mocks/session.middleware.mock";
 
 const router = supertest(app);
 
@@ -21,12 +20,6 @@ const loggedInUserMembership = {
     acspNumber: "123",
     acspName: companyName
 };
-const session: Session = new Session();
-
-mocks.mockSessionMiddleware.mockImplementation((req: Request, res: Response, next: NextFunction) => {
-    req.session = session;
-    next();
-});
 
 const userDetails = {
     id: "111111",
@@ -50,6 +43,7 @@ describe("GET /authorised-agent/confirmation-member-removed", () => {
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
         expect(mocks.mockLoggedUserAcspMembershipMiddleware).toHaveBeenCalled();
+        expect(mocks.mockEnsureSessionCookiePresentMiddleware).toHaveBeenCalled();
         expect(mocks.mockNavigationMiddleware).toHaveBeenCalled();
     });
 

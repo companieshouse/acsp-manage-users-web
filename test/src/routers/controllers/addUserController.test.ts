@@ -3,7 +3,6 @@ import supertest from "supertest";
 import app from "../../../../src/app";
 import * as constants from "../../../../src/lib/constants";
 import * as en from "../../../../locales/en/add-user.json";
-import { Session } from "@companieshouse/node-session-handler";
 import { NextFunction, Request, Response } from "express";
 import * as userAccountService from "../../../../src/services/userAccountService";
 import * as sessionUtils from "../../../../src/lib/utils/sessionUtils";
@@ -11,17 +10,12 @@ import {
     administratorAcspMembership,
     loggedAccountOwnerAcspMembership, ToyStoryBuzzAcspMembership
 } from "../../../mocks/acsp.members.mock";
+import { session } from "../../../mocks/session.middleware.mock";
 
 const router = supertest(app);
 const url = "/authorised-agent/add-user";
-const session: Session = new Session();
 
 const mockUserAccService = jest.spyOn(userAccountService, "getUserDetails");
-
-mocks.mockSessionMiddleware.mockImplementation((req: Request, res: Response, next: NextFunction) => {
-    req.session = session;
-    next();
-});
 
 const sessionUtilsSpy: jest.SpyInstance = jest.spyOn(sessionUtils, "getLoggedInUserEmail");
 
@@ -170,6 +164,7 @@ describe(`POST ${url}`, () => {
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
         expect(mocks.mockLoggedUserAcspMembershipMiddleware).toHaveBeenCalled();
+        expect(mocks.mockEnsureSessionCookiePresentMiddleware).toHaveBeenCalled();
     });
 
     it("should display current page with error message if no email provided", async () => {

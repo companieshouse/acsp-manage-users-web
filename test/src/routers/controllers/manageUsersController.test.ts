@@ -39,6 +39,7 @@ describe("GET /authorised-agent/manage-users", () => {
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
         expect(mocks.mockLoggedUserAcspMembershipMiddleware).toHaveBeenCalled();
+        expect(mocks.mockEnsureSessionCookiePresentMiddleware).toHaveBeenCalled();
     });
 
     it("should return status 200", async () => {

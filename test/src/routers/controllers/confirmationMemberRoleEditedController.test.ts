@@ -38,6 +38,7 @@ describe("GET /authorised-agent/confirmation-member-role-edited", () => {
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
         expect(mocks.mockLoggedUserAcspMembershipMiddleware).toHaveBeenCalled();
+        expect(mocks.mockEnsureSessionCookiePresentMiddleware).toHaveBeenCalled();
     });
 
     test.each([
