@@ -15,6 +15,8 @@ export const dashboardControllerGet = async (req: Request, res: Response): Promi
     const companyName = loggedUserAcspMembership.acspName;
     const youHaveVerifiedSomeonesIdentityLink = constants.FEATURE_FLAG_IDENTITY_VERIFICATION_REPORTING === "true"
         ? constants.YOU_HAVE_VERIFIED_SOMEONES_IDENTITY_URL : "#";
+    const updateAuthorisedAgentsDetailsLink = constants.FEATURE_FLAG_AUTHORISED_AGENTS_DETAILS_UPDATING === "true"
+        ? constants.UPDATE_AUTHORISED_AGENTS_DETAILS_URL : "#";
 
     res.render(constants.DASHBOARD_PAGE,
         {
@@ -26,7 +28,7 @@ export const dashboardControllerGet = async (req: Request, res: Response): Promi
             userRoleTag,
             managePeopleLink: constants.MANAGE_USERS_FULL_URL,
             youHaveVerifiedSomeonesIdentityLink,
-            updateAuthorisedAgentsDetailsLink: constants.UPDATE_AUTHORISED_AGENTS_DETAILS_URL,
+            updateAuthorisedAgentsDetailsLink,
             viewUsersLink: constants.VIEW_USERS_FULL_URL,
             templateName: constants.DASHBOARD_PAGE
         });

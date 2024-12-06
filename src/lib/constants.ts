@@ -15,6 +15,7 @@ export const COOKIE_SECURE_ONLY = getEnvironmentValue("COOKIE_SECURE_ONLY");
 export const MATOMO_ADD_USER_GOAL_ID = getEnvironmentValue("MATOMO_ADD_USER_GOAL_ID");
 export const MATOMO_REMOVE_USER_GOAL_ID = getEnvironmentValue("MATOMO_REMOVE_USER_GOAL_ID");
 export const FEATURE_FLAG_IDENTITY_VERIFICATION_REPORTING = getEnvironmentValue("FEATURE_FLAG_IDENTITY_VERIFICATION_REPORTING", "false");
+export const FEATURE_FLAG_AUTHORISED_AGENTS_DETAILS_UPDATING = getEnvironmentValue("FEATURE_FLAG_AUTHORISED_AGENTS_DETAILS_UPDATING", "false");
 
 export const SERVICE_NAME = "ACSP Manage Users Web";
 
@@ -98,7 +99,7 @@ export const HEALTHCHECK = "/healthcheck";
 
 // External URLs
 export const YOU_HAVE_VERIFIED_SOMEONES_IDENTITY_URL = "/tell-companies-house-you-have-verified-someones-identity";
-export const UPDATE_AUTHORISED_AGENTS_DETAILS_URL = "/placeholder-url-to-service-build-by-other-team";
+export const UPDATE_AUTHORISED_AGENTS_DETAILS_URL = "/view-and-update-the-authorised-agents-details";
 export const CHS_SEARCH_REGISTER_PAGE = "https://find-and-update.company-information.service.gov.uk/";
 
 // errors
