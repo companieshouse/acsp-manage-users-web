@@ -13,6 +13,8 @@ export const dashboardControllerGet = async (req: Request, res: Response): Promi
     const userRole = loggedUserAcspMembership.userRole;
     const userRoleTag = getUserRoleTag(userRole, req.lang, true);
     const companyName = loggedUserAcspMembership.acspName;
+    const youHaveVerifiedSomeonesIdentityLink = constants.FEATURE_FLAG_IDENTITY_VERIFICATION_REPORTING === "true"
+        ? constants.YOU_HAVE_VERIFIED_SOMEONES_IDENTITY_URL : "#";
 
     res.render(constants.DASHBOARD_PAGE,
         {
@@ -23,7 +25,7 @@ export const dashboardControllerGet = async (req: Request, res: Response): Promi
             userRole,
             userRoleTag,
             managePeopleLink: constants.MANAGE_USERS_FULL_URL,
-            youHaveVerifiedSomeonesIdentityLink: constants.YOU_HAVE_VERIFIED_SOMEONES_IDENTITY_URL,
+            youHaveVerifiedSomeonesIdentityLink,
             updateAuthorisedAgentsDetailsLink: constants.UPDATE_AUTHORISED_AGENTS_DETAILS_URL,
             viewUsersLink: constants.VIEW_USERS_FULL_URL,
             templateName: constants.DASHBOARD_PAGE
