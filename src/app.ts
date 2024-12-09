@@ -7,7 +7,7 @@ import routerDispatch from "./routerDispatch";
 import cookieParser from "cookie-parser";
 import * as constants from "./lib/constants";
 import { authenticationMiddleware } from "./middleware/authentication.middleware";
-import { sessionMiddleware } from "./middleware/session.middleware";
+import { sessionMiddleware, ensureSessionCookiePresentMiddleware } from "./middleware/session.middleware";
 import { getTranslationsForView, translateEnum } from "./lib/utils/translationUtils";
 import errorHandler from "./routers/controllers/errorController";
 import { UserRole, AcspStatus } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
@@ -79,6 +79,8 @@ app.use(nocache());
 app.use(helmet(prepareCSPConfig(nonce)));
 
 app.use(`${constants.LANDING_URL}*`, sessionMiddleware);
+app.use(`${constants.LANDING_URL}*`, ensureSessionCookiePresentMiddleware);
+
 app.use(`${constants.LANDING_URL}*`, csrfProtectionMiddleware);
 
 app.use(`${constants.LANDING_URL}*`, authenticationMiddleware);

@@ -11,9 +11,9 @@ export const COOKIE_SECRET = getEnvironmentValue("COOKIE_SECRET");
 export const INTERNAL_API_URL = getEnvironmentValue("INTERNAL_API_URL");
 export const ACCOUNTS_USER_INTERNAL_API_KEY = getEnvironmentValue("ACCOUNTS_USER_INTERNAL_API_KEY");
 export const ACCOUNT_URL = getEnvironmentValue("ACCOUNT_URL");
-export const COOKIE_SECURE_ONLY = getEnvironmentValue("COOKIE_SECURE_ONLY");
 export const MATOMO_ADD_USER_GOAL_ID = getEnvironmentValue("MATOMO_ADD_USER_GOAL_ID");
 export const MATOMO_REMOVE_USER_GOAL_ID = getEnvironmentValue("MATOMO_REMOVE_USER_GOAL_ID");
+export const ENV_NAME = getEnvironmentValue("ENV_NAME");
 export const FEATURE_FLAG_IDENTITY_VERIFICATION_REPORTING = getEnvironmentValue("FEATURE_FLAG_IDENTITY_VERIFICATION_REPORTING", "false");
 export const FEATURE_FLAG_AUTHORISED_AGENTS_DETAILS_UPDATING = getEnvironmentValue("FEATURE_FLAG_AUTHORISED_AGENTS_DETAILS_UPDATING", "false");
 
