@@ -49,6 +49,7 @@ describe("GET /authorised-agent/remove-member", () => {
             expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
             expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
             expect(mocks.mockLoggedUserAcspMembershipMiddleware).toHaveBeenCalled();
+            expect(mocks.mockEnsureSessionCookiePresentMiddleware).toHaveBeenCalled();
             expect(response.statusCode).toEqual(200);
             if (_whoToRemove === "themself") {
                 expect(response.text).toContain(lang.are_you_sure);

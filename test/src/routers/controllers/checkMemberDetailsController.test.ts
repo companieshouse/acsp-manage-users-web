@@ -2,21 +2,13 @@ import mocks from "../../../mocks/all.middleware.mock";
 import { userAdamBrownDetails } from "../../../mocks/user.mock";
 import supertest from "supertest";
 import app from "../../../../src/app";
-import { Session } from "@companieshouse/node-session-handler";
-import { NextFunction, Request, Response } from "express";
 import * as constants from "../../../../src/lib/constants";
 import * as en from "../../../../locales/en/check-member-details.json";
 import * as enCommon from "../../../../locales/en/common.json";
 import { UserRoleTagEn } from "../../../../src/types/userRoleTagEn";
 import { loggedAccountOwnerAcspMembership } from "../../../mocks/acsp.members.mock";
 import * as sessionUtils from "../../../../src/lib/utils/sessionUtils";
-
-const session: Session = new Session();
-
-mocks.mockSessionMiddleware.mockImplementation((req: Request, res: Response, next: NextFunction) => {
-    req.session = session;
-    return next();
-});
+import { session } from "../../../mocks/session.middleware.mock";
 
 const router = supertest(app);
 const getLoggedInUserEmailSpy: jest.SpyInstance = jest.spyOn(sessionUtils, "getLoggedInUserEmail");

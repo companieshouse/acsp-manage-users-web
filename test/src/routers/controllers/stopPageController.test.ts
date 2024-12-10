@@ -2,17 +2,9 @@ import mocks from "../../../mocks/all.middleware.mock";
 import supertest from "supertest";
 import app from "../../../../src/app";
 import * as en from "../../../../locales/en/service-unavailable.json";
-import { Session } from "@companieshouse/node-session-handler";
-import { Request, Response, NextFunction } from "express";
 
 const router = supertest(app);
 const url = "/authorised-agent/something-went-wrong";
-const session: Session = new Session();
-
-mocks.mockSessionMiddleware.mockImplementation((req: Request, res: Response, next: NextFunction) => {
-    req.session = session;
-    next();
-});
 
 describe("GET /authorised-agent/stop-page-add-account-owner", () => {
 
