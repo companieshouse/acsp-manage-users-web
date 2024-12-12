@@ -25,7 +25,7 @@ describe(`GET ${url}`, () => {
         expect(mocks.mockEnsureSessionCookiePresentMiddleware).toHaveBeenCalled();
     });
 
-    it("should have a page title and 4 boxes, file as an auth agent, manage users, verify and update when account owner legged in", async () => {
+    it("should have a page title and 5 boxes, file as an auth agent, manage users, verify, close and update when account owner logged in", async () => {
         // Given
         getLoggedUserAcspMembershipSpy.mockReturnValue(accountOwnerAcspMembership);
         // When
@@ -40,23 +40,25 @@ describe(`GET ${url}`, () => {
         expect(decodedResponse).toContain(en.coming_soon);
         expect(decodedResponse).toContain(en.file_as_an_authorised_agent);
         expect(decodedResponse).toContain(en.in_the_future);
-        expect(decodedResponse).toContain(en.in_the_future_you_can_use_this_service);
+        expect(decodedResponse).toContain(en.in_future_youll_be_able_to_tell_us);
         expect(decodedResponse).toContain(en.manage_users);
         expect(decodedResponse).toContain(en.page_header);
         expect(decodedResponse).toContain(en.remove_users);
         expect(decodedResponse).toContain(en.tell_companies_house_id);
-        expect(decodedResponse).toContain(en.tell_us_about_aml);
+        expect(decodedResponse).toContain(en.tell_us_about_any_changes_within);
         expect(decodedResponse).toContain(en.tell_us_about_any_changes);
         expect(decodedResponse).toContain(en.update_authorised_agent);
-        expect(decodedResponse).toContain(en.users_who_have_been_added);
         expect(decodedResponse).toContain(en.view_users_who_have_been_added);
         expect(decodedResponse).toContain(en.warning);
         expect(decodedResponse).toContain(en.you_can);
-        expect(decodedResponse).toContain(en.you_will_need_to_use);
         expect(decodedResponse).toContain(en.your_role);
+        expect(decodedResponse).toContain(en.close_the_authorised_agent);
+        expect(decodedResponse).toContain(en.tell_us_if);
+        expect(decodedResponse).toContain(en.is_no_longer_an_authorised_agent);
+        expect(decodedResponse).toContain(en.authorised_agents_are_also_known_as);
     });
 
-    it("should have a page title and 3 boxes, file as an auth agent, manage users, and verify when administrator legged in", async () => {
+    it("should have a page title and 3 boxes, file as an auth agent, manage users, and verify when administrator logged in", async () => {
         // Given
         getLoggedUserAcspMembershipSpy.mockReturnValue(administratorAcspMembership);
         // When
@@ -71,19 +73,17 @@ describe(`GET ${url}`, () => {
         expect(decodedResponse).toContain(en.coming_soon);
         expect(decodedResponse).toContain(en.file_as_an_authorised_agent);
         expect(decodedResponse).toContain(en.in_the_future);
-        expect(decodedResponse).toContain(en.in_the_future_you_can_use_this_service);
+        expect(decodedResponse).toContain(en.in_future_youll_be_able_to_tell_us);
         expect(decodedResponse).toContain(en.manage_users);
         expect(decodedResponse).toContain(en.page_header);
         expect(decodedResponse).toContain(en.remove_users);
         expect(decodedResponse).toContain(en.tell_companies_house_id);
-        expect(decodedResponse).toContain(en.users_who_have_been_added);
         expect(decodedResponse).toContain(en.view_users_who_have_been_added);
         expect(decodedResponse).toContain(en.you_can);
-        expect(decodedResponse).toContain(en.you_will_need_to_use);
         expect(decodedResponse).toContain(en.your_role);
     });
 
-    it("should have a page title and 3 boxes, file as an auth agent, view users, and verify when standard user legged in", async () => {
+    it("should have a page title and 3 boxes, file as an auth agent, view users, and verify when standard user logged in", async () => {
         // Given
         getLoggedUserAcspMembershipSpy.mockReturnValue(standardUserAcspMembership);
         // When
@@ -97,12 +97,11 @@ describe(`GET ${url}`, () => {
         expect(decodedResponse).toContain(en.coming_soon);
         expect(decodedResponse).toContain(en.file_as_an_authorised_agent);
         expect(decodedResponse).toContain(en.in_the_future);
-        expect(decodedResponse).toContain(en.in_the_future_you_can_use_this_service);
+        expect(decodedResponse).toContain(en.in_future_youll_be_able_to_tell_us);
         expect(decodedResponse).toContain(en.view_users);
-        expect(decodedResponse).toContain(en.view_users_who_have_been_added_to);
+        expect(decodedResponse).toContain(en.you_can_view_all_users_who);
         expect(decodedResponse).toContain(en.page_header);
         expect(decodedResponse).toContain(en.tell_companies_house_id);
-        expect(decodedResponse).toContain(en.you_will_need_to_use);
         expect(decodedResponse).toContain(en.your_role);
     });
 
@@ -122,12 +121,11 @@ describe(`GET ${url}`, () => {
         expect(decodedResponse).toContain(cy.coming_soon);
         expect(decodedResponse).toContain(cy.file_as_an_authorised_agent);
         expect(decodedResponse).toContain(cy.in_the_future);
-        expect(decodedResponse).toContain(cy.in_the_future_you_can_use_this_service);
+        expect(decodedResponse).toContain(cy.in_future_youll_be_able_to_tell_us);
         expect(decodedResponse).toContain(cy.view_users);
-        expect(decodedResponse).toContain(cy.view_users_who_have_been_added_to);
+        expect(decodedResponse).toContain(cy.you_can_view_all_users_who);
         expect(decodedResponse).toContain(cy.page_header);
         expect(decodedResponse).toContain(cy.tell_companies_house_id);
-        expect(decodedResponse).toContain(cy.you_will_need_to_use);
         expect(decodedResponse).toContain(cy.your_role);
     });
 
@@ -143,8 +141,8 @@ describe(`GET ${url}`, () => {
         const encodedResponse = await router.get(url);
         const decodedResponse = encodedResponse.text.replace(/&#39;/g, "'");
         // Then
-        expect(decodedResponse).toContain(en.service_unavailable_suspension);
-        expect(decodedResponse).toContain(en.cant_file_suspension);
+        expect(decodedResponse).toContain(en.not_available);
+        expect(decodedResponse).toContain(en.not_available);
         expect(decodedResponse).toContain(`${accountOwnerAcspMembership.acspName}${en.suspended_warning_text}`);
     });
 
@@ -155,8 +153,8 @@ describe(`GET ${url}`, () => {
         const encodedResponse = await router.get(url);
         const decodedResponse = encodedResponse.text.replace(/&#39;/g, "'");
         // Then
-        expect(decodedResponse).not.toContain(en.service_unavailable_suspension);
-        expect(decodedResponse).not.toContain(en.cant_file_suspension);
+        expect(decodedResponse).not.toContain(en.not_available);
+        expect(decodedResponse).not.toContain(en.not_available);
         expect(decodedResponse).not.toContain(en.suspended_warning_text);
     });
 });

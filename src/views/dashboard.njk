@@ -7,51 +7,59 @@
 {% set title = lang.authorised_agent_services + lang.title_end %}
 
 {% block main_content %}
+    <span class="govuk-caption-l govuk-!-padding-bottom-0">
+        {{companyName}}
+        <h1 class="govuk-heading-l">
+            {{lang.page_header}}
+        </h1>
+    </span>
+
+    {% if agentStatus === AcspStatus.ACTIVE %}
+        {% set statusColour = 'govuk-tag--green' %}
+    {% else %}
+        {% set statusColour = 'govuk-tag--red' %}
+    {% endif %}
+
+    <p class="govuk-body govuk-!-margin-bottom-1 govuk-!-font-weight-bold">{{lang.authorised_agent_status}}
+        <span class="govuk-tag {{ statusColour }}">
+            {{translateEnum(agentStatus)}}
+        </span>
+    </p>
+
+    <p class="govuk-body govuk-!-margin-bottom-1 govuk-!-font-weight-bold">{{lang.authorised_agent_number}}
+        <span class="govuk-!-font-weight-regular">{{agentNumber}}</span>
+    </p>
+    <p class="govuk-body govuk-!-margin-bottom-1 govuk-!-font-weight-bold">{{lang.your_role}}
+        <span class="govuk-!-font-weight-regular">{{userRoleTag}}</span>
+    </p>
+    <p class="govuk-body govuk-!-padding-bottom-2">{{lang.authorised_agents_are_also_known_as}}</p>
+
+    {% if agentStatus === AcspStatus.SUSPENDED %}
+        {{ govukWarningText({
+            text: companyName + lang.suspended_warning_text,
+            iconFallbackText: lang.warning
+            }) }}
+    {% endif %}
+
     <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds">
-            <span class="govuk-caption-l govuk-!-padding-bottom-0">
-                {{companyName}}
-                <h1 class="govuk-heading-l">
-                    {{lang.page_header}}
-                </h1>
-            </span>
+        {% if userRole === UserRole.OWNER or userRole === UserRole.ADMIN %}
+            {% include "partials/dashboard/manage_users.njk" %}
+        {% else %}
+            {% include "partials/dashboard/view_users.njk" %}
+        {% endif %}
 
-            <p class="govuk-body govuk-!-margin-bottom-1">{{lang.authorised_agent_status}}
-                <span class="govuk-!-font-weight-bold">{{translateEnum(agentStatus)}}</span>
-            </p>
-            <p class="govuk-body govuk-!-margin-bottom-1">{{lang.authorised_agent_number}}
-                <span class="govuk-!-font-weight-bold">{{agentNumber}}</span>
-            </p>
-            <p class="govuk-body govuk-!-padding-bottom-3">{{lang.your_role}}
-                <span class="govuk-!-font-weight-bold">{{userRoleTag}}</span>
-            </p>
-
-            {% if agentStatus === AcspStatus.SUSPENDED %}
-            {{ govukWarningText({
-                text: companyName + lang.suspended_warning_text,
-                iconFallbackText: lang.warning
-                }) }}
-            {% endif %}
-
-            <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
-
-            <h2 class="govuk-heading-m govuk-!-static-padding-top-5 govuk-!-static-padding-bottom-2">{{lang.authorised_agent_services}}</h2>
-
-            {% if userRole === UserRole.OWNER or userRole === UserRole.ADMIN %}
-                {% include "partials/dashboard/manage_users.njk" %}
-            {% else %}
-                {% include "partials/dashboard/view_users.njk" %}
-            {% endif %}
-
-            {% include "partials/dashboard/verify_someones_identity.njk" %}
-
-            {% include "partials/dashboard/file_as_an_authorised_agent.njk" %}
-
-            {% if userRole === UserRole.OWNER %}
-                {% include "partials/dashboard/update_authorised_agent_details.njk" %}
-            {% endif %}
-
-        </div>
+        {% if userRole === UserRole.OWNER %}
+            {% include "partials/dashboard/update_authorised_agent_details.njk" %}
+            {% include "partials/dashboard/close_authorised_agent.njk" %}
+        {% endif %}
     </div>
 
+    <h2 class="govuk-heading-m govuk-!-static-padding-top-5 govuk-!-static-padding-bottom-2">{{lang.authorised_agent_services}}</h2>
+
+    <div class="govuk-grid-row">
+
+        {% include "partials/dashboard/verify_someones_identity.njk" %}
+
+        {% include "partials/dashboard/file_as_an_authorised_agent.njk" %}
+    </div>
 {% endblock %}
