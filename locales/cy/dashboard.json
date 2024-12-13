@@ -9,6 +9,7 @@
     "close_the_authorised_agent": "[CY] Close the authorised agent",
     "coming_soon": "[CY] Coming soon",
     "file_as_an_authorised_agent": "[CY] File as an authorised agent",
+    "has_been_suspended": " [CY] has been suspended.",
     "in_future_youll_be_able_to_tell_us": "[CY] In future, you'll be able to tell us you've verified a person's identity.",
     "in_the_future": "[CY] In future, you'll be able to file online as ",
     "is_no_longer_an_authorised_agent": " [CY] is no longer an authorised agent and you need to close this account.",
@@ -16,7 +17,6 @@
     "not_available": "[CY] Not available",
     "page_header": "[CY] Authorised agent account",
     "remove_users": "[CY] remove users",
-    "service_unavailable_suspension": "[CY] Service unavailable due to suspension",
     "suspended_warning_text": " [CY] has been suspended. You will not be able to file or tell us you have verified someone's identity.",
     "tell_companies_house_id": "[CY] Tell Companies House you have verified someone's identity",
     "tell_us_about_any_changes": "Tell us about changes to the:",
@@ -28,6 +28,7 @@
     "warning": "[CY] Warning",
     "you_can": "[CY] You can",
     "you_can_view_all_users_who": "[CY] You can view all users who have been added to this account.",
-    "you_will_need_to_use": "[CY] You will need to use this to file on paper or using software.",
+    "you_cannot_file_as": "[CY] You cannot file as an authorised agent because ",
+    "you_cannot_tell_us": "[CY] You cannot tell us you've verified someone's identity because ",
     "your_role": "[CY] Your role:"
 }

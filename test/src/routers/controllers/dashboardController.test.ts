@@ -141,8 +141,11 @@ describe(`GET ${url}`, () => {
         const encodedResponse = await router.get(url);
         const decodedResponse = encodedResponse.text.replace(/&#39;/g, "'");
         // Then
-        expect(decodedResponse).toContain(en.not_available);
-        expect(decodedResponse).toContain(en.not_available);
+        expect(decodedResponse).toContain(en.you_cannot_tell_us);
+        expect(decodedResponse).toContain(en.has_been_suspended);
+        expect(decodedResponse).toContain(en.you_cannot_file_as);
+        expect(decodedResponse).not.toContain(en.in_the_future);
+        expect(decodedResponse).not.toContain(en.in_future_youll_be_able_to_tell_us);
         expect(decodedResponse).toContain(`${accountOwnerAcspMembership.acspName}${en.suspended_warning_text}`);
     });
 
@@ -153,8 +156,8 @@ describe(`GET ${url}`, () => {
         const encodedResponse = await router.get(url);
         const decodedResponse = encodedResponse.text.replace(/&#39;/g, "'");
         // Then
-        expect(decodedResponse).not.toContain(en.not_available);
-        expect(decodedResponse).not.toContain(en.not_available);
+        expect(decodedResponse).not.toContain(en.you_cannot_tell_us);
+        expect(decodedResponse).not.toContain(en.has_been_suspended);
         expect(decodedResponse).not.toContain(en.suspended_warning_text);
     });
 });

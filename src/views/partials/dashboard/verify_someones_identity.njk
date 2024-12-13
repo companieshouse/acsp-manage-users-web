@@ -1,20 +1,24 @@
 <div class="govuk-grid-column-one-third govuk-topic-block">
     <h2 class="govuk-heading-s">
-
+        {{lang.tell_companies_house_id}}
         {% if agentStatus === AcspStatus.SUSPENDED %}
-            {{lang.tell_companies_house_id}}
+
             <strong class="govuk-tag govuk-tag--red govuk-!-margin-top-2">
                 {{lang.not_available}}
             </strong>
+    </h2>
+
+        <p class="govuk-body">
+            {{lang.you_cannot_tell_us}}{{companyName}}{{lang.has_been_suspended}}
         {% else %}
-            {{lang.tell_companies_house_id}}
+
             <strong class="govuk-tag govuk-tag--blue govuk-!-margin-top-2">
                 {{lang.coming_soon}}
             </strong>
-        {% endif %}
     </h2>
 
-    <p class="govuk-body">
-        {{lang.in_future_youll_be_able_to_tell_us}}
-    </p>
+        <p class="govuk-body">
+            {{lang.in_future_youll_be_able_to_tell_us}}
+        {% endif %}
+        </p>
 </div>
