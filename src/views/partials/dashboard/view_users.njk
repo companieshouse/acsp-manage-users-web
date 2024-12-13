@@ -1,20 +1,12 @@
 {% set dataEventIdForViewUsers = "view-users-" + convertUserRole(userRole) %}
 
-<div class="govuk-summary-card">
-    <div class="govuk-summary-card__title-wrapper">
-        <h2 class="govuk-summary-card__title">
+<div class="govuk-grid-column-one-third govuk-topic-block">
+    <h2 class="govuk-heading-s">
+        <a class="govuk-link govuk-link--no-underline govuk-link--no-visited-state" href="{{viewUsersLink}}" data-event-id="{{dataEventIdForViewUsers}}">
             {{lang.view_users}}
-        </h2>
-    </div>
-    <div class="govuk-summary-card__content">
-        <p class="govuk-body">
-            {{lang.view_users_who_have_been_added_to}}
-            {{companyName}}.
-        </p>
-        <p class="govuk-body">
-            <a class="govuk-link govuk-link--no-visited-state" href="{{viewUsersLink}}" data-event-id="{{dataEventIdForViewUsers}}">
-                {{lang.view_users}}
-            </a>
-        </p>
-    </div>
+        </a>
+    </h2>
+    <p class="govuk-body">
+        {{lang.you_can_view_all_users_who}}
+    </p>
 </div>

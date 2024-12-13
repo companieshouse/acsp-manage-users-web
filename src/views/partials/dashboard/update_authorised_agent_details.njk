@@ -1,23 +1,22 @@
-{% set dataEventIdForUpdateAgentDetails = "update-authorised-agents-details-" + convertUserRole(userRole) %}
-
-<div class="govuk-summary-card">
-    <div class="govuk-summary-card__title-wrapper">
-        <h2 class="govuk-summary-card__title">
-            <a class="govuk-link govuk-link--no-underline govuk-link--no-visited-state" data-event-id="{{dataEventIdForUpdateAgentDetails}}" href="{{updateAuthorisedAgentsDetailsLink}}">
-                {{lang.update_authorised_agent}}
-            </a>
-        </h2>
-    </div>
-    <div class="govuk-summary-card__content">
-        <p class="govuk-body">
-            {{lang.tell_us_about_any_changes}}
-        </p>
-        <div class="govuk-warning-text">
-            <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
-            <strong class="govuk-warning-text__text">
-                <span class="govuk-visually-hidden">{{lang.warning}}</span>
-                {{lang.tell_us_about_aml}}
-            </strong>
-        </div>
+<div class="govuk-grid-column-one-third govuk-topic-block">
+    <h2 class="govuk-heading-s">
+        {{lang.update_authorised_agent}}
+        <strong class="govuk-tag govuk-tag--blue govuk-!-margin-top-2">
+            {{lang.coming_soon}}
+        </strong>
+    </h2>
+    <p class="govuk-body">
+        {{lang.tell_us_about_any_changes}}
+    </p>
+    <ul class="govuk-list govuk-list--bullet">
+        <li>{{lang.business_details}}</li>
+        <li>{{lang.anti_money_laundering_registration_details_for}}</li>
+    </ul>
+    <div class="govuk-warning-text">
+        <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+        <strong class="govuk-warning-text__text">
+            <span class="govuk-visually-hidden">{{lang.warning}}</span>
+            {{lang.tell_us_about_any_changes_within}}
+        </strong>
     </div>
 </div>
