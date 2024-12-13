@@ -4,39 +4,43 @@
 {% extends "layouts/default.njk" %}
 
 {% set bannerHtml %}
-  <p class="govuk-notification-banner__heading">
-    {{lang.you_have_removed}}{{userDetails}}{{lang.from}}{{companyName}}.
-  </p>
+<p class="govuk-notification-banner__heading">{{lang.user_removed}}</p>
+<p>
+    {{lang.you_have_removed}}
+    <strong>{{userDetails}}</strong>{{lang.from}}{{companyName}}.
+</p>
 {% endset %}
 
 {% set title = lang.what_happens_now_they_have_been_removed + lang.title_end %}
 
 {% block main_content %}
 
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
-    
-    {{ govukNotificationBanner({
-        html: bannerHtml,
-        type: "success",
-        titleText: lang.success
-    }) }}
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
 
-    <span class="govuk-caption-l">{{companyName}}</span>
-    <h1 class="govuk-heading-l">{{lang.what_happens_now_they_have_been_removed}}</h1>
+            {{ govukNotificationBanner({
+                html: bannerHtml,
+                type: "success",
+                titleText: lang.success
+            }) }}
 
-    <p class="govuk-body">{{userDetails}}{{lang.will_no_longer_be_able_to_access}}{{companyName}}.</p>
+            <span class="govuk-caption-l">{{companyName}}</span>
+            <h1 class="govuk-heading-l">{{lang.what_happens_now_they_have_been_removed}}</h1>
 
-    {{ govukButton({
-        text: lang.go_to_manage_users,
-        href: buttonHref,
-        role: "button",
-        classes: 'govuk-!-margin-top-3',
-        attributes: {
-            "data-event-id": "go-to-manage-users-remove-user"
-        }
-    }) }}
+            <p class="govuk-body">
+                <strong>{{userDetails}}</strong>{{lang.will_no_longer_be_able_to_access}}{{companyName}}.
+            </p>
 
-  </div>
-</div>
+            {{ govukButton({
+                text: lang.go_to_manage_users,
+                href: buttonHref,
+                role: "button",
+                classes: 'govuk-!-margin-top-3',
+                attributes: {
+                    "data-event-id": "go-to-manage-users-remove-user"
+                }
+            }) }}
+
+        </div>
+    </div>
 {% endblock %}
