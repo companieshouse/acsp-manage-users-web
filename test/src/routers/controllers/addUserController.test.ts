@@ -41,12 +41,22 @@ describe(`GET ${url}`, () => {
         const decodedResponse = encodedResponse.text.replace(/&#39;/g, "'");
         // Then
         expect(decodedResponse).toContain(en.page_header);
-        expect(decodedResponse).toContain(en.bullet_1);
-        expect(decodedResponse).toContain(en.bullet_2);
         expect(decodedResponse).toContain(en.email_hint_text);
         expect(decodedResponse).toContain(en.option_1);
         expect(decodedResponse).toContain(en.option_2);
         expect(decodedResponse).toContain(en.option_3);
+        expect(decodedResponse).toContain(en.option_1_hint_p);
+        expect(decodedResponse).toContain(en.option_1_hint_bullet_1);
+        expect(decodedResponse).toContain(en.option_1_hint_bullet_2);
+        expect(decodedResponse).toContain(en.option_1_hint_bullet_3);
+        expect(decodedResponse).toContain(en.option_2_hint_bullet_1);
+        expect(decodedResponse).toContain(en.option_2_hint_bullet_2);
+        expect(decodedResponse).toContain(en.option_2_hint_p);
+        expect(decodedResponse).toContain(en.option_3_hint);
+        expect(decodedResponse).toContain(en.inset_all_users_who);
+        expect(decodedResponse).toContain(en.inset_bullet_1_view_users);
+        expect(decodedResponse).toContain(en.inset_bullet_2_verify_people);
+        expect(decodedResponse).toContain(en.inset_bullet_3_file_as_an_authorised_agent);
     });
 
     it("should display page content - form information and administrator and standard user radio buttons for selecting role if administrator logged in", async () => {
@@ -58,12 +68,18 @@ describe(`GET ${url}`, () => {
         const decodedResponse = encodedResponse.text.replace(/&#39;/g, "'");
         // Then
         expect(decodedResponse).toContain(en.page_header);
-        expect(decodedResponse).toContain(en.bullet_1);
-        expect(decodedResponse).toContain(en.bullet_2);
         expect(decodedResponse).toContain(en.email_hint_text);
         expect(decodedResponse).not.toContain(en.option_1);
         expect(decodedResponse).toContain(en.option_2);
         expect(decodedResponse).toContain(en.option_3);
+        expect(decodedResponse).toContain(en.option_2_hint_bullet_1);
+        expect(decodedResponse).toContain(en.option_2_hint_bullet_2);
+        expect(decodedResponse).toContain(en.option_2_hint_p);
+        expect(decodedResponse).toContain(en.option_3_hint);
+        expect(decodedResponse).toContain(en.inset_all_users_who);
+        expect(decodedResponse).toContain(en.inset_bullet_1_view_users);
+        expect(decodedResponse).toContain(en.inset_bullet_2_verify_people);
+        expect(decodedResponse).toContain(en.inset_bullet_3_file_as_an_authorised_agent);
     });
 
     it("should validate and display invalid input and error if input stored in session", async () => {
