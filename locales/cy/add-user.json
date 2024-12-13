@@ -5,6 +5,10 @@
     "errors_email_invalid": "[CY] Enter an email address in the correct format, like name@example.com",
     "errors_email_required": "[CY] Enter an email address",
     "errors_select_user_role": "[CY] Select the user’s role",
+    "inset_all_users_who": "[CY] All users who are added to this account will be able to:",
+    "inset_bullet_1_view_users": "[CY] view users who have been added to this account",
+    "inset_bullet_2_verify_people": "[CY] verify people's identity for Companies House from XX DATE",
+    "inset_bullet_3_file_as_an_authorised_agent": "[CY] file as an authorised agent from XX DATE",
     "option_1": "[CY] Account owner",
     "option_1_hint_bullet_1": "[CY] update the authorised agent's details",
     "option_1_hint_bullet_2": "[CY] add and remove all users",
@@ -17,9 +21,5 @@
     "option_3": "[CY] Standard user",
     "option_3_hint": "[CY] They'll be able to view all users who have been added to this account. They will not be able to add or remove users.",
     "page_header": "[CY] Add a user",
-    "radio_btns_header": "[CY] What is their role?",
-    "inset_all_users_who": "[CY] All users who are added to this account will be able to:",
-    "inset_bullet_1_view_users": "[CY] view users who have been added to this account",
-    "inset_bullet_2_verify_people": "[CY] verify people's identity for Companies House from XX DATE",
-    "inset_bullet_3_file_as_an_authorised_agent": "[CY] file as an authorised agent from XX DATE"
+    "radio_btns_header": "[CY] What is their role?"
 }
