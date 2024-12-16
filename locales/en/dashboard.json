@@ -9,6 +9,7 @@
     "close_the_authorised_agent": "Close the authorised agent",
     "coming_soon": "Coming soon",
     "file_as_an_authorised_agent": "File as an authorised agent",
+    "has_been_suspended": " has been suspended.",
     "in_future_youll_be_able_to_tell_us": "In future, you'll be able to tell us you've verified a person's identity.",
     "in_the_future": "In future, you'll be able to file online as ",
     "is_no_longer_an_authorised_agent": " is no longer an authorised agent and you need to close this account.",
@@ -27,5 +28,7 @@
     "warning": "Warning",
     "you_can": "You can",
     "you_can_view_all_users_who": "You can view all users who have been added to this account.",
+    "you_cannot_file_as": "You cannot file as an authorised agent because ",
+    "you_cannot_tell_us": "You cannot tell us you've verified someone's identity because ",
     "your_role": "Your role:"
 }
