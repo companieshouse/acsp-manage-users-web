@@ -6,6 +6,7 @@ import { Navigation } from "types/navigation";
 import { getRemoveMemberCheckDetailsFullUrl } from "../lib/utils/urlUtils";
 import { UserRole, AcspMembership } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
 import { getExtraData } from "../lib/utils/sessionUtils";
+import { REMOVE_MEMBER_CHECK_DETAILS_FULL_URL, REMOVE_MEMBER_CHECK_DETAILS_URL } from "../lib/constants";
 
 export const NAVIGATION: Navigation = {
     [constants.CHECK_MEMBER_DETAILS_FULL_URL]: {
@@ -18,18 +19,18 @@ export const NAVIGATION: Navigation = {
         redirectTo: constants.MANAGE_USERS_FULL_URL,
         allowedUserRoles: [UserRole.OWNER, UserRole.ADMIN]
     },
-    [getRemoveMemberCheckDetailsFullUrl("")]: {
-        allowedReferers: [getRemoveMemberCheckDetailsFullUrl(""), constants.MANAGE_USERS_FULL_URL, constants.STOP_PAGE_ADD_ACCOUNT_OWNER_URL_FULL_URL],
+    [constants.REMOVE_MEMBER_CHECK_DETAILS_FULL_URL]: {
+        allowedReferers: [constants.REMOVE_MEMBER_CHECK_DETAILS_FULL_URL, constants.MANAGE_USERS_FULL_URL, constants.STOP_PAGE_ADD_ACCOUNT_OWNER_URL_FULL_URL],
         redirectTo: constants.MANAGE_USERS_FULL_URL,
         allowedUserRoles: [UserRole.OWNER, UserRole.ADMIN]
     },
     [constants.CONFIRMATION_MEMBER_REMOVED_FULL_URL]: {
-        allowedReferers: [getRemoveMemberCheckDetailsFullUrl(""), constants.CONFIRMATION_MEMBER_REMOVED_FULL_URL],
+        allowedReferers: [constants.REMOVE_MEMBER_CHECK_DETAILS_FULL_URL, constants.CONFIRMATION_MEMBER_REMOVED_FULL_URL],
         redirectTo: constants.MANAGE_USERS_FULL_URL,
         allowedUserRoles: [UserRole.OWNER, UserRole.ADMIN]
     },
     [constants.CONFIRMATION_YOU_ARE_REMOVED_FULL_URL]: {
-        allowedReferers: [getRemoveMemberCheckDetailsFullUrl(""), constants.CONFIRMATION_YOU_ARE_REMOVED_FULL_URL],
+        allowedReferers: [constants.REMOVE_MEMBER_CHECK_DETAILS_FULL_URL, constants.CONFIRMATION_YOU_ARE_REMOVED_FULL_URL],
         redirectTo: constants.CHS_SEARCH_REGISTER_PAGE,
         allowedUserRoles: [UserRole.OWNER, UserRole.ADMIN]
     },
@@ -39,7 +40,7 @@ export const NAVIGATION: Navigation = {
         allowedUserRoles: [UserRole.OWNER, UserRole.ADMIN]
     },
     [constants.STOP_PAGE_ADD_ACCOUNT_OWNER_URL_FULL_URL]: {
-        allowedReferers: [getRemoveMemberCheckDetailsFullUrl(""), constants.STOP_PAGE_ADD_ACCOUNT_OWNER_URL_FULL_URL],
+        allowedReferers: [constants.REMOVE_MEMBER_CHECK_DETAILS_FULL_URL, constants.STOP_PAGE_ADD_ACCOUNT_OWNER_URL_FULL_URL],
         redirectTo: constants.MANAGE_USERS_FULL_URL,
         allowedUserRoles: [UserRole.OWNER, UserRole.ADMIN]
     },
@@ -53,8 +54,10 @@ export const NAVIGATION: Navigation = {
 export const navigationMiddleware = (req: Request, res: Response, next: NextFunction): void => {
     const callerURL = url.parse(req.headers.referer || "", true).pathname || "";
     let currentPath = url.parse(req.originalUrl, true).pathname || "";
-    if (currentPath.startsWith(getRemoveMemberCheckDetailsFullUrl(""))) {
-        currentPath = getRemoveMemberCheckDetailsFullUrl("");
+
+    // this is to strip the path parameter which is redundant in this context
+    if (currentPath.startsWith(constants.REMOVE_MEMBER_CHECK_DETAILS_FULL_URL)) {
+        currentPath = constants.REMOVE_MEMBER_CHECK_DETAILS_FULL_URL;
     }
 
     if (!NAVIGATION[currentPath]) {

@@ -1,4 +1,4 @@
-import { ViewData } from "../../types/utilTypes";
+import { BaseViewData } from "../../types/utilTypes";
 import { validateEmailString } from "../../lib/validation/email.validation";
 import { addErrorToViewData } from "../../lib/utils/viewUtils";
 import { validateRole } from "./user.role.validation";
@@ -12,7 +12,7 @@ const FormInputNames = {
 export const validateAndSetErrors = (
     email: string,
     role: string,
-    viewData: ViewData
+    viewData: BaseViewData
 ): void => {
     const emailErrorMessage = validateAddUserEmail(email);
     if (emailErrorMessage) {
