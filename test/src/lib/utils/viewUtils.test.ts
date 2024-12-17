@@ -9,7 +9,7 @@ describe("getLink", () => {
         const displayText = "Click me";
         const expectedLink = "<a data-event-id=\"remove\" href=\"/unit/test\">Click me</a>";
         // When
-        const result = getLink(href, displayText);
+        const result = getLink(href, displayText, "remove");
         // Then
         expect(result).toEqual(expectedLink);
     });

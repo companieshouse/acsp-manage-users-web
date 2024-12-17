@@ -36,7 +36,7 @@
                             text: lang.email_address
                         },
                         value: {
-                            text: userEmailAddress
+                            text: newUserEmailAddress
                         }
                     },
                     {
@@ -52,6 +52,8 @@
         }}
 
         <form action="{{ tryAddingUserUrl }}" method="POST">
+                {% include "partials/csrf_token.njk" %}
+
             {{ govukButton({
                 text: lang.confirm_and_add_user,
                 attributes: {

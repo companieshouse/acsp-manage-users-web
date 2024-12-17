@@ -3,25 +3,20 @@ import supertest from "supertest";
 import app from "../../../../src/app";
 import * as constants from "../../../../src/lib/constants";
 import * as en from "../../../../locales/en/add-user.json";
-import { Session } from "@companieshouse/node-session-handler";
 import { NextFunction, Request, Response } from "express";
 import * as userAccountService from "../../../../src/services/userAccountService";
 import * as sessionUtils from "../../../../src/lib/utils/sessionUtils";
 import {
     administratorAcspMembership,
-    loggedAccountOwnerAcspMembership, ToyStoryBuzzAcspMembership
+    loggedAccountOwnerAcspMembership,
+    ToyStoryBuzzAcspMembership
 } from "../../../mocks/acsp.members.mock";
+import { session } from "../../../mocks/session.middleware.mock";
 
 const router = supertest(app);
 const url = "/authorised-agent/add-user";
-const session: Session = new Session();
 
 const mockUserAccService = jest.spyOn(userAccountService, "getUserDetails");
-
-mocks.mockSessionMiddleware.mockImplementation((req: Request, res: Response, next: NextFunction) => {
-    req.session = session;
-    next();
-});
 
 const sessionUtilsSpy: jest.SpyInstance = jest.spyOn(sessionUtils, "getLoggedInUserEmail");
 
@@ -47,12 +42,22 @@ describe(`GET ${url}`, () => {
         const decodedResponse = encodedResponse.text.replace(/&#39;/g, "'");
         // Then
         expect(decodedResponse).toContain(en.page_header);
-        expect(decodedResponse).toContain(en.bullet_1);
-        expect(decodedResponse).toContain(en.bullet_2);
         expect(decodedResponse).toContain(en.email_hint_text);
         expect(decodedResponse).toContain(en.option_1);
         expect(decodedResponse).toContain(en.option_2);
         expect(decodedResponse).toContain(en.option_3);
+        expect(decodedResponse).toContain(en.option_1_hint_p);
+        expect(decodedResponse).toContain(en.option_1_hint_bullet_1);
+        expect(decodedResponse).toContain(en.option_1_hint_bullet_2);
+        expect(decodedResponse).toContain(en.option_1_hint_bullet_3);
+        expect(decodedResponse).toContain(en.option_2_hint_bullet_1);
+        expect(decodedResponse).toContain(en.option_2_hint_bullet_2);
+        expect(decodedResponse).toContain(en.option_2_hint_p);
+        expect(decodedResponse).toContain(en.option_3_hint);
+        expect(decodedResponse).toContain(en.inset_all_users_who);
+        expect(decodedResponse).toContain(en.inset_bullet_1_view_users);
+        expect(decodedResponse).toContain(en.inset_bullet_2_verify_people);
+        expect(decodedResponse).toContain(en.inset_bullet_3_file_as_an_authorised_agent);
     });
 
     it("should display page content - form information and administrator and standard user radio buttons for selecting role if administrator logged in", async () => {
@@ -64,12 +69,18 @@ describe(`GET ${url}`, () => {
         const decodedResponse = encodedResponse.text.replace(/&#39;/g, "'");
         // Then
         expect(decodedResponse).toContain(en.page_header);
-        expect(decodedResponse).toContain(en.bullet_1);
-        expect(decodedResponse).toContain(en.bullet_2);
         expect(decodedResponse).toContain(en.email_hint_text);
         expect(decodedResponse).not.toContain(en.option_1);
         expect(decodedResponse).toContain(en.option_2);
         expect(decodedResponse).toContain(en.option_3);
+        expect(decodedResponse).toContain(en.option_2_hint_bullet_1);
+        expect(decodedResponse).toContain(en.option_2_hint_bullet_2);
+        expect(decodedResponse).toContain(en.option_2_hint_p);
+        expect(decodedResponse).toContain(en.option_3_hint);
+        expect(decodedResponse).toContain(en.inset_all_users_who);
+        expect(decodedResponse).toContain(en.inset_bullet_1_view_users);
+        expect(decodedResponse).toContain(en.inset_bullet_2_verify_people);
+        expect(decodedResponse).toContain(en.inset_bullet_3_file_as_an_authorised_agent);
     });
 
     it("should validate and display invalid input and error if input stored in session", async () => {
@@ -78,6 +89,11 @@ describe(`GET ${url}`, () => {
         session.setExtraData(constants.DETAILS_OF_USER_TO_ADD, {
             email: invalidEmail
         });
+        mocks.mockSessionMiddleware.mockImplementationOnce((req: Request, res: Response, next: NextFunction) => {
+            req.headers = { referrer: "/authorised-agent/add-user" };
+            req.session = session;
+            next();
+        });
         // When
         const response = await router.get(`${url}`);
         // Then
@@ -85,20 +101,71 @@ describe(`GET ${url}`, () => {
         expect(response.text).toContain(invalidEmail);
     });
 
-    it("should not display saved session values when url has cf query param - /authorised-agent/add-user?cf=true", async () => {
+    it("should not display saved session values when the referrer is the manage-users url", async () => {
         // Given
         sessionUtilsSpy.mockReturnValue("demo@ch.gov.uk");
         const emailStoredInSession = "bob@bob.com";
         session.setExtraData(constants.DETAILS_OF_USER_TO_ADD, {
             email: emailStoredInSession
         });
+
+        mocks.mockSessionMiddleware.mockImplementationOnce((req: Request, res: Response, next: NextFunction) => {
+            req.headers = { referrer: "/authorised-agent/manage-users" };
+            req.session = session;
+            next();
+        });
+
         // When
-        const response = await router.get(`${url}?cf=true`);
+        const response = await router.get(`${url}`);
+
         // Then
         expect(response.text).not.toContain(emailStoredInSession);
         expect(response.text).not.toContain("Enter an email address in the correct format");
         expect(response.text).toContain(en.page_header);
         expect(response.text).toContain(en.option_1);
+    });
+
+    it("should not display saved session values when the referrer is undefined", async () => {
+        // Given
+        sessionUtilsSpy.mockReturnValue("demo@ch.gov.uk");
+        const emailStoredInSession = "bob@bob.com";
+        session.setExtraData(constants.DETAILS_OF_USER_TO_ADD, {
+            email: emailStoredInSession
+        });
+
+        mocks.mockSessionMiddleware.mockImplementationOnce((req: Request, res: Response, next: NextFunction) => {
+            req.headers = { referrer: undefined };
+            req.session = session;
+            next();
+        });
+
+        // When
+        const response = await router.get(`${url}`);
+
+        // Then
+        expect(response.text).not.toContain(emailStoredInSession);
+        expect(response.text).not.toContain("Enter an email address in the correct format");
+        expect(response.text).toContain(en.page_header);
+        expect(response.text).toContain(en.option_1);
+    });
+
+    it("should display page with error message instead of clearing session data if referrer url contains hrefB (user has switched languages)", async () => {
+        // Given
+        const invalidEmail = "bad email";
+        session.setExtraData(constants.DETAILS_OF_USER_TO_ADD, {
+            email: invalidEmail
+        });
+        const newUrl = "/authorised-agent/add-user?lang=en";
+        mocks.mockSessionMiddleware.mockImplementationOnce((req: Request, res: Response, next: NextFunction) => {
+            req.headers = { referrer: "/authorised-agent/add-user?lang=cy" };
+            req.session = session;
+            next();
+        });
+        // When
+        const response = await router.get(`${newUrl}`);
+        // Then
+        expect(response.text).toContain("Enter an email address in the correct format");
+        expect(response.text).toContain(invalidEmail);
     });
 });
 
@@ -114,6 +181,7 @@ describe(`POST ${url}`, () => {
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
         expect(mocks.mockLoggedUserAcspMembershipMiddleware).toHaveBeenCalled();
+        expect(mocks.mockEnsureSessionCookiePresentMiddleware).toHaveBeenCalled();
     });
 
     it("should display current page with error message if no email provided", async () => {

@@ -1,28 +1,24 @@
-{% set dataEventIdForIdVerify = "tell-companies-house-you-have-verified-someones-identity-" + convertUserRole(userRole) %}
+<div class="govuk-grid-column-one-third govuk-topic-block">
+    <h2 class="govuk-heading-s">
+        {{lang.tell_companies_house_id}}
+        {% if agentStatus === AcspStatus.SUSPENDED %}
 
-<div class="govuk-summary-card">
-    <div class="govuk-summary-card__title-wrapper">
-        <h2 class="govuk-summary-card__title">
+            <strong class="govuk-tag govuk-tag--red govuk-!-margin-top-2">
+                {{lang.not_available}}
+            </strong>
+    </h2>
 
-            {% if agentStatus === AcspStatus.SUSPENDED %}
-                {{lang.tell_companies_house_id}}
-                <strong class="govuk-tag govuk-tag--red govuk-!-margin-top-2">
-                    {{lang.service_unavailable_suspension}}
-                </strong>
-            {% else %}
-                <a class="govuk-link govuk-link--no-underline govuk-link--no-visited-state" href="{{youHaveVerifiedSomeonesIdentityLink}}" data-event-id="{{dataEventIdForIdVerify}}">
-                    {{lang.tell_companies_house_id}}
-                </a>
-                <strong class="govuk-tag govuk-tag--blue govuk-!-margin-top-2">
-                    {{lang.coming_soon}}
-                </strong>
-            {% endif %}
-
-        </h2>
-    </div>
-    <div class="govuk-summary-card__content">
         <p class="govuk-body">
-            {{lang.in_the_future_you_can_use_this_service}}
+            {{lang.you_cannot_tell_us}}{{companyName}}{{lang.has_been_suspended}}
+        {% else %}
+
+            <strong class="govuk-tag govuk-tag--blue govuk-!-margin-top-2">
+                {{lang.coming_soon}}
+            </strong>
+    </h2>
+
+        <p class="govuk-body">
+            {{lang.in_future_youll_be_able_to_tell_us}}
+        {% endif %}
         </p>
-    </div>
 </div>

@@ -2,6 +2,7 @@
 {% from "govuk/components/input/macro.njk" import govukInput %}
 {% from "govuk/components/back-link/macro.njk" import govukBackLink %}
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/inset-text/macro.njk" import govukInsetText %}
 
 {% extends "layouts/default.njk" %}
 
@@ -47,13 +48,9 @@
                 {{ lang.page_header }}
             </h1>
 
-            <p class="govuk-body">{{ lang.p1 }}</p>
-            <ul class="govuk-list govuk-list--bullet govuk-!-margin-bottom-6">
-                <li>{{ lang.bullet_1 }}</li>
-                <li>{{ lang.bullet_2 }}</li>
-            </ul>
-
             <form method="post" novalidate="novalidate">
+                {% include "partials/csrf_token.njk" %}
+
                 {{ govukInput({
                         label: {
                             text: lang.email_input_label,
@@ -163,6 +160,17 @@
                         errorMessage: roleMessage
                     })
                 }}
+
+                <div class="govuk-inset-text">
+                    <p class="govuk-body">
+                        {{lang.inset_all_users_who}}
+                    </p>
+                    <ul class="govuk-body govuk-list govuk-list--bullet govuk-!-margin-bottom-6">
+                        <li>{{lang.inset_bullet_1_view_users}}</li>
+                        <li>{{lang.inset_bullet_2_verify_people}}</li>
+                        <li>{{lang.inset_bullet_3_file_as_an_authorised_agent}}</li>
+                    </ul>
+                </div>
 
                 {% set button_attributes = {
                         role: "button",

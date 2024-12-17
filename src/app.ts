@@ -3,25 +3,27 @@ import express, { NextFunction, Request, Response } from "express";
 import nunjucks from "nunjucks";
 import path from "path";
 import logger from "./lib/Logger";
-import routerDispatch from "./router.dispatch";
+import routerDispatch from "./routerDispatch";
 import cookieParser from "cookie-parser";
 import * as constants from "./lib/constants";
 import { authenticationMiddleware } from "./middleware/authentication.middleware";
-import { sessionMiddleware } from "./middleware/session.middleware";
+import { ensureSessionCookiePresentMiddleware, sessionMiddleware } from "./middleware/session.middleware";
 import { getTranslationsForView, translateEnum } from "./lib/utils/translationUtils";
-import { httpErrorHandler } from "./routers/controllers/httpErrorController";
-import { UserRole, AcspStatus } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
+import errorHandler from "./routers/controllers/errorController";
+import { AcspStatus, UserRole } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
 import { loggedUserAcspMembershipMiddleware } from "./middleware/loggedUserAcspMembership.middleware";
 import * as url from "node:url";
 import { LANGUAGE_CONFIG } from "./types/language";
 import { convertUserRole } from "./lib/utils/userRoleUtils";
-import { getLoggedInUserEmail, getLoggedUserAcspMembership } from "./lib/utils/sessionUtils";
+import { getLoggedInUserEmail } from "./lib/utils/sessionUtils";
 import { navigationMiddleware } from "./middleware/navigationMiddleware";
 import { LocalesMiddleware, LocalesService } from "@companieshouse/ch-node-utils";
 import helmet from "helmet";
 import { v4 as uuidv4 } from "uuid";
 import { prepareCSPConfig } from "./middleware/content.security.policy.middleware.config";
 import nocache from "nocache";
+import { acspAuthMiddleware } from "./middleware/acsp.authentication.middleware";
+import { csrfProtectionMiddleware } from "./middleware/csrf.protection.middleware";
 
 const app = express();
 
@@ -30,7 +32,9 @@ app.set("views", [
     path.join(__dirname, "/../node_modules/govuk-frontend/dist"),
     path.join(__dirname, "node_modules/govuk-frontend/dist"),
     path.join(__dirname, "/../node_modules/@companieshouse/ch-node-utils/templates"),
-    path.join(__dirname, "node_modules/@companieshouse/ch-node-utils/templates")
+    path.join(__dirname, "node_modules/@companieshouse/ch-node-utils/templates"),
+    path.join(__dirname, "/../node_modules/@companieshouse"),
+    path.join(__dirname, "node_modules/@companieshouse")
 ]);
 
 const nunjucksLoaderOpts = {
@@ -75,7 +79,12 @@ app.use(nocache());
 app.use(helmet(prepareCSPConfig(nonce)));
 
 app.use(`${constants.LANDING_URL}*`, sessionMiddleware);
+app.use(`${constants.LANDING_URL}*`, ensureSessionCookiePresentMiddleware);
+
+app.use(`${constants.LANDING_URL}*`, csrfProtectionMiddleware);
+
 app.use(`${constants.LANDING_URL}*`, authenticationMiddleware);
+app.use(`${constants.LANDING_URL}*`, acspAuthMiddleware);
 
 LocalesService.getInstance("locales", true);
 app.use(LocalesMiddleware());
@@ -95,9 +104,6 @@ app.use((req: Request, res: Response, next: NextFunction) => {
     };
     res.locals.convertUserRole = convertUserRole;
     res.locals.translateEnum = translateEnum(res.locals.locale);
-    if (getLoggedUserAcspMembership(req.session)) {
-        res.locals.displayAuthorisedAgent = "yes";
-    }
     res.locals.nonce = nonce;
     next();
 });
@@ -108,26 +114,26 @@ app.use(navigationMiddleware);
 // Channel all requests through router dispatch
 routerDispatch(app);
 
-// http-error error handler
-app.use(httpErrorHandler);
+// error handler
+app.use(...errorHandler);
 
 // Unhandled errors
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 app.use((err: Error, req: Request, res: Response, next: NextFunction): void => {
     logger.error(`${err.name} - appError: ${err.message} - ${err.stack}`);
-    const translations = getTranslationsForView(req.lang, constants.SERVICE_UNAVAILABLE);
+    const translations = getTranslationsForView(req.lang || "en", constants.SERVICE_UNAVAILABLE);
     res.status(500).render(constants.SERVICE_UNAVAILABLE_TEMPLATE, { lang: translations });
 });
 
 // Unhandled exceptions
-process.on("uncaughtException", (err: Error) => {
-    logger.error(`${err.name} - uncaughtException: ${err.message} - ${err.stack}`);
+process.on(constants.UNCAUGHT_EXCEPTION, (err: Error) => {
+    logger.error(`${err.name} - ${constants.UNCAUGHT_EXCEPTION}: ${err.message} - ${err.stack}`);
     process.exit(1);
 });
 
 // Unhandled promise rejections
-process.on("unhandledRejection", (err: Error) => {
-    logger.error(`${err.name} - unhandledRejection: ${err.message} - ${err.stack}`);
+process.on(constants.UNHANDLED_REJECTION, (err: Error) => {
+    logger.error(`${err.name} - ${constants.UNHANDLED_REJECTION}: ${err.message} - ${err.stack}`);
     process.exit(1);
 });
 

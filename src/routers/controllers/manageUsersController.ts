@@ -4,13 +4,13 @@ import { getTranslationsForView } from "../../lib/utils/translationUtils";
 import { AnyRecord, MemberRawViewData, PageNumbers, PageQueryParams } from "../../types/utilTypes";
 import { TableEntry } from "../../types/viewTypes";
 import { getHiddenText, getLink } from "../../lib/utils/viewUtils";
-import { setExtraData, getLoggedUserAcspMembership } from "../../lib/utils/sessionUtils";
+import { setExtraData, getLoggedUserAcspMembership, deleteExtraData } from "../../lib/utils/sessionUtils";
 import { AcspMembership, UserRole } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
 import { getAcspMemberships, membershipLookup } from "../../services/acspMemberService";
 import { sanitizeUrl } from "@braintree/sanitize-url";
 import { validateEmailString } from "../../lib/validation/email.validation";
 import logger from "../../lib/Logger";
-import { getRemoveMemberCheckDetailsFullUrl } from "../../lib/utils/urlUtils";
+import { getChangeMemberRoleFullUrl, getRemoveMemberCheckDetailsFullUrl } from "../../lib/utils/urlUtils";
 import { buildPaginationElement, getCurrentPageNumber, setLangForPagination, stringToPositiveInteger } from "../../lib/helpers/buildPaginationHelper";
 import { validatePageNumber } from "../../lib/validation/page.number.validation";
 import { validateActiveTabId } from "../../lib/validation/string.validation";
@@ -34,6 +34,9 @@ export const getTitle = (translations: AnyRecord, loggedInUserRole: UserRole, is
 };
 
 export const getViewData = async (req: Request): Promise<AnyRecord> => {
+    deleteExtraData(req.session, constants.USER_ROLE_CHANGE_DATA);
+    deleteExtraData(req.session, constants.IS_SELECT_USER_ROLE_ERROR);
+    deleteExtraData(req.session, constants.DETAILS_OF_USER_TO_REMOVE);
     const search = req.query?.search as string;
     const { ownerPage, adminPage, standardPage } = getPageQueryParams(req);
     const activeTabId = getActiveTabId(req);
@@ -50,7 +53,7 @@ export const getViewData = async (req: Request): Promise<AnyRecord> => {
     const viewData: AnyRecord = {
         lang: translations,
         backLinkUrl: constants.DASHBOARD_FULL_URL,
-        addUserUrl: constants.ADD_USER_FULL_URL + constants.CLEAR_FORM_TRUE,
+        addUserUrl: constants.ADD_USER_FULL_URL,
         companyName: acspName,
         companyNumber: acspNumber,
         loggedInUserRole: userRole,
@@ -59,7 +62,9 @@ export const getViewData = async (req: Request): Promise<AnyRecord> => {
         administratorsTabId: constants.ADMINISTRATORS_ID,
         standardUsersTabId: constants.STANDARD_USERS_ID,
         templateName: constants.MANAGE_USERS_PAGE,
-        manageUsersTabId: activeTabId
+        manageUsersTabId: activeTabId,
+        MATOMO_ADD_USER_GOAL_ID: constants.MATOMO_ADD_USER_GOAL_ID,
+        MATOMO_REMOVE_USER_GOAL_ID: constants.MATOMO_REMOVE_USER_GOAL_ID
     };
 
     let errorMessage;
@@ -80,7 +85,7 @@ export const getViewData = async (req: Request): Promise<AnyRecord> => {
             const foundUser = await membershipLookup(req, acspNumber, search);
             if (foundUser.items.length > 0) {
                 setTabIds(viewData, foundUser.items[0].userRole);
-                const memberData = getUserTableData(foundUser.items, translations, userRole !== UserRole.STANDARD, req.lang);
+                const memberData = getUserTableData(foundUser.items, translations, userRole !== UserRole.STANDARD, userRole !== UserRole.STANDARD, req.lang);
                 switch (foundUser.items[0].userRole) {
                 case UserRole.OWNER:
                     viewData.accountOwnersTableData = memberData;
@@ -107,9 +112,9 @@ export const getViewData = async (req: Request): Promise<AnyRecord> => {
             getMemberRawViewData(req, acspNumber, pageNumbers, UserRole.STANDARD, constants.STANDARD_USERS_TAB_ID, translations)
         ]);
 
-        viewData.accountOwnersTableData = getUserTableData(ownerMemberRawViewData.memberships, translations, userRole === UserRole.OWNER, req.lang);
-        viewData.administratorsTableData = getUserTableData(adminMemberRawViewData.memberships, translations, userRole !== UserRole.STANDARD, req.lang);
-        viewData.standardUsersTableData = getUserTableData(standardMemberRawViewData.memberships, translations, userRole !== UserRole.STANDARD, req.lang);
+        viewData.accountOwnersTableData = getUserTableData(ownerMemberRawViewData.memberships, translations, userRole === UserRole.OWNER, userRole === UserRole.OWNER, req.lang);
+        viewData.administratorsTableData = getUserTableData(adminMemberRawViewData.memberships, translations, userRole !== UserRole.STANDARD, userRole !== UserRole.STANDARD, req.lang);
+        viewData.standardUsersTableData = getUserTableData(standardMemberRawViewData.memberships, translations, userRole !== UserRole.STANDARD, userRole !== UserRole.STANDARD, req.lang);
 
         viewData.accoutOwnerPadinationData = ownerMemberRawViewData.pagination;
         viewData.adminPadinationData = adminMemberRawViewData.pagination;
@@ -146,15 +151,22 @@ export const getDisplayNameOrEmail = (member: AcspMembership): string => !member
 
 export const getDisplayNameOrNotProvided = (locale: string, member: AcspMembership): string => member.userDisplayName === constants.NOT_PROVIDED && locale === "cy" ? constants.NOT_PROVIDED_CY : member.userDisplayName;
 
-const getUserTableData = (membership: AcspMembership[], translations: AnyRecord, hasRemoveLink: boolean, locale: string): TableEntry[][] => {
+const getUserTableData = (membership: AcspMembership[], translations: AnyRecord, hasChangeRoleLink: boolean, hasRemoveLink: boolean, locale: string): TableEntry[][] => {
     const userTableDate: TableEntry[][] = [];
     for (const member of membership) {
         const tableEntry: TableEntry[] = [
             { text: member.userEmail },
             { text: getDisplayNameOrNotProvided(locale, member) }
         ];
+
+        if (hasChangeRoleLink) {
+            const fullUrl = getChangeMemberRoleFullUrl(member.id);
+            const hiddenText = getHiddenText(`${translations.for} ${member.userEmail}`);
+            tableEntry[2] = { html: getLink(fullUrl, `${translations.change_role as string} ${hiddenText}`, "change-role") };
+        }
+
         if (hasRemoveLink) {
-            tableEntry[2] = { html: getLink(getRemoveMemberCheckDetailsFullUrl(member.id), `${translations.remove as string} ${getHiddenText(member.userEmail)}`) };
+            tableEntry[hasChangeRoleLink ? 3 : 2] = { html: getLink(getRemoveMemberCheckDetailsFullUrl(member.id), `${translations.remove as string} ${getHiddenText(member.userEmail)}`, "remove") };
         }
         userTableDate.push(tableEntry);
     }

@@ -10,8 +10,12 @@ import { confirmationMemberAddedControllerGet } from "./controllers/confirmation
 import { removeUserCheckDetailsControllerGet } from "./controllers/removeUserCheckDetailsController";
 import { tryRemovingUserControllerPost } from "./controllers/tryRemovingUserController";
 import { removeUserSuccessControllerGet } from "./controllers/removeUserSuccessController";
-import { removeYourselfControllerGet } from "./controllers/confirmationYouAreRemovedController";
 import { stopPageAddOwnerControllerGet } from "./controllers/stopPageAddOwnerControllerGet";
+import { stopPageController } from "./controllers/stopPageController";
+import { editMemberRoleControllerGet, editMemberRoleControllerPost } from "./controllers/editMemberRoleController";
+import { checkEditMemberRoleDetailsControllerGet } from "./controllers/checkEditMemberRoleDetailsController";
+import { confirmationMemberRoleEditedControllerGet } from "./controllers/confirmationMemberRoleEditedController";
+import { tryEditMemberRolePost } from "./controllers/tryEditMemberRoleController";
 import { cannotAddUserControllerGet } from "./controllers/cannotAddUserController";
 
 const router: Router = Router();
@@ -23,10 +27,9 @@ router.get(constants.VIEW_USERS_URL, manageUsersControllerGet as RequestHandler)
 router.post(constants.VIEW_USERS_URL, manageUsersControllerPost as RequestHandler);
 
 router.get(constants.CONFIRMATION_MEMBER_ADDED_URL, confirmationMemberAddedControllerGet as RequestHandler);
-router.get(`${constants.REMOVE_MEMBER_CHECK_DETAILS_URL}/:id`, removeUserCheckDetailsControllerGet as RequestHandler);
+router.get(constants.REMOVE_MEMBER_CHECK_DETAILS_URL, removeUserCheckDetailsControllerGet as RequestHandler);
 
 router.get(constants.CONFIRMATION_MEMBER_REMOVED_URL, removeUserSuccessControllerGet as RequestHandler);
-router.get(constants.CONFIRMATION_YOU_ARE_REMOVED_URL, removeYourselfControllerGet as RequestHandler);
 
 router.get(constants.DASHBOARD_URL, dashboardControllerGet);
 
@@ -41,6 +44,17 @@ router.get(constants.CANNOT_ADD_USER_URL, cannotAddUserControllerGet);
 router.post(constants.TRY_REMOVING_USER_URL, tryRemovingUserControllerPost);
 router.get(constants.STOP_PAGE_ADD_ACCOUNT_OWNER_URL, stopPageAddOwnerControllerGet);
 
+router.get(constants.EDIT_MEMBER_ROLE_URL, editMemberRoleControllerGet);
+router.post(constants.EDIT_MEMBER_ROLE_URL, editMemberRoleControllerPost);
+
+router.get(constants.CHECK_EDIT_MEMBER_ROLE_DETAILS_URL, checkEditMemberRoleDetailsControllerGet);
+
+router.get(constants.CONFIRMATION_MEMBER_ROLE_EDITED_URL, confirmationMemberRoleEditedControllerGet);
+
+router.post(constants.TRY_EDIT_MEMBER_ROLE_URL, tryEditMemberRolePost);
+
 router.get(constants.HEALTHCHECK, healthCheckController);
+
+router.get(constants.SOMETHING_WENT_WRONG_URL, stopPageController);
 
 export default router;

@@ -4,6 +4,7 @@ import { AcspMembership, UserRole } from "private-api-sdk-node/dist/services/acs
 import { getExtraData, getLoggedUserAcspMembership } from "../../lib/utils/sessionUtils";
 import { MemberForRemoval } from "../../types/membership";
 import { getAcspMemberships, updateOrRemoveUserAcspMembership } from "../../services/acspMemberService";
+import logger from "../../lib/Logger";
 
 export const tryRemovingUserControllerPost = async (req: Request, res: Response): Promise<void> => {
     const memberForRemoval: MemberForRemoval = getExtraData(req.session, constants.DETAILS_OF_USER_TO_REMOVE);
@@ -16,13 +17,15 @@ export const tryRemovingUserControllerPost = async (req: Request, res: Response)
         const ownerMembers = await getAcspMemberships(req, acspNumber, false, 0, 20, [UserRole.OWNER]);
 
         if (ownerMembers?.items?.length === 1 && ownerMembers.items[0].userId === userId) {
-            return res.redirect(constants.STOP_PAGE_ADD_ACCOUNT_OWNER_URL_FULL_URL);
+            return res.redirect(constants.STOP_PAGE_ADD_ACCOUNT_OWNER_FULL_URL);
         }
     }
     await updateOrRemoveUserAcspMembership(req, memberForRemoval.id, { removeUser: true });
 
     if (removingThemselves) {
-        res.redirect(constants.CONFIRMATION_YOU_ARE_REMOVED_FULL_URL);
+        logger.info("User has removed themselves, redirecting to sign out now ... ");
+        res.set("Referrer-Policy", "origin");
+        return res.redirect(constants.SIGN_OUT_URL);
     } else {
         res.redirect(constants.CONFIRMATION_MEMBER_REMOVED_FULL_URL);
     }

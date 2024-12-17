@@ -1,0 +1,73 @@
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+{% from "govuk/components/inset-text/macro.njk" import govukInsetText %}
+
+{% extends "layouts/default.njk" %}
+
+{% block back_link %}
+    {% include "partials/back_link.njk" %}
+{% endblock %}
+
+{% block main_content %}
+    <div class="govuk-grid-column-two-thirds">
+        <span class="govuk-caption-l">{{companyName}}</span>
+        <h1 class="govuk-heading-l">{{lang.page_header}}</h1>
+
+        {% set userNameOrEmail = userDisplayName if userDisplayName else 
+            email %}
+
+        {{ govukSummaryList({
+            rows: [
+                    {
+                        key: {
+                            text: lang.user
+                        },
+                        value: {
+                            text: userNameOrEmail
+                        }
+                    },
+                    {
+                        key: {
+                            text: lang.role
+                        },
+                        value: {
+                            text: userRoleTag
+                        },
+                        actions: {
+                            items: [
+                                {
+                                    href: backLinkUrl,
+                                    text: lang.change,
+                                    visuallyHiddenText: lang.role_hidden_text
+                                }
+                            ]
+                        }
+                    }
+                ]
+            })
+        }}
+
+        {% set insetText %}
+        {{lang.well_send_an_email_to}}
+        <span class="govuk-body govuk-!-font-weight-bold">{{email}}</span>
+        {{lang.to_tell_them_youve_changed_their_role}}
+        {% endset %}
+
+        {{ govukInsetText({
+                html: insetText
+            })
+        }}
+
+        <form action="{{ tryEditUserRoleUrl }}" method="POST">
+            {% include "partials/csrf_token.njk" %}
+            {{ govukButton({
+                text: lang.confirm_users_role,
+                attributes: {
+                    id: "confirm-user-button",
+                    type: "submit",
+                    "data-event-id": "confirm-user-role"
+                }
+            }) }}
+        </form>
+    </div>
+{% endblock %}

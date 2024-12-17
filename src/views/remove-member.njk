@@ -10,7 +10,7 @@
 {% endblock %}
 
 {% if removingThemselves %}
-    {% set buttonText = lang.remove %}
+    {% set buttonText = lang.remove_and_sign_out %}
     {% set title = lang.are_you_sure + lang.title_end %}
     {% set dataEventIdForRemoveUser = "remove-yourself" %}
     {% set dataEventIdForCancelRemoveUser = "cancel-remove-yourself" %}
@@ -25,11 +25,14 @@
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
             <form method="post" action="{{ tryRemovingUserUrl }}">
+                {% include "partials/csrf_token.njk" %}
+
                 <span class="govuk-caption-xl">{{companyName}}</span>
 
                 {% if removingThemselves %}
                     <h1 class="govuk-heading-xl">{{lang.are_you_sure}}</h1>
-                    <p class="govuk-body">{{lang.if_remove_yourself}}{{companyName}}.</p>
+                    <p class="govuk-body">{{lang.if_remove_yourself}}</p>
+                    <p class="govuk-body">{{lang.youll_be_immediately_signed_out}}</p>
                 {% else %}
                     <h1 class="govuk-heading-xl">{{lang.remove}}{{userDetails}}</h1>
                     <p class="govuk-body">{{lang.if_you_remove}}{{displayNameInFirstParagraph}}{{lang.they_will_not_be_able_to_use}}{{companyName}}.</p>
@@ -37,14 +40,14 @@
 
                 <div class="govuk-button-group">
                     {{ govukButton({
-                        text: buttonText,
-                        classes: "govuk-button--warning",
-                        type: "submit",
-                        attributes: {
-                            "data-event-id": dataEventIdForRemoveUser
-                        }
-                       })
-                     }}
+                            text: buttonText,
+                            classes: "govuk-button--warning",
+                            type: "submit",
+                            attributes: {
+                                "data-event-id": dataEventIdForRemoveUser
+                            }
+                        })
+                    }}
                     <a class="govuk-link" href="{{backLinkUrl}}" data-event-id="{{dataEventIdForCancelRemoveUser}}" id="cancel-link">{{lang.cancel}}</a>
                 </div>
             </form>

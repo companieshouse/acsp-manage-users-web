@@ -35,3 +35,11 @@ export type PageNumbers = {
     adminPage: number;
     standardPage: number;
 }
+
+export type UserRoleChangeData = {
+    acspMembershipId: string;
+    userRole: string;
+    userEmail: string;
+    userDisplayName?: string;
+    changeRolePageUrl: string;
+}

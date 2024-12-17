@@ -2,9 +2,9 @@ $govuk-global-styles: true;
 
 @function custom-url-handler($filename) {
     @return url("/fonts/#{$filename}");
-  }
+}
 
-$govuk-font-url-function: 'custom-url-handler';
+$govuk-font-url-function: "custom-url-handler";
 
 @import "node_modules/govuk-frontend/dist/govuk/all";
 @import "./govuk-language-select";
@@ -27,7 +27,7 @@ $govuk-font-url-function: 'custom-url-handler';
         margin-top: 20px;
         margin-left: 0;
     }
-    
+
     #search {
         max-width: unset;
         margin-right: 0;
@@ -45,8 +45,21 @@ $govuk-font-url-function: 'custom-url-handler';
 
 /* styling from https://github.com/companieshouse/find-update-company-info-prototype/blob/main/app/assets/sass/custom.scss */
 
-.grid-row:after, fieldset:after, .form-section:after, .form-group:after, .form-block:after, .notice:after, #content:after, .panel:after, #global-nav .inner:after, .navigation-list:after, .pager ul:after, ol.breadcrumb:after, ul.pager:after, .section-tabs:after {
-content: "";
+.grid-row:after,
+fieldset:after,
+.form-section:after,
+.form-group:after,
+.form-block:after,
+.notice:after,
+#content:after,
+.panel:after,
+#global-nav .inner:after,
+.navigation-list:after,
+.pager ul:after,
+ol.breadcrumb:after,
+ul.pager:after,
+.section-tabs:after {
+    content: "";
     display: block;
     clear: both;
 }
@@ -60,7 +73,8 @@ content: "";
     color: #fff;
 }
 
-#chs-customer-insights-top a:link, #chs-customer-insights-top a:visited {
+#chs-customer-insights-top a:link,
+#chs-customer-insights-top a:visited {
     color: #fff;
 }
 
@@ -76,7 +90,8 @@ content: "";
     float: right;
 }
 
-#chs-customer-insights, #customer-insights-top-banner {
+#chs-customer-insights,
+#customer-insights-top-banner {
     background-color: #005ea5;
     padding: 0.5em 0.5em 0;
     margin: 0 auto 0;
@@ -91,15 +106,20 @@ content: "";
     margin-top: -10px;
 }
 
-#chs-customer-insights a:link, #chs-customer-insights a:visited, #customer-insights-top-banner a:link, #customer-insights-top-banner a:visited {
+#chs-customer-insights a:link,
+#chs-customer-insights a:visited,
+#customer-insights-top-banner a:link,
+#customer-insights-top-banner a:visited {
     color: #fff;
 }
 
-#chs-customer-insights a:focus, #customer-insights-top-banner a:focus {
+#chs-customer-insights a:focus,
+#customer-insights-top-banner a:focus {
     color: #0b0c0c;
 }
 
-#chs-customer-insights a:hover, #customer-insights-top-banner a:hover {
+#chs-customer-insights a:hover,
+#customer-insights-top-banner a:hover {
     color: #bfc1c3;
 }
 
@@ -143,4 +163,19 @@ content: "";
 
 .blue-footer-border {
     border-bottom: 10px solid #005ea5;
+}
+
+/* styling from https://github.com/companieshouse/find-update-company-info-prototype/blob/main/app/assets/sass/application.scss */
+
+.govuk-topic-block {
+    border-top: 1px solid #b1b4b6;
+    padding: 18px 0 20px 0;
+    margin: 0 15px;
+    width: 30.3%;
+}
+
+@media screen and (max-width: 1019px) {
+    .govuk-topic-block {
+        width: auto;
+    }
 }

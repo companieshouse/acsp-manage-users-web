@@ -21,12 +21,12 @@ lint:
 	npm run lint
 
 .PHONY: sonar
-sonar:
+sonar: test
 	npm run sonarqube
 
 .PHONY: test
 test:
-	npm run test:coverage
+	npm run coverage
 
 .PHONY: test-unit
 test-unit:

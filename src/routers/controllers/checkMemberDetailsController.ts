@@ -9,7 +9,7 @@ import { ViewDataWithBackLink } from "../../types/utilTypes";
 
 interface CheckMemberDetailsGetViewData extends ViewDataWithBackLink {
     companyName: string,
-    userEmailAddress: string,
+    newUserEmailAddress: string,
     userRole: UserRole,
     userRoleTag: string,
     tryAddingUserUrl: string,
@@ -28,7 +28,7 @@ export const checkMemberDetailsControllerGet = async (req: Request, res: Respons
         backLinkUrl: constants.ADD_USER_FULL_URL,
         tryAddingUserUrl: constants.TRY_ADDING_USER_FULL_URL,
         templateName: constants.CHECK_MEMBER_DETAILS_PAGE,
-        userEmailAddress: newUserDetails.email as string,
+        newUserEmailAddress: newUserDetails.email as string,
         userRole: newUserDetails.userRole as UserRole,
         companyName,
         userRoleTag

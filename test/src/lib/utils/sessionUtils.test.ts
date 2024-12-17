@@ -1,22 +1,37 @@
 import { Session } from "@companieshouse/node-session-handler";
 import { getSessionRequestWithPermission, userMail } from "../../../mocks/session.mock";
-import { deleteExtraData, getAccessToken, getExtraData, getLoggedInUserEmail, getLoggedUserAcspMembership, setExtraData } from "../../../../src/lib/utils/sessionUtils";
 import * as constants from "../../../../src/lib/constants";
 import { accountOwnerAcspMembership } from "../../../mocks/acsp.members.mock";
+import * as sessionUtils from "../../../../src/lib/utils/sessionUtils";
 
 describe("Session Utils", () => {
     describe("getLoggedInUserEmail", () => {
         const testSessionWithPermission: Session = getSessionRequestWithPermission();
         it("should return user email address if user is logged in", () => {
-            expect(getLoggedInUserEmail(testSessionWithPermission)).toEqual(userMail);
+            expect(sessionUtils.getLoggedInUserEmail(testSessionWithPermission)).toEqual(userMail);
         });
 
         it("should return undefined instead of user email address if user is not logged in", () => {
-            expect(getLoggedInUserEmail(undefined)).toBeUndefined;
+            expect(sessionUtils.getLoggedInUserEmail(undefined)).toBeUndefined;
         });
 
         it("should return undefined instead of user email address if session data is missing", () => {
-            expect(getLoggedInUserEmail(new Session())).toBeUndefined;
+            expect(sessionUtils.getLoggedInUserEmail(new Session())).toBeUndefined;
+        });
+    });
+
+    describe("getLoggedInAcspNumber", () => {
+        const testSessionWithPermission: Session = getSessionRequestWithPermission();
+        it("should return ACSP number if user is logged in", () => {
+            expect(sessionUtils.getLoggedInAcspNumber(testSessionWithPermission)).toEqual("ABC123");
+        });
+
+        it("should return undefined if user is not logged in", () => {
+            expect(sessionUtils.getLoggedInAcspNumber(undefined)).toBeUndefined;
+        });
+
+        it("should return undefined if session data is missing", () => {
+            expect(sessionUtils.getLoggedInAcspNumber(new Session())).toBeUndefined;
         });
     });
 
@@ -27,7 +42,7 @@ describe("Session Utils", () => {
             const key = "testKey";
             const value = "testValue";
             // When
-            setExtraData(session, key, value);
+            sessionUtils.setExtraData(session, key, value);
             // Then
             expect(session.data.extra_data[key]).toEqual(value);
         });
@@ -41,7 +56,7 @@ describe("Session Utils", () => {
             const value = "testValue";
             session.data.extra_data[key] = value;
             // When
-            const result = getExtraData(session, key);
+            const result = sessionUtils.getExtraData(session, key);
             // Then
             expect(result).toEqual(value);
         });
@@ -51,7 +66,7 @@ describe("Session Utils", () => {
             const session = undefined;
             const key = "testKey";
             // When
-            const result = getExtraData(session, key);
+            const result = sessionUtils.getExtraData(session, key);
             // Then
             expect(result).toEqual(undefined);
         });
@@ -63,7 +78,7 @@ describe("Session Utils", () => {
             const value = "testValue";
             session.data.extra_data[key] = value;
             // When
-            const result = getExtraData(session, "test");
+            const result = sessionUtils.getExtraData(session, "test");
             // Then
             expect(result).toEqual(undefined);
         });
@@ -75,10 +90,10 @@ describe("Session Utils", () => {
             const session: Session = new Session();
             const key = "testKey";
             const value = "testValue";
-            setExtraData(session, key, value);
+            sessionUtils.setExtraData(session, key, value);
             expect(session.data.extra_data[key]).toEqual(value);
             // When
-            const result = deleteExtraData(session, key);
+            const result = sessionUtils.deleteExtraData(session, key);
             // Then
             expect(session.data.extra_data[key]).toEqual(undefined);
             expect(result).toBeTruthy();
@@ -89,10 +104,10 @@ describe("Session Utils", () => {
             const session: Session = new Session();
             const key = "testKey";
             const value = "testValue";
-            setExtraData(session, key, value);
+            sessionUtils.setExtraData(session, key, value);
             expect(session.data.extra_data[key]).toEqual(value);
             // When
-            const result = deleteExtraData(session, "wrongKey");
+            const result = sessionUtils.deleteExtraData(session, "wrongKey");
             // Then
             expect(session.data.extra_data[key]).toEqual(value);
             expect(result).toBeTruthy();
@@ -103,10 +118,10 @@ describe("Session Utils", () => {
             const session: Session = new Session();
             const key = "testKey";
             const value = "testValue";
-            setExtraData(session, key, value);
+            sessionUtils.setExtraData(session, key, value);
             expect(session.data.extra_data[key]).toEqual(value);
             // When
-            const result = deleteExtraData(undefined, key);
+            const result = sessionUtils.deleteExtraData(undefined, key);
             // Then
             expect(session.data.extra_data[key]).toEqual(value);
             expect(result).toBeFalsy();
@@ -120,7 +135,7 @@ describe("Session Utils", () => {
             const session: Session = new Session();
             (session.data.signin_info as unknown) = { access_token: { access_token: accessToken } };
             // When
-            const result = getAccessToken(session);
+            const result = sessionUtils.getAccessToken(session);
             // Then
             expect(result).toEqual(accessToken);
         });
@@ -132,10 +147,10 @@ describe("Session Utils", () => {
             const session: Session = new Session();
             const key = constants.LOGGED_USER_ACSP_MEMBERSHIP;
             const value = accountOwnerAcspMembership;
-            setExtraData(session, key, value);
+            sessionUtils.setExtraData(session, key, value);
             expect(session.data.extra_data[key]).toEqual(value);
             // When
-            const result = getLoggedUserAcspMembership(session);
+            const result = sessionUtils.getLoggedUserAcspMembership(session);
             // Then
             expect(result).toEqual(accountOwnerAcspMembership);
         });
@@ -146,7 +161,7 @@ describe("Session Utils", () => {
             const key = constants.LOGGED_USER_ACSP_MEMBERSHIP;
             expect(session.data.extra_data[key]).toBeUndefined();
             // When
-            const result = getLoggedUserAcspMembership(session);
+            const result = sessionUtils.getLoggedUserAcspMembership(session);
             // Then
             expect(result).toBeUndefined();
         });
