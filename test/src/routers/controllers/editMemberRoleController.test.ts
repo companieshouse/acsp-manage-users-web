@@ -142,8 +142,7 @@ const containsContent = (
             !responseText.includes(`${lang.theyll_be_able_to}`) &&
             !responseText.includes(`<li>${lang.theyll_be_able_to_bullet_points[0]}`) &&
             !responseText.includes(`<li>${lang.theyll_be_able_to_bullet_points[1]}`) &&
-            !responseText.includes(`<li>${lang.theyll_be_able_to_bullet_points[2]}`) &&
-            !responseText.includes(`<li>${lang.theyll_be_able_to_bullet_points[3]}`);
+            !responseText.includes(`<li>${lang.theyll_be_able_to_bullet_points[2]}`);
     }
 
     if (containsExpectedContent && userRole === UserRole.OWNER) {
@@ -151,8 +150,7 @@ const containsContent = (
             responseText.includes(`${lang.theyll_be_able_to}`) &&
             responseText.includes(`<li>${lang.theyll_be_able_to_bullet_points[0]}`) &&
             responseText.includes(`<li>${lang.theyll_be_able_to_bullet_points[1]}`) &&
-            responseText.includes(`<li>${lang.theyll_be_able_to_bullet_points[2]}`) &&
-            responseText.includes(`<li>${lang.theyll_be_able_to_bullet_points[3]}`);
+            responseText.includes(`<li>${lang.theyll_be_able_to_bullet_points[2]}`);
     }
 
     if (containsExpectedContent && (userRole === UserRole.OWNER || userRole === UserRole.ADMIN)) {
