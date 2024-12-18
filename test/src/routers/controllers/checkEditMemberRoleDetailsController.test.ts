@@ -1,5 +1,9 @@
 import mocks from "../../../mocks/all.middleware.mock";
-import { adminUserRoleChangeDataMock, ownerUserRoleChangeDataMock, standardUserRoleChangeDataMock } from "../../../mocks/user.mock";
+import {
+    adminUserRoleChangeDataMock,
+    ownerUserRoleChangeDataMock,
+    standardUserRoleChangeDataMock
+} from "../../../mocks/user.mock";
 import { loggedAccountOwnerAcspMembership } from "../../../mocks/acsp.members.mock";
 import supertest from "supertest";
 import app from "../../../../src/app";

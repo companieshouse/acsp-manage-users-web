@@ -1,6 +1,5 @@
 import { UserRole } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
 import { addErrorToViewData, getHiddenText, getLink, getUserRoleTag } from "../../../../src/lib/utils/viewUtils";
-import { ViewData } from "../../../../src/types/utilTypes";
 import { UserRoleTagCy, UserRoleTagEn } from "../../../../src/types/userRoleTagEn";
 
 describe("getLink", () => {
@@ -30,7 +29,7 @@ describe("getHiddenText", () => {
 
 describe("addErrorToViewData", () => {
     test("adds error key and error message to view data object", () => {
-        const viewDataOriginal: ViewData = {
+        const viewDataOriginal = {
             lang: {},
             companyName: "Acme",
             templateName: "template"
@@ -52,7 +51,7 @@ describe("addErrorToViewData", () => {
     });
 
     test("should add error key and error message to view data which already contains an error", () => {
-        const viewDataOriginal: ViewData = {
+        const viewDataOriginal = {
             lang: {},
             companyName: "Acme",
             templateName: "template",

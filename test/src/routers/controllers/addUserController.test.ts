@@ -8,7 +8,8 @@ import * as userAccountService from "../../../../src/services/userAccountService
 import * as sessionUtils from "../../../../src/lib/utils/sessionUtils";
 import {
     administratorAcspMembership,
-    loggedAccountOwnerAcspMembership, ToyStoryBuzzAcspMembership
+    loggedAccountOwnerAcspMembership,
+    ToyStoryBuzzAcspMembership
 } from "../../../mocks/acsp.members.mock";
 import { session } from "../../../mocks/session.middleware.mock";
 

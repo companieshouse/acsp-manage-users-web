@@ -37,7 +37,7 @@ describe("authentication middleware tests", () => {
     });
 
     it("should not redirect to sign in when url is on whitelist", () => {
-        req.originalUrl = constants.LANDING_URL + constants.HEALTHCHECK;
+        req.originalUrl = constants.HEALTHCHECK_FULL_URL;
         authenticationMiddleware(req, res, next);
         expect(mockAuthMiddleware).not.toHaveBeenCalled();
         expect(next).toHaveBeenCalled();

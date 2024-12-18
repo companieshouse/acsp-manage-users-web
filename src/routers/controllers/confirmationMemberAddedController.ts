@@ -1,18 +1,20 @@
 import { Request, Response } from "express";
 import * as constants from "../../lib/constants";
 import { getTranslationsForView } from "../../lib/utils/translationUtils";
-import { AnyRecord } from "types/utilTypes";
+import { BaseViewData } from "types/utilTypes";
 import { getExtraData } from "../../lib/utils/sessionUtils";
 import { NewUserDetails } from "../../types/user";
 import { getUserRoleTag } from "../../lib/utils/viewUtils";
 import { AcspMembership, UserRole } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
 
-export const confirmationMemberAddedControllerGet = async (req: Request, res: Response): Promise<void> => {
-    const viewData = getViewData(req);
-    res.render(constants.CONFIRMATION_MEMBER_ADDED_PAGE, { ...viewData });
-};
+interface ConfirmationMemberAddedGetViewData extends BaseViewData {
+    newUserDetails: NewUserDetails,
+    userRole: string,
+    companyName: string,
+    buttonHref: string
+}
 
-const getViewData = (req: Request): AnyRecord => {
+export const confirmationMemberAddedControllerGet = async (req: Request, res: Response): Promise<void> => {
     const translations = getTranslationsForView(req.lang, constants.CONFIRMATION_MEMBER_ADDED_PAGE);
 
     // Hardcoded data will be replaced once relevant API calls available
@@ -22,12 +24,14 @@ const getViewData = (req: Request): AnyRecord => {
     const loggedInUserMembership: AcspMembership = getExtraData(req.session, constants.LOGGED_USER_ACSP_MEMBERSHIP);
     const companyName = loggedInUserMembership.acspName;
 
-    return {
+    const viewData: ConfirmationMemberAddedGetViewData = {
         lang: translations,
+        buttonHref: constants.MANAGE_USERS_FULL_URL,
+        templateName: constants.CONFIRMATION_MEMBER_ADDED_PAGE,
         newUserDetails,
         userRole,
-        companyName,
-        buttonHref: constants.MANAGE_USERS_FULL_URL,
-        templateName: constants.CONFIRMATION_MEMBER_ADDED_PAGE
+        companyName
     };
+
+    res.render(constants.CONFIRMATION_MEMBER_ADDED_PAGE, viewData);
 };
