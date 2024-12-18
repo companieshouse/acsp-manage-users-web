@@ -100,13 +100,12 @@
         }
     }), radios_items) %}
 
-{% set start_date_info %}
+{% set added_to_account_info %}
 <p class="govuk-body">{{lang.all_users_who_are_added}}</p>
 <ul class="govuk-list govuk-list--bullet govuk-!-margin-bottom-6">
-    <li>{{lang.all_users_who_are_added_bullet_points[0]}}
-        {{verifyPeopleIdentityFromDate}}</li>
-    <li>{{lang.all_users_who_are_added_bullet_points[1]}}
-        {{fileAsAuthorisedAgentFromDate}}</li>
+    {% for item in lang.all_users_who_are_added_bullet_points %}
+        <li>{{item}}</li>
+    {% endfor %}
 </ul>
 {% endset %}
 
@@ -143,7 +142,7 @@
                     })
                 }}
 
-                {{ govukInsetText({ html: start_date_info }) }}
+                {{ govukInsetText({ html: added_to_account_info }) }}
 
                 {% set button_attributes = {
                         role: "button",

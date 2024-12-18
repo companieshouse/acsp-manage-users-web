@@ -68,9 +68,7 @@ const getViewData = async (req: Request): Promise<ViewData> => {
         oldUserRole: userToChangeRole.userRole,
         userDisplayName: userToChangeRole.userDisplayName === constants.NOT_PROVIDED ? undefined : userToChangeRole.userDisplayName,
         backLinkUrl: constants.MANAGE_USERS_FULL_URL,
-        templateName: constants.EDIT_MEMBER_ROLE_PAGE,
-        verifyPeopleIdentityFromDate: "XX DATE", // TODO - replace with live data once known
-        fileAsAuthorisedAgentFromDate: "XX DATE" // TODO - replace with live data once known
+        templateName: constants.EDIT_MEMBER_ROLE_PAGE
     };
 
     if (userToChangeRole.userRole === UserRole.OWNER && await isTheOnlyOwner(req, userToChangeRole.acspNumber, userToChangeRole.userId)) {
