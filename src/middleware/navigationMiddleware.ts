@@ -5,6 +5,7 @@ import logger from "../lib/Logger";
 import { Navigation } from "../types/navigation";
 import { UserRole, AcspMembership } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
 import { getExtraData } from "../lib/utils/sessionUtils";
+import { EDIT_MEMBER_ROLE_FULL_URL } from "../lib/constants";
 
 export const NAVIGATION: Navigation = {
     [constants.CHECK_MEMBER_DETAILS_FULL_URL]: {
@@ -17,14 +18,19 @@ export const NAVIGATION: Navigation = {
         redirectTo: constants.MANAGE_USERS_FULL_URL,
         allowedUserRoles: [UserRole.OWNER, UserRole.ADMIN]
     },
-    [constants.REMOVE_MEMBER_BASE]: {
-        allowedReferers: [constants.REMOVE_MEMBER_BASE, constants.MANAGE_USERS_FULL_URL, constants.STOP_PAGE_ADD_ACCOUNT_OWNER_FULL_URL],
+    [constants.REMOVE_MEMBER_CHECK_DETAILS_FULL_URL]: {
+        allowedReferers: [constants.REMOVE_MEMBER_CHECK_DETAILS_FULL_URL, constants.MANAGE_USERS_FULL_URL, constants.STOP_PAGE_ADD_ACCOUNT_OWNER_FULL_URL],
         redirectTo: constants.MANAGE_USERS_FULL_URL,
         allowedUserRoles: [UserRole.OWNER, UserRole.ADMIN]
     },
     [constants.CONFIRMATION_MEMBER_REMOVED_FULL_URL]: {
-        allowedReferers: [constants.REMOVE_MEMBER_BASE, constants.CONFIRMATION_MEMBER_REMOVED_FULL_URL],
+        allowedReferers: [constants.REMOVE_MEMBER_CHECK_DETAILS_FULL_URL, constants.CONFIRMATION_MEMBER_REMOVED_FULL_URL],
         redirectTo: constants.MANAGE_USERS_FULL_URL,
+        allowedUserRoles: [UserRole.OWNER, UserRole.ADMIN]
+    },
+    [constants.CONFIRMATION_YOU_ARE_REMOVED_FULL_URL]: {
+        allowedReferers: [constants.REMOVE_MEMBER_CHECK_DETAILS_FULL_URL, constants.CONFIRMATION_YOU_ARE_REMOVED_FULL_URL],
+        redirectTo: constants.CHS_SEARCH_REGISTER_PAGE,
         allowedUserRoles: [UserRole.OWNER, UserRole.ADMIN]
     },
     [constants.CANNOT_ADD_USER_FULL_URL]: {
@@ -33,7 +39,7 @@ export const NAVIGATION: Navigation = {
         allowedUserRoles: [UserRole.OWNER, UserRole.ADMIN]
     },
     [constants.STOP_PAGE_ADD_ACCOUNT_OWNER_FULL_URL]: {
-        allowedReferers: [constants.REMOVE_MEMBER_BASE, constants.MANAGE_USERS_FULL_URL, constants.STOP_PAGE_ADD_ACCOUNT_OWNER_FULL_URL],
+        allowedReferers: [constants.REMOVE_MEMBER_CHECK_DETAILS_FULL_URL, constants.STOP_PAGE_ADD_ACCOUNT_OWNER_FULL_URL],
         redirectTo: constants.MANAGE_USERS_FULL_URL,
         allowedUserRoles: [UserRole.OWNER, UserRole.ADMIN]
     },
@@ -42,13 +48,13 @@ export const NAVIGATION: Navigation = {
         redirectTo: constants.VIEW_USERS_FULL_URL,
         allowedUserRoles: [UserRole.OWNER, UserRole.ADMIN]
     },
-    [constants.CHANGE_MEMBER_ROLE_BASE]: {
-        allowedReferers: [constants.CHANGE_MEMBER_ROLE_BASE, constants.MANAGE_USERS_FULL_URL, constants.CHECK_EDIT_MEMBER_ROLE_DETAILS_FULL_URL],
+    [constants.EDIT_MEMBER_ROLE_FULL_URL]: {
+        allowedReferers: [constants.EDIT_MEMBER_ROLE_FULL_URL, constants.MANAGE_USERS_FULL_URL, constants.CHECK_EDIT_MEMBER_ROLE_DETAILS_FULL_URL],
         redirectTo: constants.MANAGE_USERS_FULL_URL,
         allowedUserRoles: [UserRole.OWNER, UserRole.ADMIN]
     },
     [constants.CHECK_EDIT_MEMBER_ROLE_DETAILS_FULL_URL]: {
-        allowedReferers: [constants.CHANGE_MEMBER_ROLE_BASE, constants.CHECK_EDIT_MEMBER_ROLE_DETAILS_FULL_URL],
+        allowedReferers: [constants.EDIT_MEMBER_ROLE_FULL_URL, constants.CHECK_EDIT_MEMBER_ROLE_DETAILS_FULL_URL],
         redirectTo: constants.MANAGE_USERS_FULL_URL,
         allowedUserRoles: [UserRole.OWNER, UserRole.ADMIN]
     },
@@ -70,22 +76,14 @@ export const NAVIGATION: Navigation = {
 };
 
 export const navigationMiddleware = (req: Request, res: Response, next: NextFunction): void => {
-
     const callerURL = url.parse(req.headers.referer || "", true).pathname || "";
     let currentPath = url.parse(req.originalUrl, true).pathname || "";
-    if (currentPath.startsWith(constants.REMOVE_MEMBER_BASE)) {
-        currentPath = constants.REMOVE_MEMBER_BASE;
-    }
-    if (currentPath.startsWith(constants.CHANGE_MEMBER_ROLE_BASE)) {
-        currentPath = constants.CHANGE_MEMBER_ROLE_BASE;
-    }
 
-    if (currentPath.startsWith(constants.VIEW_USERS_FULL_URL)) {
-        currentPath = constants.VIEW_USERS_FULL_URL;
-    }
-
-    if (currentPath.startsWith(constants.MANAGE_USERS_FULL_URL)) {
-        currentPath = constants.MANAGE_USERS_FULL_URL;
+    // this is to strip the path parameter which is redundant in this context
+    if (currentPath.startsWith(constants.REMOVE_MEMBER_CHECK_DETAILS_FULL_URL)) {
+        currentPath = constants.REMOVE_MEMBER_CHECK_DETAILS_FULL_URL;
+    } else if (currentPath.startsWith(constants.EDIT_MEMBER_ROLE_FULL_URL)) {
+        currentPath = constants.EDIT_MEMBER_ROLE_FULL_URL;
     }
 
     if (!NAVIGATION[currentPath]) {

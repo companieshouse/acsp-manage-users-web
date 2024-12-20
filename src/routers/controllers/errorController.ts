@@ -3,7 +3,7 @@ import type { ErrorRequestHandler } from "express";
 import { HttpError } from "http-errors";
 import { getTranslationsForView } from "../../lib/utils/translationUtils";
 import * as constants from "../../lib/constants";
-import { InvalidAcspNumberError, CsrfError } from "@companieshouse/web-security-node";
+import { CsrfError, InvalidAcspNumberError } from "@companieshouse/web-security-node";
 import { getLoggedInUserEmail } from "../../lib/utils/sessionUtils";
 
 /*  This controller catches and logs HTTP errors from the http-errors module.

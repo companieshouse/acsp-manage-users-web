@@ -1,11 +1,14 @@
 import * as constants from "../../lib/constants";
+import { EDIT_MEMBER_ROLE_PAGE, EDIT_MEMBER_ROLE_URL_BASE } from "../../lib/constants";
 
 const WHITELISTED_URLS: string[] = [
-    constants.LANDING_URL + constants.HEALTHCHECK
+    constants.HEALTHCHECK_FULL_URL
 ];
 
 export const isWhitelistedUrl = (url: string): boolean => WHITELISTED_URLS.includes(url);
 
-export const getRemoveMemberCheckDetailsFullUrl = (id: string): string => `${constants.REMOVE_MEMBER_BASE}/${id}`;
+export const getRemoveMemberCheckDetailsFullUrl = (id: string): string => constants.getFullUrl(`/${constants.REMOVE_MEMBER_PAGE}/${id}`);
 
-export const getChangeMemberRoleFullUrl = (id: string): string => `${constants.CHANGE_MEMBER_ROLE_BASE}/${id}`;
+export const getChangeMemberRoleFullUrl = (id: string): string => constants.getFullUrl(`/${constants.EDIT_MEMBER_ROLE_PAGE}/${id}`);
+
+export const getEditMemberRoleFullUrl = (id: string): string => constants.getFullUrl(`/${constants.EDIT_MEMBER_ROLE_PAGE}/${id}`);
