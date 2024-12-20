@@ -10,7 +10,7 @@
     "select_the_new_role_for": "Select the new role for ",
     "theyll_be_able_to": "They’ll be able to:",
     "theyll_be_able_to_bullet_points": [
-        "update the authorised agent’s details",
+        "make changes to the authorised agent’s details",
         "add and remove all users",
         "close the account"
     ],

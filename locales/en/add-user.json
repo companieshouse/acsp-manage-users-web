@@ -19,7 +19,7 @@
     "option_2_hint_bullet_2": "standard users",
     "option_2_hint_p": "They will be able to add and remove:",
     "option_3": "Standard user",
-    "option_3_hint": "They'll be able to view all users who have been added to this account. They will not be able to add or remove users.",
+    "option_3_hint": "They will not be able to add or remove users.",
     "page_header": "Add a user",
     "radio_btns_header": "What is their role?"
 }

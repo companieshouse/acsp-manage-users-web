@@ -1,5 +1,7 @@
 {
     "change_details": "[CY] Change details",
     "confirm_and_add_user": "[CY] Confirm and add user",
-    "page_header": "[CY] Check the details before you add the user"
+    "page_header": "[CY] Check the details",
+    "well_send_an_email_to": "[CY] We’ll send an email to ",
+    "to_let_them_know": " [CY] to tell them you’ve added them."
 }
