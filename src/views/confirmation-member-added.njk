@@ -1,5 +1,6 @@
 {% from "govuk/components/notification-banner/macro.njk" import govukNotificationBanner %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/details/macro.njk" import govukDetails %}
 
 {% extends "layouts/default.njk" %}
 
@@ -9,6 +10,10 @@
     else 
         lang.as_an + userRole %}
 
+{% set roleTextDetails = lang.what_a + userRole + lang.can_do if (userRole | lower === lang.standard_user | lower) 
+    else 
+        lang.what_an + userRole + lang.can_do %}
+
 {% set bannerHtml %}
 <h3 class="govuk-notification-banner__heading">
     {{lang.user_added}}
@@ -17,7 +22,7 @@
     <strong>{{userDetails}}</strong>{{roleText}}{{lang.for}}{{companyName}}.</p>
 {% endset %}
 
-{% set title = lang.what_happens_now + lang.title_end %}
+{% set title = lang.what_happens_next + lang.title_end %}
 
 {% block main_content %}
 
@@ -32,9 +37,38 @@
             }}
 
             <span class="govuk-caption-l">{{companyName}}</span>
-            <h1 class="govuk-heading-l">{{lang.what_happens_now}}</h1>
+            <h1 class="govuk-heading-l">{{lang.what_happens_next}}</h1>
+            <p class="govuk-body">{{lang.weve_sent_an_email}}{{roleText}}.</p>
+            <p class="govuk-body">{{lang.theyll_be_able_to_access}}</p>
 
-            <p class="govuk-body">{{lang.theyll_be_able_to_use_services}}</p>
+            {% set detailsText %}
+            {% if (userRole | lower === lang.standard_user | lower) %}
+                <p class="govuk-body">{{lang.a_standard_user_can}}</p>
+                <p class="govuk-body">{{lang.they_can_also_view_all_users_standard}}</p>
+            {% elif(userRole | lower === lang.administrator | lower) %}
+                <p class="govuk-body">{{lang.an_administrator_can}}</p>
+                <p class="govuk-body">{{lang.they_can_also_view_all_users_admin}}</p>
+                <ul class="govuk-list govuk-list--bullet">
+                    <li>{{lang.administrators}}</li>
+                    <li>{{lang.standard_users}}</li>
+                </ul>
+            {% else %}
+                <p class="govuk-body">{{lang.an_account_owner_can}}</p>
+                <p class="govuk-body">{{lang.they_can_also}}</p>
+                <ul class="govuk-list govuk-list--bullet">
+                    <li>{{lang.update_the_authorised}}</li>
+                    <li>{{lang.view_all_users_who}}</li>
+                    <li>{{lang.add_and_remove}}</li>
+                    <li>{{lang.close_the_account}}</li>
+                </ul>
+                <p class="govuk-body">{{lang.if_any_of_the_details}}</p>
+            {% endif %}
+            {% endset %}
+
+            {{ govukDetails({
+                summaryText: roleTextDetails,
+                text: detailsText | safe
+            }) }}
 
             {{ govukButton({
                     text: lang.go_to_manage_users,
