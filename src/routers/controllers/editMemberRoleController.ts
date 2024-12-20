@@ -48,8 +48,6 @@ interface EditMemberRoleViewData extends ViewDataWithBackLink {
     userRole: string,
     oldUserRole: UserRole,
     userDisplayName: string | undefined,
-    verifyPeopleIdentityFromDate: string
-    fileAsAuthorisedAgentFromDate: string
     isTheOnlyOwner?: boolean,
 }
 
