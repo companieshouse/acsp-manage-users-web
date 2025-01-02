@@ -1,5 +1,4 @@
 import * as constants from "../../lib/constants";
-import { EDIT_MEMBER_ROLE_PAGE, EDIT_MEMBER_ROLE_URL_BASE } from "../../lib/constants";
 
 const WHITELISTED_URLS: string[] = [
     constants.HEALTHCHECK_FULL_URL

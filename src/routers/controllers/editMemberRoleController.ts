@@ -107,7 +107,7 @@ const getUserRoleChangeData = (req: Request, viewData: EditMemberRoleViewData): 
     return {
         acspMembershipId: id,
         userRole: newUserRole,
-        userEmail: viewData.email as string,
+        userEmail: viewData.email,
         userDisplayName: viewData.userDisplayName,
         changeRolePageUrl: sanitizedUrl
     };
