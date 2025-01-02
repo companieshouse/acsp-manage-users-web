@@ -5,7 +5,6 @@ import logger from "../lib/Logger";
 import { Navigation } from "../types/navigation";
 import { UserRole, AcspMembership } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
 import { getExtraData } from "../lib/utils/sessionUtils";
-import { EDIT_MEMBER_ROLE_FULL_URL } from "../lib/constants";
 
 export const NAVIGATION: Navigation = {
     [constants.CHECK_MEMBER_DETAILS_FULL_URL]: {
