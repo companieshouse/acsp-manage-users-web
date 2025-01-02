@@ -60,7 +60,7 @@ describe("GET /authorised-agent/manage-users", () => {
         expect(result.text).toContain(companyNumber);
         expect(result.text).toContain(en.page_header);
         expect(result.text).toContain(en.administrators);
-        expect(result.text).toContain(en.back_link);
+        expect(result.text).toContain(en.back_link_to_authorised_agent_services);
         expect(result.text).toContain(en.standard_users);
         expect(result.text).toContain(enCommon.email_address);
         expect(result.text).toContain(en.name);
@@ -83,7 +83,7 @@ describe("GET /authorised-agent/manage-users", () => {
         expect(result.status).toEqual(200);
         expect(result.text).toContain(en.page_header_standard);
         expect(result.text).toContain(en.administrators);
-        expect(result.text).toContain(en.back_link);
+        expect(result.text).toContain(en.back_link_to_authorised_agent_services);
         expect(result.text).toContain(en.standard_users);
         expect(result.text).toContain(enCommon.email_address);
         expect(result.text).toContain(en.name);

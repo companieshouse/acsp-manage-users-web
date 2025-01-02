@@ -2,6 +2,7 @@ import mocks from "../../../mocks/all.middleware.mock";
 import supertest from "supertest";
 import app from "../../../../src/app";
 import * as en from "../../../../locales/en/dashboard.json";
+import * as enCommon from "../../../../locales/en/common.json";
 import * as cy from "../../../../locales/cy/dashboard.json";
 import * as sessionUtils from "../../../../src/lib/utils/sessionUtils";
 import { accountOwnerAcspMembership, administratorAcspMembership, standardUserAcspMembership } from "../../../mocks/acsp.members.mock";
@@ -50,7 +51,7 @@ describe(`GET ${url}`, () => {
         expect(decodedResponse).toContain(en.update_authorised_agent);
         expect(decodedResponse).toContain(en.view_users_who_have_been_added);
         expect(decodedResponse).toContain(en.warning);
-        expect(decodedResponse).toContain(en.you_can);
+        expect(decodedResponse).toContain(enCommon.you_can);
         expect(decodedResponse).toContain(en.your_role);
         expect(decodedResponse).toContain(en.close_the_authorised_agent);
         expect(decodedResponse).toContain(en.tell_us_if);
@@ -79,7 +80,7 @@ describe(`GET ${url}`, () => {
         expect(decodedResponse).toContain(en.remove_users);
         expect(decodedResponse).toContain(en.tell_companies_house_id);
         expect(decodedResponse).toContain(en.view_users_who_have_been_added);
-        expect(decodedResponse).toContain(en.you_can);
+        expect(decodedResponse).toContain(enCommon.you_can);
         expect(decodedResponse).toContain(en.your_role);
     });
 

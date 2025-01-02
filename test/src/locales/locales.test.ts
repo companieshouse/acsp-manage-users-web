@@ -81,7 +81,7 @@ function haveSameValueForAnyKey (
     return false;
 }
 
-describe("Check missing keys in translation files", () => {
+describe("Check translation json files", () => {
     it("There should not be any missing translation files for welsh translations", () => {
         const missingFiles = englishTranslationFiles.filter(x => !welshTranslationFiles.includes(x));
         expect(missingFiles).toEqual([]);
@@ -114,37 +114,6 @@ describe("Check missing keys in translation files", () => {
         const englishContents = JSON.parse(englishFile) as Record<string, unknown>;
         const welshContents = JSON.parse(welshFile) as Record<string, unknown>;
         expect(haveSameValueForAnyKey(welshContents, englishContents)).toEqual(false);
-    });
-
-    test.each(englishTranslationFiles)("Check welsh translation file %s has no unfinished translations", file => {
-        const welshFile = fs.readFileSync(path.resolve(__dirname, welshDirectory + file), "utf-8");
-        const welshContents = JSON.parse(welshFile);
-
-        checkWelshTranlationFile(welshContents, file.replace(/\.json/, ""));
-    });
-
-    function checkWelshTranlationFile (obj: { [index: string]: unknown }, fullKey: string) {
-        for (const k in obj) {
-            if (typeof obj[k] === "string") {
-                const val: string = obj[k] as string;
-                // we can add [CY] in here as a check
-                if (val === "") {
-                    console.log(`${fullKey}.${k} Does not have welsh translation`);
-                }
-            } else {
-                if (typeof obj[k] === "object") {
-                    const val: { [index: string]: unknown } = obj[k] as { [index: string]: unknown };
-                    checkWelshTranlationFile(val, `${fullKey}.${k}`);
-                }
-            }
-        }
-    }
-
-    test.each(englishTranslationFiles)("Check welsh translation file %s has no unfinished translations", file => {
-        const welshFile = fs.readFileSync(path.resolve(__dirname, welshDirectory + file), "utf-8");
-        const welshContents = JSON.parse(welshFile);
-
-        checkWelshTranlationFile(welshContents, file.replace(/\.json/, ""));
     });
 
     test.each(englishTranslationFilesExcludeCommon)("Check english translation file %s has no shared keys with common", file => {
