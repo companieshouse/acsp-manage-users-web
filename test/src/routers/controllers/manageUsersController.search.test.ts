@@ -15,6 +15,7 @@ import * as sessionUtils from "../../../../src/lib/utils/sessionUtils";
 const router = supertest(app);
 
 const url = "/authorised-agent/manage-users";
+const viewUserUrl = "/authorised-agent/view-users";
 const getAcspMembershipsSpy = jest.spyOn(acspMemberService, "getAcspMemberships");
 const membershipLookupSpy = jest.spyOn(acspMemberService, "membershipLookup");
 const getLoggedUserAcspMembershipSpy: jest.SpyInstance = jest.spyOn(sessionUtils, "getLoggedUserAcspMembership");
@@ -81,7 +82,7 @@ describe("manageUsersControllerGet - search", () => {
         getLoggedUserAcspMembershipSpy.mockReturnValue(loggedAccountOwnerAcspMembership);
         membershipLookupSpy.mockResolvedValue(getMockAcspMembersResource([standardUserAcspMembership]));
         // When
-        const response = await router.get(`${url}?search=${search}`);
+        const response = await router.get(`${viewUserUrl}?search=${search}`);
         // Then
         expect(response.text).toContain(standardUserAcspMembership.userEmail);
         expect(response.text).not.toContain(en.errors_enter_an_email_address_in_the_correct_format);
