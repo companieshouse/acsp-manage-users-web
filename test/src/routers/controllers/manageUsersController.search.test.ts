@@ -132,12 +132,25 @@ describe("manageUsersControllerPost - search", () => {
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
     });
 
-    it("should redirect to url with search query parameter based on provided search string", async () => {
+    it("should redirect to url with search query parameter based on provided search string when user is an account owner", async () => {
         // Given
+        getLoggedUserAcspMembershipSpy.mockReturnValue(loggedAccountOwnerAcspMembership);
         const search = "test@test.com";
         const expectedPageHeading = `Found. Redirecting to ${url}?search=${search}`;
         // When
         const response = await router.post(url).send({ search: search });
+        // Then
+        expect(response.status).toEqual(302);
+        expect(response.text).toContain(expectedPageHeading);
+    });
+
+    it("should redirect to url with search query parameter based on provided search string when user is a standard user", async () => {
+        // Given
+        getLoggedUserAcspMembershipSpy.mockReturnValue(standardUserAcspMembership);
+        const search = "test@test.com";
+        const expectedPageHeading = `Found. Redirecting to ${viewUserUrl}?search=${search}`;
+        // When
+        const response = await router.post(viewUserUrl).send({ search: search });
         // Then
         expect(response.status).toEqual(302);
         expect(response.text).toContain(expectedPageHeading);
