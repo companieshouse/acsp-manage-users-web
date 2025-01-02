@@ -1,4 +1,4 @@
-import { ViewData } from "../../types/utilTypes";
+import { BaseViewData } from "../../types/utilTypes";
 import { UserRoleTagEn, UserRoleTagCy } from "../../types/userRoleTagEn";
 import { UserRole } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
 import { KnownUserRole } from "../../types/viewTypes";
@@ -14,7 +14,7 @@ export const getHiddenText = (hiddenText: string): string => {
 export const addErrorToViewData = (
     errProp: string,
     errorMsg: string,
-    viewData: ViewData
+    viewData: BaseViewData
 ): void => {
     viewData.errors = {
         ...viewData.errors,

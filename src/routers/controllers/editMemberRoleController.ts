@@ -2,13 +2,8 @@ import { Request, Response } from "express";
 import logger from "../../lib/Logger";
 import * as constants from "../../lib/constants";
 import { getTranslationsForView } from "../../lib/utils/translationUtils";
-import { UserRoleChangeData, ViewData } from "../../types/utilTypes";
-import {
-    deleteExtraData,
-    getExtraData,
-    getLoggedUserAcspMembership,
-    setExtraData
-} from "../../lib/utils/sessionUtils";
+import { UserRoleChangeData, ViewDataWithBackLink } from "../../types/utilTypes";
+import { deleteExtraData, getExtraData, getLoggedUserAcspMembership, setExtraData } from "../../lib/utils/sessionUtils";
 import { Membership } from "../../types/membership";
 import { isValidRole } from "../../lib/validation/user.role.validation";
 import { addErrorToViewData } from "../../lib/utils/viewUtils";
@@ -16,6 +11,7 @@ import { FormInputNames } from "../../lib/validation/add.user.validation";
 import { sanitizeUrl } from "@braintree/sanitize-url";
 import { UserRole } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
 import { getAcspMemberships } from "../../services/acspMemberService";
+import { getEditMemberRoleFullUrl } from "../../lib/utils/urlUtils";
 
 export const editMemberRoleControllerGet = async (req: Request, res: Response): Promise<void> => {
     const viewData = await getViewData(req);
@@ -45,7 +41,17 @@ export const editMemberRoleControllerPost = async (req: Request, res: Response):
     }
 };
 
-const getViewData = async (req: Request): Promise<ViewData> => {
+interface EditMemberRoleViewData extends ViewDataWithBackLink {
+    loggedInUserRole: UserRole,
+    companyName: string,
+    email: string,
+    userRole: string,
+    oldUserRole: UserRole,
+    userDisplayName: string | undefined,
+    isTheOnlyOwner?: boolean,
+}
+
+const getViewData = async (req: Request): Promise<EditMemberRoleViewData> => {
     const translations = getTranslationsForView(req.lang, constants.EDIT_MEMBER_ROLE_PAGE);
     const { acspName, userRole, userEmail } = getLoggedUserAcspMembership(req.session);
 
@@ -59,7 +65,7 @@ const getViewData = async (req: Request): Promise<ViewData> => {
     const existingUsers = getExtraData(req.session, constants.MANAGE_USERS_MEMBERSHIP);
     const userToChangeRole: Membership = existingUsers.find((member: Membership) => member.id === id);
 
-    const viewData: ViewData = {
+    const viewData: EditMemberRoleViewData = {
         lang: translations,
         loggedInUserRole: userRole,
         companyName: acspName,
@@ -68,9 +74,7 @@ const getViewData = async (req: Request): Promise<ViewData> => {
         oldUserRole: userToChangeRole.userRole,
         userDisplayName: userToChangeRole.userDisplayName === constants.NOT_PROVIDED ? undefined : userToChangeRole.userDisplayName,
         backLinkUrl: constants.MANAGE_USERS_FULL_URL,
-        templateName: constants.EDIT_MEMBER_ROLE_PAGE,
-        verifyPeopleIdentityFromDate: "XX DATE", // TODO - replace with live data once known
-        fileAsAuthorisedAgentFromDate: "XX DATE" // TODO - replace with live data once known
+        templateName: constants.EDIT_MEMBER_ROLE_PAGE
     };
 
     if (userToChangeRole.userRole === UserRole.OWNER && await isTheOnlyOwner(req, userToChangeRole.acspNumber, userToChangeRole.userId)) {
@@ -95,15 +99,15 @@ const isTheOnlyOwner = async (req: Request, acspNumber: string, userId: string):
     return ownerMembers?.items?.length === 1 && ownerMembers.items[0].userId === userId;
 };
 
-const getUserRoleChangeData = (req: Request, viewData: ViewData): UserRoleChangeData => {
+const getUserRoleChangeData = (req: Request, viewData: EditMemberRoleViewData): UserRoleChangeData => {
     const newUserRole = req.body.userRole;
     const id = req.params.id;
-    const url = `${constants.EDIT_MEMBER_ROLE_FULL_URL.replace(":id", id)}`;
+    const url = getEditMemberRoleFullUrl(id);
     const sanitizedUrl = sanitizeUrl(url);
     return {
         acspMembershipId: id,
         userRole: newUserRole,
-        userEmail: viewData.email as string,
+        userEmail: viewData.email,
         userDisplayName: viewData.userDisplayName,
         changeRolePageUrl: sanitizedUrl
     };

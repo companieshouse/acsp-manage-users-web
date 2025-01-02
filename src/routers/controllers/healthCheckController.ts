@@ -2,7 +2,7 @@ import { Request, Response, RequestHandler } from "express";
 import { StatusCodes, ReasonPhrases } from "http-status-codes";
 
 export const healthCheckController: RequestHandler = (
-    req: Request,
+    _req: Request,
     res: Response
 ) => {
     res

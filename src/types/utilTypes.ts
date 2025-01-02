@@ -3,27 +3,20 @@ import { PaginationData } from "./pagination";
 
 export type AnyRecord = Record<string, unknown>;
 
-export type ViewData = {
+export interface BaseViewData {
     lang: AnyRecord;
+    templateName: string
     errors?: {
         [key: string]: {
             text: string;
         };
     };
-    companyName?: string;
-    backLinkUrl?: string;
-    email?: string;
-    userRole?: string;
-    oldUserRole?: string;
-    userRoleTag?: string;
-    userDisplayName?: string;
-    loggedInUserRole?: UserRole;
-    templateName: string;
-    verifyPeopleIdentityFromDate?: string;
-    fileAsAuthorisedAgentFromDate?: string;
-    tryEditUserRoleUrl?: string;
-    isTheOnlyOwner?: boolean;
-};
+    loggedInUserRole?: UserRole,
+}
+
+export interface ViewDataWithBackLink extends BaseViewData {
+    backLinkUrl: string;
+}
 
 export type MemberRawViewData = {
     memberships: AcspMembership[];

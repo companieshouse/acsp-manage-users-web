@@ -1,23 +1,22 @@
 import { Request, Response } from "express";
 import * as constants from "../../lib/constants";
 import { getTranslationsForView } from "../../lib/utils/translationUtils";
-import { UserRoleChangeData, ViewData } from "../../types/utilTypes";
-import {
-    getExtraData,
-    getLoggedUserAcspMembership
-} from "../../lib/utils/sessionUtils";
+import { UserRoleChangeData, ViewDataWithBackLink } from "../../types/utilTypes";
+import { getExtraData, getLoggedUserAcspMembership } from "../../lib/utils/sessionUtils";
+
+interface ConfirmationMemberRoleEditedGetViewData extends ViewDataWithBackLink {
+    companyName: string,
+    email: string,
+    userDisplayName: string | undefined,
+    userRole: string,
+}
 
 export const confirmationMemberRoleEditedControllerGet = async (req: Request, res: Response): Promise<void> => {
-    const viewData = await getViewData(req);
-    res.render(constants.CONFIRMATION_MEMBER_ROLE_EDITED_PAGE, viewData);
-};
-
-const getViewData = async (req: Request): Promise<ViewData> => {
     const translations = getTranslationsForView(req.lang, constants.CONFIRMATION_MEMBER_ROLE_EDITED_PAGE);
     const userRoleChangeData: UserRoleChangeData = getExtraData(req.session, constants.USER_ROLE_CHANGE_DATA);
     const { acspName } = getLoggedUserAcspMembership(req.session);
 
-    return {
+    const viewData: ConfirmationMemberRoleEditedGetViewData = {
         lang: translations,
         templateName: constants.CONFIRMATION_MEMBER_ROLE_EDITED_PAGE,
         companyName: acspName,
@@ -26,4 +25,6 @@ const getViewData = async (req: Request): Promise<ViewData> => {
         userRole: userRoleChangeData.userRole,
         backLinkUrl: constants.MANAGE_USERS_FULL_URL
     };
+
+    res.render(constants.CONFIRMATION_MEMBER_ROLE_EDITED_PAGE, viewData);
 };

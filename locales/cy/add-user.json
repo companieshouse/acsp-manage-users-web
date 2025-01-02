@@ -19,7 +19,7 @@
     "option_2_hint_bullet_2": "[CY] standard users",
     "option_2_hint_p": "[CY] They will be able to add and remove:",
     "option_3": "[CY] Standard user",
-    "option_3_hint": "[CY] They'll be able to view all users who have been added to this account. They will not be able to add or remove users.",
+    "option_3_hint": "[CY] They will not be able to add or remove users.",
     "page_header": "[CY] Add a user",
     "radio_btns_header": "[CY] What is their role?"
 }

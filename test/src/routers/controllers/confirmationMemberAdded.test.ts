@@ -76,11 +76,30 @@ describe("GET /authorised-agent/confirmation-member-added", () => {
             }
             if (userRole === UserRole.STANDARD) {
                 expect(response.text).toContain(`${lang.as_a}${getUserRoleTag(userDetails.userRole as UserRole, langVersion, true)}${lang.for}${companyName}`);
+                expect(response.text).toContain(`${lang.weve_sent_an_email}${lang.as_a}${getUserRoleTag(userDetails.userRole as UserRole, langVersion, true)}.`);
             } else {
                 expect(response.text).toContain(`${lang.as_an}${getUserRoleTag(userDetails.userRole as UserRole, langVersion, true)}${lang.for}${companyName}`);
+                expect(response.text).toContain(`${lang.weve_sent_an_email}${lang.as_an}${getUserRoleTag(userDetails.userRole as UserRole, langVersion, true)}.`);
             }
-            expect(response.text).toContain(lang.what_happens_now);
-            expect(response.text).toContain(`${lang.theyll_be_able_to_use_services}`);
+            expect(response.text).toContain(lang.what_happens_next);
+            expect(response.text).toContain(`${lang.theyll_be_able_to_access}`);
+            if (userRole === UserRole.STANDARD) {
+                expect(response.text).toContain(lang.a_standard_user_can);
+                expect(response.text).toContain(lang.they_can_also_view_all_users_standard);
+            } else if (userRole === UserRole.ADMIN) {
+                expect(response.text).toContain(lang.an_administrator_can);
+                expect(response.text).toContain(lang.they_can_also_view_all_users_admin);
+                expect(response.text).toContain(lang.administrators);
+                expect(response.text).toContain(lang.standard_users);
+            } else if (userRole === UserRole.OWNER) {
+                expect(response.text).toContain(lang.an_account_owner_can);
+                expect(response.text).toContain(lang.they_can_also);
+                expect(response.text).toContain(lang.update_the_authorised);
+                expect(response.text).toContain(lang.view_all_users_who);
+                expect(response.text).toContain(lang.add_and_remove);
+                expect(response.text).toContain(lang.close_the_account);
+                expect(response.text).toContain(lang.if_any_of_the_details);
+            }
             expect(response.text).toContain(`${langCommon.go_to_manage_users}`);
         });
 

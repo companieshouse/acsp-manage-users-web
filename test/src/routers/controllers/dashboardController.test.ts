@@ -5,7 +5,11 @@ import * as en from "../../../../locales/en/dashboard.json";
 import * as enCommon from "../../../../locales/en/common.json";
 import * as cy from "../../../../locales/cy/dashboard.json";
 import * as sessionUtils from "../../../../src/lib/utils/sessionUtils";
-import { accountOwnerAcspMembership, administratorAcspMembership, standardUserAcspMembership } from "../../../mocks/acsp.members.mock";
+import {
+    accountOwnerAcspMembership,
+    administratorAcspMembership,
+    standardUserAcspMembership
+} from "../../../mocks/acsp.members.mock";
 import { session } from "../../../mocks/session.middleware.mock";
 
 const router = supertest(app);
