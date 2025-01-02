@@ -13,22 +13,6 @@
         <span class="govuk-caption-l">{{companyName}}</span>
         <h1 class="govuk-heading-l">{{lang.page_header}}</h1>
 
-        {% if userRole === UserRole.OWNER %}
-            {% set tag_colour = "govuk-tag--blue" %}
-        {% elif userRole === UserRole.ADMIN %}
-            {% set tag_colour = "govuk-tag--turquoise" %}
-        {% else %}
-            {% set tag_colour = "govuk-tag--yellow" %}
-        {% endif %}
-
-        {% set tag %}
-        {{ govukTag({
-                text: userRoleTag,
-                classes: tag_colour
-                })
-            }}
-        {% endset %}
-
         {{ govukSummaryList({
             rows: [
                     {
@@ -44,15 +28,23 @@
                             text: lang.role
                         },
                         value: {
-                            html: tag
+                            html: userRoleTag
                         }
                     }
                 ]
             })
         }}
 
+        <div class="govuk-inset-text">
+            <p class="govuk-body">
+                {{lang.well_send_an_email_to}}
+                <strong>{{newUserEmailAddress}}
+                </strong>{{lang.to_let_them_know}}
+            </p>
+        </div>
+
         <form action="{{ tryAddingUserUrl }}" method="POST">
-                {% include "partials/csrf_token.njk" %}
+            {% include "partials/csrf_token.njk" %}
 
             {{ govukButton({
                 text: lang.confirm_and_add_user,

@@ -1,5 +1,7 @@
 {
     "change_details": "Change details",
     "confirm_and_add_user": "Confirm and add user",
-    "page_header": "Check the details before you add the user"
+    "page_header": "Check the details",
+    "to_let_them_know": " to tell them you’ve added them.",
+    "well_send_an_email_to": "We’ll send an email to "
 }
