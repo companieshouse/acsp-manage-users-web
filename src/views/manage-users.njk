@@ -3,11 +3,19 @@
 {% from "govuk/components/tabs/macro.njk" import govukTabs %}
 {% from "govuk/components/error-message/macro.njk" import govukErrorMessage %}
 {% from "govuk/components/pagination/macro.njk" import govukPagination %}
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
 
 {% extends "layouts/default.njk" %}
 
 {% block back_link %}
-    {% include "partials/back_link.njk" %}
+        {{ govukBackLink({
+            text: lang.back_link_to_authorised_agent_services,
+            href: backLinkUrl,
+            attributes: {
+                id: "back-link-to-previous-page"
+            }
+        })
+    }}
 {% endblock %}
 
 {% block main_content %}
