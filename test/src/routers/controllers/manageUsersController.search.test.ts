@@ -15,6 +15,7 @@ import * as sessionUtils from "../../../../src/lib/utils/sessionUtils";
 const router = supertest(app);
 
 const url = "/authorised-agent/manage-users";
+const viewUserUrl = "/authorised-agent/view-users";
 const getAcspMembershipsSpy = jest.spyOn(acspMemberService, "getAcspMemberships");
 const membershipLookupSpy = jest.spyOn(acspMemberService, "membershipLookup");
 const getLoggedUserAcspMembershipSpy: jest.SpyInstance = jest.spyOn(sessionUtils, "getLoggedUserAcspMembership");
@@ -81,7 +82,7 @@ describe("manageUsersControllerGet - search", () => {
         getLoggedUserAcspMembershipSpy.mockReturnValue(loggedAccountOwnerAcspMembership);
         membershipLookupSpy.mockResolvedValue(getMockAcspMembersResource([standardUserAcspMembership]));
         // When
-        const response = await router.get(`${url}?search=${search}`);
+        const response = await router.get(`${viewUserUrl}?search=${search}`);
         // Then
         expect(response.text).toContain(standardUserAcspMembership.userEmail);
         expect(response.text).not.toContain(en.errors_enter_an_email_address_in_the_correct_format);
@@ -131,12 +132,25 @@ describe("manageUsersControllerPost - search", () => {
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
     });
 
-    it("should redirect to url with search query parameter based on provided search string", async () => {
+    it("should redirect to url with search query parameter based on provided search string when user is an account owner", async () => {
         // Given
+        getLoggedUserAcspMembershipSpy.mockReturnValue(loggedAccountOwnerAcspMembership);
         const search = "test@test.com";
         const expectedPageHeading = `Found. Redirecting to ${url}?search=${search}`;
         // When
         const response = await router.post(url).send({ search: search });
+        // Then
+        expect(response.status).toEqual(302);
+        expect(response.text).toContain(expectedPageHeading);
+    });
+
+    it("should redirect to url with search query parameter based on provided search string when user is a standard user", async () => {
+        // Given
+        getLoggedUserAcspMembershipSpy.mockReturnValue(standardUserAcspMembership);
+        const search = "test@test.com";
+        const expectedPageHeading = `Found. Redirecting to ${viewUserUrl}?search=${search}`;
+        // When
+        const response = await router.post(viewUserUrl).send({ search: search });
         // Then
         expect(response.status).toEqual(302);
         expect(response.text).toContain(expectedPageHeading);
