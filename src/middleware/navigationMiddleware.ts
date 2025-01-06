@@ -8,69 +8,135 @@ import { getExtraData } from "../lib/utils/sessionUtils";
 
 export const NAVIGATION: Navigation = {
     [constants.CHECK_MEMBER_DETAILS_FULL_URL]: {
-        allowedReferers: [constants.ADD_USER_FULL_URL, constants.CHECK_MEMBER_DETAILS_FULL_URL, constants.CANNOT_ADD_USER_FULL_URL],
+        allowedReferers: [
+            constants.ADD_USER_FULL_URL,
+            constants.CHECK_MEMBER_DETAILS_FULL_URL,
+            constants.CANNOT_ADD_USER_FULL_URL
+        ],
         redirectTo: constants.MANAGE_USERS_FULL_URL,
         allowedUserRoles: [UserRole.OWNER, UserRole.ADMIN]
     },
     [constants.CONFIRMATION_MEMBER_ADDED_FULL_URL]: {
-        allowedReferers: [constants.CHECK_MEMBER_DETAILS_FULL_URL, constants.CONFIRMATION_MEMBER_ADDED_FULL_URL],
+        allowedReferers: [
+            constants.CHECK_MEMBER_DETAILS_FULL_URL,
+            constants.CONFIRMATION_MEMBER_ADDED_FULL_URL
+        ],
         redirectTo: constants.MANAGE_USERS_FULL_URL,
-        allowedUserRoles: [UserRole.OWNER, UserRole.ADMIN]
+        allowedUserRoles: [
+            UserRole.OWNER,
+            UserRole.ADMIN
+        ]
     },
     [constants.REMOVE_MEMBER_CHECK_DETAILS_FULL_URL]: {
-        allowedReferers: [constants.REMOVE_MEMBER_CHECK_DETAILS_FULL_URL, constants.MANAGE_USERS_FULL_URL, constants.STOP_PAGE_ADD_ACCOUNT_OWNER_FULL_URL],
+        allowedReferers: [
+            constants.REMOVE_MEMBER_CHECK_DETAILS_FULL_URL,
+            constants.MANAGE_USERS_FULL_URL,
+            constants.STOP_PAGE_ADD_ACCOUNT_OWNER_FULL_URL
+        ],
         redirectTo: constants.MANAGE_USERS_FULL_URL,
-        allowedUserRoles: [UserRole.OWNER, UserRole.ADMIN]
+        allowedUserRoles: [
+            UserRole.OWNER,
+            UserRole.ADMIN
+        ]
     },
     [constants.CONFIRMATION_MEMBER_REMOVED_FULL_URL]: {
-        allowedReferers: [constants.REMOVE_MEMBER_CHECK_DETAILS_FULL_URL, constants.CONFIRMATION_MEMBER_REMOVED_FULL_URL],
+        allowedReferers: [
+            constants.REMOVE_MEMBER_CHECK_DETAILS_FULL_URL,
+            constants.CONFIRMATION_MEMBER_REMOVED_FULL_URL
+        ],
         redirectTo: constants.MANAGE_USERS_FULL_URL,
-        allowedUserRoles: [UserRole.OWNER, UserRole.ADMIN]
+        allowedUserRoles: [
+            UserRole.OWNER,
+            UserRole.ADMIN
+        ]
     },
     [constants.CONFIRMATION_YOU_ARE_REMOVED_FULL_URL]: {
-        allowedReferers: [constants.REMOVE_MEMBER_CHECK_DETAILS_FULL_URL, constants.CONFIRMATION_YOU_ARE_REMOVED_FULL_URL],
+        allowedReferers: [
+            constants.REMOVE_MEMBER_CHECK_DETAILS_FULL_URL,
+            constants.CONFIRMATION_YOU_ARE_REMOVED_FULL_URL
+        ],
         redirectTo: constants.CHS_SEARCH_REGISTER_PAGE,
-        allowedUserRoles: [UserRole.OWNER, UserRole.ADMIN]
+        allowedUserRoles: [
+            UserRole.OWNER,
+            UserRole.ADMIN
+        ]
     },
     [constants.CANNOT_ADD_USER_FULL_URL]: {
-        allowedReferers: [constants.CHECK_MEMBER_DETAILS_FULL_URL, constants.CANNOT_ADD_USER_FULL_URL],
+        allowedReferers: [
+            constants.CHECK_MEMBER_DETAILS_FULL_URL,
+            constants.CANNOT_ADD_USER_FULL_URL
+        ],
         redirectTo: constants.MANAGE_USERS_FULL_URL,
         allowedUserRoles: [UserRole.OWNER, UserRole.ADMIN]
     },
     [constants.STOP_PAGE_ADD_ACCOUNT_OWNER_FULL_URL]: {
-        allowedReferers: [constants.REMOVE_MEMBER_CHECK_DETAILS_FULL_URL, constants.STOP_PAGE_ADD_ACCOUNT_OWNER_FULL_URL],
+        allowedReferers: [
+            constants.REMOVE_MEMBER_CHECK_DETAILS_FULL_URL,
+            constants.MANAGE_USERS_FULL_URL,
+            constants.STOP_PAGE_ADD_ACCOUNT_OWNER_FULL_URL
+        ],
         redirectTo: constants.MANAGE_USERS_FULL_URL,
-        allowedUserRoles: [UserRole.OWNER, UserRole.ADMIN]
+        allowedUserRoles: [
+            UserRole.OWNER,
+            UserRole.ADMIN
+        ]
     },
     [constants.ADD_USER_FULL_URL]: {
         allowedReferers: [],
         redirectTo: constants.VIEW_USERS_FULL_URL,
-        allowedUserRoles: [UserRole.OWNER, UserRole.ADMIN]
+        allowedUserRoles: [
+            UserRole.OWNER,
+            UserRole.ADMIN
+        ]
     },
     [constants.EDIT_MEMBER_ROLE_FULL_URL]: {
-        allowedReferers: [constants.EDIT_MEMBER_ROLE_FULL_URL, constants.MANAGE_USERS_FULL_URL, constants.CHECK_EDIT_MEMBER_ROLE_DETAILS_FULL_URL],
+        allowedReferers: [
+            constants.EDIT_MEMBER_ROLE_FULL_URL,
+            constants.MANAGE_USERS_FULL_URL,
+            constants.CHECK_EDIT_MEMBER_ROLE_DETAILS_FULL_URL
+        ],
         redirectTo: constants.MANAGE_USERS_FULL_URL,
-        allowedUserRoles: [UserRole.OWNER, UserRole.ADMIN]
+        allowedUserRoles: [
+            UserRole.OWNER,
+            UserRole.ADMIN
+        ]
     },
     [constants.CHECK_EDIT_MEMBER_ROLE_DETAILS_FULL_URL]: {
-        allowedReferers: [constants.EDIT_MEMBER_ROLE_FULL_URL, constants.CHECK_EDIT_MEMBER_ROLE_DETAILS_FULL_URL],
+        allowedReferers: [
+            constants.EDIT_MEMBER_ROLE_FULL_URL,
+            constants.CHECK_EDIT_MEMBER_ROLE_DETAILS_FULL_URL
+        ],
         redirectTo: constants.MANAGE_USERS_FULL_URL,
-        allowedUserRoles: [UserRole.OWNER, UserRole.ADMIN]
+        allowedUserRoles: [
+            UserRole.OWNER,
+            UserRole.ADMIN
+        ]
     },
     [constants.CONFIRMATION_MEMBER_ROLE_EDITED_FULL_URL]: {
-        allowedReferers: [constants.CHECK_EDIT_MEMBER_ROLE_DETAILS_FULL_URL, constants.CONFIRMATION_MEMBER_ROLE_EDITED_FULL_URL],
+        allowedReferers: [
+            constants.CHECK_EDIT_MEMBER_ROLE_DETAILS_FULL_URL,
+            constants.CONFIRMATION_MEMBER_ROLE_EDITED_FULL_URL
+        ],
         redirectTo: constants.MANAGE_USERS_FULL_URL,
-        allowedUserRoles: [UserRole.OWNER, UserRole.ADMIN]
+        allowedUserRoles: [
+            UserRole.OWNER,
+            UserRole.ADMIN
+        ]
     },
     [constants.VIEW_USERS_FULL_URL]: {
         allowedReferers: [],
         redirectTo: constants.MANAGE_USERS_FULL_URL,
-        allowedUserRoles: [UserRole.STANDARD]
+        allowedUserRoles: [
+            UserRole.STANDARD
+        ]
     },
     [constants.MANAGE_USERS_FULL_URL]: {
         allowedReferers: [],
         redirectTo: constants.VIEW_USERS_FULL_URL,
-        allowedUserRoles: [UserRole.ADMIN, UserRole.OWNER]
+        allowedUserRoles: [
+            UserRole.ADMIN,
+            UserRole.OWNER
+        ]
     }
 };
 
