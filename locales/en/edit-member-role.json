@@ -14,7 +14,7 @@
         "add and remove all users",
         "close the account"
     ],
-    "theyll_be_able_to_view": "They will not be able to add or remove users.",
+    "they_will_not_be_able_to": "They will not be able to add or remove users.",
     "theyll_be_able_to_view_all_users": "They’ll be able to add and remove",
     "theyll_be_able_to_view_all_users_bullet_points": [
         "administrators",

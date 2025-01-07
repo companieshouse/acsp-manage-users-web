@@ -109,6 +109,8 @@ describe("GET /authorised-agent/confirmation-member-removed", () => {
         };
         getLoggedUserAcspMembershipSpy.mockReturnValue(loggedInUserMembership);
 
+        session.setExtraData("lang", "en");
+
         setExtraData(session, constants.DETAILS_OF_USER_TO_REMOVE, userDetails);
 
         // When

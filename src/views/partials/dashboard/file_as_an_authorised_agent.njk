@@ -3,12 +3,13 @@
     <h2 class="govuk-heading-s">
         {# no link to file as an authorised agent when ACSP is suspended #}
         {{lang.file_as_an_authorised_agent}}
-        {% if agentStatus === AcspStatus.SUSPENDED %}
-
-            <strong class="govuk-tag govuk-tag--red govuk-!-margin-top-2">
-                {{lang.not_available}}
-            </strong>
     </h2>
+
+    {% if agentStatus === AcspStatus.SUSPENDED %}
+
+        <strong class="govuk-tag govuk-tag--red govuk-!-margin-top-2">
+            {{lang.not_available}}
+        </strong>
         <p class="govuk-body">
             {{lang.you_cannot_file_as}}{{companyName}}{{lang.has_been_suspended}}
 
@@ -16,11 +17,10 @@
             <strong class="govuk-tag govuk-tag--blue govuk-!-margin-top-2">
                 {{lang.coming_soon}}
             </strong>
-    </h2>
-        <p class="govuk-body">
-            {{lang.in_the_future}}{{companyName}}.
+            <p class="govuk-body">
+                {{lang.in_future}}{{companyName}}.
+            </p>
 
         {% endif %}
-        </p>
 
-</div>
+    </div>
