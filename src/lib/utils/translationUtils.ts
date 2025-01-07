@@ -51,7 +51,7 @@ const translations = {
         removed: "[CY] Removed",
 
         // Appears in both AcspStatus and MembershipStatus enums
-        active: "[CY] Active"
+        active: "Gweithredol"
     }
 };
 

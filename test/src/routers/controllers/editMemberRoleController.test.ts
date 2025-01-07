@@ -135,7 +135,7 @@ const containsContent = (
             !responseText.includes(`<li>${lang.theyll_be_able_to_view_all_users_bullet_points[0]}`) &&
             !responseText.includes(`<li>${lang.theyll_be_able_to_view_all_users_bullet_points[1]}`) &&
             !responseText.includes(`${lang.user_role_tags.standard_user}`) &&
-            !responseText.includes(`${lang.theyll_be_able_to_view}`) &&
+            !responseText.includes(`${lang.they_will_not_be_able_to}`) &&
             !responseText.includes(`${langCommon.continue}`);
     }
 
@@ -163,7 +163,7 @@ const containsContent = (
             responseText.includes(`<li>${lang.theyll_be_able_to_view_all_users_bullet_points[0]}`) &&
             responseText.includes(`<li>${lang.theyll_be_able_to_view_all_users_bullet_points[1]}`) &&
             responseText.includes(`${lang.user_role_tags.standard_user}`) &&
-            responseText.includes(`${lang.theyll_be_able_to_view}`) &&
+            responseText.includes(`${lang.they_will_not_be_able_to}`) &&
             responseText.includes(`${lang.all_users_who_are_added}`) &&
             responseText.includes(`<li>${lang.all_users_who_are_added_bullet_points[0]}`) &&
             responseText.includes(`<li>${lang.all_users_who_are_added_bullet_points[1]}`) &&
