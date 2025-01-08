@@ -7,6 +7,8 @@ import * as getTranslationsForView from "../../../../src/lib/utils/translationUt
 import { CsrfError } from "@companieshouse/web-security-node";
 import * as contants from "../../../../src/lib/constants";
 
+jest.mock("../../../../src/lib/Logger");
+
 const mockGetTranslationsForView = jest.spyOn(getTranslationsForView, "getTranslationsForView");
 
 logger.error = jest.fn();

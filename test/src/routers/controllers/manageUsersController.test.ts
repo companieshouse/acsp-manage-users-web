@@ -18,6 +18,8 @@ import {
     getDisplayNameOrNotProvided
 } from "../../../../src/routers/controllers/manageUsersController";
 
+jest.mock("../../../../src/lib/Logger");
+
 const router = supertest(app);
 
 const url = "/authorised-agent/manage-users";

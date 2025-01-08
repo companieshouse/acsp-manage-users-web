@@ -11,6 +11,8 @@ import {
 } from "../../../mocks/acsp.members.mock";
 import { session } from "../../../mocks/session.middleware.mock";
 
+jest.mock("../../../../src/lib/Logger");
+
 const router = supertest(app);
 const url = "/authorised-agent/";
 

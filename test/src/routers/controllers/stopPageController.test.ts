@@ -3,6 +3,8 @@ import supertest from "supertest";
 import app from "../../../../src/app";
 import * as en from "../../../../locales/en/service-unavailable.json";
 
+jest.mock("../../../../src/lib/Logger");
+
 const router = supertest(app);
 const url = "/authorised-agent/something-went-wrong";
 

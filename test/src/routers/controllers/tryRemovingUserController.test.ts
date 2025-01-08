@@ -8,6 +8,8 @@ import * as sessionUtils from "../../../../src/lib/utils/sessionUtils";
 import * as acspMemberService from "../../../../src/services/acspMemberService";
 import { session } from "../../../mocks/session.middleware.mock";
 
+jest.mock("../../../../src/lib/Logger");
+
 const getLoggedUserAcspMembershipSpy: jest.SpyInstance = jest.spyOn(sessionUtils, "getLoggedUserAcspMembership");
 const loggedInUserMembership = {
     id: "123;",

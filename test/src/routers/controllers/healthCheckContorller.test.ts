@@ -2,6 +2,8 @@ import mocks from "../../../mocks/all.middleware.mock";
 import app from "../../../../src/app";
 import supertest from "supertest";
 
+jest.mock("../../../../src/lib/Logger");
+
 const router = supertest(app);
 const url = "/authorised-agent/healthcheck";
 

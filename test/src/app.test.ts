@@ -4,6 +4,8 @@ import app from "../../src/app";
 import { NextFunction, Request, Response } from "express";
 import * as constants from "../../src/lib/constants";
 
+jest.mock("../../src/lib/Logger");
+
 const router = supertest(app);
 const url = "/authorised-agent/";
 

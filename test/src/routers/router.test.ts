@@ -2,6 +2,8 @@ import mocks from "../../mocks/all.middleware.mock";
 import supertest from "supertest";
 import app from "../../../src/app";
 
+jest.mock("../../../src/lib/Logger");
+
 const router = supertest(app);
 
 const url = "/dummy";

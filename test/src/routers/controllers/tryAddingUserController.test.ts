@@ -19,6 +19,7 @@ import { session } from "../../../mocks/session.middleware.mock";
 
 jest.mock("../../../../src/services/acspMemberService");
 jest.mock("../../../../src/services/userAccountService");
+jest.mock("../../../../src/lib/Logger");
 
 const router = supertest(app);
 const url = "/authorised-agent/try-adding-user";

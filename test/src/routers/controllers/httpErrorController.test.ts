@@ -7,6 +7,8 @@ import { NextFunction } from "express";
 import logger from "../../../../src/lib/Logger";
 import * as getTranslationsForView from "../../../../src/lib/utils/translationUtils";
 
+jest.mock("../../../../src/lib/Logger");
+
 const mockGetTranslationsForView = jest.spyOn(getTranslationsForView, "getTranslationsForView");
 
 logger.errorRequest = jest.fn();

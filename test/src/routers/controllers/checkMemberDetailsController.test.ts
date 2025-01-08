@@ -10,6 +10,8 @@ import { loggedAccountOwnerAcspMembership } from "../../../mocks/acsp.members.mo
 import * as sessionUtils from "../../../../src/lib/utils/sessionUtils";
 import { session } from "../../../mocks/session.middleware.mock";
 
+jest.mock("../../../../src/lib/Logger");
+
 const router = supertest(app);
 const getLoggedInUserEmailSpy: jest.SpyInstance = jest.spyOn(sessionUtils, "getLoggedInUserEmail");
 
