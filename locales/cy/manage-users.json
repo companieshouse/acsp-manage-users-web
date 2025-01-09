@@ -9,6 +9,7 @@
     "enter_the_users_full_email_address": "[CY] Enter the user’s full email address",
     "errors_enter_an_email_address_in_the_correct_format": "[CY] Enter an email address in the correct format, like name@example.com",
     "for": "[CY] for",
+    "name": "Enw",
     "page_header": "Rheoli defnyddwyr",
     "page_header_standard": "[CY] View users",
     "remove": "Dileu",
@@ -16,7 +17,6 @@
     "search": "Chwilio",
     "search_for_a_user": "[CY] Search for a user",
     "standard_users": "Defnyddwyr safonol",
-    "name": "Enw",
     "you_have_no_account_owners_users": "[CY] You have no account owners users.",
     "you_have_no_admin_users": "[CY] You have no admin users.",
     "you_have_no_standard_users": "[CY] You have no standard users."

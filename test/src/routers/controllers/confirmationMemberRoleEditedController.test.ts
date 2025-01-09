@@ -68,6 +68,9 @@ describe("GET /authorised-agent/confirmation-member-role-edited", () => {
             expect(response.text).toContain(lang.users_role_changed);
             expect(response.text).toContain(lang.well_sent_an_email_to);
             expect(response.text).toContain(`<span class="govuk-!-font-weight-bold">${changeData.userEmail}</span>${lang.to_tell_them_youve_chanaged_their_role}`);
+            if (langVersion === "cy") {
+                expect(response.text).toContain(cy.is_now_beginning_welsh);
+            }
             if (userRole === UserRole.OWNER) {
                 if (changeData.userDisplayName) {
                     expect(response.text).toContain(`${changeData.userDisplayName}`);

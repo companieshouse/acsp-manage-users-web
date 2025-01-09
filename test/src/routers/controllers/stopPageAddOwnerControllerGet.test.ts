@@ -100,6 +100,7 @@ describe("GET /authorised-agent/stop-page-add-account-owner", () => {
     it("should error when no person for removal or role change is in session", async () => {
         // Given
         getLoggedUserAcspMembershipSpy.mockReturnValue(loggedInUserMembership);
+        session.setExtraData("lang", "en");
         // When
         const response = await router.get(url);
         expect(response.status).toEqual(500);

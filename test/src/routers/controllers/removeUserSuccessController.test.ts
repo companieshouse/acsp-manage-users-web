@@ -92,6 +92,7 @@ describe("GET /authorised-agent/confirmation-member-removed", () => {
         expect(response.text).toContain(`${userDetails.userDisplayName}`);
         expect(response.text).toContain(`${cy.from}${companyName}`);
         expect(response.text).toContain(cy.what_happens_now_they_have_been_removed);
+        expect(response.text).toContain(cy.will_no_longer_beginning_welsh);
         expect(response.text).toContain(`${cy.will_no_longer_be_able_to_access}${companyName}`);
         expect(response.text).toContain(`${cyCommon.go_to_manage_users}`);
     });

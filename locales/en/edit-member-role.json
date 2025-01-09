@@ -8,13 +8,13 @@
     "back_link_to_manage_users": "Return to manage users",
     "errors_select_user_role_to_change_for_the_user": "You have not selected a new role. Select the new role or cancel if you do not need to change it.",
     "select_the_new_role_for": "Select the new role for ",
+    "they_will_not_be_able_to": "They will not be able to add or remove users.",
     "theyll_be_able_to": "They’ll be able to:",
     "theyll_be_able_to_bullet_points": [
         "make changes to the authorised agent’s details",
         "add and remove all users",
         "close the account"
     ],
-    "they_will_not_be_able_to": "They will not be able to add or remove users.",
     "theyll_be_able_to_view_all_users": "They’ll be able to add and remove",
     "theyll_be_able_to_view_all_users_bullet_points": [
         "administrators",

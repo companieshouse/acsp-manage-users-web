@@ -1,20 +1,20 @@
 {
-    "all_users_who_are_added": "Bydd yr holl ddefnyddwyr sy'n cael eu hychwanegu at y cyfrif hwn yn gallu:",
+    "all_users_who_are_added": "Bydd yr holl ddefnyddwyr sy’n cael eu hychwanegu at y cyfrif hwn yn gallu:",
     "all_users_who_are_added_bullet_points": [
-        "gweld defnyddwyr sydd wedi'u hychwanegu at y cyfrif hwn",
-        "gwirio hunaniaeth pobl ar gyfer Tŷ'r Cwmnïau",
+        "gweld defnyddwyr sydd wedi’u hychwanegu at y cyfrif hwn",
+        "gwirio hunaniaeth pobl ar gyfer Tŷ’r Cwmnïau",
         "ffeilio fel asiant awdurdodedig"
     ],
     "back_link_to_manage_users": "Dychwelyd i reoli defnyddwyr",
-    "errors_select_user_role_to_change_for_the_user": "[CY] You have not selected a new role. Select the new role or cancel if you do not need to change it.",
+    "errors_select_user_role_to_change_for_the_user": "Nid ydych wedi dewis rôl newydd. Dewiswch y rôl newydd neu ganslo os nad oes angen i chi ei newid.",
     "select_the_new_role_for": "Dewiswch y rôl newydd ar gyfer ",
+    "they_will_not_be_able_to": "Ni fyddant yn gallu ychwanegu na dileu defnyddwyr.",
     "theyll_be_able_to": "Byddant yn gallu:",
     "theyll_be_able_to_bullet_points": [
         "diweddaru manylion yr Asiant Awdurdodedig",
         "ychwanegu a dileu pob defnyddwyr",
-        "cau'r cyfrif"
+        "cau’r cyfrif"
     ],
-    "they_will_not_be_able_to": "Ni fyddant yn gallu ychwanegu na dileu defnyddwyr.",
     "theyll_be_able_to_view_all_users": "Byddant yn gallu ychwanegu a dileu:",
     "theyll_be_able_to_view_all_users_bullet_points": [
         "gweinyddwyr",

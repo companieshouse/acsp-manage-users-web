@@ -102,7 +102,7 @@ describe("POST /authorised-agent/edit-member-role", () => {
         when(getExtraDataSpy).calledWith(expect.anything(), constants.MANAGE_USERS_MEMBERSHIP).mockReturnValue([standardUserMembership]);
         when(getExtraDataSpy).calledWith(expect.anything(), constants.USER_ROLE_CHANGE_DATA).mockReturnValue(undefined);
         // When
-        const response = await router.post(`${url}/${standardUserMembership.id}`).send({ userRole: standardUserMembership.userRole });
+        const response = await router.post(`${url}/${standardUserMembership.id}?lang=en`).send({ userRole: standardUserMembership.userRole });
         // Then
         expect(response.text).toContain(en.errors_select_user_role_to_change_for_the_user);
     });
