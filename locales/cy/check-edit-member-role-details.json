@@ -1,9 +1,9 @@
 {
-    "change": "[CY] Change",
-    "confirm_users_role": "[CY] Confirm",
+    "change": "Newid",
+    "confirm_users_role": "Cadarnhau",
     "page_header": "Gwiriwch y manylion",
-    "role_hidden_text": "[CY]  role",
-    "to_tell_them_youve_changed_their_role": "[CY]  to tell them you’ve changed their role.",
-    "user": "[CY] User",
-    "well_send_an_email_to": "[CY] We’ll send an email to "
+    "role_hidden_text": "Rôl",
+    "to_tell_them_youve_changed_their_role": " i ddweud wrthynt eich bod wedi newid ei rôl.",
+    "user": "Defnyddiwr",
+    "well_send_an_email_to": "Byddwn yn anfon e-bost at "
 }

@@ -1,10 +1,10 @@
 {
-    "are_you_sure": "[CY] Are you sure you want to remove yourself?",
-    "if_remove_yourself": "[CY] If you remove yourself from the authorised agent account, you will no longer be able to use services for this authorised agent.",
-    "if_you_remove": "[CY] If you remove ",
-    "youll_be_immediately_signed_out": "[CY] You’ll be immediately signed out. The next time you sign in, you will no longer be able to access the authorised agent account.",
-    "remove": "[CY] Remove ",
-    "remove_and_sign_out": "[CY] Remove and sign out",
-    "remove_user": "[CY] Remove user",
-    "they_will_not_be_able_to_use": ", [CY] they will not be able to use authorised agent services for "
+    "are_you_sure": "Ydych chi’n siŵr eich bod chi eisiau dileu eich hun?",
+    "if_remove_yourself": "Os byddwch yn dileu eich hun o’r cyfrif asiant awdurdodedig, ni fyddwch bellach yn gallu defnyddio gwasanaethau ar gyfer yr asiant awdurdodedig hwn.",
+    "if_you_remove": "Os byddwch yn dileu ",
+    "remove": "Dileu ",
+    "remove_and_sign_out": "Dileu ac allgofnodi",
+    "remove_user": "Dileu defnyddiwr",
+    "they_will_not_be_able_to_use": ", ni fyddant yn gallu defnyddio gwasanaethau asiant awdurdodedig ar gyfer ",
+    "youll_be_immediately_signed_out": "Byddwch yn cael eich allgofnodi ar unwaith. Y tro nesaf y byddwch yn mewngofnodi, ni fyddwch yn gallu cael mynediad i’r cyfrif asiant awdurdodedig bellach."
 }

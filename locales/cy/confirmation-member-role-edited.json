@@ -1,30 +1,31 @@
 {
-    "a_standard_user_can": "[CY] A standard user can access services for the authorised agent.",
-    "an_account_owner_can": "[CY] An account owner can access services for the authorised agent.",
-    "an_administrator_can": "[CY] An administrator can access services for the authorised agent.",
-    "if_any_of_the_details": "[CY] If any of the details we hold about the authorised agent change, an account owner must update the account details. They must do this within 14 days.",
-    "is_now_a_standard_user_for": "[CY]  is now a standard user for ",
-    "is_now_an_account_owner_for": "[CY]  is now an account owner for ",
-    "is_now_an_administrator_for": "[CY]  is now an administrator for ",
-    "page_header": "[CY] What happens next",
-    "they_can_add_and_remove": "[CY] They can add and remove:",
+    "a_standard_user_can": "Gall defnyddiwr safonol gael mynediad at wasanaethau ar gyfer yr asiant awdurdodedig.",
+    "an_account_owner_can": "Gall perchennog cyfrif gael mynediad at wasanaethau ar gyfer yr asiant awdurdodedig.",
+    "an_administrator_can": "Gall defnyddiwr gweinyddwr gael mynediad at wasanaethau ar gyfer yr asiant awdurdodedig.",
+    "if_any_of_the_details": "Os bydd unrhyw un o’r manylion sydd gennym am yr asiant awdurdodedig yn newid, rhaid i berchennog cyfrif ddiweddaru manylion y cyfrif. Rhaid gwneud hyn o fewn 14 diwrnod.",
+    "is_now_a_standard_user_for": " bellach yn defnyddiwr safonol i ",
+    "is_now_an_account_owner_for": " bellach yn berchennog cyfrif i ",
+    "is_now_an_administrator_for": " bellach yn gweinyddwr i ",
+    "is_now_beginning_welsh": "Mae ",
+    "page_header": "Beth fydd yn digwydd nesaf",
+    "they_can_add_and_remove": "Gallant ychwanegu a dileu:",
     "they_can_add_and_remove_bullet_points": [
-        "[CY] administrators",
-        "[CY] standard users"
+        "gweinyddwyr",
+        "defnyddwyr safonol"
     ],
-    "they_can_also": "[CY] They can also:",
+    "they_can_also": "Gallant hefyd:",
     "they_can_also_bullet_points": [
-        "[CY] update the authorised agent’s details",
-        "[CY] view all users who have been added to this account",
-        "[CY] add and remove all users",
-        "[CY] close the account"
+        "diweddaru manylion yr asiant awdurdodedig",
+        "gweld yr holl ddefnyddwyr sydd wedi’u hychwanegu at y cyfrif hwn",
+        "ychwanegu a dileu pob defnyddiwr",
+        "cau’r cyfrif"
     ],
-    "they_can_also_view_all_users": "[CY] They can also view all users who have been added to this account.",
-    "they_cannot_add_or_remove_users": "[CY] They cannot add or remove users.",
-    "to_tell_them_youve_chanaged_their_role": "[CY]  to tell them you’ve changed their role.",
-    "users_role_changed": "[CY] User’s role changed",
-    "well_sent_an_email_to": "[CY] We’ll send an email to ",
-    "what_a_standard_user_can_do": "[CY] What a standard user can do",
-    "what_an_account_owner_can_do": "[CY] What an account owner can do",
-    "what_an_administrator_can_do": "[CY] What an administrator can do"
+    "they_can_also_view_all_users": "Gallant hefyd weld yr holl ddefnyddwyr sydd wedi’u hychwanegu at y cyfrif hwn. ",
+    "they_cannot_add_or_remove_users": "Ni allant ychwanegu neu ddileu defnyddwyr.",
+    "to_tell_them_youve_chanaged_their_role": " i ddweud wrthynt eich bod wedi newid ei rôl.",
+    "users_role_changed": "Rôl y defnyddiwr wedi newid",
+    "well_sent_an_email_to": "Byddwn yn anfon e-bost at ",
+    "what_a_standard_user_can_do": "Beth all defnyddiwr safonol ei wneud",
+    "what_an_account_owner_can_do": "Beth all perchennog cyfrif ei wneud",
+    "what_an_administrator_can_do": "Beth all gweinyddwr ei wneud"
 }
