@@ -28,6 +28,9 @@
     {{lang.users_role_changed}}
 </h3>
 <p class="govuk-body">
+    {% if locale == "cy" %}
+        {{lang.is_now_beginning_welsh}}
+    {% endif %}
     {% if userDisplayName %}
         {{userDisplayName}}
     {% else %}
