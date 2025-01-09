@@ -19,9 +19,9 @@ export const editMemberRoleControllerGet = async (req: Request, res: Response): 
     if (viewData.isTheOnlyOwner) {
         const userRoleChangeData = getUserRoleChangeData(req, viewData);
         setExtraData(req.session, constants.USER_ROLE_CHANGE_DATA, userRoleChangeData);
-        res.redirect(constants.STOP_PAGE_ADD_ACCOUNT_OWNER_FULL_URL);
+        return res.redirect(constants.STOP_PAGE_ADD_ACCOUNT_OWNER_FULL_URL);
     } else {
-        res.render(constants.EDIT_MEMBER_ROLE_PAGE, viewData);
+        return res.render(constants.EDIT_MEMBER_ROLE_PAGE, viewData);
     }
 };
 

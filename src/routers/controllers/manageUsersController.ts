@@ -21,8 +21,9 @@ export const manageUsersControllerGet = async (req: Request, res: Response): Pro
 };
 
 export const manageUsersControllerPost = async (req: Request, res: Response): Promise<void> => {
+    const { userRole } = getLoggedUserAcspMembership(req.session);
     const search = req.body.search.replace(/ /g, "");
-    const url = `${constants.MANAGE_USERS_FULL_URL}?search=${search}`;
+    const url = userRole === UserRole.STANDARD ? `${constants.VIEW_USERS_FULL_URL}?search=${search}` : `${constants.MANAGE_USERS_FULL_URL}?search=${search}`;
     const sanitizedUrl = sanitizeUrl(url);
     res.redirect(sanitizedUrl);
 };
