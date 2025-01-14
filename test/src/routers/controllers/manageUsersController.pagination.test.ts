@@ -24,6 +24,8 @@ import { when } from "jest-when";
 import { UserRole } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
 import * as enCommon from "../../../../locales/en/common.json";
 
+jest.mock("../../../../src/lib/Logger");
+
 const router = supertest(app);
 const baseUrl = "/authorised-agent/manage-users";
 const getAcspMembershipsSpy: jest.SpyInstance = jest.spyOn(acspMemberService, "getAcspMemberships");

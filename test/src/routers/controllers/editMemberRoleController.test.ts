@@ -19,6 +19,8 @@ import { Membership } from "../../../../src/types/membership";
 import * as acspMemberService from "../../../../src/services/acspMemberService";
 import { when } from "jest-when";
 
+jest.mock("../../../../src/lib/Logger");
+
 const router = supertest(app);
 
 const url = "/authorised-agent/edit-member-role";

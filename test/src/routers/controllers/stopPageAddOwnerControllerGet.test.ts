@@ -12,6 +12,8 @@ import { UserRole } from "private-api-sdk-node/dist/services/acsp-manage-users/t
 import { adminUserRoleChangeDataMock } from "../../../mocks/user.mock";
 import { session } from "../../../mocks/session.middleware.mock";
 
+jest.mock("../../../../src/lib/Logger");
+
 const router = supertest(app);
 
 const url = "/authorised-agent/stop-page-add-account-owner";

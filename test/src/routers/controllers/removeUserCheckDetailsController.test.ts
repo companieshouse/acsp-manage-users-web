@@ -17,6 +17,8 @@ import {
 } from "../../../mocks/user.mock";
 import { when } from "jest-when";
 
+jest.mock("../../../../src/lib/Logger");
+
 const router = supertest(app);
 
 const url = "/authorised-agent/remove-member/";

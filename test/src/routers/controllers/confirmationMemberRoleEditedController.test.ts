@@ -17,6 +17,8 @@ import * as cy from "../../../../locales/cy/confirmation-member-role-edited.json
 import * as enCommon from "../../../../locales/en/common.json";
 import * as cyCommon from "../../../../locales/cy/common.json";
 
+jest.mock("../../../../src/lib/Logger");
+
 const router = supertest(app);
 
 const url = "/authorised-agent/confirmation-member-role-edited";

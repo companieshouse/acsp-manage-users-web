@@ -15,6 +15,8 @@ import * as sessionUtils from "../../../../src/lib/utils/sessionUtils";
 import { UserRole } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
 import { getUserRoleTag } from "../../../../src/lib/utils/viewUtils";
 
+jest.mock("../../../../src/lib/Logger");
+
 const router = supertest(app);
 
 const url = "/authorised-agent/check-edit-member-role-details";

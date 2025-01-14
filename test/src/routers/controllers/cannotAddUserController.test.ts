@@ -7,6 +7,8 @@ import * as enCommon from "../../../../locales/en/common.json";
 import { loggedAccountOwnerAcspMembership } from "../../../mocks/acsp.members.mock";
 import { session } from "../../../mocks/session.middleware.mock";
 
+jest.mock("../../../../src/lib/Logger");
+
 const router = supertest(app);
 
 const url = "/authorised-agent/cannot-add-user";

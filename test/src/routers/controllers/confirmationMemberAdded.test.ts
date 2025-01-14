@@ -13,6 +13,8 @@ import { loggedAccountOwnerAcspMembership } from "../../../mocks/acsp.members.mo
 import { getUserRoleTag } from "../../../../src/lib/utils/viewUtils";
 import { session } from "../../../mocks/session.middleware.mock";
 
+jest.mock("../../../../src/lib/Logger");
+
 const router = supertest(app);
 
 const url = "/authorised-agent/confirmation-member-added";
