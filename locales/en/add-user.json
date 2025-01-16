@@ -1,4 +1,5 @@
 {
+    "bad-key":"test",
     "back_link_to_manage_users": "Return to manage users",
     "email_hint_text": "This must be the email address they use for their Companies House account. If they do not have a Companies House account, they must create one before you can add them.",
     "email_input_label": "What is their email address?",
@@ -9,7 +10,7 @@
     "inset_bullet_1_view_users": "view users who have been added to this account",
     "inset_bullet_2_verify_people": "verify people's identity for Companies House",
     "inset_bullet_3_file_as_an_authorised_agent": "file as an authorised agent",
-    "option_1": "Account owner",
+    "option_1": "Account owner",    
     "option_1_hint_bullet_1": "update the authorised agent's details",
     "option_1_hint_bullet_2": "add and remove all users",
     "option_1_hint_bullet_3": "close the account",
