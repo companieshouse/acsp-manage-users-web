@@ -29,5 +29,6 @@
     "you_can_view_all_users_who": "You can view all users who have been added to this account.",
     "you_cannot_file_as": "You cannot file as an authorised agent because ",
     "you_cannot_tell_us": "You cannot tell us you've verified someone's identity because ",
-    "your_role": "Your role:"
+    "your_role": "Your role:",
+    "bad":"bad"
 }
