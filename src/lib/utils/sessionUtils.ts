@@ -15,6 +15,15 @@ export const getLoggedInUserEmail = (session: Session | undefined): string => {
     return signInInfo?.[SignInInfoKeys.UserProfile]?.[UserProfileKeys.Email] as string;
 };
 
+export const isAdminUser = (session: Session | undefined): boolean => {
+    const signInInfo = getSignInInfo(session);
+    const permissions = signInInfo?.[SignInInfoKeys.UserProfile]?.[UserProfileKeys.Permissions];
+    if (permissions) {
+        return Object.entries(permissions).some(([key, value]) => key.startsWith("/admin/") && value === 1);
+    }
+    return false;
+};
+
 export const getLoggedUserAcspMembership = (session: Session | undefined): AcspMembership => {
     return getExtraData(session, constants.LOGGED_USER_ACSP_MEMBERSHIP);
 };

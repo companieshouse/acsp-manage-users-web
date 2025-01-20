@@ -141,6 +141,7 @@ export const NAVIGATION: Navigation = {
 };
 
 export const navigationMiddleware = (req: Request, res: Response, next: NextFunction): void => {
+
     const callerURL = url.parse(req.headers.referer || "", true).pathname || "";
     let currentPath = url.parse(req.originalUrl, true).pathname || "";
 
