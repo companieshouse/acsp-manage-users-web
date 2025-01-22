@@ -21,7 +21,7 @@ describe("translateEnum", () => {
         { locale: "cy", value: UserRole.OWNER, expected: "[CY] Owner" },
         { locale: "cy", value: UserRole.ADMIN, expected: "[CY] Administrator" },
         { locale: "cy", value: UserRole.STANDARD, expected: "[CY] Standard" },
-        { locale: "cy", value: AcspStatus.SUSPENDED, expected: "[CY] Suspended" },
+        { locale: "cy", value: AcspStatus.SUSPENDED, expected: "Wedi’i atal" },
         { locale: "cy", value: AcspStatus.CEASED, expected: "[CY] Ceased" },
         { locale: "cy", value: MembershipStatus.REMOVED, expected: "[CY] Removed" },
         { locale: "cy", value: AcspStatus.ACTIVE, expected: "Gweithredol" },
