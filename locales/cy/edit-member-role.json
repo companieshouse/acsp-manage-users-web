@@ -5,6 +5,7 @@
         "gwirio hunaniaeth pobl ar gyfer Tŷ’r Cwmnïau",
         "ffeilio fel asiant awdurdodedig"
     ],
+    "and_return_to": "a dychwelyd i reoli defnyddwyr",
     "back_link_to_manage_users": "Dychwelyd i reoli defnyddwyr",
     "errors_select_user_role_to_change_for_the_user": "Nid ydych wedi dewis rôl newydd. Dewiswch y rôl newydd neu ganslo os nad oes angen i chi ei newid.",
     "select_the_new_role_for": "Dewiswch y rôl newydd ar gyfer ",

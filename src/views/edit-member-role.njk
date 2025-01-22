@@ -158,7 +158,11 @@
                             classes: 'govuk-!-margin-top-3'
                         })
                     }}
-                    <a class="govuk-link" href="{{backLinkUrl}}" data-event-id="cancel-edit-user-role" id="cancel-link">{{lang.cancel}}</a>
+                    <p class="govuk-body">
+                        <a class="govuk-link" href="{{backLinkUrl}}" data-event-id="cancel-edit-user-role" id="cancel-link">{{lang.cancel}}</a>
+                        <span class="govuk-visually-hidden">
+                            {{lang.and_return_to}}</span>
+                    </p>
                 </div>
             </form>
 
