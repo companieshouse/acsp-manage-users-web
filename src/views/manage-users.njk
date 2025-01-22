@@ -60,7 +60,8 @@
             </div>
             {% if message %}
                 {{ govukErrorMessage({
-                            text: message
+                            text: message,
+                            visuallyHiddenText: lang.error
                         })
                     }}
             {% endif %}
@@ -73,23 +74,68 @@
         </div>
     </form>
 
-    {% set changeUsersRoleHiddenHeader %}
-    <span class="govuk-visually-hidden">{{lang.change_users_role}}</span>
-    {% endset%}
+    {% set englishRoleEnding = null %}
+    {% if locale == "en" %}
+        {% set englishRoleEnding = lang.s_role %}
+    {% endif %}
 
-    {% set removeUserHiddenHeader %}
-    <span class="govuk-visually-hidden">{{lang.remove_user}}</span>
-    {% endset%}
+    {% set changeOwnerRoleHiddenHeader %}
+    <span class="govuk-visually-hidden">{{lang.change}}{{lang.an_account_owner}}{{englishRoleEnding}}</span>
+    {% endset %}
 
-    {% set allHeaders = [
+    {% set removeOwnerHiddenHeader %}
+    <span class="govuk-visually-hidden">{{lang.remove}}{{lang.an_account_owner}}</span>
+    {% endset %}
+
+    {% set changeAdminRoleHiddenHeader %}
+    <span class="govuk-visually-hidden">{{lang.change}}{{lang.an_administrator}}{{englishRoleEnding}}</span>
+    {% endset %}
+
+    {% set removeAdminHiddenHeader %}
+    <span class="govuk-visually-hidden">{{lang.remove}}{{lang.an_administrator}}</span>
+    {% endset %}
+
+    {% set changeStandardRoleHiddenHeader %}
+    <span class="govuk-visually-hidden">{{lang.change}}{{lang.a_standard_user}}{{englishRoleEnding}}</span>
+    {% endset %}
+
+    {% set removeStandardUserHiddenHeader %}
+    <span class="govuk-visually-hidden">{{lang.remove}}{{lang.a_standard_user}}</span>
+    {% endset %}
+
+    {% set ownerHeaders = [
         {
             text: lang.email_address
         }, {
             text: lang.name
         }, {
-            html: changeUsersRoleHiddenHeader
+            html: changeOwnerRoleHiddenHeader
         }, {
-            html: removeUserHiddenHeader
+            html: removeOwnerHiddenHeader
+        }
+    ] %}
+
+    {% set adminHeaders = [
+        {
+            text: lang.email_address
+        }, {
+            text: lang.name
+        }, {
+            html: changeAdminRoleHiddenHeader
+        }, {
+            html: removeAdminHiddenHeader
+        }
+    ] %}
+
+    {% set standardHeaders = [
+        {
+            text: lang.email_address
+        }, {
+            text: lang.name
+        }, {
+            html: changeStandardRoleHiddenHeader
+        }, {
+            html: removeStandardUserHiddenHeader
         }
     ] %}
 
@@ -101,11 +147,12 @@
         }
     ] %}
 
-    {% set accountOwnersTableHeaders = allHeaders if loggedInUserRole === UserRole.OWNER else 
+    {% set accountOwnersTableHeaders = ownerHeaders if loggedInUserRole === UserRole.OWNER else 
         basicHeaders %}
 
-    {% set otherTableHeaders = basicHeaders if loggedInUserRole === UserRole.STANDARD else 
-        allHeaders %}
+    {% set adminTableHeaders = adminHeaders if loggedInUserRole !== UserRole.STANDARD else basicHeaders%}
+
+    {% set standardTableHeaders = basicHeaders if loggedInUserRole === UserRole.STANDARD else standardHeaders%}
 
     {% set accountOwnersTabContent %}
     <h2 class="govuk-heading-l">{{lang.account_owners}}</h2>
@@ -134,7 +181,7 @@
                 caption: lang.administrators,
                 captionClasses: "govuk-table__caption--m govuk-visually-hidden",
                 firstCellIsHeader: true,
-                head: otherTableHeaders,
+                head: adminTableHeaders,
                 rows: administratorsTableData
             })
         }}
@@ -154,7 +201,7 @@
                 caption: lang.standard_users,
                 captionClasses: "govuk-table__caption--m govuk-visually-hidden",
                 firstCellIsHeader: true,
-                head: otherTableHeaders,
+                head: standardTableHeaders,
                 rows: standardUsersTableData
             })
         }}

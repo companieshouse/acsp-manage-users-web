@@ -14,7 +14,8 @@
 {% for key, value in errors %}
     {% if key == "userRole" %}
         {% set message = {
-            text: lang[value.text]
+            text: lang[value.text],
+            visuallyHiddenText: lang.error
         } %}
         {% set title = lang.title_error + page_header + lang.title_end %}
     {% endif %}

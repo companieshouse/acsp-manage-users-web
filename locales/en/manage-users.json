@@ -1,9 +1,13 @@
 {
+    "a_standard_user": " a standard user",
     "account_owners": "Account owners",
     "add_a_user": "Add a user",
     "administrators": "Administrators",
     "back_link_to_authorised_agent_services": "Return to authorised agent services",
+    "an_account_owner": " an account owner",
+    "an_administrator": " an administrator",
     "cancel_search": "Cancel search",
+    "change": "Change",
     "change_role": "Change role",
     "change_users_role": "Change user’s role",
     "enter_the_users_full_email_address": "Enter the user’s full email address",
@@ -14,10 +18,11 @@
     "page_header_standard": "View users",
     "remove": "Remove",
     "remove_user": "Remove user",
+    "s_role_english": "’s role",
     "search": "Search",
     "search_for_a_user": "Search for a user",
     "standard_users": "Standard users",
-    "you_have_no_account_owners_users": "You have no account owners users.",
+    "you_have_no_account_owners_users": "You have no account owners.",
     "you_have_no_admin_users": "You have no admin users.",
     "you_have_no_standard_users": "You have no standard users."
 }
