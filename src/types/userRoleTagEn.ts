@@ -5,7 +5,7 @@ export enum UserRoleTagEn {
 }
 
 export enum UserRoleTagCy {
-    OWNER = "[CY] Account owner",
-    ADMIN = "[CY] Administrator",
-    STANDARD = "[CY] Standard user"
+    OWNER = "Perchennog cyfrif",
+    ADMIN = "Gweinyddwr",
+    STANDARD = "Defnyddiwr safonol"
 }

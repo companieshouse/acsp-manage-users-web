@@ -46,14 +46,14 @@ describe(`GET ${url}`, () => {
         expect(decodedResponse).toContain(en.authorised_agent_status);
         expect(decodedResponse).toContain(en.coming_soon);
         expect(decodedResponse).toContain(en.file_as_an_authorised_agent);
-        expect(decodedResponse).toContain(en.in_the_future);
+        expect(decodedResponse).toContain(en.in_future);
         expect(decodedResponse).toContain(en.in_future_youll_be_able_to_tell_us);
         expect(decodedResponse).toContain(en.manage_users);
         expect(decodedResponse).toContain(en.page_header);
         expect(decodedResponse).toContain(en.remove_users);
         expect(decodedResponse).toContain(en.tell_companies_house_id);
         expect(decodedResponse).toContain(en.tell_us_about_any_changes_within);
-        expect(decodedResponse).toContain(en.tell_us_about_any_changes);
+        expect(decodedResponse).toContain(en.tell_us_about_changes);
         expect(decodedResponse).toContain(en.update_authorised_agent);
         expect(decodedResponse).toContain(en.view_users_who_have_been_added);
         expect(decodedResponse).toContain(en.warning);
@@ -79,7 +79,7 @@ describe(`GET ${url}`, () => {
         expect(decodedResponse).toContain(en.authorised_agent_status);
         expect(decodedResponse).toContain(en.coming_soon);
         expect(decodedResponse).toContain(en.file_as_an_authorised_agent);
-        expect(decodedResponse).toContain(en.in_the_future);
+        expect(decodedResponse).toContain(en.in_future);
         expect(decodedResponse).toContain(en.in_future_youll_be_able_to_tell_us);
         expect(decodedResponse).toContain(en.manage_users);
         expect(decodedResponse).toContain(en.page_header);
@@ -103,7 +103,7 @@ describe(`GET ${url}`, () => {
         expect(decodedResponse).toContain(en.authorised_agent_status);
         expect(decodedResponse).toContain(en.coming_soon);
         expect(decodedResponse).toContain(en.file_as_an_authorised_agent);
-        expect(decodedResponse).toContain(en.in_the_future);
+        expect(decodedResponse).toContain(en.in_future);
         expect(decodedResponse).toContain(en.in_future_youll_be_able_to_tell_us);
         expect(decodedResponse).toContain(en.view_users);
         expect(decodedResponse).toContain(en.you_can_view_all_users_who);
@@ -127,7 +127,7 @@ describe(`GET ${url}`, () => {
         expect(decodedResponse).toContain(cy.authorised_agent_status);
         expect(decodedResponse).toContain(cy.coming_soon);
         expect(decodedResponse).toContain(cy.file_as_an_authorised_agent);
-        expect(decodedResponse).toContain(cy.in_the_future);
+        expect(decodedResponse).toContain(cy.in_future);
         expect(decodedResponse).toContain(cy.in_future_youll_be_able_to_tell_us);
         expect(decodedResponse).toContain(cy.view_users);
         expect(decodedResponse).toContain(cy.you_can_view_all_users_who);
@@ -151,7 +151,7 @@ describe(`GET ${url}`, () => {
         expect(decodedResponse).toContain(en.you_cannot_tell_us);
         expect(decodedResponse).toContain(en.has_been_suspended);
         expect(decodedResponse).toContain(en.you_cannot_file_as);
-        expect(decodedResponse).not.toContain(en.in_the_future);
+        expect(decodedResponse).not.toContain(en.in_future);
         expect(decodedResponse).not.toContain(en.in_future_youll_be_able_to_tell_us);
         expect(decodedResponse).toContain(`${accountOwnerAcspMembership.acspName}${en.suspended_warning_text}`);
     });

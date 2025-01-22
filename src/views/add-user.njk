@@ -14,13 +14,15 @@
 {% for key, value in errors %}
     {% if key == "email" %}
         {% set emailMessage = {
-            text: lang[value.text]
+            text: lang[value.text],
+            visuallyHiddenText: lang.error
         } %}
         {% set title = lang.title_error + lang.page_header + lang.title_end %}
     {% endif %}
     {% if key == "userRole" %}
         {% set roleMessage = {
-            text: lang[value.text]
+            text: lang[value.text],
+            visuallyHiddenText: lang.error
         } %}
         {% set title = lang.title_error + lang.page_header + lang.title_end %}
     {% endif %}

@@ -1,9 +1,9 @@
 {
-    "cannot_add_user_heading": "[CY] You cannot add this user",
-    "cannot_add_user_paragraph1": "[CY] We have not been able to add the user with the email address you provided.",
-    "cannot_add_user_paragraph2": "[CY] This could be because they don't have a Companies House account that uses the email address. Or, they may have already been added to an authorised agent account.",
-    "cannot_add_user_paragraph3": "[CY] The user may need to create a Companies House account, or be removed from another authorised account before you can add them.",
-    "cannot_add_user_title": "[CY] You cannot add this user - Find and update company information - GOV.UK",
-    "manage_users_link_text": "[CY] Manage users for",
-    "service_name": "[CY] Companies House"
+    "cannot_add_user_heading": "Ni allwch ychwanegu’r defnyddiwr hwn",
+    "cannot_add_user_paragraph1": "Nid ydym wedi gallu ychwanegu’r defnyddiwr gyda’r cyfeiriad e-bost rydych wedi ei ddarparu.",
+    "cannot_add_user_paragraph2": "Gallai hyn fod oherwydd nad oes ganddynt gyfrif Tŷ’r Cwmnïau sy’n defnyddio’r cyfeiriad e-bost. Neu, efallai ei bod eisoes wedi’i hychwanegu at gyfrif asiant awdurdodedig.",
+    "cannot_add_user_paragraph3": "Efallai y bydd angen i’r defnyddiwr greu cyfrif Tŷ’r Cwmnïau, neu gael ei dileu o gyfrif awdurdodedig arall cyn y gallwch ei hychwanegu.",
+    "cannot_add_user_title": "Ni allwch ychwanegu’r defnyddiwr hwn - Dod o hyd i a diweddaru gwybodaeth cwmni - GOV.UK",
+    "manage_users_link_text": "Rheoli defnyddwyr ar gyfer",
+    "service_name": "Tŷ’r Cwmnïau"
 }

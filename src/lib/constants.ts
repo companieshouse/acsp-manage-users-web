@@ -82,7 +82,7 @@ export const ITEMS_PER_PAGE_DEFAULT = 15;
 export const UNCAUGHT_EXCEPTION = "uncaughtException";
 export const UNHANDLED_REJECTION = "unhandledRejection";
 export const NOT_PROVIDED = "Not Provided";
-export const NOT_PROVIDED_CY = "[CY] Not Provided";
+export const NOT_PROVIDED_CY = "Heb ei ddarparu";
 
 // URL Base Paths and Helpers
 export const HEALTHCHECK = "/healthcheck";
