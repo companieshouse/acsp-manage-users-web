@@ -8,7 +8,7 @@
 {% extends "layouts/default.njk" %}
 
 {% block back_link %}
-        {{ govukBackLink({
+    {{ govukBackLink({
             text: lang.back_link_to_authorised_agent_services,
             href: backLinkUrl,
             attributes: {
@@ -169,6 +169,8 @@
         {% if accoutOwnerPadinationData and accoutOwnerPadinationData.items | length %}
             {{ govukPagination(accoutOwnerPadinationData) }}
         {% endif %}
+    {% elif search and(standardUsersTableData.length > 0 or administratorsTableData.length > 0) %}
+        <p class="govuk-body">{{lang.no_search_results}}.</p>
     {% else %}
         <p class="govuk-body">{{lang.you_have_no_account_owners_users}}</p>
     {% endif %}
@@ -189,6 +191,8 @@
         {% if adminPadinationData and adminPadinationData.items | length %}
             {{ govukPagination(adminPadinationData) }}
         {% endif %}
+    {% elif search and(standardUsersTableData.length > 0 or accountOwnersTableData.length > 0) %}
+        <p class="govuk-body">{{lang.no_search_results}}.</p>
     {% else %}
         <p class="govuk-body">{{lang.you_have_no_admin_users}}</p>
     {% endif %}
@@ -209,6 +213,8 @@
         {% if standardUserPadinationData and standardUserPadinationData.items | length %}
             {{ govukPagination(standardUserPadinationData) }}
         {% endif %}
+    {% elif search and(administratorsTableData.length > 0 or accountOwnersTableData.length > 0) %}
+        <p class="govuk-body">{{lang.no_search_results}}.</p>
     {% else %}
         <p class="govuk-body">{{lang.you_have_no_standard_users}}</p>
     {% endif %}
