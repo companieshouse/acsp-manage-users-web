@@ -3,7 +3,7 @@ import * as constants from "../../lib/constants";
 import { getTranslationsForView } from "../../lib/utils/translationUtils";
 import { getExtraData, getLoggedUserAcspMembership } from "../../lib/utils/sessionUtils";
 import { AcspMembership } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
-import { MemberForRemoval } from "types/membership";
+import { MemberForRemoval } from "../../types/membership";
 import logger from "../../lib/Logger";
 import { ViewDataWithBackLink } from "../../types/utilTypes";
 

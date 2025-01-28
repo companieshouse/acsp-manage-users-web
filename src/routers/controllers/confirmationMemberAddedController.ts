@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import * as constants from "../../lib/constants";
 import { getTranslationsForView } from "../../lib/utils/translationUtils";
-import { BaseViewData } from "types/utilTypes";
+import { BaseViewData } from "../../types/utilTypes";
 import { getExtraData } from "../../lib/utils/sessionUtils";
 import { NewUserDetails } from "../../types/user";
 import { getUserRoleTag } from "../../lib/utils/viewUtils";

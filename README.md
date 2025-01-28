@@ -29,26 +29,7 @@ Instructions can be found [here](https://companieshouse.atlassian.net/wiki/space
 
 Instructions for adding initial data for development and testing, can be found [here](https://companieshouse.atlassian.net/wiki/spaces/IDV/pages/4517724334/Inugami+Test+Data)
 
-In addition to the above there is a seed script is included in this repo which uses Node.js and faker.js.
-
-To use this script 
-
-From the terminal cd into the correct directory
-```bash
-cd tools/seed-acsp-data-mongo
-```
-Install dependencies 
-
-```bash
-npm i
-```
-Configuration options can be updated in config.js.
-
-To run the script
-
-```bash
-node index.js
-```
+In addition to the above there is a seed script is included, [with guidance here](./tools/seed-acsp-data-mongo/README.md).
 
 ### Helmet
 
