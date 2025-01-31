@@ -1,5 +1,6 @@
 {
     "back_link_to_manage_users": "Return to manage users",
+    "b_a_c_k_to_the_future": "Return to",
     "email_hint_text": "This must be the email address they use for their Companies House account. If they do not have a Companies House account, they must create one before you can add them.",
     "email_input_label": "What is their email address?",
     "errors_email_invalid": "Enter an email address in the correct format, like name@example.com",
