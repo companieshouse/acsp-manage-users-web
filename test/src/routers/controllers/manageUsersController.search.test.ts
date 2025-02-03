@@ -74,7 +74,6 @@ describe("manageUsersControllerGet - search", () => {
         // Then
         expect(setExtraDataSpy).toHaveBeenCalledTimes(1);
         expect(setExtraDataSpy).toHaveBeenCalledWith(expect.anything(), "manageUsersMembership", expect.anything());
-
         expect(response.text).toContain(administratorAcspMembership.userEmail);
         expect(response.text).not.toContain(en.errors_enter_an_email_address_in_the_correct_format);
         expect(response.text).not.toContain(en.you_have_no_admin_users);
@@ -91,6 +90,8 @@ describe("manageUsersControllerGet - search", () => {
         const response = await router.get(`${viewUserUrl}?search=${search}`);
         // Then
         expect(setExtraDataSpy).toHaveBeenCalledTimes(1);
+        expect(setExtraDataSpy).toHaveBeenCalledWith(expect.anything(), "manageUsersMembership", expect.anything());
+
         expect(response.text).toContain(standardUserAcspMembership.userEmail);
         expect(response.text).not.toContain(en.errors_enter_an_email_address_in_the_correct_format);
         expect(response.text).toContain(en.you_have_no_admin_users);
