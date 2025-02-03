@@ -100,8 +100,7 @@ export const getViewData = async (req: Request): Promise<AnyRecord> => {
                     displayNameOrEmail: getDisplayNameOrEmail(member)
                 }));
 
-                const existingUsers: Membership[] = getExtraData(req.session, constants.MANAGE_USERS_MEMBERSHIP) || [];
-                setExtraData(req.session, constants.MANAGE_USERS_MEMBERSHIP, [...existingUsers, ...foundMember]);
+                setExtraData(req.session, constants.MANAGE_USERS_MEMBERSHIP, foundMember);
 
                 const memberData = getUserTableData(foundUser.items, translations, userRole !== UserRole.STANDARD, userRole !== UserRole.STANDARD, req.lang);
                 switch (foundUser.items[0].userRole) {
