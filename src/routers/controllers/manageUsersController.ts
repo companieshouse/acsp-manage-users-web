@@ -4,7 +4,7 @@ import { getTranslationsForView } from "../../lib/utils/translationUtils";
 import { AnyRecord, MemberRawViewData, PageNumbers, PageQueryParams } from "../../types/utilTypes";
 import { TableEntry } from "../../types/viewTypes";
 import { getHiddenText, getLink } from "../../lib/utils/viewUtils";
-import { setExtraData, getLoggedUserAcspMembership, deleteExtraData } from "../../lib/utils/sessionUtils";
+import { getExtraData, setExtraData, getLoggedUserAcspMembership, deleteExtraData } from "../../lib/utils/sessionUtils";
 import { AcspMembership, UserRole } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
 import { getAcspMemberships, membershipLookup } from "../../services/acspMemberService";
 import { sanitizeUrl } from "@braintree/sanitize-url";
@@ -14,6 +14,7 @@ import { getChangeMemberRoleFullUrl, getRemoveMemberCheckDetailsFullUrl } from "
 import { buildPaginationElement, getCurrentPageNumber, setLangForPagination, stringToPositiveInteger } from "../../lib/helpers/buildPaginationHelper";
 import { validatePageNumber } from "../../lib/validation/page.number.validation";
 import { validateActiveTabId } from "../../lib/validation/string.validation";
+import { Membership } from "../../types/membership";
 
 export const manageUsersControllerGet = async (req: Request, res: Response): Promise<void> => {
     const viewData = await getViewData(req);
@@ -86,6 +87,22 @@ export const getViewData = async (req: Request): Promise<AnyRecord> => {
             const foundUser = await membershipLookup(req, acspNumber, search);
             if (foundUser.items.length > 0) {
                 setTabIds(viewData, foundUser.items[0].userRole);
+
+                const foundMember = [
+                    foundUser.items[0]
+                ].map(member => ({
+                    id: member.id,
+                    userId: member.userId,
+                    userEmail: member.userEmail,
+                    acspNumber: member.acspNumber,
+                    userRole: member.userRole,
+                    userDisplayName: getDisplayNameOrNotProvided(req.lang, member),
+                    displayNameOrEmail: getDisplayNameOrEmail(member)
+                }));
+
+                const existingUsers: Membership[] = getExtraData(req.session, constants.MANAGE_USERS_MEMBERSHIP) || [];
+                setExtraData(req.session, constants.MANAGE_USERS_MEMBERSHIP, [...existingUsers, ...foundMember]);
+
                 const memberData = getUserTableData(foundUser.items, translations, userRole !== UserRole.STANDARD, userRole !== UserRole.STANDARD, req.lang);
                 switch (foundUser.items[0].userRole) {
                 case UserRole.OWNER:
