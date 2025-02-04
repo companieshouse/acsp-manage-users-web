@@ -45,31 +45,21 @@ describe("getEnvironmentValue", () => {
 });
 
 describe("isFeatureEnabled", () => {
-    it("should return boolean true if featureFlagKey is string equal to true", () => {
+
+    test.each([
+        [true, "true", "TEST_ENV_VARIABLE_1"],
+        [false, "false", "TEST_ENV_VARIABLE_2"],
+        [false, undefined, "TEST_ENV_VARIABLE_3"]
+    ])("should return boolean %s if featureFlagKey is %s", async (expValue, keyValue, keyName) => {
         // Given
-        const key = "TEST_ENV_VARIABLE";
-        process.env[key] = "true";
-        const expectedValue = true;
+        const key = keyName;
+        process.env[key] = keyValue;
+        const expectedValue = expValue;
+
         // When
         const result = isFeatureEnabled(key);
+
         // Then
         expect(result).toEqual(expectedValue);
-    });
-
-    it("should return boolean false if featureFlagKey is NOT a string equal to true", () => {
-        // Given
-        const key1 = "TEST_ENV_VARIABLE";
-        const key2 = "TEST_ENV_VARIABLE_2";
-
-        process.env[key1] = "false";
-        process.env[key2] = undefined;
-
-        const expectedValue = true;
-        // When
-        const result1 = isFeatureEnabled(key1);
-        const result2 = isFeatureEnabled(key2);
-        // Then
-        expect(result1).not.toEqual(expectedValue);
-        expect(result2).not.toEqual(expectedValue);
     });
 });
