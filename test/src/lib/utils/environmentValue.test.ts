@@ -50,11 +50,10 @@ describe("isFeatureEnabled", () => {
         [true, "true", "TEST_ENV_VARIABLE_1"],
         [false, "false", "TEST_ENV_VARIABLE_2"],
         [false, undefined, "TEST_ENV_VARIABLE_3"]
-    ])("should return boolean %s if featureFlagKey is %s", async (expValue, keyValue, keyName) => {
+    ])("should return boolean %s if featureFlagKey is %s", async (expectedValue, keyValue, key) => {
+
         // Given
-        const key = keyName;
         process.env[key] = keyValue;
-        const expectedValue = expValue;
 
         // When
         const result = isFeatureEnabled(key);
