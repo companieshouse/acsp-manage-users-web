@@ -5,6 +5,10 @@ import * as en from "../../../../locales/en/dashboard.json";
 import * as enCommon from "../../../../locales/en/common.json";
 import * as cy from "../../../../locales/cy/dashboard.json";
 import * as sessionUtils from "../../../../src/lib/utils/sessionUtils";
+import * as environmentValue from "../../../../src/lib/utils/environmentValue";
+import * as constants from "../../../../src/lib/constants";
+import { when } from "jest-when";
+
 import {
     accountOwnerAcspMembership,
     administratorAcspMembership,
@@ -16,9 +20,9 @@ jest.mock("../../../../src/lib/Logger");
 
 const router = supertest(app);
 const url = "/authorised-agent/";
-
 describe(`GET ${url}`, () => {
     const getLoggedUserAcspMembershipSpy: jest.SpyInstance = jest.spyOn(sessionUtils, "getLoggedUserAcspMembership");
+    const isFeatureEnabledSpy: jest.SpyInstance = jest.spyOn(environmentValue, "isFeatureEnabled");
 
     beforeEach(() => {
         jest.clearAllMocks();
@@ -35,6 +39,9 @@ describe(`GET ${url}`, () => {
     it("should have a page title and 5 boxes, file as an auth agent, manage users, verify, close and update when account owner logged in", async () => {
         // Given
         getLoggedUserAcspMembershipSpy.mockReturnValue(accountOwnerAcspMembership);
+        when(isFeatureEnabledSpy).calledWith(constants.FEATURE_FLAG_SHOW_CLOSE_AUTHORISED_AGENT).mockReturnValue(true);
+        when(isFeatureEnabledSpy).calledWith(constants.FEATURE_FLAG_SHOW_UPDATE_AUTHORISED_AGENT_DETAILS).mockReturnValue(true);
+        when(isFeatureEnabledSpy).calledWith(constants.FEATURE_FLAG_SHOW_FILE_AS_AUTHORISED_AGENT).mockReturnValue(true);
         // When
         const encodedResponse = await router.get(url);
         const decodedResponse = encodedResponse.text.replace(/&#39;/g, "'");
@@ -54,6 +61,8 @@ describe(`GET ${url}`, () => {
         expect(decodedResponse).toContain(en.tell_companies_house_id);
         expect(decodedResponse).toContain(en.tell_us_about_any_changes_within);
         expect(decodedResponse).toContain(en.tell_us_about_any_changes);
+        expect(decodedResponse).toContain(en.business_details);
+        expect(decodedResponse).toContain(en.anti_money_laundering_registration_details_for);
         expect(decodedResponse).toContain(en.update_authorised_agent);
         expect(decodedResponse).toContain(en.view_users_who_have_been_added);
         expect(decodedResponse).toContain(en.warning);
@@ -68,6 +77,7 @@ describe(`GET ${url}`, () => {
     it("should have a page title and 3 boxes, file as an auth agent, manage users, and verify when administrator logged in", async () => {
         // Given
         getLoggedUserAcspMembershipSpy.mockReturnValue(administratorAcspMembership);
+        when(isFeatureEnabledSpy).calledWith(constants.FEATURE_FLAG_SHOW_FILE_AS_AUTHORISED_AGENT).mockReturnValue(true);
         // When
         const encodedResponse = await router.get(url);
         const decodedResponse = encodedResponse.text.replace(/&#39;/g, "'");
@@ -93,6 +103,7 @@ describe(`GET ${url}`, () => {
     it("should have a page title and 3 boxes, file as an auth agent, view users, and verify when standard user logged in", async () => {
         // Given
         getLoggedUserAcspMembershipSpy.mockReturnValue(standardUserAcspMembership);
+        when(isFeatureEnabledSpy).calledWith(constants.FEATURE_FLAG_SHOW_FILE_AS_AUTHORISED_AGENT).mockReturnValue(true);
         // When
         const encodedResponse = await router.get(url);
         const decodedResponse = encodedResponse.text.replace(/&#39;/g, "'");
@@ -112,11 +123,39 @@ describe(`GET ${url}`, () => {
         expect(decodedResponse).toContain(en.your_role);
     });
 
+    it("should have a page title and 2 boxes manage users and verify when account owner logged in, and feature flags set to false", async () => {
+        // Given
+        getLoggedUserAcspMembershipSpy.mockReturnValue(accountOwnerAcspMembership);
+        when(isFeatureEnabledSpy).calledWith(constants.FEATURE_FLAG_SHOW_CLOSE_AUTHORISED_AGENT).mockReturnValue(false);
+        when(isFeatureEnabledSpy).calledWith(constants.FEATURE_FLAG_SHOW_UPDATE_AUTHORISED_AGENT_DETAILS).mockReturnValue(false);
+        when(isFeatureEnabledSpy).calledWith(constants.FEATURE_FLAG_SHOW_FILE_AS_AUTHORISED_AGENT).mockReturnValue(false);
+        // When
+        const encodedResponse = await router.get(url);
+        const decodedResponse = encodedResponse.text.replace(/&#39;/g, "'");
+        // Then
+        expect(encodedResponse.status).toEqual(200);
+        expect(decodedResponse).toContain(en.add_users_if_they_need_to_use_services_for);
+        expect(decodedResponse).toContain(en.authorised_agent_number);
+        expect(decodedResponse).toContain(en.authorised_agent_services);
+        expect(decodedResponse).toContain(en.authorised_agent_status);
+        expect(decodedResponse).toContain(en.coming_soon);
+        expect(decodedResponse).toContain(en.in_future_youll_be_able_to_tell_us);
+        expect(decodedResponse).toContain(en.manage_users);
+        expect(decodedResponse).toContain(en.page_header);
+        expect(decodedResponse).toContain(en.remove_users);
+        expect(decodedResponse).toContain(en.tell_companies_house_id);
+        expect(decodedResponse).toContain(en.view_users_who_have_been_added);
+        expect(decodedResponse).toContain(enCommon.you_can);
+        expect(decodedResponse).toContain(en.your_role);
+        expect(decodedResponse).toContain(en.authorised_agents_are_also_known_as);
+    });
+
     it("should display Welsh content when language preference in session is Welsh", async () => {
         // Given
         session.setExtraData("lang", "cy");
 
         getLoggedUserAcspMembershipSpy.mockReturnValue(standardUserAcspMembership);
+        when(isFeatureEnabledSpy).calledWith(constants.FEATURE_FLAG_SHOW_FILE_AS_AUTHORISED_AGENT).mockReturnValue(true);
         // When
         const encodedResponse = await router.get(url);
         const decodedResponse = encodedResponse.text.replace(/&#39;/g, "'");
@@ -144,6 +183,7 @@ describe(`GET ${url}`, () => {
             acspStatus: "suspended"
         };
         getLoggedUserAcspMembershipSpy.mockReturnValue(ownerWithSuspendedAcsp);
+        when(isFeatureEnabledSpy).calledWith(constants.FEATURE_FLAG_SHOW_FILE_AS_AUTHORISED_AGENT).mockReturnValue(true);
         // When
         const encodedResponse = await router.get(url);
         const decodedResponse = encodedResponse.text.replace(/&#39;/g, "'");
