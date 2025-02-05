@@ -21,6 +21,7 @@ const viewUserUrl = "/authorised-agent/view-users";
 const getAcspMembershipsSpy = jest.spyOn(acspMemberService, "getAcspMemberships");
 const membershipLookupSpy = jest.spyOn(acspMemberService, "membershipLookup");
 const getLoggedUserAcspMembershipSpy: jest.SpyInstance = jest.spyOn(sessionUtils, "getLoggedUserAcspMembership");
+const setExtraDataSpy: jest.SpyInstance = jest.spyOn(sessionUtils, "setExtraData");
 
 describe("manageUsersControllerGet - search", () => {
 
@@ -71,6 +72,8 @@ describe("manageUsersControllerGet - search", () => {
         // When
         const response = await router.get(`${url}?search=${search}`);
         // Then
+        expect(setExtraDataSpy).toHaveBeenCalledTimes(1);
+        expect(setExtraDataSpy).toHaveBeenCalledWith(expect.anything(), "manageUsersMembership", expect.anything());
         expect(response.text).toContain(administratorAcspMembership.userEmail);
         expect(response.text).not.toContain(en.errors_enter_an_email_address_in_the_correct_format);
         expect(response.text).not.toContain(en.you_have_no_admin_users);
@@ -86,6 +89,9 @@ describe("manageUsersControllerGet - search", () => {
         // When
         const response = await router.get(`${viewUserUrl}?search=${search}`);
         // Then
+        expect(setExtraDataSpy).toHaveBeenCalledTimes(1);
+        expect(setExtraDataSpy).toHaveBeenCalledWith(expect.anything(), "manageUsersMembership", expect.anything());
+
         expect(response.text).toContain(standardUserAcspMembership.userEmail);
         expect(response.text).not.toContain(en.errors_enter_an_email_address_in_the_correct_format);
         expect(response.text).toContain(en.you_have_no_admin_users);

@@ -81,11 +81,28 @@ export const getViewData = async (req: Request): Promise<AnyRecord> => {
         viewData.search = search;
     }
 
+    const formatMember = (member: AcspMembership) => ({
+        id: member.id,
+        userId: member.userId,
+        userEmail: member.userEmail,
+        acspNumber: member.acspNumber,
+        userRole: member.userRole,
+        userDisplayName: getDisplayNameOrNotProvided(req.lang, member),
+        displayNameOrEmail: getDisplayNameOrEmail(member)
+    });
+
     if (isSearchValid && search) {
         try {
             const foundUser = await membershipLookup(req, acspNumber, search);
             if (foundUser.items.length > 0) {
                 setTabIds(viewData, foundUser.items[0].userRole);
+
+                const foundMember = [
+                    foundUser.items[0]
+                ].map(formatMember);
+
+                setExtraData(req.session, constants.MANAGE_USERS_MEMBERSHIP, foundMember);
+
                 const memberData = getUserTableData(foundUser.items, translations, userRole !== UserRole.STANDARD, userRole !== UserRole.STANDARD, req.lang);
                 switch (foundUser.items[0].userRole) {
                 case UserRole.OWNER:
@@ -125,15 +142,7 @@ export const getViewData = async (req: Request): Promise<AnyRecord> => {
             ...ownerMemberRawViewData.memberships,
             ...adminMemberRawViewData.memberships,
             ...standardMemberRawViewData.memberships
-        ].map(member => ({
-            id: member.id,
-            userId: member.userId,
-            userEmail: member.userEmail,
-            acspNumber: member.acspNumber,
-            userRole: member.userRole,
-            userDisplayName: getDisplayNameOrNotProvided(req.lang, member),
-            displayNameOrEmail: getDisplayNameOrEmail(member)
-        }));
+        ].map(formatMember);
 
         setExtraData(req.session, constants.MANAGE_USERS_MEMBERSHIP, allMembersForThisAcsp);
     }
