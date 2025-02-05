@@ -1,4 +1,4 @@
-import { getEnvironmentValue } from "../../../../src/lib/utils/environmentValue";
+import { getEnvironmentValue, isFeatureEnabled } from "../../../../src/lib/utils/environmentValue";
 
 describe("getEnvironmentValue", () => {
     const oldEnv = process.env;
@@ -39,6 +39,25 @@ describe("getEnvironmentValue", () => {
         const key = undefined!;
         // When
         const result = getEnvironmentValue(key);
+        // Then
+        expect(result).toEqual(expectedValue);
+    });
+});
+
+describe("isFeatureEnabled", () => {
+
+    test.each([
+        [true, "true", "TEST_ENV_VARIABLE_1"],
+        [false, "false", "TEST_ENV_VARIABLE_2"],
+        [false, undefined, "TEST_ENV_VARIABLE_3"]
+    ])("should return boolean %s if featureFlagKey is %s", async (expectedValue, keyValue, key) => {
+
+        // Given
+        process.env[key] = keyValue;
+
+        // When
+        const result = isFeatureEnabled(key);
+
         // Then
         expect(result).toEqual(expectedValue);
     });

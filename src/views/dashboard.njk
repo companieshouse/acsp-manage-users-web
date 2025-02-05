@@ -49,8 +49,12 @@
         {% endif %}
 
         {% if userRole === UserRole.OWNER %}
-            {% include "partials/dashboard/update_authorised_agent_details.njk" %}
-            {% include "partials/dashboard/close_authorised_agent.njk" %}
+            {% if showUpdateAuthorisedAgentDetails %}
+                {% include "partials/dashboard/update_authorised_agent_details.njk" %}
+            {% endif %}
+            {% if showCloseAuthorisedAgent %}
+                {% include "partials/dashboard/close_authorised_agent.njk" %}
+            {% endif %}
         {% endif %}
     </div>
 
@@ -60,6 +64,8 @@
 
         {% include "partials/dashboard/verify_someones_identity.njk" %}
 
-        {% include "partials/dashboard/file_as_an_authorised_agent.njk" %}
+        {% if showFileAsAuthorisedAgent %}
+            {% include "partials/dashboard/file_as_an_authorised_agent.njk" %}
+        {% endif %}
     </div>
 {% endblock %}
