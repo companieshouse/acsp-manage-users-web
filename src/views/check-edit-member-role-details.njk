@@ -16,7 +16,11 @@
         {% set userNameOrEmail = userDisplayName if userDisplayName else 
             email %}
 
-        {% set changeLinkHiddenText = lang.role_hidden_text + " " + userRoleTag %}
+        {% if locale == "cy" %}
+            {% set changeLinkHiddenText = lang.role_hidden_text + " " + userRoleTag %}
+        {% else %}
+            {% set changeLinkHiddenText = userRoleTag + " " + lang.role_hidden_text %}
+        {% endif %}
 
         {{ govukSummaryList({
             rows: [
