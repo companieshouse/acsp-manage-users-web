@@ -2,6 +2,8 @@ import { UserRole } from "private-api-sdk-node/dist/services/acsp-manage-users/t
 import { buildPaginationElement, getCurrentPageNumber, stringToPositiveInteger } from "../../../../src/lib/helpers/buildPaginationHelper";
 import { PageNumbers } from "../../../../src/types/utilTypes";
 import { PaginationData } from "../../../../src/types/pagination";
+import * as enCommon from "../../../../locales/en/common.json";
+import * as cyCommon from "../../../../locales/cy/common.json";
 
 describe("stringToPositiveInteger", () => {
     it.each([
@@ -61,62 +63,97 @@ describe("buildPaginationElement", () => {
 
     it.each([
         // Given
-        [0, UserRole.OWNER, getPageNumbers(1, 1, 1)],
-        [1, UserRole.OWNER, getPageNumbers(1, 1, 1)],
-        [0, UserRole.ADMIN, getPageNumbers(1, 1, 1)],
-        [1, UserRole.ADMIN, getPageNumbers(1, 1, 1)],
-        [0, UserRole.STANDARD, getPageNumbers(1, 1, 1)],
-        [1, UserRole.STANDARD, getPageNumbers(1, 1, 1)]
+        [0, UserRole.OWNER, enCommon, getPageNumbers(1, 1, 1)],
+        [0, UserRole.OWNER, cyCommon, getPageNumbers(1, 1, 1)],
+        [1, UserRole.OWNER, enCommon, getPageNumbers(1, 1, 1)],
+        [1, UserRole.OWNER, cyCommon, getPageNumbers(1, 1, 1)],
+        [0, UserRole.ADMIN, enCommon, getPageNumbers(1, 1, 1)],
+        [0, UserRole.ADMIN, cyCommon, getPageNumbers(1, 1, 1)],
+        [1, UserRole.ADMIN, enCommon, getPageNumbers(1, 1, 1)],
+        [1, UserRole.ADMIN, cyCommon, getPageNumbers(1, 1, 1)],
+        [0, UserRole.STANDARD, enCommon, getPageNumbers(1, 1, 1)],
+        [0, UserRole.STANDARD, cyCommon, getPageNumbers(1, 1, 1)],
+        [1, UserRole.STANDARD, enCommon, getPageNumbers(1, 1, 1)],
+        [1, UserRole.STANDARD, cyCommon, getPageNumbers(1, 1, 1)]
     ])("should return empty pagination data if the number of pages is %s for user with role %s",
-        (numberOfPages, userRole, pageNumbers) => {
-            const expectedPagination: PaginationData = { items: [] };
+        (numberOfPages, userRole, lang, pageNumbers) => {
+            const expectedPagination: PaginationData = {
+                items: [],
+                landmarkLabel: lang.page
+            };
             // When
-            const result = buildPaginationElement(pageNumbers, userRole, numberOfPages, "", "");
+            const result = buildPaginationElement(pageNumbers, userRole, numberOfPages, "", "", lang);
             // Then
             expect(result).toEqual(expectedPagination);
         });
 
     it.each([
         // Given
-        [0, UserRole.OWNER, getPageNumbers(0, 1, 1)],
-        [-1, UserRole.OWNER, getPageNumbers(-1, 1, 1)],
-        [0, UserRole.ADMIN, getPageNumbers(1, 0, 1)],
-        [-1, UserRole.ADMIN, getPageNumbers(1, -1, 1)],
-        [0, UserRole.STANDARD, getPageNumbers(1, 1, 0)],
-        [-1, UserRole.STANDARD, getPageNumbers(1, 1, -1)]
+        [0, UserRole.OWNER, enCommon, getPageNumbers(0, 1, 1)],
+        [0, UserRole.OWNER, cyCommon, getPageNumbers(0, 1, 1)],
+        [-1, UserRole.OWNER, enCommon, getPageNumbers(-1, 1, 1)],
+        [-1, UserRole.OWNER, cyCommon, getPageNumbers(-1, 1, 1)],
+        [0, UserRole.ADMIN, enCommon, getPageNumbers(1, 0, 1)],
+        [0, UserRole.ADMIN, cyCommon, getPageNumbers(1, 0, 1)],
+        [-1, UserRole.ADMIN, enCommon, getPageNumbers(1, -1, 1)],
+        [-1, UserRole.ADMIN, cyCommon, getPageNumbers(1, -1, 1)],
+        [0, UserRole.STANDARD, enCommon, getPageNumbers(1, 1, 0)],
+        [0, UserRole.STANDARD, cyCommon, getPageNumbers(1, 1, 0)],
+        [-1, UserRole.STANDARD, enCommon, getPageNumbers(1, 1, -1)],
+        [-1, UserRole.STANDARD, cyCommon, getPageNumbers(1, 1, -1)]
     ])("should return empty pagination data if the page number is %s for the user with role %s",
-        (_pageNumber, userRole, pageNumbers) => {
+        (_pageNumber, userRole, lang, pageNumbers) => {
             const numberOfPages = 5;
-            const expectedPagination: PaginationData = { items: [] };
+            const expectedPagination: PaginationData = {
+                items: [],
+                landmarkLabel: lang.page
+            };
             // When
-            const result = buildPaginationElement(pageNumbers, userRole, numberOfPages, "", "");
+            const result = buildPaginationElement(pageNumbers, userRole, numberOfPages, "", "", lang);
             // Then
             expect(result).toEqual(expectedPagination);
         });
 
     it.each([
         // Given
-        [5, 5, UserRole.OWNER, getPageNumbers(5, 1, 1), 1],
-        [5, 6, UserRole.OWNER, getPageNumbers(5, 1, 1), 1],
-        [6, 6, UserRole.OWNER, getPageNumbers(6, 1, 1), 1],
-        [1, 5, UserRole.OWNER, getPageNumbers(1, 1, 1), 2],
-        [11, 60, UserRole.OWNER, getPageNumbers(11, 1, 1), 1],
-        [11, 60, UserRole.OWNER, getPageNumbers(11, 1, 1), 5],
-        [5, 5, UserRole.ADMIN, getPageNumbers(1, 5, 1), 1],
-        [5, 6, UserRole.ADMIN, getPageNumbers(1, 5, 1), 1],
-        [6, 6, UserRole.ADMIN, getPageNumbers(1, 6, 1), 1],
-        [1, 5, UserRole.ADMIN, getPageNumbers(1, 1, 1), 2],
-        [11, 50, UserRole.ADMIN, getPageNumbers(1, 11, 1), 1],
-        [11, 50, UserRole.ADMIN, getPageNumbers(1, 11, 1), 5],
-        [5, 5, UserRole.STANDARD, getPageNumbers(1, 1, 5), 1],
-        [5, 6, UserRole.STANDARD, getPageNumbers(1, 1, 5), 1],
-        [1, 5, UserRole.STANDARD, getPageNumbers(1, 1, 1), 2],
-        [14, 45, UserRole.STANDARD, getPageNumbers(1, 1, 14), 1],
-        [14, 45, UserRole.STANDARD, getPageNumbers(1, 1, 14), 5]
+        [5, 5, UserRole.OWNER, enCommon, getPageNumbers(5, 1, 1), 1],
+        [5, 5, UserRole.OWNER, cyCommon, getPageNumbers(5, 1, 1), 1],
+        [5, 6, UserRole.OWNER, enCommon, getPageNumbers(5, 1, 1), 1],
+        [5, 6, UserRole.OWNER, cyCommon, getPageNumbers(5, 1, 1), 1],
+        [6, 6, UserRole.OWNER, enCommon, getPageNumbers(6, 1, 1), 1],
+        [6, 6, UserRole.OWNER, cyCommon, getPageNumbers(6, 1, 1), 1],
+        [1, 5, UserRole.OWNER, enCommon, getPageNumbers(1, 1, 1), 2],
+        [1, 5, UserRole.OWNER, cyCommon, getPageNumbers(1, 1, 1), 2],
+        [11, 60, UserRole.OWNER, enCommon, getPageNumbers(11, 1, 1), 1],
+        [11, 60, UserRole.OWNER, cyCommon, getPageNumbers(11, 1, 1), 1],
+        [11, 60, UserRole.OWNER, enCommon, getPageNumbers(11, 1, 1), 5],
+        [11, 60, UserRole.OWNER, cyCommon, getPageNumbers(11, 1, 1), 5],
+        [5, 5, UserRole.ADMIN, enCommon, getPageNumbers(1, 5, 1), 1],
+        [5, 5, UserRole.ADMIN, cyCommon, getPageNumbers(1, 5, 1), 1],
+        [5, 6, UserRole.ADMIN, enCommon, getPageNumbers(1, 5, 1), 1],
+        [5, 6, UserRole.ADMIN, cyCommon, getPageNumbers(1, 5, 1), 1],
+        [6, 6, UserRole.ADMIN, enCommon, getPageNumbers(1, 6, 1), 1],
+        [6, 6, UserRole.ADMIN, cyCommon, getPageNumbers(1, 6, 1), 1],
+        [1, 5, UserRole.ADMIN, enCommon, getPageNumbers(1, 1, 1), 2],
+        [1, 5, UserRole.ADMIN, cyCommon, getPageNumbers(1, 1, 1), 2],
+        [11, 50, UserRole.ADMIN, enCommon, getPageNumbers(1, 11, 1), 1],
+        [11, 50, UserRole.ADMIN, cyCommon, getPageNumbers(1, 11, 1), 1],
+        [11, 50, UserRole.ADMIN, enCommon, getPageNumbers(1, 11, 1), 5],
+        [11, 50, UserRole.ADMIN, cyCommon, getPageNumbers(1, 11, 1), 5],
+        [5, 5, UserRole.STANDARD, enCommon, getPageNumbers(1, 1, 5), 1],
+        [5, 5, UserRole.STANDARD, cyCommon, getPageNumbers(1, 1, 5), 1],
+        [5, 6, UserRole.STANDARD, enCommon, getPageNumbers(1, 1, 5), 1],
+        [5, 6, UserRole.STANDARD, cyCommon, getPageNumbers(1, 1, 5), 1],
+        [1, 5, UserRole.STANDARD, enCommon, getPageNumbers(1, 1, 1), 2],
+        [1, 5, UserRole.STANDARD, cyCommon, getPageNumbers(1, 1, 1), 2],
+        [14, 45, UserRole.STANDARD, enCommon, getPageNumbers(1, 1, 14), 1],
+        [14, 45, UserRole.STANDARD, cyCommon, getPageNumbers(1, 1, 14), 1],
+        [14, 45, UserRole.STANDARD, enCommon, getPageNumbers(1, 1, 14), 5],
+        [14, 45, UserRole.STANDARD, cyCommon, getPageNumbers(1, 1, 14), 5]
     ])("should return pagination data containing ellipsis if the page number is %s and the number of pages is %s for the user with role %s",
-        (_pageNumber, numberOfPages, userRole, pageNumbers, elipsisIndex) => {
+        (_pageNumber, numberOfPages, userRole, lang, pageNumbers, elipsisIndex) => {
             // When
-            const result = buildPaginationElement(pageNumbers, userRole, numberOfPages, "", "");
+            const result = buildPaginationElement(pageNumbers, userRole, numberOfPages, "", "", lang);
             // Then
             expect(result.items.length).not.toEqual(0);
             expect(result.items[elipsisIndex].ellipsis).toBeTruthy();

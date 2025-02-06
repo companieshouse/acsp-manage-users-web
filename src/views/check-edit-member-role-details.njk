@@ -16,7 +16,7 @@
         {% set userNameOrEmail = userDisplayName if userDisplayName else 
             email %}
 
-        {% set changeLinkHiddenText = " " + userRoleTag + lang.role_hidden_text %}
+        {% set changeLinkHiddenText = lang.role_hidden_text + " " + userRoleTag %}
 
         {{ govukSummaryList({
             rows: [

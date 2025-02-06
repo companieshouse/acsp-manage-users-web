@@ -169,14 +169,16 @@ const getUserTableData = (membership: AcspMembership[], translations: AnyRecord,
             { text: getDisplayNameOrNotProvided(locale, member) }
         ];
 
+        const usernameOrEmail = member.userDisplayName === constants.NOT_PROVIDED ? member.userEmail : member.userDisplayName;
+
         if (hasChangeRoleLink) {
             const fullUrl = getChangeMemberRoleFullUrl(member.id);
-            const hiddenText = getHiddenText(`${translations.for} ${member.userEmail}`);
+            const hiddenText = getHiddenText(`${translations.for} ${usernameOrEmail}`);
             tableEntry[2] = { html: getLink(fullUrl, `${translations.change_role as string} ${hiddenText}`, "change-role") };
         }
 
         if (hasRemoveLink) {
-            tableEntry[hasChangeRoleLink ? 3 : 2] = { html: getLink(getRemoveMemberCheckDetailsFullUrl(member.id), `${translations.remove as string} ${getHiddenText(member.userEmail)}`, "remove") };
+            tableEntry[hasChangeRoleLink ? 3 : 2] = { html: getLink(getRemoveMemberCheckDetailsFullUrl(member.id), `${translations.remove as string} ${getHiddenText(usernameOrEmail)}`, "remove") };
         }
         userTableDate.push(tableEntry);
     }
@@ -217,7 +219,7 @@ const getMemberRawViewData = async (req: Request, acspNumber: string, pageNumber
     const memberViewData: MemberRawViewData = { memberships: memberships.items, pageNumber };
 
     if (memberships.totalPages > 1) {
-        const pagination = buildPaginationElement(pageNumbers, userRole, memberships.totalPages, constants.MANAGE_USERS_FULL_URL, activeTabId);
+        const pagination = buildPaginationElement(pageNumbers, userRole, memberships.totalPages, constants.MANAGE_USERS_FULL_URL, activeTabId, lang);
         setLangForPagination(pagination, lang);
         memberViewData.pagination = pagination;
     }
