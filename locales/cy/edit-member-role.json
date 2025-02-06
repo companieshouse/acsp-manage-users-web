@@ -1,28 +1,29 @@
 {
-    "all_users_who_are_added": "[CY] All users who are added to this account will be able to:",
+    "all_users_who_are_added": "Bydd yr holl ddefnyddwyr sy’n cael eu hychwanegu at y cyfrif hwn yn gallu:",
     "all_users_who_are_added_bullet_points": [
-        "[CY] view users who have been added to this account",
-        "[CY] verify people’s identity for Companies House",
-        "[CY] file as an authorised agent"
+        "gweld defnyddwyr sydd wedi’u hychwanegu at y cyfrif hwn",
+        "gwirio hunaniaeth pobl ar gyfer Tŷ’r Cwmnïau",
+        "ffeilio fel asiant awdurdodedig"
     ],
-    "back_link_to_manage_users": "[CY] Return to manage users",
-    "errors_select_user_role_to_change_for_the_user": "[CY] You have not selected a new role. Select the new role or cancel if you do not need to change it.",
-    "select_the_new_role_for": "[CY] Select the new role for ",
-    "theyll_be_able_to": "[CY] They’ll be able to:",
+    "and_return_to": "a dychwelyd i reoli defnyddwyr",
+    "back_link_to_manage_users": "Dychwelyd i reoli defnyddwyr",
+    "errors_select_user_role_to_change_for_the_user": "Nid ydych wedi dewis rôl newydd. Dewiswch y rôl newydd neu ganslo os nad oes angen i chi ei newid.",
+    "select_the_new_role_for": "Dewiswch y rôl newydd ar gyfer ",
+    "they_will_not_be_able_to": "Ni fyddant yn gallu ychwanegu na dileu defnyddwyr.",
+    "theyll_be_able_to": "Byddant yn gallu:",
     "theyll_be_able_to_bullet_points": [
-        "[CY] make changes to the authorised agent’s details",
-        "[CY] add and remove all users",
-        "[CY] close the account"
+        "diweddaru manylion yr Asiant Awdurdodedig",
+        "ychwanegu a dileu pob defnyddwyr",
+        "cau’r cyfrif"
     ],
-    "theyll_be_able_to_view": "[CY] They will not be able to add or remove users.",
-    "theyll_be_able_to_view_all_users": "[CY] They’ll be able to add and remove",
+    "theyll_be_able_to_view_all_users": "Byddant yn gallu ychwanegu a dileu:",
     "theyll_be_able_to_view_all_users_bullet_points": [
-        "[CY] administrators",
-        "[CY] standard users"
+        "gweinyddwyr",
+        "defnyddwyr safonol"
     ],
     "user_role_tags": {
-        "account_owner": "[CY] Account owner",
-        "administrator": "[CY] Administrator",
-        "standard_user": "[CY] Standard user"
+        "account_owner": "Perchennog cyfrif",
+        "administrator": "Gweinyddwr",
+        "standard_user": "Defnyddiwr safonol"
     }
 }

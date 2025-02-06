@@ -2,9 +2,9 @@
     "are_you_sure": "Are you sure you want to remove yourself?",
     "if_remove_yourself": "If you remove yourself from the authorised agent account, you will no longer be able to use services for this authorised agent.",
     "if_you_remove": "If you remove ",
-    "youll_be_immediately_signed_out": "You’ll be immediately signed out. The next time you sign in, you will no longer be able to access the authorised agent account.",
     "remove": "Remove ",
     "remove_and_sign_out": "Remove and sign out",
     "remove_user": "Remove user",
-    "they_will_not_be_able_to_use": ", they will not be able to use authorised agent services for "
+    "they_will_not_be_able_to_use": ", they will not be able to use authorised agent services for ",
+    "youll_be_immediately_signed_out": "You’ll be immediately signed out. The next time you sign in, you will no longer be able to access the authorised agent account."
 }

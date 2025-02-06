@@ -8,14 +8,12 @@ export const stringToPositiveInteger = (pageNumber: string): number => {
 };
 
 export const buildPaginationElement = (
-    pageNumbers: PageNumbers,
-    userRole: UserRole,
-    numOfPages: number,
-    urlPrefix: string,
-    activeTabId: string
-): PaginationData => {
+    pageNumbers: PageNumbers, userRole: UserRole, numOfPages: number, urlPrefix: string, activeTabId: string, lang: AnyRecord): PaginationData => {
     const currentPageNumber = getCurrentPageNumber(pageNumbers, userRole);
-    const pagination: PaginationData = { items: [] };
+    const pagination: PaginationData = {
+        items: [],
+        landmarkLabel: lang.page as string
+    };
     const pageItems: PageItem[] = [];
 
     if (numOfPages <= 1 || currentPageNumber < 1) return pagination;
@@ -34,14 +32,14 @@ export const buildPaginationElement = (
 
     // Add first element by default
     pageItems.push(
-        createPageItem(1, pageNumbers, userRole, false, urlPrefix, activeTabId)
+        createPageItem(1, pageNumbers, userRole, false, urlPrefix, activeTabId, lang)
     );
 
     // Add second element if applicable - possible ellipsis
     if (numOfPages >= 3) {
         const isEllipsis = numOfPages >= 5 && currentPageNumber >= 5;
         pageItems.push(
-            createPageItem(2, pageNumbers, userRole, isEllipsis, urlPrefix, activeTabId)
+            createPageItem(2, pageNumbers, userRole, isEllipsis, urlPrefix, activeTabId, lang)
         );
     }
 
@@ -58,7 +56,8 @@ export const buildPaginationElement = (
                 userRole,
                 false,
                 urlPrefix,
-                activeTabId
+                activeTabId,
+                lang
             )
         );
     }
@@ -76,7 +75,8 @@ export const buildPaginationElement = (
                 userRole,
                 false,
                 urlPrefix,
-                activeTabId
+                activeTabId,
+                lang
             )
         );
     }
@@ -94,7 +94,8 @@ export const buildPaginationElement = (
                 userRole,
                 false,
                 urlPrefix,
-                activeTabId
+                activeTabId,
+                lang
             )
         );
     }
@@ -109,7 +110,8 @@ export const buildPaginationElement = (
                 userRole,
                 isEllipsis,
                 urlPrefix,
-                activeTabId
+                activeTabId,
+                lang
             )
         );
     }
@@ -123,7 +125,8 @@ export const buildPaginationElement = (
                 userRole,
                 false,
                 urlPrefix,
-                activeTabId
+                activeTabId,
+                lang
             )
         );
     }
@@ -149,7 +152,8 @@ const createPageItem = (
     userRole: UserRole,
     isEllipsis: boolean,
     prefix: string,
-    activeTabId: string
+    activeTabId: string,
+    lang: AnyRecord
 ): PageItem => {
     if (isEllipsis) {
         return {
@@ -160,7 +164,8 @@ const createPageItem = (
     return {
         current: currentPageNumber === pageNumber,
         number: pageNumber,
-        href: createHref(prefix, pageNumbers, userRole, 0, activeTabId, pageNumber)
+        href: createHref(prefix, pageNumbers, userRole, 0, activeTabId, pageNumber),
+        visuallyHiddenText: `${lang.page} ${pageNumber}`
     };
 };
 

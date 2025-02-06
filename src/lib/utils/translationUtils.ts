@@ -44,14 +44,14 @@ const translations = {
         standard: "[CY] Standard",
 
         // From AcspStatus enum
-        suspended: "[CY] Suspended",
+        suspended: "Wedi’i atal",
         ceased: "[CY] Ceased",
 
         // From MembershipStatus enum
         removed: "[CY] Removed",
 
         // Appears in both AcspStatus and MembershipStatus enums
-        active: "[CY] Active"
+        active: "Gweithredol"
     }
 };
 

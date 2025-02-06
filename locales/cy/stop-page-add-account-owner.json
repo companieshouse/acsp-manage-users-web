@@ -1,21 +1,21 @@
 {
-    "before_you_change_your_role": "[CY]  before you can change your role.",
+    "before_you_change_your_role": " cyn y gallwch newid eich rôl.",
     "details": {
-        "account_owners_are": "[CY] Account owners are also the only users who can:",
+        "account_owners_are": "Perchnogion cyfrif yw’r unig ddefnyddwyr sy’n gallu:",
         "account_owners_are_bullet_points": [
-            "[CY] close the authorised agent account, if the business is no longer an authorised agent",
-            "[CY] add and remove other account owners"
+            "cau’r cyfrif asiant awdurdodedig, os nad yw’r busnes yn asiant awdurdodedig bellach",
+            "ychwanegu a dileu perchnogion cyfrif eraill"
         ],
-        "the_authorised_agent": "[CY] The authorised agent is legally required to tell us about any changes within 14 days.",
-        "theyll_need_to_do_this": "[CY] They’ll need to do this if any of the details we hold about the business change.",
-        "this_is_because": "[CY] This is because account owners are the only users who can ",
-        "update_the_accout_details": "[CY] update the account details",
-        "why_the_authorised_agent_must": "[CY] Why the authorised agent must have an account owner"
+        "the_authorised_agent": "Mae’n ofynnol yn gyfreithiol i’r asiant awdurdodedig roi gwybod i ni am unrhyw newidiadau o fewn 14 diwrnod.",
+        "theyll_need_to_do_this": "Bydd angen iddynt wneud hyn os bydd unrhyw un o’r manylion sydd gennym am y busnes yn newid.",
+        "this_is_because": "Mae hyn oherwydd mai perchnogion cyfrif yw’r unig ddefnyddwyr sy’n gallu ",
+        "update_the_accout_details": "diweddaru manylion y cyfrif",
+        "why_the_authorised_agent_must": "Pam mae’n rhaid i’r asiant awdurdodedig fod â pherchennog cyfrif"
     },
-    "page_header_change_role": "[CY] You need to add an account owner before you can change your role",
-    "page_header_removal": "[CY] You need to add an account owner before you can remove yourself",
-    "why_authorised_agents_must": "[CY] Why authorised agents must have an account owner",
-    "you_cannot_change_your_role": "[CY] You cannot change your role because the authorised agent must have at least one account owner.",
-    "you_cannot_remove_yourself": "[CY] You cannot remove yourself from the account because the authorised agent must have at least one account owner.",
-    "you_need_to_add": "[CY] You need to add an account owner to "
+    "page_header_change_role": "Mae angen i chi ychwanegu perchennog cyfrif cyn y gallwch newid eich rôl",
+    "page_header_removal": "Mae angen i chi ychwanegu perchennog cyfrif cyn y gallwch ddileu eich hun",
+    "why_authorised_agents_must": "Pam mae’n rhaid i’r asiant awdurdodedig fod â pherchennog cyfrif",
+    "you_cannot_change_your_role": "Ni allwch newid eich rôl oherwydd rhaid i’r asiant awdurdodedig fod ag o leiaf un perchennog cyfrif.",
+    "you_cannot_remove_yourself": "Ni allwch dileu eich hun o’r cyfrif oherwydd bod yn rhaid i’r asiant awdurdodedig fod ag o leiaf un perchennog cyfrif.",
+    "you_need_to_add": "Mae angen i chi ychwanegu perchennog cyfrif at "
 }

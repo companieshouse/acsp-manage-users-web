@@ -1,13 +1,13 @@
 interface LanguageConfig {
-  defaultLanguage: string;
-  supportedLanguages: {
-    [key: string]: {
-      code: string;
-      name: string;
-      nativeName: string;
-      visuallyHiddenText: string;
+    defaultLanguage: string;
+    supportedLanguages: {
+        [key: string]: {
+            code: string;
+            name: string;
+            nativeName: string;
+            visuallyHiddenText: string;
+        };
     };
-  };
 }
 
 export const LANGUAGE_CONFIG: LanguageConfig = {
@@ -23,7 +23,7 @@ export const LANGUAGE_CONFIG: LanguageConfig = {
             code: "cy",
             name: "Welsh",
             nativeName: "Cymraeg",
-            visuallyHiddenText: "[CY] Change the language to English"
+            visuallyHiddenText: "Newid iaith i’r Gymraeg"
         }
     }
 };

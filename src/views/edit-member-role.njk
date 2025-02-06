@@ -14,7 +14,8 @@
 {% for key, value in errors %}
     {% if key == "userRole" %}
         {% set message = {
-            text: lang[value.text]
+            text: lang[value.text],
+            visuallyHiddenText: lang.error
         } %}
         {% set title = lang.title_error + page_header + lang.title_end %}
     {% endif %}
@@ -59,7 +60,7 @@
 
 {% set standardUserOptionHint %}
 <p class="govuk-body govuk-!-static-padding-top-2">
-    {{lang.theyll_be_able_to_view}}
+    {{lang.they_will_not_be_able_to}}
 </p>
 {% endset %}
 
@@ -110,7 +111,7 @@
 {% endset %}
 
 {% block back_link %}
-    <div role="navigation" aria-label="{{lang.back_link_to_the_previous_page}}">
+    <div role="navigation" aria-label="{{lang.back_to_previous_page_link}}">
         {{ govukBackLink({
                 text: lang.back_link_to_manage_users,
                 href: backLinkUrl,
@@ -157,7 +158,11 @@
                             classes: 'govuk-!-margin-top-3'
                         })
                     }}
-                    <a class="govuk-link" href="{{backLinkUrl}}" data-event-id="cancel-edit-user-role" id="cancel-link">{{lang.cancel}}</a>
+                    <p class="govuk-body">
+                        <a class="govuk-link" href="{{backLinkUrl}}" data-event-id="cancel-edit-user-role" id="cancel-link">{{lang.cancel}}</a>
+                        <span class="govuk-visually-hidden">
+                            {{lang.and_return_to}}</span>
+                    </p>
                 </div>
             </form>
 

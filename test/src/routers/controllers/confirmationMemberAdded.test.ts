@@ -77,10 +77,14 @@ describe("GET /authorised-agent/confirmation-member-added", () => {
                 expect(response.text).toContain(userDetails.email);
             }
             if (userRole === UserRole.STANDARD) {
-                expect(response.text).toContain(`${lang.as_a}${getUserRoleTag(userDetails.userRole as UserRole, langVersion, true)}${lang.for}${companyName}`);
+                expect(response.text).toContain(`${lang.as_a}${getUserRoleTag(userDetails.userRole as UserRole, langVersion, true)}`);
+                expect(response.text).toContain(` ${langCommon.for} `);
+                expect(response.text).toContain(companyName);
                 expect(response.text).toContain(`${lang.weve_sent_an_email}${lang.as_a}${getUserRoleTag(userDetails.userRole as UserRole, langVersion, true)}.`);
             } else {
-                expect(response.text).toContain(`${lang.as_an}${getUserRoleTag(userDetails.userRole as UserRole, langVersion, true)}${lang.for}${companyName}`);
+                expect(response.text).toContain(`${lang.as_an}${getUserRoleTag(userDetails.userRole as UserRole, langVersion, true)}`);
+                expect(response.text).toContain(` ${langCommon.for} `);
+                expect(response.text).toContain(companyName);
                 expect(response.text).toContain(`${lang.weve_sent_an_email}${lang.as_an}${getUserRoleTag(userDetails.userRole as UserRole, langVersion, true)}.`);
             }
             expect(response.text).toContain(lang.what_happens_next);

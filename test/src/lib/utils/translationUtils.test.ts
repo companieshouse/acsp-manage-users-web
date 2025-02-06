@@ -21,11 +21,11 @@ describe("translateEnum", () => {
         { locale: "cy", value: UserRole.OWNER, expected: "[CY] Owner" },
         { locale: "cy", value: UserRole.ADMIN, expected: "[CY] Administrator" },
         { locale: "cy", value: UserRole.STANDARD, expected: "[CY] Standard" },
-        { locale: "cy", value: AcspStatus.SUSPENDED, expected: "[CY] Suspended" },
+        { locale: "cy", value: AcspStatus.SUSPENDED, expected: "Wedi’i atal" },
         { locale: "cy", value: AcspStatus.CEASED, expected: "[CY] Ceased" },
         { locale: "cy", value: MembershipStatus.REMOVED, expected: "[CY] Removed" },
-        { locale: "cy", value: AcspStatus.ACTIVE, expected: "[CY] Active" },
-        { locale: "cy", value: MembershipStatus.ACTIVE, expected: "[CY] Active" },
+        { locale: "cy", value: AcspStatus.ACTIVE, expected: "Gweithredol" },
+        { locale: "cy", value: MembershipStatus.ACTIVE, expected: "Gweithredol" },
 
         // Fallback to English for unknown locale
         { locale: "fr", value: UserRole.OWNER, expected: "Owner" },

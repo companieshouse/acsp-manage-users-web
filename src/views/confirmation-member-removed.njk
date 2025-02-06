@@ -28,6 +28,9 @@
             <h1 class="govuk-heading-l">{{lang.what_happens_now_they_have_been_removed}}</h1>
 
             <p class="govuk-body">
+                {% if locale == "cy" %}
+                    {{lang.will_no_longer_beginning_welsh}}
+                {% endif %}
                 <strong>{{userDetails}}</strong>{{lang.will_no_longer_be_able_to_access}}{{companyName}}.
             </p>
 
