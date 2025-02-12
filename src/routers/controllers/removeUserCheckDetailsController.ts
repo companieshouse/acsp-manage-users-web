@@ -6,6 +6,7 @@ import { MemberForRemoval, Membership } from "../../types/membership";
 import { AcspMembership, UserRole } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
 import { validateIdParam } from "../../lib/validation/string.validation";
 import { ViewDataWithBackLink } from "../../types/utilTypes";
+import { getFormattedMembershipForMemberId } from "../../lib/helpers/getFormattedMembershipForMemberId";
 
 interface RemoveUserCheckDetailsGetViewData extends ViewDataWithBackLink {
     removingThemselves: boolean,
@@ -26,11 +27,11 @@ export const removeUserCheckDetailsControllerGet = async (req: Request, res: Res
         throw new Error("invalid id param");
     }
     const id = req.params.id;
-    const existingUsers = getExtraData(req.session, constants.MANAGE_USERS_MEMBERSHIP);
-    const userToRemove: Membership = existingUsers.find((member: Membership) => member.id === id);
+    const existingUsers: Membership[] = getExtraData(req.session, constants.MANAGE_USERS_MEMBERSHIP) || [];
+    let userToRemove: Membership | undefined = existingUsers.find((member: Membership) => member.id === id);
 
     if (!userToRemove) {
-        throw new Error(`ACSP member with id ${id} not found in session`);
+        userToRemove = await getFormattedMembershipForMemberId(req, id);
     }
 
     if (userToRemove.userRole === UserRole.OWNER && userRole === UserRole.ADMIN) {
