@@ -4,10 +4,10 @@ import { mockRequest } from "../../../mocks/request.mock";
 import { mockResponse } from "../../../mocks/response.mock";
 import * as constants from "../../../../src/lib/constants";
 import * as getTranslationsForView from "../../../../src/lib/utils/translationUtils";
-import * as getFormattedMembershipForMemberId from "../../../../src/lib/helpers/getFormattedMembershipForMemberId";
+import * as helpers from "../../../../src/lib/helpers/fetchAndValidateMembership";
 import { UserRole } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
 
-jest.mock("../../../../src/lib/helpers/getFormattedMembershipForMemberId");
+jest.mock("../../../../src/lib/helpers/fetchAndValidateMembership");
 
 describe("removeUserCheckDetailsControllerGet", () => {
     const getExtraDataSpy: jest.SpyInstance = jest.spyOn(sessionUtils, "getExtraData");
@@ -102,7 +102,7 @@ describe("removeUserCheckDetailsControllerGet", () => {
             userDisplayName: "Jeremy Lloris",
             displayNameOrEmail: "Jeremy Lloris"
         };
-        (getFormattedMembershipForMemberId.getFormattedMembershipForMemberId as jest.Mock).mockResolvedValue(standardMember);
+        (helpers.fetchAndValidateMembership as jest.Mock).mockResolvedValue(standardMember);
 
         getLoggedUserAcspMembershipSpy.mockReturnValue(loggedInUserMembership);
         mockGetTranslationsForView.mockReturnValue({});

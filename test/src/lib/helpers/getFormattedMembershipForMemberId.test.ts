@@ -1,17 +1,20 @@
 
-import { getFormattedMembershipForMemberId } from "../../../../src/lib/helpers/getFormattedMembershipForMemberId";
+import { fetchAndValidateMembership } from "../../../../src/lib/helpers/fetchAndValidateMembership";
 import * as acspMemberService from "../../../../src/services/acspMemberService";
+import * as sessionUtils from "../../../../src/lib/utils/sessionUtils";
 import { mockRequest } from "../../../mocks/request.mock";
 import { accountOwnerAcspMembership } from "../../../mocks/acsp.members.mock";
 
 jest.mock("../../../../src/services/acspMemberService");
+jest.mock("../../../../src/lib/utils/sessionUtils");
 
-describe("getFormattedMembershipForMemberId", () => {
+describe("fetchAndValidateMembership", () => {
 
     it("should return formatted Membership ", async () => {
         (acspMemberService.getAcspMembershipForMemberId as jest.Mock).mockResolvedValue(accountOwnerAcspMembership);
+        (sessionUtils.getLoggedInAcspNumber as jest.Mock).mockReturnValue("123456");
         const request = mockRequest();
-        const result = await getFormattedMembershipForMemberId(request, "JGyB");
+        const result = await fetchAndValidateMembership(request, "JGyB");
         expect(result).toEqual({
             id: accountOwnerAcspMembership.id,
             userId: accountOwnerAcspMembership.userId,
@@ -26,7 +29,15 @@ describe("getFormattedMembershipForMemberId", () => {
     it("should reject when call to getAcspMembershipForMemberId rejects", async () => {
         (acspMemberService.getAcspMembershipForMemberId as jest.Mock).mockRejectedValue(undefined);
         const request = mockRequest();
-        await expect(getFormattedMembershipForMemberId(request, ""))
+        await expect(fetchAndValidateMembership(request, ""))
             .rejects.toEqual(undefined);
+    });
+
+    it("should throw an error when ACSP number does not match logged in ACSP number", async () => {
+        (acspMemberService.getAcspMembershipForMemberId as jest.Mock).mockResolvedValue(accountOwnerAcspMembership);
+        (sessionUtils.getLoggedInAcspNumber as jest.Mock).mockReturnValue("mismatch");
+        const request = mockRequest();
+        await expect(fetchAndValidateMembership(request, ""))
+            .rejects.toThrow("ACSP Number mismatch: User's logged in ACSP number does not match the fetched member's ACSP number");
     });
 });

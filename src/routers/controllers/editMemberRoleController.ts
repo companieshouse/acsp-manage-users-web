@@ -11,7 +11,7 @@ import { FormInputNames } from "../../lib/validation/add.user.validation";
 import { sanitizeUrl } from "@braintree/sanitize-url";
 import { UserRole } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
 import { getAcspMemberships } from "../../services/acspMemberService";
-import { getFormattedMembershipForMemberId } from "../../lib/helpers/getFormattedMembershipForMemberId";
+import { fetchAndValidateMembership } from "../../lib/helpers/fetchAndValidateMembership";
 
 import { getEditMemberRoleFullUrl } from "../../lib/utils/urlUtils";
 
@@ -68,8 +68,8 @@ const getViewData = async (req: Request): Promise<EditMemberRoleViewData> => {
     let userToChangeRole: Membership | undefined = existingUsers.find((member: Membership) => member.id === id);
 
     if (!userToChangeRole) {
-        logger.info("ACSP Member details not found in session, calling GET /acsps/memberships/id");
-        userToChangeRole = await getFormattedMembershipForMemberId(req, id);
+        logger.info("Edit Role ACSP Member details not found in session, calling GET /acsps/memberships/id");
+        userToChangeRole = await fetchAndValidateMembership(req, id);
     }
 
     const viewData: EditMemberRoleViewData = {

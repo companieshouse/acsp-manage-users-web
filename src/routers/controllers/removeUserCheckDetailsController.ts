@@ -6,7 +6,7 @@ import { MemberForRemoval, Membership } from "../../types/membership";
 import { AcspMembership, UserRole } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
 import { validateIdParam } from "../../lib/validation/string.validation";
 import { ViewDataWithBackLink } from "../../types/utilTypes";
-import { getFormattedMembershipForMemberId } from "../../lib/helpers/getFormattedMembershipForMemberId";
+import { fetchAndValidateMembership } from "../../lib/helpers/fetchAndValidateMembership";
 import logger from "../../lib/Logger";
 
 interface RemoveUserCheckDetailsGetViewData extends ViewDataWithBackLink {
@@ -33,7 +33,7 @@ export const removeUserCheckDetailsControllerGet = async (req: Request, res: Res
 
     if (!userToRemove) {
         logger.info("Remove ACSP Member details not found in session, calling GET /acsps/memberships/id");
-        userToRemove = await getFormattedMembershipForMemberId(req, id);
+        userToRemove = await fetchAndValidateMembership(req, id);
     }
 
     if (userToRemove.userRole === UserRole.OWNER && userRole === UserRole.ADMIN) {

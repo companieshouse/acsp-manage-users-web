@@ -18,9 +18,9 @@ import { UserRole } from "private-api-sdk-node/dist/services/acsp-manage-users/t
 import { Membership } from "../../../../src/types/membership";
 import * as acspMemberService from "../../../../src/services/acspMemberService";
 import { when } from "jest-when";
-import * as getFormattedMembershipForMemberId from "../../../../src/lib/helpers/getFormattedMembershipForMemberId";
+import * as helpers from "../../../../src/lib/helpers/fetchAndValidateMembership";
 
-jest.mock("../../../../src/lib/helpers/getFormattedMembershipForMemberId");
+jest.mock("../../../../src/lib/helpers/fetchAndValidateMembership");
 jest.mock("../../../../src/lib/Logger");
 
 const router = supertest(app);
@@ -85,7 +85,7 @@ describe("GET /authorised-agent/edit-member-role", () => {
         when(getExtraDataSpy).calledWith(expect.anything(), constants.MANAGE_USERS_MEMBERSHIP).mockReturnValue([loggedOwnerUserMembership]);
         when(getExtraDataSpy).calledWith(expect.anything(), constants.USER_ROLE_CHANGE_DATA).mockReturnValue(undefined);
         getAcspMembershipsSpy.mockResolvedValue(getMockAcspMembersResource([loggedAccountOwnerAcspMembership]));
-        (getFormattedMembershipForMemberId.getFormattedMembershipForMemberId as jest.Mock).mockResolvedValue(standardUserMembership);
+        (helpers.fetchAndValidateMembership as jest.Mock).mockResolvedValue(standardUserMembership);
         // When
         const id = "idNotInSession";
         const response = await router.get(`${url}/${id}?lang=en`);
@@ -100,7 +100,7 @@ describe("GET /authorised-agent/edit-member-role", () => {
         when(getExtraDataSpy).calledWith(expect.anything(), constants.MANAGE_USERS_MEMBERSHIP).mockReturnValue([loggedOwnerUserMembership]);
         when(getExtraDataSpy).calledWith(expect.anything(), constants.USER_ROLE_CHANGE_DATA).mockReturnValue(undefined);
         getAcspMembershipsSpy.mockResolvedValue(getMockAcspMembersResource([loggedAccountOwnerAcspMembership]));
-        (getFormattedMembershipForMemberId.getFormattedMembershipForMemberId as jest.Mock).mockResolvedValue(undefined);
+        (helpers.fetchAndValidateMembership as jest.Mock).mockResolvedValue(undefined);
         // When
         const id = "idNotInSession";
         const response = await router.get(`${url}/${id}?lang=en`);
