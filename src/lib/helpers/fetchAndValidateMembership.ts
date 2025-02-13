@@ -8,7 +8,7 @@ export const fetchAndValidateMembership = async (req: Request, acspMembershipId:
     const member = await getAcspMembershipForMemberId(req, acspMembershipId);
 
     if (getLoggedInAcspNumber(req.session) !== member.acspNumber) {
-        throw Error("ACSP Number mismatch: User's logged in ACSP number does not match the fetched member's ACSP number");
+        throw new Error("ACSP Number mismatch: User's logged in ACSP number does not match the fetched member's ACSP number");
     }
     return {
         id: member.id,

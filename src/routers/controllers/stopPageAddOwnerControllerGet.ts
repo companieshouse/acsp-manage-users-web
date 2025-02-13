@@ -23,7 +23,7 @@ export const stopPageAddOwnerControllerGet: RequestHandler = async (req: Request
 
     if (!userToRemove && !userToChangeRole) {
         logger.error(`${stopPageAddOwnerControllerGet.name}: neither DETAILS_OF_USER_TO_REMOVE nor USER_ROLE_CHANGE_DATA found in session`);
-        throw Error("Neither DETAILS_OF_USER_TO_REMOVE nor USER_ROLE_CHANGE_DATA found in session");
+        throw new Error("Neither DETAILS_OF_USER_TO_REMOVE nor USER_ROLE_CHANGE_DATA found in session");
     }
 
     const viewData: StopPageAddOwnerGetViewData = {
