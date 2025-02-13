@@ -18,7 +18,9 @@ import { UserRole } from "private-api-sdk-node/dist/services/acsp-manage-users/t
 import { Membership } from "../../../../src/types/membership";
 import * as acspMemberService from "../../../../src/services/acspMemberService";
 import { when } from "jest-when";
+import * as getFormattedMembershipForMemberId from "../../../../src/lib/helpers/getFormattedMembershipForMemberId";
 
+jest.mock("../../../../src/lib/helpers/getFormattedMembershipForMemberId");
 jest.mock("../../../../src/lib/Logger");
 
 const router = supertest(app);
@@ -77,6 +79,34 @@ describe("GET /authorised-agent/edit-member-role", () => {
                 expect(containsContent(loggedUserRole, decodedResponseText, mockUserData, lang, langCommon)).toBeTruthy();
             }
         });
+
+    it("should fetch member details and render fetched data when user not found in session", async () => {
+        getLoggedUserAcspMembershipSpy.mockReturnValue(loggedAccountOwnerAcspMembership);
+        when(getExtraDataSpy).calledWith(expect.anything(), constants.MANAGE_USERS_MEMBERSHIP).mockReturnValue([loggedOwnerUserMembership]);
+        when(getExtraDataSpy).calledWith(expect.anything(), constants.USER_ROLE_CHANGE_DATA).mockReturnValue(undefined);
+        getAcspMembershipsSpy.mockResolvedValue(getMockAcspMembersResource([loggedAccountOwnerAcspMembership]));
+        (getFormattedMembershipForMemberId.getFormattedMembershipForMemberId as jest.Mock).mockResolvedValue(standardUserMembership);
+        // When
+        const id = "idNotInSession";
+        const response = await router.get(`${url}/${id}?lang=en`);
+        // Then
+        const decodedResponseText = response.text.replace(/&#39;/g, "'");
+        expect(response.status).toEqual(200);
+        expect(decodedResponseText).toContain(standardUserMembership.userDisplayName);
+    });
+
+    it("should return an error page when user not in session and the fetch failed", async () => {
+        getLoggedUserAcspMembershipSpy.mockReturnValue(loggedAccountOwnerAcspMembership);
+        when(getExtraDataSpy).calledWith(expect.anything(), constants.MANAGE_USERS_MEMBERSHIP).mockReturnValue([loggedOwnerUserMembership]);
+        when(getExtraDataSpy).calledWith(expect.anything(), constants.USER_ROLE_CHANGE_DATA).mockReturnValue(undefined);
+        getAcspMembershipsSpy.mockResolvedValue(getMockAcspMembersResource([loggedAccountOwnerAcspMembership]));
+        (getFormattedMembershipForMemberId.getFormattedMembershipForMemberId as jest.Mock).mockResolvedValue(undefined);
+        // When
+        const id = "idNotInSession";
+        const response = await router.get(`${url}/${id}?lang=en`);
+        // Then
+        expect(response.status).toBe(500);
+    });
 });
 
 describe("POST /authorised-agent/edit-member-role", () => {

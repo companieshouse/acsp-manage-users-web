@@ -68,6 +68,7 @@ const getViewData = async (req: Request): Promise<EditMemberRoleViewData> => {
     let userToChangeRole: Membership | undefined = existingUsers.find((member: Membership) => member.id === id);
 
     if (!userToChangeRole) {
+        logger.info("ACSP Member details not found in session, calling GET /acsps/memberships/id");
         userToChangeRole = await getFormattedMembershipForMemberId(req, id);
     }
 
