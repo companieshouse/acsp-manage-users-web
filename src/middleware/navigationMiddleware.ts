@@ -174,6 +174,6 @@ export const navigationMiddleware = (req: Request, res: Response, next: NextFunc
             return res.redirect(redirectTo);
         }
     }
-    logger.info("referer and role are ok.");
+    logger.info("Referer and role are ok.");
     return next();
 };
