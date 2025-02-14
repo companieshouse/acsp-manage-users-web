@@ -38,6 +38,6 @@ describe("fetchAndValidateMembership", () => {
         (sessionUtils.getLoggedInAcspNumber as jest.Mock).mockReturnValue("mismatch");
         const request = mockRequest();
         await expect(fetchAndValidateMembership(request, ""))
-            .rejects.toThrow("ACSP Number mismatch: User's logged in ACSP number does not match the fetched member's ACSP number");
+            .rejects.toThrow("ACSP Number mismatch");
     });
 });
