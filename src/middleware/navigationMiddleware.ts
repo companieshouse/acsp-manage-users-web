@@ -152,7 +152,7 @@ export const navigationMiddleware = (req: Request, res: Response, next: NextFunc
     }
 
     if (!NAVIGATION[currentPath]) {
-        logger.info(`navigation not found for the current path: ${currentPath}`);
+        logger.info(`Navigation not found for the current path: ${currentPath}`);
         return next();
     }
 
