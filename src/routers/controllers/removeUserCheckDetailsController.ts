@@ -32,7 +32,7 @@ export const removeUserCheckDetailsControllerGet = async (req: Request, res: Res
     let userToRemove: Membership | undefined = existingUsers.find((member: Membership) => member.id === id);
 
     if (!userToRemove) {
-        logger.info("Remove ACSP Member details not found in session, calling GET /acsps/memberships/id");
+        logger.info("ACSP Member for removal not found in session, calling GET /acsps/memberships/id");
         userToRemove = await fetchAndValidateMembership(req, id);
     }
 
