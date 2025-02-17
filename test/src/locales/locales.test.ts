@@ -45,7 +45,7 @@ function haveAnyMatchingKeys (obj1:Record<string, unknown>, obj2:Record<string, 
     const keys2 = Object.keys(obj2);
     const matchingKeys = keys1.filter(key => keys2.includes(key));
     if (matchingKeys.length > 0) {
-        console.log("Matching keys with common.json found:", matchingKeys);
+        console.log("Translation file has clashing keys with common.json:", matchingKeys);
         return true;
     }
     return false;
