@@ -40,7 +40,6 @@ We have used the npm package Helmet to setup security-related HTTP response head
 The repo uses GOV.UK Frontend v5.4.0. Version v5.0+ updates the design of the Tag component.
 Text within the tag is no longer bold and uppercase with extra letter spacing. The colours have also changed to make them more distinguishable from buttons.
 
-
 ### Handling errors and promise rejections
 
 Express-async-errors package 
