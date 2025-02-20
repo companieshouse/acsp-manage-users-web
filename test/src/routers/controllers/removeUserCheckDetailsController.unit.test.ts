@@ -4,6 +4,10 @@ import { mockRequest } from "../../../mocks/request.mock";
 import { mockResponse } from "../../../mocks/response.mock";
 import * as constants from "../../../../src/lib/constants";
 import * as getTranslationsForView from "../../../../src/lib/utils/translationUtils";
+import * as helpers from "../../../../src/lib/helpers/fetchAndValidateMembership";
+import { UserRole } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
+
+jest.mock("../../../../src/lib/helpers/fetchAndValidateMembership");
 
 describe("removeUserCheckDetailsControllerGet", () => {
     const getExtraDataSpy: jest.SpyInstance = jest.spyOn(sessionUtils, "getExtraData");
@@ -88,18 +92,37 @@ describe("removeUserCheckDetailsControllerGet", () => {
             .toThrow("user not authorised to remove, role is standard");
     });
 
-    it("should error when membership not found in session", async () => {
+    it("should fetch member from api when not found in session and render correct data", async () => {
+        const standardMember = {
+            id: "idNotInSession",
+            userId: "userId",
+            userRole: UserRole.STANDARD,
+            acspNumber: "123",
+            userEmail: "user@email.com",
+            userDisplayName: "Jeremy Lloris",
+            displayNameOrEmail: "Jeremy Lloris"
+        };
+        (helpers.fetchAndValidateMembership as jest.Mock).mockResolvedValue(standardMember);
 
-        getExtraDataSpy.mockReturnValue({});
-        const request = mockRequest();
-        const response = mockResponse();
         getLoggedUserAcspMembershipSpy.mockReturnValue(loggedInUserMembership);
         mockGetTranslationsForView.mockReturnValue({});
         getExtraDataSpy.mockReturnValue(userDetails);
-        request.params.id = "notFoundId";
-        await expect(removeUserCheckDetailsControllerGet(request, response))
-            .rejects
-            .toThrow("ACSP member with id notFoundId not found in session");
+        const request = mockRequest();
+        const response = mockResponse();
+        request.params.id = "idNotInSession";
+
+        await removeUserCheckDetailsControllerGet(request, response);
+        expect(response.render).toHaveBeenCalledWith(constants.REMOVE_MEMBER_PAGE,
+            {
+                backLinkUrl: "/authorised-agent/manage-users",
+                companyName: "companyName",
+                lang: {},
+                removingThemselves: false,
+                tryRemovingUserUrl: "/authorised-agent/try-removing-user",
+                userDetails: "Jeremy Lloris",
+                displayNameInFirstParagraph: "Jeremy Lloris (user@email.com)",
+                templateName: constants.REMOVE_MEMBER_PAGE
+            });
     });
 
     it("should error when admin trys to remove owner", async () => {

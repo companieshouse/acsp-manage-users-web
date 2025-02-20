@@ -11,6 +11,8 @@ import { FormInputNames } from "../../lib/validation/add.user.validation";
 import { sanitizeUrl } from "@braintree/sanitize-url";
 import { UserRole } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
 import { getAcspMemberships } from "../../services/acspMemberService";
+import { fetchAndValidateMembership } from "../../lib/helpers/fetchAndValidateMembership";
+
 import { getEditMemberRoleFullUrl } from "../../lib/utils/urlUtils";
 
 export const editMemberRoleControllerGet = async (req: Request, res: Response): Promise<void> => {
@@ -62,8 +64,13 @@ const getViewData = async (req: Request): Promise<EditMemberRoleViewData> => {
     }
 
     const id = req.params.id;
-    const existingUsers = getExtraData(req.session, constants.MANAGE_USERS_MEMBERSHIP);
-    const userToChangeRole: Membership = existingUsers.find((member: Membership) => member.id === id);
+    const existingUsers: Membership[] = getExtraData(req.session, constants.MANAGE_USERS_MEMBERSHIP) || [];
+    let userToChangeRole: Membership | undefined = existingUsers.find((member: Membership) => member.id === id);
+
+    if (!userToChangeRole) {
+        logger.info("Edit Role ACSP Member details not found in session, calling GET /acsps/memberships/id");
+        userToChangeRole = await fetchAndValidateMembership(req, id);
+    }
 
     const viewData: EditMemberRoleViewData = {
         lang: translations,

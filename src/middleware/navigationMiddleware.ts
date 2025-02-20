@@ -152,8 +152,7 @@ export const navigationMiddleware = (req: Request, res: Response, next: NextFunc
     }
 
     if (!NAVIGATION[currentPath]) {
-        logger.info("navigation not found for the current path.");
-        logger.info(currentPath);
+        logger.info(`Navigation not found for the current path: ${currentPath}`);
         return next();
     }
 
@@ -175,6 +174,6 @@ export const navigationMiddleware = (req: Request, res: Response, next: NextFunc
             return res.redirect(redirectTo);
         }
     }
-    logger.info("referer and role are ok.");
+    logger.info("Referer and role are ok.");
     return next();
 };

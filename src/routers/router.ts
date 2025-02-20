@@ -17,6 +17,7 @@ import { checkEditMemberRoleDetailsControllerGet } from "./controllers/checkEdit
 import { confirmationMemberRoleEditedControllerGet } from "./controllers/confirmationMemberRoleEditedController";
 import { tryEditMemberRolePost } from "./controllers/tryEditMemberRoleController";
 import { cannotAddUserControllerGet } from "./controllers/cannotAddUserController";
+import { sanitizeMembershipIdMiddleware } from "../middleware/sanitize.membership.id.middleware";
 
 const router: Router = Router();
 
@@ -27,7 +28,7 @@ router.get(constants.VIEW_USERS_URL, manageUsersControllerGet as RequestHandler)
 router.post(constants.VIEW_USERS_URL, manageUsersControllerPost as RequestHandler);
 
 router.get(constants.CONFIRMATION_MEMBER_ADDED_URL, confirmationMemberAddedControllerGet as RequestHandler);
-router.get(constants.REMOVE_MEMBER_CHECK_DETAILS_URL, removeUserCheckDetailsControllerGet as RequestHandler);
+router.get(constants.REMOVE_MEMBER_CHECK_DETAILS_URL, sanitizeMembershipIdMiddleware, removeUserCheckDetailsControllerGet as RequestHandler);
 
 router.get(constants.CONFIRMATION_MEMBER_REMOVED_URL, removeUserSuccessControllerGet as RequestHandler);
 
@@ -44,8 +45,8 @@ router.get(constants.CANNOT_ADD_USER_URL, cannotAddUserControllerGet);
 router.post(constants.TRY_REMOVING_USER_URL, tryRemovingUserControllerPost);
 router.get(constants.STOP_PAGE_ADD_ACCOUNT_OWNER_URL, stopPageAddOwnerControllerGet);
 
-router.get(constants.EDIT_MEMBER_ROLE_URL, editMemberRoleControllerGet);
-router.post(constants.EDIT_MEMBER_ROLE_URL, editMemberRoleControllerPost);
+router.get(constants.EDIT_MEMBER_ROLE_URL, sanitizeMembershipIdMiddleware, editMemberRoleControllerGet);
+router.post(constants.EDIT_MEMBER_ROLE_URL, sanitizeMembershipIdMiddleware, editMemberRoleControllerPost);
 
 router.get(constants.CHECK_EDIT_MEMBER_ROLE_DETAILS_URL, checkEditMemberRoleDetailsControllerGet);
 
