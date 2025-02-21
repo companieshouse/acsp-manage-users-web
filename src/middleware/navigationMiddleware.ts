@@ -145,7 +145,7 @@ export const navigationMiddleware = (req: Request, res: Response, next: NextFunc
     let currentPath = url.parse(req.originalUrl, true).pathname || "";
     const acspMembership: AcspMembership = getExtraData(req.session, constants.LOGGED_USER_ACSP_MEMBERSHIP);
 
-    if (currentPath === constants.ACCESS_DENIED_FULL_URL && acspMembership && acspMembership.userRole) {
+    if (currentPath === constants.ACCESS_DENIED_FULL_URL && acspMembership?.userRole) {
         return res.redirect(constants.DASHBOARD_FULL_URL);
     }
 
