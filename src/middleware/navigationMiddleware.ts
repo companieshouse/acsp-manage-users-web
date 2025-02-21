@@ -143,6 +143,11 @@ export const NAVIGATION: Navigation = {
 export const navigationMiddleware = (req: Request, res: Response, next: NextFunction): void => {
     const callerURL = url.parse(req.headers.referer || "", true).pathname || "";
     let currentPath = url.parse(req.originalUrl, true).pathname || "";
+    const acspMembership: AcspMembership = getExtraData(req.session, constants.LOGGED_USER_ACSP_MEMBERSHIP);
+
+    if (currentPath === constants.ACCESS_DENIED_FULL_URL && acspMembership && acspMembership.userRole) {
+        return res.redirect(constants.DASHBOARD_FULL_URL);
+    }
 
     // this is to strip the path parameter which is redundant in this context
     if (currentPath.startsWith(constants.REMOVE_MEMBER_CHECK_DETAILS_FULL_URL)) {
@@ -167,7 +172,6 @@ export const navigationMiddleware = (req: Request, res: Response, next: NextFunc
         }
     }
     if (allowedUserRoles?.length) {
-        const acspMembership: AcspMembership = getExtraData(req.session, constants.LOGGED_USER_ACSP_MEMBERSHIP);
         const { userRole } = acspMembership;
         if (!allowedUserRoles.includes(userRole)) {
             logger.info(`calling redirect, role ${userRole} not permitted for currentPath: ${currentPath}`);

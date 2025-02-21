@@ -4,7 +4,15 @@ import { navigationMiddleware } from "../../../src/middleware/navigationMiddlewa
 import * as sessionUtils from "../../../src/lib/utils/sessionUtils";
 
 describe("navigiationMiddleware", () => {
+
+    beforeEach(() => {
+        jest.clearAllMocks();
+    });
+
     const getExtraDataSpy: jest.SpyInstance = jest.spyOn(sessionUtils, "getExtraData");
+    const mockedNext = jest.fn();
+    const request = mockRequest();
+    const response = mockResponse();
     const adminUser = {
         id: "123;",
         userId: "123",
@@ -226,12 +234,7 @@ describe("navigiationMiddleware", () => {
     test.each(allowedNavigationCases)(
         "$description",
         ({ url, referer, user }) => {
-
             // Given
-            const mockedNext = jest.fn();
-            const request = mockRequest();
-            const response = mockResponse();
-
             request.originalUrl = url;
             request.headers.referer = referer;
             getExtraDataSpy.mockReturnValue(user);
@@ -247,9 +250,6 @@ describe("navigiationMiddleware", () => {
 
     it("should redirect to view-users and not allow a standard user to access the add user page", () => {
         // Given
-        const mockedNext = jest.fn();
-        const request = mockRequest();
-        const response = mockResponse();
         request.originalUrl = "/authorised-agent/add-user";
         request.headers.referer = "/authorised-agent/any-referer";
         getExtraDataSpy.mockReturnValue(standardUser);
@@ -264,9 +264,6 @@ describe("navigiationMiddleware", () => {
 
     it("should redirect to view-users and not allow a standard user to access manage user page", () => {
         // Given
-        const mockedNext = jest.fn();
-        const request = mockRequest();
-        const response = mockResponse();
         request.originalUrl = "/authorised-agent/manage-users";
         request.headers.referer = "/authorised-agent/any-referer";
         getExtraDataSpy.mockReturnValue(standardUser);
@@ -277,5 +274,17 @@ describe("navigiationMiddleware", () => {
         // Then
         expect(mockedNext).not.toHaveBeenCalled();
         expect(response.redirect).toHaveBeenCalledWith("/authorised-agent/view-users");
+    });
+
+    it("should redirect to the dashboard if user has a role and URL is /authorised-agent/access-denied", () => {
+        // Given
+        request.originalUrl = "/authorised-agent/access-denied";
+        request.headers.referer = "/authorised-agent/any-referer";
+        getExtraDataSpy.mockReturnValue(standardUser);
+        // When
+        navigationMiddleware(request, response, mockedNext);
+        // Then
+        expect(mockedNext).not.toHaveBeenCalled();
+        expect(response.redirect).toHaveBeenCalledWith("/authorised-agent/");
     });
 });
