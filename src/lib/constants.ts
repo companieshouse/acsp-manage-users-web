@@ -44,6 +44,7 @@ export const ADMINISTRATORS_TAB_ID = `tab_${ADMINISTRATORS_ID}`;
 export const STANDARD_USERS_TAB_ID = `tab_${STANDARD_USERS_ID}`;
 
 // Page Names (used for both translation keys and URL construction)
+export const ACCESS_DENIED_PAGE = "access-denied";
 export const ADD_USER_PAGE = "add-user";
 export const CANNOT_ADD_USER = "cannot-add-user";
 export const CHECK_EDIT_MEMBER_ROLE_DETAILS_PAGE = "check-edit-member-role-details";
@@ -92,6 +93,7 @@ export const HEALTHCHECK = "/healthcheck";
 export const LANDING_URL = `/authorised-agent`;
 
 // URL Paths (constructed from page names)
+export const ACCESS_DENIED_URL = `/${ACCESS_DENIED_PAGE}`;
 export const ADD_USER_URL = `/${ADD_USER_PAGE}`;
 export const CANNOT_ADD_USER_URL = `/${CANNOT_ADD_USER}`;
 export const CHECK_EDIT_MEMBER_ROLE_DETAILS_URL = `/${CHECK_EDIT_MEMBER_ROLE_DETAILS_PAGE}`;
@@ -115,6 +117,7 @@ export const VIEW_USERS_URL = `/${VIEW_USERS_PAGE}`;
 
 // Full URLs
 export const getFullUrl = (url: string): string => `${LANDING_URL}${url}`;
+export const ACCESS_DENIED_FULL_URL = getFullUrl(ACCESS_DENIED_URL);
 export const ADD_USER_FULL_URL = getFullUrl(ADD_USER_URL);
 export const CANNOT_ADD_USER_FULL_URL = getFullUrl(CANNOT_ADD_USER_URL);
 export const CHECK_EDIT_MEMBER_ROLE_DETAILS_FULL_URL = getFullUrl(CHECK_EDIT_MEMBER_ROLE_DETAILS_URL);

@@ -18,6 +18,7 @@ import { confirmationMemberRoleEditedControllerGet } from "./controllers/confirm
 import { tryEditMemberRolePost } from "./controllers/tryEditMemberRoleController";
 import { cannotAddUserControllerGet } from "./controllers/cannotAddUserController";
 import { sanitizeMembershipIdMiddleware } from "../middleware/sanitize.membership.id.middleware";
+import { accessDeniedControllerGet } from "./controllers/accessDeniedController";
 
 const router: Router = Router();
 
@@ -57,5 +58,7 @@ router.post(constants.TRY_EDIT_MEMBER_ROLE_URL, tryEditMemberRolePost);
 router.get(constants.HEALTHCHECK, healthCheckController);
 
 router.get(constants.SOMETHING_WENT_WRONG_URL, stopPageController);
+
+router.get(constants.ACCESS_DENIED_URL, accessDeniedControllerGet);
 
 export default router;

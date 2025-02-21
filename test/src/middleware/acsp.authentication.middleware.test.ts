@@ -42,10 +42,14 @@ describe("authentication middleware tests", () => {
         expect(mockAuthReturnedFunction).toHaveBeenCalledWith(req, res, next);
     });
 
-    it("should not call acspManageUsersAuthMiddleware when url is on whitelist", () => {
-        req.originalUrl = constants.LANDING_URL + constants.HEALTHCHECK;
-        acspAuthMiddleware(req, res, next);
-        expect(mockAuthMiddleware).not.toHaveBeenCalled();
-        expect(next).toHaveBeenCalled();
-    });
+    test.each([
+        constants.HEALTHCHECK_FULL_URL,
+        constants.ACCESS_DENIED_FULL_URL
+    ])("should not call acspManageUsersAuthMiddleware when url is %s",
+        (url) => {
+            req.originalUrl = url;
+            acspAuthMiddleware(req, res, next);
+            expect(mockAuthMiddleware).not.toHaveBeenCalled();
+            expect(next).toHaveBeenCalled();
+        });
 });
