@@ -44,7 +44,7 @@ export const invalidAcspNumberErrorHandler: ErrorRequestHandler = (err, req, res
             `Access denied - the user does not have a valid ACSP number in session. Message: ${err.message}, Stack: ${err.stack}`
         );
         const lang = req.query?.lang;
-        const queryString = lang ? `?lang=${lang}` : "";
+        const queryString = lang ? `?lang=${lang as string}` : "";
         res.status(403).redirect(`${constants.ACCESS_DENIED_FULL_URL}${queryString}`);
     } else {
         next(err);
