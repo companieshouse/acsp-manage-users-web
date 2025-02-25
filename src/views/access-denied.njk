@@ -1,0 +1,18 @@
+{% extends "layouts/default.njk" %}
+
+{% block main_content %}
+
+    <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-l">{{lang.page_header}}</h1>
+
+        <p class="govuk-body">{{lang.you_are_not_authorized_to_access}}</p>
+        <p class="govuk-body">{{lang.this_may_be_due_to_lack_of_association}}</p>
+        <p class="govuk-body">{{lang.you_can_return_back_to}}
+            <a href="/" data-event-id="search-company" class="govuk-link govuk-link--no-visited-state">
+                {{lang.search_company_page}}
+            </a>
+            {{lang.or_contact_companies_house}}
+        </p>
+    </div>
+
+{% endblock %}
