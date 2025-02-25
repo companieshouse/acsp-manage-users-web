@@ -5,7 +5,7 @@ import { getLoggedInAcspNumber } from "../lib/utils/sessionUtils";
 import { isWhitelistedUrl } from "../lib/utils/urlUtils";
 
 export const acspAuthMiddleware = (req: Request, res: Response, next: NextFunction): unknown => {
-    if (isWhitelistedUrl(req.originalUrl) || req.originalUrl === constants.ACCESS_DENIED_FULL_URL) {
+    if (isWhitelistedUrl(req.originalUrl) || req.originalUrl.startsWith(constants.ACCESS_DENIED_FULL_URL)) {
         return next();
     }
     const acspNumber: string = getLoggedInAcspNumber(req.session);
