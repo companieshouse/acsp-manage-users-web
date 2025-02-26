@@ -7,8 +7,8 @@ import { getTranslationsForView } from "./lib/utils/translationUtils";
 const routerDispatch = (app: Application): void => {
     app.use(constants.LANDING_URL, router);
     app.use("*", (req: Request, res: Response) => {
-        const translations = getTranslationsForView(req.lang, constants.SERVICE_UNAVAILABLE);
-        res.status(404).render(constants.SERVICE_UNAVAILABLE_TEMPLATE, { lang: translations });
+        const translations = getTranslationsForView(req.lang, constants.SOMETHING_WENT_WRONG_PAGE);
+        res.status(404).render(constants.SOMETHING_WENT_WRONG_PAGE, { lang: translations });
     });
 };
 

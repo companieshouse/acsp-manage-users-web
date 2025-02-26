@@ -13,7 +13,7 @@ import errorHandler from "./routers/controllers/errorController";
 import { AcspStatus, UserRole } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
 import { loggedUserAcspMembershipMiddleware } from "./middleware/loggedUserAcspMembership.middleware";
 import * as url from "node:url";
-import { LANGUAGE_CONFIG } from "./types/language";
+import { Lang, LANGUAGE_CONFIG } from "./types/language";
 import { convertUserRole } from "./lib/utils/userRoleUtils";
 import { getLoggedInUserEmail } from "./lib/utils/sessionUtils";
 import { navigationMiddleware } from "./middleware/navigationMiddleware";
@@ -60,6 +60,7 @@ njk.addGlobal("chsUrl", process.env.CHS_URL);
 njk.addGlobal("chsMonitorGuiUrl", process.env.CHS_MONITOR_GUI_URL);
 njk.addGlobal("UserRole", UserRole);
 njk.addGlobal("AcspStatus", AcspStatus);
+njk.addGlobal("Lang", Lang);
 njk.addGlobal("PIWIK_URL", process.env.PIWIK_URL);
 njk.addGlobal("PIWIK_SITE_ID", process.env.PIWIK_SITE_ID);
 njk.addGlobal("SERVICE_NAME", constants.SERVICE_NAME);
@@ -121,8 +122,8 @@ app.use(...errorHandler);
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 app.use((err: Error, req: Request, res: Response, next: NextFunction): void => {
     logger.error(`${err.name} - appError: ${err.message} - ${err.stack}`);
-    const translations = getTranslationsForView(req.lang || "en", constants.SERVICE_UNAVAILABLE);
-    res.status(500).render(constants.SERVICE_UNAVAILABLE_TEMPLATE, { lang: translations });
+    const translations = getTranslationsForView(req.lang || Lang.EN, constants.SOMETHING_WENT_WRONG_PAGE);
+    res.status(500).render(constants.SOMETHING_WENT_WRONG_PAGE, { lang: translations });
 });
 
 // Unhandled exceptions

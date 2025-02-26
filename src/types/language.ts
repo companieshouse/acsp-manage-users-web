@@ -27,3 +27,8 @@ export const LANGUAGE_CONFIG: LanguageConfig = {
         }
     }
 };
+
+export enum Lang {
+    EN = "en",
+    CY = "cy"
+}
