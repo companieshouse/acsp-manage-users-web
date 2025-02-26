@@ -32,7 +32,13 @@
     <p class="govuk-body govuk-!-margin-bottom-1 govuk-!-font-weight-bold">{{lang.your_role}}
         <span class="govuk-!-font-weight-regular">{{userRoleTag}}</span>
     </p>
-    <p class="govuk-body govuk-!-padding-bottom-2">{{lang.authorised_agents_are_also_known_as}}</p>
+
+    {{ govukInsetText({
+        html: lang.authorised_agents_are_also_known_as + 
+        ' <a href="https://www.gov.uk/guidance/being-an-authorised-corporate-service-provider" class="govuk-link" target="_blank" rel="noopener noreferrer">' + 
+        lang.read_acsp_guidance + 
+        '</a>'
+    }) }}
 
     {% if agentStatus === AcspStatus.SUSPENDED %}
         {{ govukWarningText({
