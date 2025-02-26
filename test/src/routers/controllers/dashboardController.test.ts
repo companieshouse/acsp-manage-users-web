@@ -207,4 +207,61 @@ describe(`GET ${url}`, () => {
         expect(decodedResponse).not.toContain(en.has_been_suspended);
         expect(decodedResponse).not.toContain(en.suspended_warning_text);
     });
+
+    it("should display the authorised agents inset text with the correct link", async () => {
+        // Given
+        getLoggedUserAcspMembershipSpy.mockReturnValue(accountOwnerAcspMembership);
+
+        // When
+        const encodedResponse = await router.get(url);
+        const decodedResponse = encodedResponse.text.replace(/&#39;/g, "'");
+
+        // Then
+        expect(decodedResponse).toContain(en.authorised_agents_are_also_known_as);
+        expect(decodedResponse).toContain(
+            `<a href="https://www.gov.uk/guidance/being-an-authorised-corporate-service-provider" class="govuk-link" target="_blank" rel="noopener noreferrer">${en.read_acsp_guidance}</a>`
+        );
+    });
+
+    it("should display 'For information about your legal responsibilities and how to use this account'", async () => {
+        // Given
+        getLoggedUserAcspMembershipSpy.mockReturnValue(accountOwnerAcspMembership);
+
+        // When
+        const encodedResponse = await router.get(url);
+        const decodedResponse = encodedResponse.text.replace(/&#39;/g, "'");
+
+        // Then
+        expect(decodedResponse).toContain("For information about your legal responsibilities and how to use this account");
+    });
+
+    it("should display the authorised agents inset text in Welsh when session language is Welsh", async () => {
+        // Given
+        session.setExtraData("lang", "cy");
+        getLoggedUserAcspMembershipSpy.mockReturnValue(accountOwnerAcspMembership);
+
+        // When
+        const encodedResponse = await router.get(url);
+        const decodedResponse = encodedResponse.text.replace(/&#39;/g, "'");
+
+        // Then
+        expect(decodedResponse).toContain(cy.authorised_agents_are_also_known_as);
+        expect(decodedResponse).toContain(
+            `<a href="https://www.gov.uk/guidance/being-an-authorised-corporate-service-provider" class="govuk-link" target="_blank" rel="noopener noreferrer">${cy.read_acsp_guidance}</a>`
+        );
+    });
+
+    it("should display 'For information about your legal responsibilities and how to use this account' in Enlgish when session language is English", async () => {
+        // Given
+        session.setExtraData("lang", "en");
+        getLoggedUserAcspMembershipSpy.mockReturnValue(accountOwnerAcspMembership);
+
+        // When
+        const encodedResponse = await router.get(url);
+        const decodedResponse = encodedResponse.text.replace(/&#39;/g, "'");
+
+        // Then
+        expect(decodedResponse).toContain("For information about your legal responsibilities and how to use this account");
+    });
+
 });
