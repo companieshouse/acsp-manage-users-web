@@ -1,4 +1,4 @@
-import { Request, RequestHandler, Response } from "express";
+import { Request, Response } from "express";
 import * as constants from "../../lib/constants";
 import { getTranslationsForView } from "../../lib/utils/translationUtils";
 import { AnyRecord, BaseViewData } from "../../types/utilTypes";
@@ -9,7 +9,7 @@ interface SomethingWentWrongViewData extends BaseViewData {
     csrfErrors: boolean;
 }
 
-export const somethingWentWrongController: RequestHandler = async (req: Request, res: Response) => {
+export const somethingWentWrongController = async (req: Request, res: Response): Promise<void> => {
     const lang = getTranslationsForView(req.lang || Lang.EN, constants.SOMETHING_WENT_WRONG_PAGE);
     const csrfError = isCsrfError(req);
     const viewData: SomethingWentWrongViewData = {
