@@ -5,6 +5,8 @@ import { StatusCodes } from "http-status-codes";
 import createError from "http-errors";
 import { AcspMembers, AcspMembership, Errors, UserRole, UpdateOrRemove } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
 import { Request } from "express";
+import { getExtraData, setExtraData } from "../lib/utils/sessionUtils";
+import { userInfo } from "node:os";
 /*
     This service provides access to ACSP members
 */
@@ -12,7 +14,22 @@ const stringifyApiErrors = (resource: Resource<AcspMembers | AcspMembership | Er
     return JSON.stringify((resource?.resource as Errors)?.errors || "No error list returned");
 };
 
+function generateCacheKey (page:number, role:UserRole) {
+    return `page_${page}_role_${role.toString()}`;
+}
+
 export const getAcspMemberships = async (req: Request, acspNumber: string, includeRemoved?:boolean, pageIndex?:number, itemsPerPage?:number, role?: UserRole[]): Promise<AcspMembers> => {
+
+    let cacheKey;
+    if (pageIndex && role?.length) {
+        cacheKey = generateCacheKey(pageIndex, role[0]);
+        const cachedData = getExtraData(req.session, cacheKey);
+        if (cachedData) {
+            console.log("Cache hit, serving from session");
+            return (JSON.parse(cachedData));
+        }
+    }
+
     const apiClient = createOauthPrivateApiClient(req);
     const sdkResponse: Resource<AcspMembers | Errors> = await apiClient.acspManageUsersService.getAcspMemberships(acspNumber, includeRemoved, pageIndex, itemsPerPage, role);
 
@@ -34,6 +51,10 @@ export const getAcspMemberships = async (req: Request, acspNumber: string, inclu
     }
 
     logger.debug(`Received acsp members ${JSON.stringify(sdkResponse)}`);
+
+    if (cacheKey) {
+        setExtraData(req.session, cacheKey, JSON.stringify(sdkResponse));
+    }
 
     return Promise.resolve(sdkResponse.resource as AcspMembers);
 };
