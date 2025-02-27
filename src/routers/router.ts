@@ -11,7 +11,7 @@ import { removeUserCheckDetailsControllerGet } from "./controllers/removeUserChe
 import { tryRemovingUserControllerPost } from "./controllers/tryRemovingUserController";
 import { removeUserSuccessControllerGet } from "./controllers/removeUserSuccessController";
 import { stopPageAddOwnerControllerGet } from "./controllers/stopPageAddOwnerControllerGet";
-import { stopPageController } from "./controllers/stopPageController";
+import { somethingWentWrongController } from "./controllers/somethingWentWrongController";
 import { editMemberRoleControllerGet, editMemberRoleControllerPost } from "./controllers/editMemberRoleController";
 import { checkEditMemberRoleDetailsControllerGet } from "./controllers/checkEditMemberRoleDetailsController";
 import { confirmationMemberRoleEditedControllerGet } from "./controllers/confirmationMemberRoleEditedController";
@@ -57,7 +57,7 @@ router.post(constants.TRY_EDIT_MEMBER_ROLE_URL, tryEditMemberRolePost);
 
 router.get(constants.HEALTHCHECK, healthCheckController);
 
-router.get(constants.SOMETHING_WENT_WRONG_URL, stopPageController);
+router.get(constants.SOMETHING_WENT_WRONG_URL, somethingWentWrongController);
 
 router.get(constants.ACCESS_DENIED_URL, accessDeniedControllerGet);
 

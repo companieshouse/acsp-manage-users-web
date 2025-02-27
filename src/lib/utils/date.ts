@@ -1,7 +1,8 @@
 import { DateTime } from "luxon";
 import { createAndLogError } from "../Logger";
+import { Lang } from "../../types/language";
 
-export const toReadableFormat = (dateToConvert: string, lang = "en"): string => {
+export const toReadableFormat = (dateToConvert: string, lang: string = Lang.EN): string => {
     if (!dateToConvert) {
         return "";
     }
@@ -9,12 +10,12 @@ export const toReadableFormat = (dateToConvert: string, lang = "en"): string => 
     const dateTime = DateTime.fromJSDate(jsDate);
     let convertedDate;
     switch (lang) {
-    case "cy":
-        convertedDate = dateTime.setLocale("cy").toFormat("d MMMM yyyy");
+    case Lang.CY:
+        convertedDate = dateTime.setLocale(Lang.CY).toFormat("d MMMM yyyy");
         break;
-    case "en":
+    case Lang.EN:
     default:
-        convertedDate = dateTime.setLocale("en").toFormat("d MMMM yyyy");
+        convertedDate = dateTime.setLocale(Lang.EN).toFormat("d MMMM yyyy");
         break;
     }
     if (convertedDate === "Invalid DateTime") {

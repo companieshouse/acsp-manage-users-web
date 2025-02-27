@@ -5,7 +5,7 @@ import { NextFunction } from "express";
 import logger from "../../../../src/lib/Logger";
 import * as getTranslationsForView from "../../../../src/lib/utils/translationUtils";
 import { CsrfError } from "@companieshouse/web-security-node";
-import * as contants from "../../../../src/lib/constants";
+import * as constants from "../../../../src/lib/constants";
 
 jest.mock("../../../../src/lib/Logger");
 
@@ -27,12 +27,14 @@ describe("csrfErrorHandler", () => {
         request.originalUrl = "/originalUrl";
         request.method = "GET";
         mockGetTranslationsForView.mockReturnValue({});
+        const expectedUrl = `${constants.SOMETHING_WENT_WRONG_FULL_URL}?${constants.CSRF_ERRORS}`;
 
         const err = new CsrfError();
         // When
         csrfErrorHandler(err, request, response, mockNext);
         // Then
-        expect(response.redirect).toHaveBeenCalledWith(contants.SOMETHING_WENT_WRONG_FULL_URL);
+        expect(response.status).toHaveBeenCalledWith(403);
+        expect(response.redirect).toHaveBeenCalledWith(expectedUrl);
         expect(logger.error).toHaveBeenCalledTimes(1);
         expect(logger.error).toHaveBeenCalledWith(
             expect.stringContaining(`CSRF Error occured`)
