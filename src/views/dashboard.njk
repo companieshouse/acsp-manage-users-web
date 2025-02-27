@@ -7,12 +7,8 @@
 {% set title = lang.authorised_agent_services + lang.title_end %}
 
 {% block main_content %}
-    <span class="govuk-caption-l govuk-!-padding-bottom-0">
-        {{companyName}}
-        <h1 class="govuk-heading-l">
-            {{lang.page_header}}
-        </h1>
-    </span>
+    <span class="govuk-caption-l">{{companyName}}</span>
+    <h1 class="govuk-heading-l">{{lang.page_header}}</h1>
 
     {% if agentStatus === AcspStatus.ACTIVE %}
         {% set statusColour = 'govuk-tag--green' %}
