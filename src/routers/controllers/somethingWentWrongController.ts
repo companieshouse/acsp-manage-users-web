@@ -10,7 +10,6 @@ interface SomethingWentWrongViewData extends BaseViewData {
 }
 
 export const somethingWentWrongController: RequestHandler = async (req: Request, res: Response) => {
-    console.dir(req);
     const lang = getTranslationsForView(req.lang || Lang.EN, constants.SOMETHING_WENT_WRONG_PAGE);
     const csrfError = isCsrfError(req);
     const viewData: SomethingWentWrongViewData = {

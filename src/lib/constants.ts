@@ -53,6 +53,7 @@ export const CONFIRMATION_YOU_ARE_REMOVED_PAGE = "confirmation-you-are-removed";
 export const DASHBOARD_PAGE = "dashboard";
 export const EDIT_MEMBER_ROLE_PAGE = "edit-member-role";
 export const MANAGE_USERS_PAGE = "manage-users";
+export const PAGE_NOT_FOUND_PAGE = "page-not-found";
 export const REMOVE_MEMBER_PAGE = "remove-member";
 export const SOMETHING_WENT_WRONG_PAGE = "something-went-wrong";
 export const STOP_PAGE_ADD_ACCOUNT_OWNER_PAGE = "stop-page-add-account-owner";
