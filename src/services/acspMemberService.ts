@@ -6,7 +6,7 @@ import createError from "http-errors";
 import { AcspMembers, AcspMembership, Errors, UserRole, UpdateOrRemove } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
 import { Request } from "express";
 import { getExtraData, setExtraData } from "../lib/utils/sessionUtils";
-import { userInfo } from "node:os";
+
 /*
     This service provides access to ACSP members
 */
@@ -14,20 +14,30 @@ const stringifyApiErrors = (resource: Resource<AcspMembers | AcspMembership | Er
     return JSON.stringify((resource?.resource as Errors)?.errors || "No error list returned");
 };
 
-function generateCacheKey (page:number, role:UserRole) {
-    return `page_${page}_role_${role.toString()}`;
+export function generateCacheKey (page:number, role:UserRole):string {
+    return `acspMemberships:page:${page}:role:${role.toString()}`;
+}
+
+interface CachedAcspMembershipData {
+    [cacheKey: string]: AcspMembers;
 }
 
 export const getAcspMemberships = async (req: Request, acspNumber: string, includeRemoved?:boolean, pageIndex?:number, itemsPerPage?:number, role?: UserRole[]): Promise<AcspMembers> => {
 
+    console.log("requesting acsp memberships");
+    console.log(`acspNumber:${acspNumber} pageIndex: ${pageIndex} role: ${role} itemsPerPage: ${itemsPerPage}`);
+
     let cacheKey;
-    if (pageIndex && role?.length) {
+    if (typeof pageIndex === "number" && !isNaN(pageIndex) && role?.length) {
         cacheKey = generateCacheKey(pageIndex, role[0]);
-        const cachedData = getExtraData(req.session, cacheKey);
-        if (cachedData) {
+        // get obj
+        const cachedAcspMembershipData = getExtraData(req.session, "cachedAcspMembershipData");
+        // check if key exits
+        if (cachedAcspMembershipData && cacheKey in cachedAcspMembershipData) {
             console.log("Cache hit, serving from session");
-            return (JSON.parse(cachedData));
+            return JSON.parse(cachedAcspMembershipData[cacheKey]);
         }
+
     }
 
     const apiClient = createOauthPrivateApiClient(req);
@@ -53,7 +63,20 @@ export const getAcspMemberships = async (req: Request, acspNumber: string, inclu
     logger.debug(`Received acsp members ${JSON.stringify(sdkResponse)}`);
 
     if (cacheKey) {
-        setExtraData(req.session, cacheKey, JSON.stringify(sdkResponse));
+        console.log("gett stored members");
+        // retreieve
+        let cachedAcspMembershipData = getExtraData(req.session, "cachedAcspMembershipData");
+
+        // if exists replace or add
+        if (cachedAcspMembershipData) {
+            cachedAcspMembershipData[cacheKey] = JSON.stringify(sdkResponse.resource);
+        } else {
+            cachedAcspMembershipData = {
+                [cacheKey]: JSON.stringify(sdkResponse.resource)
+            };
+        }
+        console.log("saving cache", cachedAcspMembershipData);
+        setExtraData(req.session, "cachedAcspMembershipData", cachedAcspMembershipData);
     }
 
     return Promise.resolve(sdkResponse.resource as AcspMembers);

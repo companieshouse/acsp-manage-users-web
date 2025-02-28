@@ -30,7 +30,8 @@ describe("removeUserCheckDetailsControllerGet", () => {
         userEmail: "james.morris@gmail.com",
         userDisplayName: "James Morris",
         acspNumber: "B149YU",
-        displayNameOrEmail: "James Morris"
+        displayNameOrEmail: "James Morris",
+        userRole: "standard"
     }];
 
     beforeEach(() => {
@@ -42,7 +43,10 @@ describe("removeUserCheckDetailsControllerGet", () => {
         const response = mockResponse();
         getLoggedUserAcspMembershipSpy.mockReturnValue(loggedInUserMembership);
         mockGetTranslationsForView.mockReturnValue({});
-        getExtraDataSpy.mockReturnValue(userDetails);
+        getExtraDataSpy.mockReturnValue({ "acspMemberships:page:0:role:admin": JSON.stringify({ items: userDetails }) });
+        request.query = {};
+        request.query.userRole = "admin";
+        request.query.page = "1";
         request.params.id = "111111";
         await removeUserCheckDetailsControllerGet(request, response);
         expect(response.render).toHaveBeenCalledWith(constants.REMOVE_MEMBER_PAGE,
@@ -141,6 +145,10 @@ describe("removeUserCheckDetailsControllerGet", () => {
         getLoggedUserAcspMembershipSpy.mockReturnValue(loggedInUserMembership);
         mockGetTranslationsForView.mockReturnValue({});
         getExtraDataSpy.mockReturnValue(owner);
+        getExtraDataSpy.mockReturnValue({ "acspMemberships:page:0:role:owner": JSON.stringify({ items: owner }) });
+        request.query = {};
+        request.query.userRole = "owner";
+        request.query.page = "1";
         request.params.id = "111111";
         await expect(removeUserCheckDetailsControllerGet(request, response))
             .rejects
@@ -154,6 +162,10 @@ describe("removeUserCheckDetailsControllerGet", () => {
         getLoggedUserAcspMembershipSpy.mockReturnValue(loggedInUserMembership);
         mockGetTranslationsForView.mockReturnValue({});
         getExtraDataSpy.mockReturnValue([loggedInUserMembership]);
+        getExtraDataSpy.mockReturnValue({ "acspMemberships:page:0:role:admin": JSON.stringify({ items: [loggedInUserMembership] }) });
+        request.query = {};
+        request.query.userRole = "admin";
+        request.query.page = "1";
         request.params.id = "123";
         await removeUserCheckDetailsControllerGet(request, response);
         expect(response.render).toHaveBeenCalledWith(constants.REMOVE_MEMBER_PAGE,

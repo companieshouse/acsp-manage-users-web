@@ -103,7 +103,7 @@ export const getViewData = async (req: Request): Promise<AnyRecord> => {
 
                 setExtraData(req.session, constants.MANAGE_USERS_MEMBERSHIP, foundMember);
 
-                const memberData = getUserTableData(foundUser.items, translations, userRole !== UserRole.STANDARD, userRole !== UserRole.STANDARD, req.lang);
+                const memberData = getUserTableData(foundUser.items, translations, userRole !== UserRole.STANDARD, userRole !== UserRole.STANDARD, req.lang, pageNumbers);
                 switch (foundUser.items[0].userRole) {
                 case UserRole.OWNER:
                     viewData.accountOwnersTableData = memberData;
@@ -130,9 +130,9 @@ export const getViewData = async (req: Request): Promise<AnyRecord> => {
             getMemberRawViewData(req, acspNumber, pageNumbers, UserRole.STANDARD, constants.STANDARD_USERS_TAB_ID, translations)
         ]);
 
-        viewData.accountOwnersTableData = getUserTableData(ownerMemberRawViewData.memberships, translations, userRole === UserRole.OWNER, userRole === UserRole.OWNER, req.lang);
-        viewData.administratorsTableData = getUserTableData(adminMemberRawViewData.memberships, translations, userRole !== UserRole.STANDARD, userRole !== UserRole.STANDARD, req.lang);
-        viewData.standardUsersTableData = getUserTableData(standardMemberRawViewData.memberships, translations, userRole !== UserRole.STANDARD, userRole !== UserRole.STANDARD, req.lang);
+        viewData.accountOwnersTableData = getUserTableData(ownerMemberRawViewData.memberships, translations, userRole === UserRole.OWNER, userRole === UserRole.OWNER, req.lang, pageNumbers);
+        viewData.administratorsTableData = getUserTableData(adminMemberRawViewData.memberships, translations, userRole !== UserRole.STANDARD, userRole !== UserRole.STANDARD, req.lang, pageNumbers);
+        viewData.standardUsersTableData = getUserTableData(standardMemberRawViewData.memberships, translations, userRole !== UserRole.STANDARD, userRole !== UserRole.STANDARD, req.lang, pageNumbers);
 
         viewData.accoutOwnerPadinationData = ownerMemberRawViewData.pagination;
         viewData.adminPadinationData = adminMemberRawViewData.pagination;
@@ -161,7 +161,7 @@ export const getDisplayNameOrEmail = (member: AcspMembership): string => !member
 
 export const getDisplayNameOrNotProvided = (locale: string, member: AcspMembership): string => member.userDisplayName === constants.NOT_PROVIDED && locale === "cy" ? constants.NOT_PROVIDED_CY : member.userDisplayName;
 
-const getUserTableData = (membership: AcspMembership[], translations: AnyRecord, hasChangeRoleLink: boolean, hasRemoveLink: boolean, locale: string): TableEntry[][] => {
+const getUserTableData = (membership: AcspMembership[], translations: AnyRecord, hasChangeRoleLink: boolean, hasRemoveLink: boolean, locale: string, pageNumbers:PageNumbers): TableEntry[][] => {
     const userTableDate: TableEntry[][] = [];
     for (const member of membership) {
         const tableEntry: TableEntry[] = [
@@ -178,7 +178,7 @@ const getUserTableData = (membership: AcspMembership[], translations: AnyRecord,
         }
 
         if (hasRemoveLink) {
-            tableEntry[hasChangeRoleLink ? 3 : 2] = { html: getLink(getRemoveMemberCheckDetailsFullUrl(member.id), `${translations.remove as string} ${getHiddenText(usernameOrEmail)}`, "remove") };
+            tableEntry[hasChangeRoleLink ? 3 : 2] = { html: getLink(getRemoveMemberCheckDetailsFullUrl(member.id) + `?userRole=${member.userRole}&page=${getCurrentPageNumber(pageNumbers, member.userRole)}`, `${translations.remove as string} ${getHiddenText(usernameOrEmail)}`, "remove") };
         }
         userTableDate.push(tableEntry);
     }
