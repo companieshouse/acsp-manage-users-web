@@ -43,9 +43,13 @@ describe(`GET ${url}`, () => {
         // Then
         expect(encodedResponse.status).toEqual(200);
         expect(decodedResponse).toContain(en.add_users_if_they_need_to_use_services_for);
-        expect(decodedResponse).toContain(en.authorised_agent_number);
         expect(decodedResponse).toContain(en.authorised_agent_services);
         expect(decodedResponse).toContain(en.authorised_agent_status);
+        expect(decodedResponse).toContain(en.authorised_agent_number);
+        expect(decodedResponse).toContain(en.your_role);
+        expect(decodedResponse).toContain(en.account_settings);
+        expect(decodedResponse).toContain(en.authorised_agents_are_also_known_as);
+        expect(decodedResponse).toContain(en.read_acsp_guidance);
         expect(decodedResponse).toContain(en.coming_soon);
         expect(decodedResponse).toContain(en.file_as_an_authorised_agent);
         expect(decodedResponse).toContain(en.in_future);
@@ -61,11 +65,9 @@ describe(`GET ${url}`, () => {
         expect(decodedResponse).toContain(en.view_users_who_have_been_added);
         expect(decodedResponse).toContain(en.warning);
         expect(decodedResponse).toContain(enCommon.you_can);
-        expect(decodedResponse).toContain(en.your_role);
         expect(decodedResponse).toContain(en.close_the_authorised_agent);
         expect(decodedResponse).toContain(en.tell_us_if);
         expect(decodedResponse).toContain(en.is_no_longer_an_authorised_agent);
-        expect(decodedResponse).toContain(en.authorised_agents_are_also_known_as);
     });
 
     it("should have a page title and 3 boxes, file as an auth agent, manage users, and verify when administrator logged in", async () => {
