@@ -32,8 +32,6 @@ export const SIGN_OUT_URL = `${CHS_URL}/signout`;
 
 // Translation and Template Keys
 export const COMMON = "common";
-export const SERVICE_UNAVAILABLE = "service-unavailable";
-export const SERVICE_UNAVAILABLE_TEMPLATE = "partials/service_unavailable";
 
 // User Types and Related UI Elements
 export const ACCOUNT_OWNERS_ID = "account-owners";
@@ -55,6 +53,7 @@ export const CONFIRMATION_YOU_ARE_REMOVED_PAGE = "confirmation-you-are-removed";
 export const DASHBOARD_PAGE = "dashboard";
 export const EDIT_MEMBER_ROLE_PAGE = "edit-member-role";
 export const MANAGE_USERS_PAGE = "manage-users";
+export const PAGE_NOT_FOUND_PAGE = "page-not-found";
 export const REMOVE_MEMBER_PAGE = "remove-member";
 export const SOMETHING_WENT_WRONG_PAGE = "something-went-wrong";
 export const STOP_PAGE_ADD_ACCOUNT_OWNER_PAGE = "stop-page-add-account-owner";
@@ -69,6 +68,7 @@ export const ADMIN_PAGE_QUERY_PARAM = "adminPage";
 export const CLEAR_FORM_TRUE = "?cf=true";
 export const OWNER_PAGE_QUERY_PARAM = "ownerPage";
 export const STANDARD_PAGE_QUERY_PARAM = "standardPage";
+export const CSRF_ERRORS = "csrfErrors";
 
 // Session Data Keys
 export const DETAILS_OF_USER_TO_ADD = "detailsOfUserToAdd";

@@ -26,9 +26,7 @@ export const httpErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
         );
         const statusCode: number = err.statusCode || 500;
 
-        res.status(statusCode).render(constants.SERVICE_UNAVAILABLE_TEMPLATE, {
-            lang: getTranslationsForView(req.lang, constants.SERVICE_UNAVAILABLE)
-        });
+        res.status(statusCode).redirect(constants.SOMETHING_WENT_WRONG_FULL_URL);
     } else {
         next(err);
     }
@@ -56,7 +54,7 @@ export const csrfErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
         logger.error(
             `CSRF Error occured, redirecting to ${constants.SOMETHING_WENT_WRONG_FULL_URL} ${err.message}, Stack: ${err.stack}`
         );
-        res.redirect(constants.SOMETHING_WENT_WRONG_FULL_URL);
+        res.status(403).redirect(`${constants.SOMETHING_WENT_WRONG_FULL_URL}?${constants.CSRF_ERRORS}`);
     } else {
         next(err);
     }
