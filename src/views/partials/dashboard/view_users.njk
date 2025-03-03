@@ -1,11 +1,11 @@
 {% set dataEventIdForViewUsers = "view-users-" + convertUserRole(userRole) %}
 
 <div class="govuk-grid-column-one-third govuk-topic-block">
-    <h2 class="govuk-heading-s">
+    <h3 class="govuk-heading-s">
         <a class="govuk-link govuk-link--no-underline govuk-link--no-visited-state" href="{{viewUsersLink}}" data-event-id="{{dataEventIdForViewUsers}}">
             {{lang.view_users}}
         </a>
-    </h2>
+    </h3>
     <p class="govuk-body">
         {{lang.you_can_view_all_users_who}}
     </p>
