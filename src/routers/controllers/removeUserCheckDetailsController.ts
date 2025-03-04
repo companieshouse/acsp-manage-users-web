@@ -8,6 +8,9 @@ import { validateIdParam } from "../../lib/validation/string.validation";
 import { ViewDataWithBackLink } from "../../types/utilTypes";
 import { fetchAndValidateMembership } from "../../lib/helpers/fetchAndValidateMembership";
 import logger from "../../lib/Logger";
+import { CachedAcspMembershipData } from "../../services/acspMemberService";
+import { Session } from "@companieshouse/node-session-handler";
+import { formatMember } from "../controllers/manageUsersController";
 
 interface RemoveUserCheckDetailsGetViewData extends ViewDataWithBackLink {
     removingThemselves: boolean,
@@ -16,6 +19,23 @@ interface RemoveUserCheckDetailsGetViewData extends ViewDataWithBackLink {
     tryRemovingUserUrl: string,
     displayNameInFirstParagraph: string,
 }
+
+export const findMemberInSessionById = (session:Session|undefined, id:string, lang = "en"): Membership | undefined => {
+
+    const json = getExtraData(session, "cachedAcspMembershipData");
+    if (json) {
+        const cachedAcspMembershipData: CachedAcspMembershipData = JSON.parse(json);
+        const member = Object.values(cachedAcspMembershipData)
+            .map(acspMembers => acspMembers.items)
+            .flat()
+            .find(acspMember => acspMember.id === id);
+        if (member) {
+            console.log("we found a cached member, returning ", member);
+
+            return formatMember(member, lang);
+        }
+    }
+};
 
 export const removeUserCheckDetailsControllerGet = async (req: Request, res: Response): Promise<void> => {
     const loggedUserAcspMembership: AcspMembership = getLoggedUserAcspMembership(req.session);
@@ -28,8 +48,8 @@ export const removeUserCheckDetailsControllerGet = async (req: Request, res: Res
         throw new Error("invalid id param");
     }
     const id = req.params.id;
-    const existingUsers: Membership[] = getExtraData(req.session, constants.MANAGE_USERS_MEMBERSHIP) || [];
-    let userToRemove: Membership | undefined = existingUsers.find((member: Membership) => member.id === id);
+
+    let userToRemove = findMemberInSessionById(req.session, id);
 
     if (!userToRemove) {
         logger.info("ACSP Member for removal not found in session, calling GET /acsps/memberships/id");

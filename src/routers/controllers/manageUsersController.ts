@@ -14,6 +14,7 @@ import { getChangeMemberRoleFullUrl, getRemoveMemberCheckDetailsFullUrl } from "
 import { buildPaginationElement, getCurrentPageNumber, setLangForPagination, stringToPositiveInteger } from "../../lib/helpers/buildPaginationHelper";
 import { validatePageNumber } from "../../lib/validation/page.number.validation";
 import { validateActiveTabId } from "../../lib/validation/string.validation";
+import { Membership } from "../../types/membership";
 
 export const manageUsersControllerGet = async (req: Request, res: Response): Promise<void> => {
     const viewData = await getViewData(req);
@@ -33,6 +34,16 @@ export const getTitle = (translations: AnyRecord, loggedInUserRole: UserRole, is
     const titleEnd = translations.title_end;
     return isError ? `${translations.title_error}${baseTitle}${titleEnd}` : `${baseTitle}${titleEnd}`;
 };
+
+export const formatMember = (member: AcspMembership, lang = "en"): Membership => ({
+    id: member.id,
+    userId: member.userId,
+    userEmail: member.userEmail,
+    acspNumber: member.acspNumber,
+    userRole: member.userRole,
+    userDisplayName: getDisplayNameOrNotProvided(lang, member),
+    displayNameOrEmail: getDisplayNameOrEmail(member)
+});
 
 export const getViewData = async (req: Request): Promise<AnyRecord> => {
     deleteExtraData(req.session, constants.USER_ROLE_CHANGE_DATA);
@@ -81,16 +92,6 @@ export const getViewData = async (req: Request): Promise<AnyRecord> => {
         viewData.search = search;
     }
 
-    const formatMember = (member: AcspMembership) => ({
-        id: member.id,
-        userId: member.userId,
-        userEmail: member.userEmail,
-        acspNumber: member.acspNumber,
-        userRole: member.userRole,
-        userDisplayName: getDisplayNameOrNotProvided(req.lang, member),
-        displayNameOrEmail: getDisplayNameOrEmail(member)
-    });
-
     if (isSearchValid && search) {
         try {
             const foundUser = await membershipLookup(req, acspNumber, search);
@@ -99,7 +100,7 @@ export const getViewData = async (req: Request): Promise<AnyRecord> => {
 
                 const foundMember = [
                     foundUser.items[0]
-                ].map(formatMember);
+                ].map((m) => formatMember(m, req.lang));
 
                 setExtraData(req.session, constants.MANAGE_USERS_MEMBERSHIP, foundMember);
 
@@ -138,13 +139,13 @@ export const getViewData = async (req: Request): Promise<AnyRecord> => {
         viewData.adminPadinationData = adminMemberRawViewData.pagination;
         viewData.standardUserPadinationData = standardMemberRawViewData.pagination;
 
-        const allMembersForThisAcsp = [
-            ...ownerMemberRawViewData.memberships,
-            ...adminMemberRawViewData.memberships,
-            ...standardMemberRawViewData.memberships
-        ].map(formatMember);
+        // const allMembersForThisAcsp = [
+        //     ...ownerMemberRawViewData.memberships,
+        //     ...adminMemberRawViewData.memberships,
+        //     ...standardMemberRawViewData.memberships
+        // ].map((m) => formatMember(m, req.lang));
 
-        setExtraData(req.session, constants.MANAGE_USERS_MEMBERSHIP, allMembersForThisAcsp);
+    //    setExtraData(req.session, constants.MANAGE_USERS_MEMBERSHIP, allMembersForThisAcsp);
     }
 
     const title = getTitle(translations, userRole, !!errorMessage);
