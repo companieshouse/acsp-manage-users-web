@@ -18,22 +18,6 @@ interface RemoveUserCheckDetailsGetViewData extends ViewDataWithBackLink {
     displayNameInFirstParagraph: string,
 }
 
-// export const findMemberInSessionById = (session:Session|undefined, id:string, lang = "en"): Membership | undefined => {
-
-//     const json = getExtraData(session, "cachedAcspMembershipData");
-//     if (json) {
-//         const cachedAcspMembershipData: CachedAcspMembershipData = JSON.parse(json);
-//         const member = Object.values(cachedAcspMembershipData)
-//             .map(acspMembers => acspMembers.data.items)
-//             .flat()
-//             .find(acspMember => acspMember.id === id);
-//         if (member) {
-//             console.log("we found a cached member, returning ", member);
-//             return formatMember(member, lang);
-//         }
-//     }
-// };
-
 export const removeUserCheckDetailsControllerGet = async (req: Request, res: Response): Promise<void> => {
     const loggedUserAcspMembership: AcspMembership = getLoggedUserAcspMembership(req.session);
     const { userRole, acspName, userId } = loggedUserAcspMembership;

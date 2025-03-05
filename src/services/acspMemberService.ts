@@ -59,7 +59,7 @@ export const getAcspMemberships = async (req: Request, acspNumber: string, inclu
     }
 
     if (sdkResponse.httpStatusCode !== StatusCodes.OK) {
-        const errorMessage = `GET /acsps/${acspNumber}/memberships: ${sdkResponse.httpStatusCode}`;
+        const errorMessage = `GET /acsps/${acspNumber}/memberships: ${sdkResponse.httpStatusCode} cache key ${cacheKey}`;
         logger.debug(errorMessage + stringifyApiErrors(sdkResponse));
         return Promise.reject(createError(sdkResponse.httpStatusCode, `${stringifyApiErrors(sdkResponse)} ${errorMessage}`));
     }
@@ -72,7 +72,6 @@ export const getAcspMemberships = async (req: Request, acspNumber: string, inclu
     logger.debug(`Received acsp members ${JSON.stringify(sdkResponse)}`);
 
     if (cacheKey) {
-        console.log("gett stored members");
 
         let cachedAcspMembershipData;
         const json = getExtraData(req.session, "cachedAcspMembershipData");
@@ -90,19 +89,16 @@ export const getAcspMemberships = async (req: Request, acspNumber: string, inclu
 
         console.log("saving cache", cachedAcspMembershipData);
 
-        try {
-            console.log("stringify now");
-            const str = JSON.stringify(cachedAcspMembershipData);
-            console.log("set extra data");
+        console.log("stringify now");
+        const str = JSON.stringify(cachedAcspMembershipData);
+        console.log("set extra data");
 
-            setExtraData(req.session, "cachedAcspMembershipData", str);
+        setExtraData(req.session, "cachedAcspMembershipData", str);
 
-        } catch (err) {
-            console.log("error with json stingify, ", err);
-        }
     }
 
     return Promise.resolve(sdkResponse.resource as AcspMembers);
+
 };
 
 export const getMembershipForLoggedInUser = async (req: Request): Promise<AcspMembers> => {

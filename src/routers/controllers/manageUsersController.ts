@@ -88,12 +88,6 @@ export const getViewData = async (req: Request): Promise<AnyRecord> => {
             if (foundUser.items.length > 0) {
                 setTabIds(viewData, foundUser.items[0].userRole);
 
-                // const foundMember = [
-                //     foundUser.items[0]
-                // ].map((m) => formatMember(m, req.lang));
-
-                // setExtraData(req.session, constants.MANAGE_USERS_MEMBERSHIP, foundMember);
-
                 const memberData = getUserTableData(foundUser.items, translations, userRole !== UserRole.STANDARD, userRole !== UserRole.STANDARD, req.lang);
                 switch (foundUser.items[0].userRole) {
                 case UserRole.OWNER:
@@ -129,13 +123,6 @@ export const getViewData = async (req: Request): Promise<AnyRecord> => {
         viewData.adminPadinationData = adminMemberRawViewData.pagination;
         viewData.standardUserPadinationData = standardMemberRawViewData.pagination;
 
-        // const allMembersForThisAcsp = [
-        //     ...ownerMemberRawViewData.memberships,
-        //     ...adminMemberRawViewData.memberships,
-        //     ...standardMemberRawViewData.memberships
-        // ].map((m) => formatMember(m, req.lang));
-
-    //    setExtraData(req.session, constants.MANAGE_USERS_MEMBERSHIP, allMembersForThisAcsp);
     }
 
     const title = getTitle(translations, userRole, !!errorMessage);
@@ -147,10 +134,6 @@ export const getViewData = async (req: Request): Promise<AnyRecord> => {
 const getActiveTabId = (req: Request): string => validateActiveTabId(req.query?.activeTabId as string) ? req.query.activeTabId as string : constants.ACCOUNT_OWNERS_TAB_ID;
 
 const getCancelSearchHref = (userRole: UserRole): string => userRole === UserRole.STANDARD ? constants.VIEW_USERS_FULL_URL : constants.MANAGE_USERS_FULL_URL;
-
-// export const getDisplayNameOrEmail = (member: AcspMembership): string => !member.userDisplayName || member.userDisplayName === constants.NOT_PROVIDED ? member.userEmail : member.userDisplayName;
-
-// export const getDisplayNameOrNotProvided = (locale: string, member: AcspMembership): string => member.userDisplayName === constants.NOT_PROVIDED && locale === "cy" ? constants.NOT_PROVIDED_CY : member.userDisplayName;
 
 const getUserTableData = (membership: AcspMembership[], translations: AnyRecord, hasChangeRoleLink: boolean, hasRemoveLink: boolean, locale: string): TableEntry[][] => {
     const userTableDate: TableEntry[][] = [];
