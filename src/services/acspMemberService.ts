@@ -8,6 +8,7 @@ import { Request } from "express";
 import { getExtraData, setExtraData } from "../lib/utils/sessionUtils";
 import { TTL_MINUTES } from "../lib/constants";
 import { CachedAcspMembershipData } from "../types/membership";
+import { Session } from "@companieshouse/node-session-handler";
 /*
     This service provides access to ACSP members
 */
@@ -15,36 +16,37 @@ const stringifyApiErrors = (resource: Resource<AcspMembers | AcspMembership | Er
     return JSON.stringify((resource?.resource as Errors)?.errors || "No error list returned");
 };
 
-export function generateCacheKey (page: number, role: UserRole): string {
-    return `acspMemberships:page:${page}:role:${role.toString()}`;
+export function saveAcspMembersToSession (cacheKey:string, session: Session | undefined, data: AcspMembers):void{
+
+    let cachedAcspMembershipData;
+    const json = getExtraData(session, "cachedAcspMembershipData");
+
+    if (json) {
+        cachedAcspMembershipData = JSON.parse(json) || {};
+    } else {
+        cachedAcspMembershipData = {};
+    }
+
+    cachedAcspMembershipData[cacheKey] = {
+        data,
+        expiresAt: Date.now() + TTL_MINUTES * 60 * 1000
+    };
+
+    const dataToSave = JSON.stringify(cachedAcspMembershipData);
+    setExtraData(session, "cachedAcspMembershipData", dataToSave);
+
 }
-
 export const getAcspMemberships = async (req: Request, acspNumber: string, includeRemoved?: boolean, pageIndex?: number, itemsPerPage?: number, role?: UserRole[]): Promise<AcspMembers> => {
-
-    console.log("requesting acsp memberships");
-    console.log(`acspNumber:${acspNumber} pageIndex: ${pageIndex} role: ${role} itemsPerPage: ${itemsPerPage}`);
-
-    // add include removed
-    // add acspNumber
 
     let cacheKey;
     if (typeof pageIndex === "number" && !isNaN(pageIndex) && role?.length) {
-        cacheKey = generateCacheKey(pageIndex, role[0]);
-        const json = getExtraData(req.session, "cachedAcspMembershipData");
-        if (json) {
-            const cachedAcspMembershipData: CachedAcspMembershipData = JSON.parse(json);
-            if (cacheKey in cachedAcspMembershipData) {
-                console.log("cache hit, checking if expired");
-                if (Date.now() < cachedAcspMembershipData[cacheKey].expiresAt) {
-                    const ms = cachedAcspMembershipData[cacheKey].expiresAt - Date.now();
-                    const minutes = Math.floor(ms / 1000 / 60);
-                    const seconds = Math.floor((ms / 1000) % 60);
-                    console.log(`Time left before cache expires ${minutes} min, ${seconds} secs`);
-                    return cachedAcspMembershipData[cacheKey].data;
-                } else {
-                    console.log("cache hit, but was expired");
-                    // do we delte cache here?
-                }
+        cacheKey = `acspNumber${acspNumber}:page:${pageIndex}:role:${role[0].toString()}`;
+        const cachedJsonData = getExtraData(req.session, "cachedAcspMembershipData");
+        if (cachedJsonData) {
+            const cachedAcspMembershipData: CachedAcspMembershipData = JSON.parse(cachedJsonData);
+            if (cacheKey in cachedAcspMembershipData && Date.now() < cachedAcspMembershipData[cacheKey].expiresAt) {
+                console.log("cache hit: ", cacheKey);
+                return cachedAcspMembershipData[cacheKey].data;
             }
         }
     }
@@ -70,33 +72,9 @@ export const getAcspMemberships = async (req: Request, acspNumber: string, inclu
     }
 
     logger.debug(`Received acsp members ${JSON.stringify(sdkResponse)}`);
-
     if (cacheKey) {
-
-        let cachedAcspMembershipData;
-        const json = getExtraData(req.session, "cachedAcspMembershipData");
-
-        if (json) {
-            cachedAcspMembershipData = JSON.parse(json) || {};
-        } else {
-            cachedAcspMembershipData = {};
-        }
-
-        cachedAcspMembershipData[cacheKey] = {
-            data: sdkResponse.resource,
-            expiresAt: Date.now() + TTL_MINUTES * 60 * 1000
-        };
-
-        console.log("saving cache", cachedAcspMembershipData);
-
-        console.log("stringify now");
-        const str = JSON.stringify(cachedAcspMembershipData);
-        console.log("set extra data");
-
-        setExtraData(req.session, "cachedAcspMembershipData", str);
-
+        saveAcspMembersToSession(cacheKey, req.session, sdkResponse.resource as AcspMembers);
     }
-
     return Promise.resolve(sdkResponse.resource as AcspMembers);
 
 };
@@ -197,31 +175,8 @@ export const membershipLookup = async (req: Request, acspNumber: string, email: 
     }
 
     logger.debug(`Fetched membership for email${email} ${JSON.stringify(sdkResponse)}`);
-    // save this member
 
-    let cachedAcspMembershipData;
-    const json = getExtraData(req.session, "cachedAcspMembershipData");
-
-    if (json) {
-        cachedAcspMembershipData = JSON.parse(json) || {};
-    } else {
-        cachedAcspMembershipData = {};
-    }
-
-    cachedAcspMembershipData[Date.now().toString()] = {
-        data: sdkResponse.resource,
-        expiresAt: Date.now() + TTL_MINUTES * 60 * 1000
-    };
-
-    console.log("saving cache lookup search", cachedAcspMembershipData);
-
-    try {
-        const str = JSON.stringify(cachedAcspMembershipData);
-        setExtraData(req.session, "cachedAcspMembershipData", str);
-
-    } catch (err) {
-        console.log("error with json stingify, ", err);
-    }
+    saveAcspMembersToSession(Date.now().toString(), req.session, sdkResponse.resource as AcspMembers);
 
     return Promise.resolve(sdkResponse.resource as AcspMembers);
 };

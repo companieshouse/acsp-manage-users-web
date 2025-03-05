@@ -16,7 +16,7 @@ import { AcspMembership } from "private-api-sdk-node/dist/services/acsp-manage-u
 import {
     getDisplayNameOrEmail,
     getDisplayNameOrNotProvided
-} from "../../../../src/routers/controllers/manageUsersController";
+} from "../../../../src/lib/helpers/formatMember";
 
 jest.mock("../../../../src/lib/Logger");
 
