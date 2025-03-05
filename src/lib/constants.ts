@@ -137,3 +137,6 @@ export const TRY_ADDING_USER_FULL_URL = getFullUrl(TRY_ADDING_USER_URL);
 export const TRY_EDIT_MEMBER_ROLE_FULL_URL = getFullUrl(TRY_EDIT_MEMBER_ROLE_URL);
 export const TRY_REMOVING_USER_FULL_URL = getFullUrl(TRY_REMOVING_USER_URL);
 export const VIEW_USERS_FULL_URL = getFullUrl(VIEW_USERS_URL);
+
+// cache api responses - time in minutes
+export const TTL_MINUTES = 5;

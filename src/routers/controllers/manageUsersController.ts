@@ -4,7 +4,7 @@ import { getTranslationsForView } from "../../lib/utils/translationUtils";
 import { AnyRecord, MemberRawViewData, PageNumbers, PageQueryParams } from "../../types/utilTypes";
 import { TableEntry } from "../../types/viewTypes";
 import { getHiddenText, getLink } from "../../lib/utils/viewUtils";
-import { setExtraData, getLoggedUserAcspMembership, deleteExtraData } from "../../lib/utils/sessionUtils";
+import { getLoggedUserAcspMembership, deleteExtraData } from "../../lib/utils/sessionUtils";
 import { AcspMembership, UserRole } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
 import { getAcspMemberships, membershipLookup } from "../../services/acspMemberService";
 import { sanitizeUrl } from "@braintree/sanitize-url";
@@ -14,7 +14,7 @@ import { getChangeMemberRoleFullUrl, getRemoveMemberCheckDetailsFullUrl } from "
 import { buildPaginationElement, getCurrentPageNumber, setLangForPagination, stringToPositiveInteger } from "../../lib/helpers/buildPaginationHelper";
 import { validatePageNumber } from "../../lib/validation/page.number.validation";
 import { validateActiveTabId } from "../../lib/validation/string.validation";
-import { Membership } from "../../types/membership";
+import { getDisplayNameOrNotProvided } from "../../lib/helpers/formatMember";
 
 export const manageUsersControllerGet = async (req: Request, res: Response): Promise<void> => {
     const viewData = await getViewData(req);
@@ -34,16 +34,6 @@ export const getTitle = (translations: AnyRecord, loggedInUserRole: UserRole, is
     const titleEnd = translations.title_end;
     return isError ? `${translations.title_error}${baseTitle}${titleEnd}` : `${baseTitle}${titleEnd}`;
 };
-
-export const formatMember = (member: AcspMembership, lang = "en"): Membership => ({
-    id: member.id,
-    userId: member.userId,
-    userEmail: member.userEmail,
-    acspNumber: member.acspNumber,
-    userRole: member.userRole,
-    userDisplayName: getDisplayNameOrNotProvided(lang, member),
-    displayNameOrEmail: getDisplayNameOrEmail(member)
-});
 
 export const getViewData = async (req: Request): Promise<AnyRecord> => {
     deleteExtraData(req.session, constants.USER_ROLE_CHANGE_DATA);
@@ -98,11 +88,11 @@ export const getViewData = async (req: Request): Promise<AnyRecord> => {
             if (foundUser.items.length > 0) {
                 setTabIds(viewData, foundUser.items[0].userRole);
 
-                const foundMember = [
-                    foundUser.items[0]
-                ].map((m) => formatMember(m, req.lang));
+                // const foundMember = [
+                //     foundUser.items[0]
+                // ].map((m) => formatMember(m, req.lang));
 
-                setExtraData(req.session, constants.MANAGE_USERS_MEMBERSHIP, foundMember);
+                // setExtraData(req.session, constants.MANAGE_USERS_MEMBERSHIP, foundMember);
 
                 const memberData = getUserTableData(foundUser.items, translations, userRole !== UserRole.STANDARD, userRole !== UserRole.STANDARD, req.lang);
                 switch (foundUser.items[0].userRole) {
@@ -158,9 +148,9 @@ const getActiveTabId = (req: Request): string => validateActiveTabId(req.query?.
 
 const getCancelSearchHref = (userRole: UserRole): string => userRole === UserRole.STANDARD ? constants.VIEW_USERS_FULL_URL : constants.MANAGE_USERS_FULL_URL;
 
-export const getDisplayNameOrEmail = (member: AcspMembership): string => !member.userDisplayName || member.userDisplayName === constants.NOT_PROVIDED ? member.userEmail : member.userDisplayName;
+// export const getDisplayNameOrEmail = (member: AcspMembership): string => !member.userDisplayName || member.userDisplayName === constants.NOT_PROVIDED ? member.userEmail : member.userDisplayName;
 
-export const getDisplayNameOrNotProvided = (locale: string, member: AcspMembership): string => member.userDisplayName === constants.NOT_PROVIDED && locale === "cy" ? constants.NOT_PROVIDED_CY : member.userDisplayName;
+// export const getDisplayNameOrNotProvided = (locale: string, member: AcspMembership): string => member.userDisplayName === constants.NOT_PROVIDED && locale === "cy" ? constants.NOT_PROVIDED_CY : member.userDisplayName;
 
 const getUserTableData = (membership: AcspMembership[], translations: AnyRecord, hasChangeRoleLink: boolean, hasRemoveLink: boolean, locale: string): TableEntry[][] => {
     const userTableDate: TableEntry[][] = [];

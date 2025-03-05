@@ -1,5 +1,5 @@
 import { getAcspMembershipForMemberId } from "../../services/acspMemberService";
-import { getDisplayNameOrEmail, getDisplayNameOrNotProvided } from "../../routers/controllers/manageUsersController";
+import { getDisplayNameOrEmail, getDisplayNameOrNotProvided } from "./formatMember";
 import { Membership } from "../../types/membership";
 import { Request } from "express";
 import { getLoggedInAcspNumber } from "../utils/sessionUtils";
