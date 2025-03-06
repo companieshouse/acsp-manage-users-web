@@ -77,6 +77,7 @@ export const IS_SELECT_USER_ROLE_ERROR = "isSelectUserRoleError";
 export const LOGGED_USER_ACSP_MEMBERSHIP = "loggedUserAcspMembership";
 export const MANAGE_USERS_MEMBERSHIP = "manageUsersMembership";
 export const USER_ROLE_CHANGE_DATA = "userRoleChangeData";
+export const CACHED_ACSP_MEMBERSHIP_DATA = "cachedAcspMembershipData";
 
 // Miscellaneous Constants
 export const ITEMS_PER_PAGE_DEFAULT = 15;

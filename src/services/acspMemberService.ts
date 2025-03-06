@@ -6,9 +6,9 @@ import createError from "http-errors";
 import { AcspMembers, AcspMembership, Errors, UserRole, UpdateOrRemove } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
 import { Request } from "express";
 import { getExtraData, setExtraData } from "../lib/utils/sessionUtils";
-import { TTL_MINUTES } from "../lib/constants";
-// import { CachedAcspMembershipData } from "../types/membership";
+import { TTL_MINUTES, CACHED_ACSP_MEMBERSHIP_DATA } from "../lib/constants";
 import { Session } from "@companieshouse/node-session-handler";
+
 /*
     This service provides access to ACSP members
 */
@@ -18,7 +18,7 @@ const stringifyApiErrors = (resource: Resource<AcspMembers | AcspMembership | Er
 
 export function saveAcspMembersToSession (cacheKey: string, session: Session | undefined, data: AcspMembers): void {
 
-    const cachedJsonData = getExtraData(session, "cachedAcspMembershipData");
+    const cachedJsonData = getExtraData(session, CACHED_ACSP_MEMBERSHIP_DATA);
     const cachedAcspMembershipData = cachedJsonData ? JSON.parse(cachedJsonData) || {} : {};
 
     cachedAcspMembershipData[cacheKey] = {
@@ -27,12 +27,12 @@ export function saveAcspMembersToSession (cacheKey: string, session: Session | u
     };
 
     const dataToSave = JSON.stringify(cachedAcspMembershipData);
-    setExtraData(session, "cachedAcspMembershipData", dataToSave);
+    setExtraData(session, CACHED_ACSP_MEMBERSHIP_DATA, dataToSave);
 
 }
 
-function getCachedData (req: Request, cacheKey: string): AcspMembers | undefined {
-    const cachedJsonData = getExtraData(req.session, "cachedAcspMembershipData");
+function getAcspMembersFromSession (req: Request, cacheKey: string): AcspMembers | undefined {
+    const cachedJsonData = getExtraData(req.session, CACHED_ACSP_MEMBERSHIP_DATA);
 
     if (!cachedJsonData) {
         return undefined;
@@ -56,10 +56,10 @@ function getCachedData (req: Request, cacheKey: string): AcspMembers | undefined
 
 export const getAcspMemberships = async (req: Request, acspNumber: string, includeRemoved?: boolean, pageIndex?: number, itemsPerPage?: number, role?: UserRole[]): Promise<AcspMembers> => {
 
-    let cacheKey;
+    let cacheKey: string | undefined;
     if (typeof pageIndex === "number" && !isNaN(pageIndex) && role?.length && includeRemoved !== undefined) {
         cacheKey = `acspNumber${acspNumber}:page:${pageIndex}:role:${role[0].toString()}:removed:${includeRemoved}`;
-        const acspMembers: AcspMembers | undefined = getCachedData(req, cacheKey);
+        const acspMembers: AcspMembers | undefined = getAcspMembersFromSession(req, cacheKey);
         if (acspMembers) {
             return acspMembers;
         }

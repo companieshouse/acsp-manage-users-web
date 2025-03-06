@@ -3,10 +3,11 @@ import { CachedAcspMembershipData, Membership } from "../../types/membership";
 import { getExtraData } from "../../lib/utils/sessionUtils";
 import { formatMember } from "./formatMember";
 import logger from "../../lib/Logger";
+import { CACHED_ACSP_MEMBERSHIP_DATA } from "../../lib/constants";
 
 export const findMemberInSessionById = (session: Session | undefined, id: string, lang = "en"): Membership | undefined => {
 
-    const cachedJsonData = getExtraData(session, "cachedAcspMembershipData");
+    const cachedJsonData = getExtraData(session, CACHED_ACSP_MEMBERSHIP_DATA);
     if (!cachedJsonData) return undefined;
 
     let cachedAcspMembershipData: CachedAcspMembershipData;
