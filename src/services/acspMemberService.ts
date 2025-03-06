@@ -7,7 +7,7 @@ import { AcspMembers, AcspMembership, Errors, UserRole, UpdateOrRemove } from "p
 import { Request } from "express";
 import { getExtraData, setExtraData } from "../lib/utils/sessionUtils";
 import { TTL_MINUTES } from "../lib/constants";
-import { CachedAcspMembershipData } from "../types/membership";
+// import { CachedAcspMembershipData } from "../types/membership";
 import { Session } from "@companieshouse/node-session-handler";
 /*
     This service provides access to ACSP members
@@ -16,16 +16,10 @@ const stringifyApiErrors = (resource: Resource<AcspMembers | AcspMembership | Er
     return JSON.stringify((resource?.resource as Errors)?.errors || "No error list returned");
 };
 
-export function saveAcspMembersToSession (cacheKey:string, session: Session | undefined, data: AcspMembers):void{
+export function saveAcspMembersToSession (cacheKey: string, session: Session | undefined, data: AcspMembers): void {
 
-    let cachedAcspMembershipData;
-    const json = getExtraData(session, "cachedAcspMembershipData");
-
-    if (json) {
-        cachedAcspMembershipData = JSON.parse(json) || {};
-    } else {
-        cachedAcspMembershipData = {};
-    }
+    const cachedJsonData = getExtraData(session, "cachedAcspMembershipData");
+    const cachedAcspMembershipData = cachedJsonData ? JSON.parse(cachedJsonData) || {} : {};
 
     cachedAcspMembershipData[cacheKey] = {
         data,
@@ -36,18 +30,38 @@ export function saveAcspMembersToSession (cacheKey:string, session: Session | un
     setExtraData(session, "cachedAcspMembershipData", dataToSave);
 
 }
+
+function getCachedData (req: Request, cacheKey: string): AcspMembers | undefined {
+    const cachedJsonData = getExtraData(req.session, "cachedAcspMembershipData");
+
+    if (!cachedJsonData) {
+        return undefined;
+    }
+
+    let cachedAcspMembershipData;
+    try {
+        cachedAcspMembershipData = JSON.parse(cachedJsonData);
+    } catch (error) {
+        logger.error("Error parsing JSON: " + JSON.stringify(error));
+        return undefined;
+    }
+
+    if (cacheKey in cachedAcspMembershipData && Date.now() < cachedAcspMembershipData[cacheKey].expiresAt) {
+        console.log("cache hit: ", cacheKey);
+        return cachedAcspMembershipData[cacheKey].data;
+    }
+
+    return undefined;
+}
+
 export const getAcspMemberships = async (req: Request, acspNumber: string, includeRemoved?: boolean, pageIndex?: number, itemsPerPage?: number, role?: UserRole[]): Promise<AcspMembers> => {
 
     let cacheKey;
-    if (typeof pageIndex === "number" && !isNaN(pageIndex) && role?.length) {
-        cacheKey = `acspNumber${acspNumber}:page:${pageIndex}:role:${role[0].toString()}`;
-        const cachedJsonData = getExtraData(req.session, "cachedAcspMembershipData");
-        if (cachedJsonData) {
-            const cachedAcspMembershipData: CachedAcspMembershipData = JSON.parse(cachedJsonData);
-            if (cacheKey in cachedAcspMembershipData && Date.now() < cachedAcspMembershipData[cacheKey].expiresAt) {
-                console.log("cache hit: ", cacheKey);
-                return cachedAcspMembershipData[cacheKey].data;
-            }
+    if (typeof pageIndex === "number" && !isNaN(pageIndex) && role?.length && includeRemoved !== undefined) {
+        cacheKey = `acspNumber${acspNumber}:page:${pageIndex}:role:${role[0].toString()}:removed:${includeRemoved}`;
+        const acspMembers: AcspMembers | undefined = getCachedData(req, cacheKey);
+        if (acspMembers) {
+            return acspMembers;
         }
     }
 
