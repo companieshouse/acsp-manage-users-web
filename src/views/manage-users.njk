@@ -285,8 +285,10 @@
         }
 
         function addGoalEventListeners() {
-            trackGoal("add-a-user-button", {{MATOMO_ADD_USER_GOAL_ID}});
-            trackRemoveButtons({{MATOMO_REMOVE_USER_GOAL_ID}});
+                {% if loggedInUserRole !== UserRole.STANDARD %}
+                trackGoal("add-a-user-button", {{ MATOMO_ADD_USER_GOAL_ID }});
+                trackRemoveButtons({{ MATOMO_REMOVE_USER_GOAL_ID }});
+                {% endif %}
         }
 
         if (document.readyState === "loading") {
@@ -296,6 +298,7 @@
         } else {
             addGoalEventListeners()
         }
+      
     </script>
 
 {% endblock %}
