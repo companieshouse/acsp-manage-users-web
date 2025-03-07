@@ -125,9 +125,9 @@ export const getViewData = async (req: Request): Promise<AnyRecord> => {
         viewData.search = search;
     } else {
         const [ownerMemberRawViewData, adminMemberRawViewData, standardMemberRawViewData] = await Promise.all([
-            getMemberRawViewData(req, acspNumber, pageNumbers, UserRole.OWNER, constants.ACCOUNT_OWNERS_TAB_ID, translations),
-            getMemberRawViewData(req, acspNumber, pageNumbers, UserRole.ADMIN, constants.ADMINISTRATORS_TAB_ID, translations),
-            getMemberRawViewData(req, acspNumber, pageNumbers, UserRole.STANDARD, constants.STANDARD_USERS_TAB_ID, translations)
+            getMemberRawViewData(req, acspNumber, pageNumbers, UserRole.OWNER, constants.ACCOUNT_OWNERS_TAB_ID, translations, userRole),
+            getMemberRawViewData(req, acspNumber, pageNumbers, UserRole.ADMIN, constants.ADMINISTRATORS_TAB_ID, translations, userRole),
+            getMemberRawViewData(req, acspNumber, pageNumbers, UserRole.STANDARD, constants.STANDARD_USERS_TAB_ID, translations, userRole)
         ]);
 
         viewData.accountOwnersTableData = getUserTableData(ownerMemberRawViewData.memberships, translations, userRole === UserRole.OWNER, userRole === UserRole.OWNER, req.lang);
@@ -207,7 +207,7 @@ const setTabIds = (viewData: AnyRecord, userRole: UserRole) => {
     }
 };
 
-const getMemberRawViewData = async (req: Request, acspNumber: string, pageNumbers: PageNumbers, userRole: UserRole, activeTabId: string, lang: AnyRecord): Promise<MemberRawViewData> => {
+const getMemberRawViewData = async (req: Request, acspNumber: string, pageNumbers: PageNumbers, userRole: UserRole, activeTabId: string, lang: AnyRecord, loggedInUserRole: UserRole): Promise<MemberRawViewData> => {
     let pageNumber = getCurrentPageNumber(pageNumbers, userRole);
     let memberships = await getAcspMemberships(req, acspNumber, false, pageNumber - 1, constants.ITEMS_PER_PAGE_DEFAULT, [userRole]);
     if (!validatePageNumber(pageNumber, memberships.totalPages)) {
@@ -219,7 +219,7 @@ const getMemberRawViewData = async (req: Request, acspNumber: string, pageNumber
     const memberViewData: MemberRawViewData = { memberships: memberships.items, pageNumber };
 
     if (memberships.totalPages > 1) {
-        const pagination = buildPaginationElement(pageNumbers, userRole, memberships.totalPages, constants.MANAGE_USERS_FULL_URL, activeTabId, lang);
+        const pagination = buildPaginationElement(pageNumbers, userRole, memberships.totalPages, getCancelSearchHref(loggedInUserRole), activeTabId, lang);
         setLangForPagination(pagination, lang);
         memberViewData.pagination = pagination;
     }
