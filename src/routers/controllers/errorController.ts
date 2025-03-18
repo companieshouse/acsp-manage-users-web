@@ -1,7 +1,6 @@
 import logger from "../../lib/Logger";
 import type { ErrorRequestHandler } from "express";
 import { HttpError } from "http-errors";
-import { getTranslationsForView } from "../../lib/utils/translationUtils";
 import * as constants from "../../lib/constants";
 import { CsrfError, InvalidAcspNumberError } from "@companieshouse/web-security-node";
 
