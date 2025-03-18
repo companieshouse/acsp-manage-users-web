@@ -39,29 +39,30 @@ export const getAcspMemberships = async (req: Request, acspNumber: string, inclu
 };
 
 export const getMembershipForLoggedInUser = async (req: Request): Promise<AcspMembers> => {
-    const apiClient = createOauthPrivateApiClient(req);
-    const sdkResponse: Resource<AcspMembers | Errors> = await apiClient.acspManageUsersService.getUserAcspMembership();
+    return Promise.reject(createError(503));
+    // const apiClient = createOauthPrivateApiClient(req);
+    // const sdkResponse: Resource<AcspMembers | Errors> = await apiClient.acspManageUsersService.getUserAcspMembership();
 
-    if (!sdkResponse) {
-        const errMsg = `GET /user/acsps/memberships for logged in user - no response received`;
-        logger.error(errMsg);
-        return Promise.reject(new Error(errMsg));
-    }
+    // if (!sdkResponse) {
+    //     const errMsg = `GET /user/acsps/memberships for logged in user - no response received`;
+    //     logger.error(errMsg);
+    //     return Promise.reject(new Error(errMsg));
+    // }
 
-    if (sdkResponse.httpStatusCode !== StatusCodes.OK) {
-        const errorMessage = `GET /user/acsps/memberships for logged in user - ${sdkResponse.httpStatusCode}`;
-        logger.debug(errorMessage + stringifyApiErrors(sdkResponse));
-        return Promise.reject(createError(sdkResponse.httpStatusCode, `${stringifyApiErrors(sdkResponse)} ${errorMessage}`));
-    }
+    // if (sdkResponse.httpStatusCode !== StatusCodes.OK) {
+    //     const errorMessage = `GET /user/acsps/memberships for logged in user - ${sdkResponse.httpStatusCode}`;
+    //     logger.debug(errorMessage + stringifyApiErrors(sdkResponse));
+    //     return Promise.reject(createError(sdkResponse.httpStatusCode, `${stringifyApiErrors(sdkResponse)} ${errorMessage}`));
+    // }
 
-    if (!sdkResponse.resource) {
-        const errorMsg = `GET /user/acsps/memberships: returned a response but no resource`;
-        return Promise.reject(new Error(errorMsg));
-    }
+    // if (!sdkResponse.resource) {
+    //     const errorMsg = `GET /user/acsps/memberships: returned a response but no resource`;
+    //     return Promise.reject(new Error(errorMsg));
+    // }
 
-    logger.debug(`Received acsp membership for logged in user ${JSON.stringify(sdkResponse)}`);
+    // logger.debug(`Received acsp membership for logged in user ${JSON.stringify(sdkResponse)}`);
 
-    return Promise.resolve(sdkResponse.resource as AcspMembers);
+    // return Promise.resolve(sdkResponse.resource as AcspMembers);
 };
 
 export const createAcspMembership = async (req: Request, acspNumber: string, userId: string, userRole: UserRole): Promise<AcspMembership> => {
