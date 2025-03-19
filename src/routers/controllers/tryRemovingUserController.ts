@@ -14,12 +14,19 @@ export const tryRemovingUserControllerPost = async (req: Request, res: Response)
     const removingThemselves = memberForRemoval.userId === userId;
 
     if (removingThemselves) {
+        logger.info(`${tryRemovingUserControllerPost.name} User is removing themselves, checking if they are the only owner ... `);
+
         const ownerMembers = await getAcspMemberships(req, acspNumber, false, 0, 20, [UserRole.OWNER]);
 
         if (ownerMembers?.items?.length === 1 && ownerMembers.items[0].userId === userId) {
+            logger.info(`${tryRemovingUserControllerPost.name} User is removing themselves but is the only owner, redirecting to stop page (add acc owner) ... `);
             return res.redirect(constants.STOP_PAGE_ADD_ACCOUNT_OWNER_FULL_URL);
         }
+        logger.info(`${tryRemovingUserControllerPost.name} User is removing themselves and is not the only owner ... `);
+
     }
+    logger.info(`${tryRemovingUserControllerPost.name}: Removing member ${memberForRemoval.id}`);
+
     await updateOrRemoveUserAcspMembership(req, memberForRemoval.id, { removeUser: true });
 
     if (removingThemselves) {
@@ -27,6 +34,7 @@ export const tryRemovingUserControllerPost = async (req: Request, res: Response)
         res.set("Referrer-Policy", "origin");
         return res.redirect(constants.SIGN_OUT_URL);
     } else {
+        logger.info(`${tryRemovingUserControllerPost.name}: Successfully removing member ${memberForRemoval.id}, redirecting to confirmation member removed`);
         res.redirect(constants.CONFIRMATION_MEMBER_REMOVED_FULL_URL);
     }
 };

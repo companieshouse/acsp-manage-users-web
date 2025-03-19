@@ -29,14 +29,15 @@ export const tryAddingUserControllerPost = async (req: Request, res: Response): 
 
     const userDetailsFromApi = await getUserDetails(newUserDetails.email);
     if (!userDetailsFromApi?.length) {
-        logger.error(`${tryAddingUserControllerPost.name}: User not found. Email: ${newUserDetails.email}`);
+        logger.info(`${tryAddingUserControllerPost.name} GET /user/search - email not found, redirecting to cannot add user stop screen`);
         return res.redirect(constants.CANNOT_ADD_USER_FULL_URL);
     }
-
+    logger.info(`${tryAddingUserControllerPost.name} GET /user/search - email was successfully found`);
     const firstUser = userDetailsFromApi[0];
     try {
+        logger.info(`${tryAddingUserControllerPost.name}: Calling createAcspMembership /acsps/${acspNumber}/memberships`);
         await createAcspMembership(req, acspNumber, firstUser.userId as string, newUserDetails.userRole as UserRole);
-        logger.info(`${tryAddingUserControllerPost.name}: Successfully added user ${firstUser.userId} to ACSP ${acspNumber}`);
+        logger.info(`${tryAddingUserControllerPost.name}: Successfully added user ${firstUser.userId} to ACSP ${acspNumber}, redirecting to confirmation page`);
         res.redirect(constants.CONFIRMATION_MEMBER_ADDED_FULL_URL);
     } catch (err: unknown) {
         logger.error(`${tryAddingUserControllerPost.name}: Error adding user to ACSP: ${err}`);

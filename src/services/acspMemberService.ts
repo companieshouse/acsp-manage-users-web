@@ -33,7 +33,7 @@ export const getAcspMemberships = async (req: Request, acspNumber: string, inclu
         return Promise.reject(new Error(errorMsg));
     }
 
-    logger.debug(`Received acsp members ${JSON.stringify(sdkResponse)}`);
+    logger.debug(`GET /acsps/${acspNumber}/memberships: Successfully retrieved acsp members, status code ${sdkResponse.httpStatusCode}`);
 
     return Promise.resolve(sdkResponse.resource as AcspMembers);
 };
@@ -59,7 +59,7 @@ export const getMembershipForLoggedInUser = async (req: Request): Promise<AcspMe
         return Promise.reject(new Error(errorMsg));
     }
 
-    logger.debug(`Received acsp membership for logged in user ${JSON.stringify(sdkResponse)}`);
+    logger.debug(`GET /user/acsps/memberships for logged in user: Successfully received acsp membership for logged in user`);
 
     return Promise.resolve(sdkResponse.resource as AcspMembers);
 };
@@ -85,7 +85,7 @@ export const createAcspMembership = async (req: Request, acspNumber: string, use
         return Promise.reject(new Error(errorMsg));
     }
 
-    logger.debug(`Created acsp membership ${JSON.stringify(sdkResponse)}`);
+    logger.debug(`POST /acsps/${acspNumber}/memberships: Successfully created acsp membership `);
 
     return Promise.resolve(sdkResponse.resource as AcspMembership);
 };
@@ -106,7 +106,7 @@ export const updateOrRemoveUserAcspMembership = async (req: Request, acspMembers
         logger.debug(errorMessage + stringifyApiErrors(sdkResponse));
         return Promise.reject(createError(sdkResponse.httpStatusCode, `${stringifyApiErrors(sdkResponse)} ${errorMessage}`));
     } else {
-        logger.debug(`Successfull patch - updated ACSP member ${acspMembershipId}`);
+        logger.debug(`PATCH /acsps/memberships/${acspMembershipId}: Successfull patch - updated ACSP member`);
         return Promise.resolve();
     }
 };
@@ -133,7 +133,7 @@ export const membershipLookup = async (req: Request, acspNumber: string, email: 
         return Promise.reject(new Error(errorMsg));
     }
 
-    logger.debug(`Fetched membership for email${email} ${JSON.stringify(sdkResponse)}`);
+    logger.debug(`POST /acsps/${acspNumber}/memberships/lookup: Successfully fetched membership based on user email`);
 
     return Promise.resolve(sdkResponse.resource as AcspMembers);
 };
@@ -160,7 +160,7 @@ export const getAcspMembershipForMemberId = async (req: Request, acspMembershipI
         return Promise.reject(new Error(errorMsg));
     }
 
-    logger.debug(`Fetched membership for id ${acspMembershipId} ${JSON.stringify(sdkResponse)}`);
+    logger.debug(`GET /acsps/memberships/${acspMembershipId}: Successfully fetched membership for id ${acspMembershipId}`);
 
     return Promise.resolve(sdkResponse.resource as AcspMembership);
 };

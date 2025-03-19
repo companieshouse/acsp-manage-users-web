@@ -21,8 +21,10 @@ export const editMemberRoleControllerGet = async (req: Request, res: Response): 
     if (viewData.isTheOnlyOwner) {
         const userRoleChangeData = getUserRoleChangeData(req, viewData);
         setExtraData(req.session, constants.USER_ROLE_CHANGE_DATA, userRoleChangeData);
+        logger.info(`${editMemberRoleControllerGet.name}: cannot edit the only owner, redirecing to stop page`);
         return res.redirect(constants.STOP_PAGE_ADD_ACCOUNT_OWNER_FULL_URL);
     } else {
+        logger.info(`${editMemberRoleControllerGet.name}: Rendering ${constants.EDIT_MEMBER_ROLE_PAGE}`);
         return res.render(constants.EDIT_MEMBER_ROLE_PAGE, viewData);
     }
 };
@@ -34,11 +36,13 @@ export const editMemberRoleControllerPost = async (req: Request, res: Response):
         viewData.userRole = viewData.oldUserRole;
         addErrorToViewData(FormInputNames.USER_ROLE, constants.ERRORS_SELECT_USER_ROLE_TO_CHANGE_FOR_THE_USER, viewData);
         setExtraData(req.session, constants.IS_SELECT_USER_ROLE_ERROR, true);
+        logger.info(`${editMemberRoleControllerPost.name}: invalid role change, re-rendering ${constants.EDIT_MEMBER_ROLE_PAGE}`);
         return res.render(constants.EDIT_MEMBER_ROLE_PAGE, viewData);
     } else {
         const userRoleChangeData = getUserRoleChangeData(req, viewData);
         setExtraData(req.session, constants.USER_ROLE_CHANGE_DATA, userRoleChangeData);
         deleteExtraData(req.session, constants.IS_SELECT_USER_ROLE_ERROR);
+        logger.info(`${editMemberRoleControllerPost.name}: redirecting to ${constants.CHECK_EDIT_MEMBER_ROLE_DETAILS_FULL_URL}`);
         return res.redirect(constants.CHECK_EDIT_MEMBER_ROLE_DETAILS_FULL_URL);
     }
 };
@@ -55,10 +59,10 @@ interface EditMemberRoleViewData extends ViewDataWithBackLink {
 
 const getViewData = async (req: Request): Promise<EditMemberRoleViewData> => {
     const translations = getTranslationsForView(req.lang, constants.EDIT_MEMBER_ROLE_PAGE);
-    const { acspName, userRole, userEmail } = getLoggedUserAcspMembership(req.session);
+    const { acspName, userRole } = getLoggedUserAcspMembership(req.session);
 
     if (userRole === UserRole.STANDARD) {
-        const errorMessage = `User ${userEmail} with user role ${userRole} is not allowed to change another user role.`;
+        const errorMessage = `${getViewData.name} The logged in user is a standard user, not permitted to change another user role.`;
         logger.error(errorMessage);
         throw new Error(errorMessage);
     }

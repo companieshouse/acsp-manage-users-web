@@ -17,7 +17,7 @@ const stringifyApiErrors = (resource: Resource<User[] | Errors>) => {
 export const getUserDetails = async (email: string): Promise<User[]> => {
     const apiClient = createPrivateApiKeyClient();
 
-    logger.info(`GET /user/search email: ${email}`);
+    logger.info(`Request to GET /user/search based on email`);
     const sdkResponse: Resource<User[] | Errors> = await apiClient.userAccountService.findUser([email]);
 
     if (!sdkResponse) {
@@ -42,7 +42,7 @@ export const getUserDetails = async (email: string): Promise<User[]> => {
         return Promise.reject(new Error(errorMsg));
     }
 
-    logger.debug(`Received user details ${JSON.stringify(sdkResponse)}`);
+    logger.debug(`GET /user/search: Successfully received user details`);
 
     return Promise.resolve(sdkResponse.resource as User[]);
 };

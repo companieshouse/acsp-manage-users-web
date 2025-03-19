@@ -17,6 +17,7 @@ import { validateActiveTabId } from "../../lib/validation/string.validation";
 
 export const manageUsersControllerGet = async (req: Request, res: Response): Promise<void> => {
     const viewData = await getViewData(req);
+    logger.info(`${manageUsersControllerGet.name}: Rendering manage users page`);
     res.render(constants.MANAGE_USERS_PAGE, { ...viewData });
 };
 
@@ -119,7 +120,7 @@ export const getViewData = async (req: Request): Promise<AnyRecord> => {
                 viewData.manageUsersTabId = constants.ACCOUNT_OWNERS_TAB_ID;
             }
         } catch (error) {
-            logger.error(`ACSP membership for email ${search} not found.`);
+            logger.error(`manageUsersController: /acsps/${acspNumber}/memberships/lookup Membership for email entered not found.`);
             viewData.manageUsersTabId = constants.ACCOUNT_OWNERS_TAB_ID;
         }
         viewData.search = search;
