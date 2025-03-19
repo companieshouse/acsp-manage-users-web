@@ -61,6 +61,7 @@ export const removeUserCheckDetailsControllerGet = async (req: Request, res: Res
         removingThemselves,
         displayNameInFirstParagraph
     };
+    logger.info(`${removeUserCheckDetailsControllerGet.name}: Rendering remove member page, id: ${id}`);
 
     res.render(constants.REMOVE_MEMBER_PAGE, viewData);
 };

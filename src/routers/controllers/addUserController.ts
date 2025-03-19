@@ -50,7 +50,7 @@ export const addUserControllerGet = async (req: Request, res: Response): Promise
             userRole: savedNewUserDetails.userRole
         } as AddUserGetViewDataSavedNewUserDetails;
     }
-
+    logger.info(`${addUserControllerGet.name}: Rendering add user page`);
     res.render(constants.ADD_USER_PAGE, viewData);
 };
 
@@ -81,13 +81,15 @@ export const addUserControllerPost = async (req: Request, res: Response): Promis
 
     if (viewData.errors) {
         setExtraData(req.session, constants.DETAILS_OF_USER_TO_ADD, { email, userRole, isValid: false } as unknown as NewUserDetails);
+
+        logger.info(`${addUserControllerPost.name} Invalid add user details: Re-rendering add user page`);
         return res.render(constants.ADD_USER_PAGE, viewData);
     } else {
         const newUserDetails: NewUserDetails = {
             email,
             userRole
         };
-        logger.info("saving user details: " + JSON.stringify(newUserDetails));
+        logger.info(`${addUserControllerPost.name}: Saving new user email and role to session`);
         setExtraData(req.session, constants.DETAILS_OF_USER_TO_ADD, newUserDetails);
         return res.redirect(constants.CHECK_MEMBER_DETAILS_FULL_URL);
     }

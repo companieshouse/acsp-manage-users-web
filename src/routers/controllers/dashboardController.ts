@@ -6,6 +6,7 @@ import { getUserRoleTag } from "../../lib/utils/viewUtils";
 import { getLoggedUserAcspMembership } from "../../lib/utils/sessionUtils";
 import { BaseViewData } from "../../types/utilTypes";
 import { isFeatureEnabled } from "../../lib/utils/environmentValue";
+import logger from "../../lib/Logger";
 
 interface DashboardGetViewData extends BaseViewData {
     agentNumber: string,
@@ -45,6 +46,6 @@ export const dashboardControllerGet = async (req: Request, res: Response): Promi
         showUpdateAuthorisedAgentDetails: isFeatureEnabled(constants.FEATURE_FLAG_SHOW_UPDATE_AUTHORISED_AGENT_DETAILS),
         showCloseAuthorisedAgent: isFeatureEnabled(constants.FEATURE_FLAG_SHOW_CLOSE_AUTHORISED_AGENT)
     };
-
+    logger.info(`${dashboardControllerGet.name}: rendering dashboard page`);
     res.render(constants.DASHBOARD_PAGE, viewData);
 };

@@ -29,6 +29,6 @@ export const cannotAddUserControllerGet = async (req: Request, res: Response): P
         manageUsersLinkText: `${translations.manage_users_link_text} ${acspName}.`
     };
 
-    logger.debug(`${cannotAddUserControllerGet.name}: Rendering cannot add user screen`);
+    logger.info(`${cannotAddUserControllerGet.name}: Rendering cannot add user screen`);
     res.render(constants.CANNOT_ADD_USER, viewData);
 };

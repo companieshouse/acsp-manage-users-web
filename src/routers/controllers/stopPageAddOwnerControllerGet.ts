@@ -35,6 +35,6 @@ export const stopPageAddOwnerControllerGet: RequestHandler = async (req: Request
         templateName: constants.STOP_PAGE_ADD_ACCOUNT_OWNER_PAGE,
         isRemoval: !!userToRemove
     };
-
+    logger.info(`${stopPageAddOwnerControllerGet.name}: rendering stop page add account owner`);
     res.render(constants.STOP_PAGE_ADD_ACCOUNT_OWNER_PAGE, viewData);
 };
