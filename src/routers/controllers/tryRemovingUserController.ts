@@ -34,7 +34,7 @@ export const tryRemovingUserControllerPost = async (req: Request, res: Response)
         res.set("Referrer-Policy", "origin");
         return res.redirect(constants.SIGN_OUT_URL);
     } else {
-        logger.info(`${tryRemovingUserControllerPost.name}: Successfully removing member ${memberForRemoval.id}, redirecting to confirmation member removed`);
+        logger.info(`${tryRemovingUserControllerPost.name}: Successfully removed member ${memberForRemoval.id}, redirecting to confirmation member removed`);
         res.redirect(constants.CONFIRMATION_MEMBER_REMOVED_FULL_URL);
     }
 };

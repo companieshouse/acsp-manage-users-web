@@ -106,7 +106,7 @@ export const updateOrRemoveUserAcspMembership = async (req: Request, acspMembers
         logger.debug(errorMessage + stringifyApiErrors(sdkResponse));
         return Promise.reject(createError(sdkResponse.httpStatusCode, `${stringifyApiErrors(sdkResponse)} ${errorMessage}`));
     } else {
-        logger.debug(`PATCH /acsps/memberships/${acspMembershipId}: Successfull patch - updated ACSP member`);
+        logger.debug(`PATCH /acsps/memberships/id: Successfull patch - updated ACSP member ${acspMembershipId}`);
         return Promise.resolve();
     }
 };

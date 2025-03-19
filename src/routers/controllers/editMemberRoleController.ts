@@ -21,7 +21,7 @@ export const editMemberRoleControllerGet = async (req: Request, res: Response): 
     if (viewData.isTheOnlyOwner) {
         const userRoleChangeData = getUserRoleChangeData(req, viewData);
         setExtraData(req.session, constants.USER_ROLE_CHANGE_DATA, userRoleChangeData);
-        logger.info(`${editMemberRoleControllerGet.name}: cannot edit the only owner, redirecing to stop page`);
+        logger.info(`${editMemberRoleControllerGet.name}: cannot edit the only owner, redirecting to stop page`);
         return res.redirect(constants.STOP_PAGE_ADD_ACCOUNT_OWNER_FULL_URL);
     } else {
         logger.info(`${editMemberRoleControllerGet.name}: Rendering ${constants.EDIT_MEMBER_ROLE_PAGE}`);
