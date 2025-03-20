@@ -3,7 +3,7 @@ import * as constants from "../../lib/constants";
 import { getTranslationsForView } from "../../lib/utils/translationUtils";
 import { AnyRecord, BaseViewData } from "../../types/utilTypes";
 import { Lang } from "../../types/language";
-import logger from "../../lib/Logger";
+import { acspLogger } from "../../lib/helpers/acspLogger";
 
 interface SomethingWentWrongViewData extends BaseViewData {
     title: string;
@@ -20,7 +20,7 @@ export const somethingWentWrongController = async (req: Request, res: Response):
         templateName: constants.SOMETHING_WENT_WRONG_PAGE
     };
     const statusCode: number = csrfError ? 403 : req.statusCode ?? 500;
-    logger.info(`${somethingWentWrongController.name}: rendering something went wrong`);
+    acspLogger(req.session, `${somethingWentWrongController.name}: rendering something went wrong`);
     res.status(statusCode).render(constants.SOMETHING_WENT_WRONG_PAGE, viewData);
 };
 

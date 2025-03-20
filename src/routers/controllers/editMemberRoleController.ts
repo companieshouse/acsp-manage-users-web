@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import logger from "../../lib/Logger";
 import * as constants from "../../lib/constants";
 import { getTranslationsForView } from "../../lib/utils/translationUtils";
 import { UserRoleChangeData, ViewDataWithBackLink } from "../../types/utilTypes";
@@ -12,6 +11,7 @@ import { sanitizeUrl } from "@braintree/sanitize-url";
 import { UserRole } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
 import { getAcspMemberships } from "../../services/acspMemberService";
 import { fetchAndValidateMembership } from "../../lib/helpers/fetchAndValidateMembership";
+import { acspLogger } from "../../lib/helpers/acspLogger";
 
 import { getEditMemberRoleFullUrl } from "../../lib/utils/urlUtils";
 
@@ -21,10 +21,10 @@ export const editMemberRoleControllerGet = async (req: Request, res: Response): 
     if (viewData.isTheOnlyOwner) {
         const userRoleChangeData = getUserRoleChangeData(req, viewData);
         setExtraData(req.session, constants.USER_ROLE_CHANGE_DATA, userRoleChangeData);
-        logger.info(`${editMemberRoleControllerGet.name}: cannot edit the only owner, redirecting to stop page`);
+        acspLogger(req.session, `${editMemberRoleControllerGet.name}: cannot edit the only owner, redirecting to stop page`);
         return res.redirect(constants.STOP_PAGE_ADD_ACCOUNT_OWNER_FULL_URL);
     } else {
-        logger.info(`${editMemberRoleControllerGet.name}: Rendering ${constants.EDIT_MEMBER_ROLE_PAGE}`);
+        acspLogger(req.session, `${editMemberRoleControllerGet.name}: Rendering ${constants.EDIT_MEMBER_ROLE_PAGE}`);
         return res.render(constants.EDIT_MEMBER_ROLE_PAGE, viewData);
     }
 };
@@ -36,13 +36,13 @@ export const editMemberRoleControllerPost = async (req: Request, res: Response):
         viewData.userRole = viewData.oldUserRole;
         addErrorToViewData(FormInputNames.USER_ROLE, constants.ERRORS_SELECT_USER_ROLE_TO_CHANGE_FOR_THE_USER, viewData);
         setExtraData(req.session, constants.IS_SELECT_USER_ROLE_ERROR, true);
-        logger.info(`${editMemberRoleControllerPost.name}: invalid role change, re-rendering ${constants.EDIT_MEMBER_ROLE_PAGE}`);
+        acspLogger(req.session, `${editMemberRoleControllerPost.name}: invalid role change, re-rendering ${constants.EDIT_MEMBER_ROLE_PAGE}`);
         return res.render(constants.EDIT_MEMBER_ROLE_PAGE, viewData);
     } else {
         const userRoleChangeData = getUserRoleChangeData(req, viewData);
         setExtraData(req.session, constants.USER_ROLE_CHANGE_DATA, userRoleChangeData);
         deleteExtraData(req.session, constants.IS_SELECT_USER_ROLE_ERROR);
-        logger.info(`${editMemberRoleControllerPost.name}: redirecting to ${constants.CHECK_EDIT_MEMBER_ROLE_DETAILS_FULL_URL}`);
+        acspLogger(req.session, `${editMemberRoleControllerPost.name}: redirecting to ${constants.CHECK_EDIT_MEMBER_ROLE_DETAILS_FULL_URL}`);
         return res.redirect(constants.CHECK_EDIT_MEMBER_ROLE_DETAILS_FULL_URL);
     }
 };
@@ -63,7 +63,7 @@ const getViewData = async (req: Request): Promise<EditMemberRoleViewData> => {
 
     if (userRole === UserRole.STANDARD) {
         const errorMessage = `${getViewData.name} The logged in user is a standard user, not permitted to change another user role.`;
-        logger.error(errorMessage);
+        acspLogger(req.session, errorMessage);
         throw new Error(errorMessage);
     }
 
@@ -72,7 +72,7 @@ const getViewData = async (req: Request): Promise<EditMemberRoleViewData> => {
     let userToChangeRole: Membership | undefined = existingUsers.find((member: Membership) => member.id === id);
 
     if (!userToChangeRole) {
-        logger.info("Edit Role ACSP Member details not found in session, calling GET /acsps/memberships/id");
+        acspLogger(req.session, "Edit Role ACSP Member details not found in session, calling GET /acsps/memberships/id");
         userToChangeRole = await fetchAndValidateMembership(req, id);
     }
 

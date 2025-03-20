@@ -9,15 +9,15 @@ import { AcspMembership, UserRole } from "private-api-sdk-node/dist/services/acs
 import { getAcspMemberships, membershipLookup } from "../../services/acspMemberService";
 import { sanitizeUrl } from "@braintree/sanitize-url";
 import { validateEmailString } from "../../lib/validation/email.validation";
-import logger from "../../lib/Logger";
 import { getChangeMemberRoleFullUrl, getRemoveMemberCheckDetailsFullUrl } from "../../lib/utils/urlUtils";
 import { buildPaginationElement, getCurrentPageNumber, setLangForPagination, stringToPositiveInteger } from "../../lib/helpers/buildPaginationHelper";
 import { validatePageNumber } from "../../lib/validation/page.number.validation";
 import { validateActiveTabId } from "../../lib/validation/string.validation";
+import { acspLogger } from "../../lib/helpers/acspLogger";
 
 export const manageUsersControllerGet = async (req: Request, res: Response): Promise<void> => {
     const viewData = await getViewData(req);
-    logger.info(`${manageUsersControllerGet.name}: Rendering manage users page`);
+    acspLogger(req.session, `${manageUsersControllerGet.name}: Rendering manage users page`);
     res.render(constants.MANAGE_USERS_PAGE, { ...viewData });
 };
 
@@ -120,7 +120,7 @@ export const getViewData = async (req: Request): Promise<AnyRecord> => {
                 viewData.manageUsersTabId = constants.ACCOUNT_OWNERS_TAB_ID;
             }
         } catch (error) {
-            logger.error(`manageUsersController: /acsps/${acspNumber}/memberships/lookup Membership for email entered not found.`);
+            acspLogger(req.session, `manageUsersController: /acsps/${acspNumber}/memberships/lookup Membership for email entered not found.`, true);
             viewData.manageUsersTabId = constants.ACCOUNT_OWNERS_TAB_ID;
         }
         viewData.search = search;

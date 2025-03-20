@@ -6,7 +6,7 @@ import { getExtraData } from "../../lib/utils/sessionUtils";
 import { NewUserDetails } from "../../types/user";
 import { getUserRoleTag } from "../../lib/utils/viewUtils";
 import { AcspMembership, UserRole } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
-import logger from "../../lib/Logger";
+import { acspLogger } from "../../lib/helpers/acspLogger";
 
 interface ConfirmationMemberAddedGetViewData extends BaseViewData {
     newUserDetails: NewUserDetails,
@@ -32,7 +32,7 @@ export const confirmationMemberAddedControllerGet = async (req: Request, res: Re
         userRole,
         companyName
     };
-    logger.info(`${confirmationMemberAddedControllerGet.name}: rendering confirmation member added`);
+    acspLogger(req.session, `${confirmationMemberAddedControllerGet.name}: rendering confirmation member added`);
 
     res.render(constants.CONFIRMATION_MEMBER_ADDED_PAGE, viewData);
 };

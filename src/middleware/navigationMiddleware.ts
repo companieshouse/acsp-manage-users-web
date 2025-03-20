@@ -5,6 +5,7 @@ import logger from "../lib/Logger";
 import { Navigation } from "../types/navigation";
 import { UserRole, AcspMembership } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
 import { getExtraData } from "../lib/utils/sessionUtils";
+import { acspLogger } from "../lib/helpers/acspLogger";
 
 export const NAVIGATION: Navigation = {
     [constants.CHECK_MEMBER_DETAILS_FULL_URL]: {
@@ -178,6 +179,7 @@ export const navigationMiddleware = (req: Request, res: Response, next: NextFunc
             return res.redirect(redirectTo);
         }
     }
-    logger.info("Referer and role are ok.");
+    acspLogger(req.session, `Referer and role ok: ${req.originalUrl}`);
+
     return next();
 };

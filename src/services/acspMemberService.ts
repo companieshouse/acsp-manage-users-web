@@ -1,10 +1,11 @@
 import { createOauthPrivateApiClient } from "./apiClientService";
 import { Resource } from "@companieshouse/api-sdk-node";
-import logger from "../lib/Logger";
 import { StatusCodes } from "http-status-codes";
 import createError from "http-errors";
 import { AcspMembers, AcspMembership, Errors, UserRole, UpdateOrRemove } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
 import { Request } from "express";
+import { acspLogger } from "../lib/helpers/acspLogger";
+
 /*
     This service provides access to ACSP members
 */
@@ -18,13 +19,13 @@ export const getAcspMemberships = async (req: Request, acspNumber: string, inclu
 
     if (!sdkResponse) {
         const errMsg = `GET /acsps/${acspNumber}/memberships - no response received`;
-        logger.error(errMsg);
+        acspLogger(req.session, errMsg, true);
         return Promise.reject(new Error(errMsg));
     }
 
     if (sdkResponse.httpStatusCode !== StatusCodes.OK) {
         const errorMessage = `GET /acsps/${acspNumber}/memberships: ${sdkResponse.httpStatusCode}`;
-        logger.debug(errorMessage + stringifyApiErrors(sdkResponse));
+        acspLogger(req.session, errorMessage + stringifyApiErrors(sdkResponse));
         return Promise.reject(createError(sdkResponse.httpStatusCode, `${stringifyApiErrors(sdkResponse)} ${errorMessage}`));
     }
 
@@ -33,7 +34,7 @@ export const getAcspMemberships = async (req: Request, acspNumber: string, inclu
         return Promise.reject(new Error(errorMsg));
     }
 
-    logger.debug(`GET /acsps/${acspNumber}/memberships: Successfully retrieved acsp members, status code ${sdkResponse.httpStatusCode}`);
+    acspLogger(req.session, `GET /acsps/${acspNumber}/memberships: Successfully retrieved acsp members, status code ${sdkResponse.httpStatusCode}`);
 
     return Promise.resolve(sdkResponse.resource as AcspMembers);
 };
@@ -44,13 +45,13 @@ export const getMembershipForLoggedInUser = async (req: Request): Promise<AcspMe
 
     if (!sdkResponse) {
         const errMsg = `GET /user/acsps/memberships for logged in user - no response received`;
-        logger.error(errMsg);
+        acspLogger(req.session, errMsg, true);
         return Promise.reject(new Error(errMsg));
     }
 
     if (sdkResponse.httpStatusCode !== StatusCodes.OK) {
         const errorMessage = `GET /user/acsps/memberships for logged in user - ${sdkResponse.httpStatusCode}`;
-        logger.debug(errorMessage + stringifyApiErrors(sdkResponse));
+        acspLogger(req.session, errorMessage + stringifyApiErrors(sdkResponse));
         return Promise.reject(createError(sdkResponse.httpStatusCode, `${stringifyApiErrors(sdkResponse)} ${errorMessage}`));
     }
 
@@ -59,7 +60,7 @@ export const getMembershipForLoggedInUser = async (req: Request): Promise<AcspMe
         return Promise.reject(new Error(errorMsg));
     }
 
-    logger.debug(`GET /user/acsps/memberships for logged in user: Successfully received acsp membership for logged in user`);
+    acspLogger(req.session, `GET /user/acsps/memberships for logged in user: Successfully received acsp membership for logged in user`);
 
     return Promise.resolve(sdkResponse.resource as AcspMembers);
 };
@@ -70,13 +71,13 @@ export const createAcspMembership = async (req: Request, acspNumber: string, use
 
     if (!sdkResponse) {
         const errMsg = `POST /acsps/${acspNumber}/memberships - no response received`;
-        logger.error(errMsg);
+        acspLogger(req.session, errMsg, true);
         return Promise.reject(new Error(errMsg));
     }
 
     if (sdkResponse.httpStatusCode !== StatusCodes.CREATED) {
         const errorMessage = `POST /acsps/${acspNumber}/memberships- ${sdkResponse.httpStatusCode}`;
-        logger.debug(errorMessage + stringifyApiErrors(sdkResponse));
+        acspLogger(req.session, errorMessage + stringifyApiErrors(sdkResponse));
         return Promise.reject(createError(sdkResponse.httpStatusCode, `${stringifyApiErrors(sdkResponse)} ${errorMessage}`));
     }
 
@@ -85,7 +86,7 @@ export const createAcspMembership = async (req: Request, acspNumber: string, use
         return Promise.reject(new Error(errorMsg));
     }
 
-    logger.debug(`POST /acsps/${acspNumber}/memberships: Successfully created acsp membership `);
+    acspLogger(req.session, `POST /acsps/${acspNumber}/memberships: Successfully created acsp membership `);
 
     return Promise.resolve(sdkResponse.resource as AcspMembership);
 };
@@ -97,16 +98,16 @@ export const updateOrRemoveUserAcspMembership = async (req: Request, acspMembers
 
     if (!sdkResponse) {
         const errMsg = `PATCH /acsps/memberships/${acspMembershipId} - no response received`;
-        logger.error(errMsg);
+        acspLogger(req.session, errMsg, true);
         return Promise.reject(new Error(errMsg));
     }
 
     if (sdkResponse.httpStatusCode !== StatusCodes.OK) {
         const errorMessage = `PATCH /acsps/memberships/${acspMembershipId} - ${sdkResponse.httpStatusCode}`;
-        logger.debug(errorMessage + stringifyApiErrors(sdkResponse));
+        acspLogger(req.session, errorMessage + stringifyApiErrors(sdkResponse));
         return Promise.reject(createError(sdkResponse.httpStatusCode, `${stringifyApiErrors(sdkResponse)} ${errorMessage}`));
     } else {
-        logger.debug(`PATCH /acsps/memberships/id: Successfull patch - updated ACSP member ${acspMembershipId}`);
+        acspLogger(req.session, `PATCH /acsps/memberships/id: Successfull patch - updated ACSP member ${acspMembershipId}`);
         return Promise.resolve();
     }
 };
@@ -118,13 +119,13 @@ export const membershipLookup = async (req: Request, acspNumber: string, email: 
 
     if (!sdkResponse) {
         const errMsg = `POST /acsps/${acspNumber}/memberships/lookup - no response received`;
-        logger.error(errMsg);
+        acspLogger(req.session, errMsg, true);
         return Promise.reject(new Error(errMsg));
     }
 
     if (sdkResponse.httpStatusCode !== StatusCodes.OK) {
         const errorMessage = `POST /acsps/${acspNumber}/memberships/lookup- ${sdkResponse.httpStatusCode}`;
-        logger.debug(errorMessage + stringifyApiErrors(sdkResponse));
+        acspLogger(req.session, errorMessage + stringifyApiErrors(sdkResponse));
         return Promise.reject(createError(sdkResponse.httpStatusCode, `${stringifyApiErrors(sdkResponse)} ${errorMessage}`));
     }
 
@@ -133,7 +134,7 @@ export const membershipLookup = async (req: Request, acspNumber: string, email: 
         return Promise.reject(new Error(errorMsg));
     }
 
-    logger.debug(`POST /acsps/${acspNumber}/memberships/lookup: Successfully fetched membership based on user email`);
+    acspLogger(req.session, `POST /acsps/${acspNumber}/memberships/lookup: Successfully fetched membership based on user email`);
 
     return Promise.resolve(sdkResponse.resource as AcspMembers);
 };
@@ -145,13 +146,13 @@ export const getAcspMembershipForMemberId = async (req: Request, acspMembershipI
 
     if (!sdkResponse) {
         const errMsg = `GET /acsps/memberships/${acspMembershipId} - no response received`;
-        logger.error(errMsg);
+        acspLogger(req.session, errMsg, true);
         return Promise.reject(new Error(errMsg));
     }
 
     if (sdkResponse.httpStatusCode !== StatusCodes.OK) {
         const errorMessage = `GET /acsps/memberships/${acspMembershipId} - ${sdkResponse.httpStatusCode}`;
-        logger.debug(errorMessage + stringifyApiErrors(sdkResponse));
+        acspLogger(req.session, errorMessage + stringifyApiErrors(sdkResponse), true);
         return Promise.reject(createError(sdkResponse.httpStatusCode, `${stringifyApiErrors(sdkResponse)} ${errorMessage}`));
     }
 
@@ -160,7 +161,7 @@ export const getAcspMembershipForMemberId = async (req: Request, acspMembershipI
         return Promise.reject(new Error(errorMsg));
     }
 
-    logger.debug(`GET /acsps/memberships/${acspMembershipId}: Successfully fetched membership for id ${acspMembershipId}`);
+    acspLogger(req.session, `GET /acsps/memberships/${acspMembershipId}: Successfully fetched membership for id ${acspMembershipId}`);
 
     return Promise.resolve(sdkResponse.resource as AcspMembership);
 };
