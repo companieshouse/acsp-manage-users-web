@@ -32,12 +32,9 @@ describe("accessibilityStatementAuthorisedAgentControllerGet", () => {
         jest.clearAllMocks();
     });
 
-
     it("should return status 200", async () => {
         await router.get(url).expect(200);
     });
-
-
 
     it("should render the accessibility statement page with correct translations", async () => {
         mockGetTranslationsForView.mockReturnValue({});
@@ -48,6 +45,5 @@ describe("accessibilityStatementAuthorisedAgentControllerGet", () => {
             templateName: constants.ACCESSIBILITY_STATEMENT_PAGE
         });
     });
-
 
 });
