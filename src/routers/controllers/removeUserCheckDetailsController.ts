@@ -7,7 +7,7 @@ import { AcspMembership, UserRole } from "private-api-sdk-node/dist/services/acs
 import { validateIdParam } from "../../lib/validation/string.validation";
 import { ViewDataWithBackLink } from "../../types/utilTypes";
 import { fetchAndValidateMembership } from "../../lib/helpers/fetchAndValidateMembership";
-import logger from "../../lib/Logger";
+import { acspLogger } from "../../lib/helpers/acspLogger";
 
 interface RemoveUserCheckDetailsGetViewData extends ViewDataWithBackLink {
     removingThemselves: boolean,
@@ -32,7 +32,7 @@ export const removeUserCheckDetailsControllerGet = async (req: Request, res: Res
     let userToRemove: Membership | undefined = existingUsers.find((member: Membership) => member.id === id);
 
     if (!userToRemove) {
-        logger.info("ACSP Member for removal not found in session, calling GET /acsps/memberships/id");
+        acspLogger(req.session, removeUserCheckDetailsControllerGet.name, "ACSP Member for removal not found in session, calling GET /acsps/memberships/id");
         userToRemove = await fetchAndValidateMembership(req, id);
     }
 
@@ -61,7 +61,7 @@ export const removeUserCheckDetailsControllerGet = async (req: Request, res: Res
         removingThemselves,
         displayNameInFirstParagraph
     };
-    logger.info(`${removeUserCheckDetailsControllerGet.name}: Rendering remove member page, id: ${id}`);
+    acspLogger(req.session, removeUserCheckDetailsControllerGet.name, `Rendering remove member page, id: ${id}`);
 
     res.render(constants.REMOVE_MEMBER_PAGE, viewData);
 };

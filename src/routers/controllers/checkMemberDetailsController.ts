@@ -6,7 +6,7 @@ import { getUserRoleTag } from "../../lib/utils/viewUtils";
 import { NewUserDetails } from "../../types/user";
 import { AcspMembership, UserRole } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
 import { ViewDataWithBackLink } from "../../types/utilTypes";
-import logger from "../../lib/Logger";
+import { acspLogger } from "../../lib/helpers/acspLogger";
 
 interface CheckMemberDetailsGetViewData extends ViewDataWithBackLink {
     companyName: string,
@@ -34,7 +34,7 @@ export const checkMemberDetailsControllerGet = async (req: Request, res: Respons
         companyName,
         userRoleTag
     };
-    logger.info(`${checkMemberDetailsControllerGet.name}: Rendering check member details page`);
+    acspLogger(req.session, checkMemberDetailsControllerGet.name, `Rendering check member details page`);
 
     res.render(constants.CHECK_MEMBER_DETAILS_PAGE, viewData);
 };

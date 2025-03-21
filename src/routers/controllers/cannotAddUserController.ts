@@ -1,10 +1,10 @@
 import { Request, Response } from "express";
 import * as constants from "../../lib/constants";
-import logger from "../../lib/Logger";
 import { getTranslationsForView } from "../../lib/utils/translationUtils";
 import { getExtraData } from "../../lib/utils/sessionUtils";
 import { AcspMembership } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
 import { ViewDataWithBackLink } from "../../types/utilTypes";
+import { acspLogger } from "../../lib/helpers/acspLogger";
 
 interface CannotAddUserGetViewData extends ViewDataWithBackLink {
     serviceName: string,
@@ -29,6 +29,6 @@ export const cannotAddUserControllerGet = async (req: Request, res: Response): P
         manageUsersLinkText: `${translations.manage_users_link_text} ${acspName}.`
     };
 
-    logger.info(`${cannotAddUserControllerGet.name}: Rendering cannot add user screen`);
+    acspLogger(req.session, cannotAddUserControllerGet.name, `Rendering cannot add user screen`);
     res.render(constants.CANNOT_ADD_USER, viewData);
 };

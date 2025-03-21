@@ -5,7 +5,7 @@ import { UserRoleChangeData, ViewDataWithBackLink } from "../../types/utilTypes"
 import { getExtraData, getLoggedUserAcspMembership } from "../../lib/utils/sessionUtils";
 import { getUserRoleTag } from "../../lib/utils/viewUtils";
 import { UserRole } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
-import logger from "../../lib/Logger";
+import { acspLogger } from "../../lib/helpers/acspLogger";
 
 interface CheckEditMemberRoleDetailsGetViewData extends ViewDataWithBackLink {
     companyName: string,
@@ -33,6 +33,6 @@ export const checkEditMemberRoleDetailsControllerGet = async (req: Request, res:
         backLinkUrl: userRoleChangeData.changeRolePageUrl,
         tryEditUserRoleUrl: constants.TRY_EDIT_MEMBER_ROLE_FULL_URL
     };
-    logger.info(`${checkEditMemberRoleDetailsControllerGet.name}: Rendering ${constants.CHECK_EDIT_MEMBER_ROLE_DETAILS_PAGE}`);
+    acspLogger(req.session, checkEditMemberRoleDetailsControllerGet.name, `Rendering ${constants.CHECK_EDIT_MEMBER_ROLE_DETAILS_PAGE}`);
     res.render(constants.CHECK_EDIT_MEMBER_ROLE_DETAILS_PAGE, viewData);
 };

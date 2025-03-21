@@ -3,6 +3,7 @@ import type { ErrorRequestHandler } from "express";
 import { HttpError } from "http-errors";
 import * as constants from "../../lib/constants";
 import { CsrfError, InvalidAcspNumberError } from "@companieshouse/web-security-node";
+import { acspLogger } from "../../lib/helpers/acspLogger";
 
 /*  This controller catches and logs HTTP errors from the http-errors module.
     It returns an error template back to the user.
@@ -24,7 +25,7 @@ export const httpErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
             `A ${err.statusCode} ${err.name} error occurred when a ${req.method} request was made to ${req.originalUrl}. Re-routing to the error template page. Error name: ${err.name}, Error status: ${err.status}, Error message:  + ${err.message}, Stack: " + ${err.stack}`
         );
         const statusCode: number = err.statusCode || 500;
-        logger.info(`${httpErrorHandler.name}: redirecting to something went wrong`);
+        acspLogger(req.session, httpErrorHandler.name, `redirecting to something went wrong`);
         res.status(statusCode).redirect(constants.SOMETHING_WENT_WRONG_FULL_URL);
     } else {
         next(err);
