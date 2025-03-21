@@ -158,7 +158,7 @@ export const navigationMiddleware = (req: Request, res: Response, next: NextFunc
     }
 
     if (!NAVIGATION[currentPath]) {
-        logger.info(`Navigation not found for the current path: ${currentPath}`);
+        acspLogger(req.session, `Navigation rules not found for the current path: ${req.originalUrl}`);
         return next();
     }
 
