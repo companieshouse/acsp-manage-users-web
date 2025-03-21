@@ -12,10 +12,10 @@ export const tryEditMemberRolePost = async (req: Request, res: Response): Promis
     const userRoleToUpdate: Update = {
         userRole: getUserRole(userRoleChangeData.userRole)
     };
-    acspLogger(req.session, `${tryEditMemberRolePost.name}: About to edit user role: calling PATCH /acsps/memberships/${userRoleChangeData.acspMembershipId}`);
+    acspLogger(req.session, tryEditMemberRolePost.name, `About to edit user role: calling PATCH /acsps/memberships/${userRoleChangeData.acspMembershipId}`);
 
     await updateOrRemoveUserAcspMembership(req, userRoleChangeData.acspMembershipId, userRoleToUpdate);
-    acspLogger(req.session, `${tryEditMemberRolePost.name}: Successfully edited user role: redirecting to confirmation member role edited`);
+    acspLogger(req.session, tryEditMemberRolePost.name, `Successfully edited user role: redirecting to confirmation member role edited`);
 
     res.redirect(constants.CONFIRMATION_MEMBER_ROLE_EDITED_FULL_URL);
 };

@@ -17,7 +17,7 @@ import { acspLogger } from "../../lib/helpers/acspLogger";
 
 export const manageUsersControllerGet = async (req: Request, res: Response): Promise<void> => {
     const viewData = await getViewData(req);
-    acspLogger(req.session, `${manageUsersControllerGet.name}: Rendering manage users page`);
+    acspLogger(req.session, manageUsersControllerGet.name, `Rendering manage users page`);
     res.render(constants.MANAGE_USERS_PAGE, { ...viewData });
 };
 
@@ -120,7 +120,7 @@ export const getViewData = async (req: Request): Promise<AnyRecord> => {
                 viewData.manageUsersTabId = constants.ACCOUNT_OWNERS_TAB_ID;
             }
         } catch (error) {
-            acspLogger(req.session, `manageUsersController: /acsps/${acspNumber}/memberships/lookup Membership for email entered not found.`, true);
+            acspLogger(req.session, getViewData.name, `/acsps/${acspNumber}/memberships/lookup Membership for email entered not found.`, true);
             viewData.manageUsersTabId = constants.ACCOUNT_OWNERS_TAB_ID;
         }
         viewData.search = search;

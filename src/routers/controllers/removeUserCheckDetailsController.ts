@@ -32,7 +32,7 @@ export const removeUserCheckDetailsControllerGet = async (req: Request, res: Res
     let userToRemove: Membership | undefined = existingUsers.find((member: Membership) => member.id === id);
 
     if (!userToRemove) {
-        acspLogger(req.session, "ACSP Member for removal not found in session, calling GET /acsps/memberships/id");
+        acspLogger(req.session, removeUserCheckDetailsControllerGet.name, "ACSP Member for removal not found in session, calling GET /acsps/memberships/id");
         userToRemove = await fetchAndValidateMembership(req, id);
     }
 
@@ -61,7 +61,7 @@ export const removeUserCheckDetailsControllerGet = async (req: Request, res: Res
         removingThemselves,
         displayNameInFirstParagraph
     };
-    acspLogger(req.session, `${removeUserCheckDetailsControllerGet.name}: Rendering remove member page, id: ${id}`);
+    acspLogger(req.session, removeUserCheckDetailsControllerGet.name, `Rendering remove member page, id: ${id}`);
 
     res.render(constants.REMOVE_MEMBER_PAGE, viewData);
 };

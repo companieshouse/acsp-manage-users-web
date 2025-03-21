@@ -18,23 +18,25 @@ describe("Acsp logger tests", () => {
     describe("acspLogger", () => {
         it("Should log messages with ACSP information", () => {
             const message = "something went wrong";
+            const functionName = "functionName";
             getLoggedUserAcspMembershipSpy.mockReturnValue({ acspNumber: "ABC321", userId: "123", userRole: "standard" });
 
-            acspLogger(session, message);
+            acspLogger(session, functionName, message);
 
             expect(logger.info).toHaveBeenCalledTimes(1);
-            expect(logger.info).toHaveBeenCalledWith("123: ABC321: standard: something went wrong ");
+            expect(logger.info).toHaveBeenCalledWith("123: ABC321: standard: functionName: something went wrong");
             expect(logger.error).not.toHaveBeenCalled();
         });
 
         it("Should log error messages with ACSP info", () => {
             const message = "something went wrong";
             getLoggedUserAcspMembershipSpy.mockReturnValue({ acspNumber: "ABC321", userId: "123", userRole: "standard" });
+            const functionName = "functionName";
 
-            acspLogger(session, message, true);
+            acspLogger(session, functionName, message, true);
 
             expect(logger.info).not.toHaveBeenCalledTimes(1);
-            expect(logger.error).toHaveBeenCalledWith("123: ABC321: standard: something went wrong ");
+            expect(logger.error).toHaveBeenCalledWith("123: ABC321: standard: functionName: something went wrong");
             expect(logger.error).toHaveBeenCalled();
         });
     });

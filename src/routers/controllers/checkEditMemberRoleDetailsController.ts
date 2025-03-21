@@ -33,6 +33,6 @@ export const checkEditMemberRoleDetailsControllerGet = async (req: Request, res:
         backLinkUrl: userRoleChangeData.changeRolePageUrl,
         tryEditUserRoleUrl: constants.TRY_EDIT_MEMBER_ROLE_FULL_URL
     };
-    acspLogger(req.session, `${checkEditMemberRoleDetailsControllerGet.name}: Rendering ${constants.CHECK_EDIT_MEMBER_ROLE_DETAILS_PAGE}`);
+    acspLogger(req.session, checkEditMemberRoleDetailsControllerGet.name, `Rendering ${constants.CHECK_EDIT_MEMBER_ROLE_DETAILS_PAGE}`);
     res.render(constants.CHECK_EDIT_MEMBER_ROLE_DETAILS_PAGE, viewData);
 };

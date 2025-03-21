@@ -50,7 +50,7 @@ export const addUserControllerGet = async (req: Request, res: Response): Promise
             userRole: savedNewUserDetails.userRole
         } as AddUserGetViewDataSavedNewUserDetails;
     }
-    acspLogger(req.session, `${addUserControllerGet.name}: Rendering add user page`);
+    acspLogger(req.session, addUserControllerGet.name, `Rendering add user page`);
     res.render(constants.ADD_USER_PAGE, viewData);
 };
 
@@ -82,14 +82,14 @@ export const addUserControllerPost = async (req: Request, res: Response): Promis
     if (viewData.errors) {
         setExtraData(req.session, constants.DETAILS_OF_USER_TO_ADD, { email, userRole, isValid: false } as unknown as NewUserDetails);
 
-        acspLogger(req.session, `${addUserControllerPost.name} Invalid add user details: Re-rendering add user page`);
+        acspLogger(req.session, addUserControllerPost.name, `Invalid add user details: Re-rendering add user page`);
         return res.render(constants.ADD_USER_PAGE, viewData);
     } else {
         const newUserDetails: NewUserDetails = {
             email,
             userRole
         };
-        acspLogger(req.session, `${addUserControllerPost.name}: Saving new user email and role ${userRole} to session`);
+        acspLogger(req.session, addUserControllerPost.name, ` Saving new user email and role ${userRole} to session`);
         setExtraData(req.session, constants.DETAILS_OF_USER_TO_ADD, newUserDetails);
         return res.redirect(constants.CHECK_MEMBER_DETAILS_FULL_URL);
     }

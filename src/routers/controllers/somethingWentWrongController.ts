@@ -20,7 +20,7 @@ export const somethingWentWrongController = async (req: Request, res: Response):
         templateName: constants.SOMETHING_WENT_WRONG_PAGE
     };
     const statusCode: number = csrfError ? 403 : req.statusCode ?? 500;
-    acspLogger(req.session, `${somethingWentWrongController.name}: rendering something went wrong`);
+    acspLogger(req.session, somethingWentWrongController.name, `rendering something went wrong`);
     res.status(statusCode).render(constants.SOMETHING_WENT_WRONG_PAGE, viewData);
 };
 

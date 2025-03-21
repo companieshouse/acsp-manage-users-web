@@ -25,7 +25,7 @@ export const removeUserSuccessControllerGet = async (req: Request, res: Response
         buttonHref: constants.MANAGE_USERS_FULL_URL,
         templateName: constants.USER_REMOVE_CONFIRMATION_PAGE
     };
-    acspLogger(req.session, `${removeUserSuccessControllerGet.name}: rendering confirmation member removed`);
+    acspLogger(req.session, removeUserSuccessControllerGet.name, `rendering confirmation member removed`);
 
     res.render(constants.USER_REMOVE_CONFIRMATION_PAGE, viewData);
 };

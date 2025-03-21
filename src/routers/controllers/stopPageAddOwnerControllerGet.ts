@@ -21,7 +21,7 @@ export const stopPageAddOwnerControllerGet: RequestHandler = async (req: Request
     const userToChangeRole: UserRoleChangeData | undefined = getExtraData(req.session, constants.USER_ROLE_CHANGE_DATA);
 
     if (!userToRemove && !userToChangeRole) {
-        acspLogger(req.session, `${stopPageAddOwnerControllerGet.name}: neither DETAILS_OF_USER_TO_REMOVE nor USER_ROLE_CHANGE_DATA found in session`, true);
+        acspLogger(req.session, stopPageAddOwnerControllerGet.name, `neither DETAILS_OF_USER_TO_REMOVE nor USER_ROLE_CHANGE_DATA found in session`, true);
         throw new Error("Neither DETAILS_OF_USER_TO_REMOVE nor USER_ROLE_CHANGE_DATA found in session");
     }
 
@@ -34,6 +34,6 @@ export const stopPageAddOwnerControllerGet: RequestHandler = async (req: Request
         templateName: constants.STOP_PAGE_ADD_ACCOUNT_OWNER_PAGE,
         isRemoval: !!userToRemove
     };
-    acspLogger(req.session, `${stopPageAddOwnerControllerGet.name}: rendering stop page add account owner`);
+    acspLogger(req.session, stopPageAddOwnerControllerGet.name, `rendering stop page add account owner`);
     res.render(constants.STOP_PAGE_ADD_ACCOUNT_OWNER_PAGE, viewData);
 };

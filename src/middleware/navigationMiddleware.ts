@@ -158,7 +158,7 @@ export const navigationMiddleware = (req: Request, res: Response, next: NextFunc
     }
 
     if (!NAVIGATION[currentPath]) {
-        acspLogger(req.session, `Navigation rules not found for the current path: ${req.originalUrl}`);
+        acspLogger(req.session, navigationMiddleware.name, `Navigation rules not found for the current path: ${req.originalUrl}`);
         return next();
     }
 
@@ -179,7 +179,7 @@ export const navigationMiddleware = (req: Request, res: Response, next: NextFunc
             return res.redirect(redirectTo);
         }
     }
-    acspLogger(req.session, `Referer and role ok: ${req.originalUrl}`);
+    acspLogger(req.session, navigationMiddleware.name, `Referer and role ok: ${req.originalUrl}`);
 
     return next();
 };

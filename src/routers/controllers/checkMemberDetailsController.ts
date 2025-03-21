@@ -34,7 +34,7 @@ export const checkMemberDetailsControllerGet = async (req: Request, res: Respons
         companyName,
         userRoleTag
     };
-    acspLogger(req.session, `${checkMemberDetailsControllerGet.name}: Rendering check member details page`);
+    acspLogger(req.session, checkMemberDetailsControllerGet.name, `Rendering check member details page`);
 
     res.render(constants.CHECK_MEMBER_DETAILS_PAGE, viewData);
 };

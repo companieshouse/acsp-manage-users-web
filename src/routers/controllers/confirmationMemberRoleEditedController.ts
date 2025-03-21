@@ -26,7 +26,7 @@ export const confirmationMemberRoleEditedControllerGet = async (req: Request, re
         userRole: userRoleChangeData.userRole,
         backLinkUrl: constants.MANAGE_USERS_FULL_URL
     };
-    acspLogger(req.session, `${confirmationMemberRoleEditedControllerGet.name}: rendering confirmation member edited`);
+    acspLogger(req.session, confirmationMemberRoleEditedControllerGet.name, `rendering confirmation member edited`);
 
     res.render(constants.CONFIRMATION_MEMBER_ROLE_EDITED_PAGE, viewData);
 };

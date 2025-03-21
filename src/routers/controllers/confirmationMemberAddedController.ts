@@ -32,7 +32,7 @@ export const confirmationMemberAddedControllerGet = async (req: Request, res: Re
         userRole,
         companyName
     };
-    acspLogger(req.session, `${confirmationMemberAddedControllerGet.name}: rendering confirmation member added`);
+    acspLogger(req.session, confirmationMemberAddedControllerGet.name, ` rendering confirmation member added`);
 
     res.render(constants.CONFIRMATION_MEMBER_ADDED_PAGE, viewData);
 };

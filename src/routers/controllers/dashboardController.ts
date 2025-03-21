@@ -46,6 +46,6 @@ export const dashboardControllerGet = async (req: Request, res: Response): Promi
         showUpdateAuthorisedAgentDetails: isFeatureEnabled(constants.FEATURE_FLAG_SHOW_UPDATE_AUTHORISED_AGENT_DETAILS),
         showCloseAuthorisedAgent: isFeatureEnabled(constants.FEATURE_FLAG_SHOW_CLOSE_AUTHORISED_AGENT)
     };
-    acspLogger(req.session, `${dashboardControllerGet.name}: rendering dashboard page`);
+    acspLogger(req.session, dashboardControllerGet.name, `rendering dashboard page`);
     res.render(constants.DASHBOARD_PAGE, viewData);
 };
