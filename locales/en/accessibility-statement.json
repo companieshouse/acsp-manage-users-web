@@ -1,6 +1,5 @@
 {
     "abilitynet_advice": "AbilityNet has advice on making your device easier to use if you have a disability.",
-    "abilitynet_advice_link": "https://mcmw.abilitynet.org.uk/",
     "about_this_service": "About this service",
     "about_this_service_description": "This accessibility statement applies to Authorised agent accounts.",
     "accessibility_features": [
@@ -10,8 +9,6 @@
         "listen to most of the website using a screen reader (including the most recent versions of JAWS, NVDA and VoiceOver)"
     ],
     "accessibility_support_guidance": "accessibility support guidance.",
-    "accessibility_support_guidance_link": "https://www.gov.uk/guidance/accessibility-support-for-companies-house-users",
-    "accessibility_support_link": "https://www.gov.uk/guidance/accessibility-support-for-companies-house-users",
     "accessibility_support_link_text": "Find out more about accessibility support for Companies House users",
     "companies_house_text": "Companies House",
     "compliance_description": "This website is fully compliant with the",
@@ -19,8 +16,6 @@
     "compliance_description_third_part": "AA standard.",
     "compliance_status": "Compliance status",
     "digital_accessibility_centre_text": "Digital Accessibility Centre",
-    "digital_accessibility_centre_url": "https://digitalaccessibilitycentre.org/auditandaccreditation.html",
-    "eass_contact_link": "https://www.equalityadvisoryservice.com/",
     "eass_details_second_part": "contact the Equality Advisory and Support Service (EASS).",
     "enforcement_details": "The Equality and Human Rights Commission (EHRC) is responsible for enforcing the Public Sector Bodies (Websites and Mobile Applications) (No. 2) Accessibility Regulations 2018 (the ‘accessibility regulations’). If you're not happy with how we respond to your complaint,",
     "enforcement_procedure": "Enforcement procedure",
@@ -29,7 +24,6 @@
     "feedback_problem_instruction": "If you find any problems that are not listed on this page, contact us using the details on our",
     "feedback_support_guidance_link": "Read our blogs about usability",
     "gov_accessibility_text": "government accessibility requirements",
-    "gov_accessibility_url": "https://www.gov.uk/service-manual/helping-people-to-use-your-service/making-your-service-accessible-an-introduction#meeting-government-accessibility-requirements",
     "how_accessible_this_service_is": "How accessible this service is",
     "improvement_measures": [
         "work with real users who have accessibility issues to make sure that our services meet their needs",
@@ -49,11 +43,8 @@
     "technical_details": "Companies House is committed to making its website accessible in accordance with the Public Sector Bodies (Websites and Mobile Applications) (No. 2) Accessibility Regulations 2018.",
     "technical_information": "Technical information about this service's accessibility",
     "to_improve_service_accessibility": "To improve this service's accessibility, we:",
-    "usability_blog_link": "https://companieshouse.blog.gov.uk/category/user-research/",
     "usability_blog_link_text": "Read our blogs about usability ",
     "usability_blog_text_second_part": "to find out more about our user research work.",
     "user_panel_text": "our user panel",
-    "user_panel_url": "https://www.gov.uk/government/news/help-improve-companies-house",
-    "wcag_link": "https://www.w3.org/TR/WCAG22/",
     "what_were_doing_to_improve": "What we're doing to improve accessibility"
 }
