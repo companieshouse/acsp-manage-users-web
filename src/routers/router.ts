@@ -19,7 +19,7 @@ import { tryEditMemberRolePost } from "./controllers/tryEditMemberRoleController
 import { cannotAddUserControllerGet } from "./controllers/cannotAddUserController";
 import { sanitizeMembershipIdMiddleware } from "../middleware/sanitize.membership.id.middleware";
 import { accessDeniedControllerGet } from "./controllers/accessDeniedController";
-import { accessibilityStatementAuthorisedAgentControllerGet } from "./controllers/accessibilityStatmentAuthorisedAgentController";
+import { accessibilityStatementAuthorisedAgentControllerGet } from "./controllers/accessibilityStatementAuthorisedAgentController";
 
 const router: Router = Router();
 

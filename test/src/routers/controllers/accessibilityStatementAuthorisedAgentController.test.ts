@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { accessibilityStatementAuthorisedAgentControllerGet } from "../../../../src/routers/controllers/accessibilityStatmentAuthorisedAgentController";
+import { accessibilityStatementAuthorisedAgentControllerGet } from "../../../../src/routers/controllers/accessibilityStatementAuthorisedAgentController";
 import * as constants from "../../../../src/lib/constants";
 import * as getTranslationsForView from "../../../../src/lib/utils/translationUtils";
 
