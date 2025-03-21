@@ -63,7 +63,7 @@ const getViewData = async (req: Request): Promise<EditMemberRoleViewData> => {
 
     if (userRole === UserRole.STANDARD) {
         const errorMessage = `${getViewData.name} The logged in user is a standard user, not permitted to change another user role.`;
-        acspLogger(req.session, errorMessage);
+        acspLogger(req.session, errorMessage, true);
         throw new Error(errorMessage);
     }
 

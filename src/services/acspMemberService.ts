@@ -25,7 +25,7 @@ export const getAcspMemberships = async (req: Request, acspNumber: string, inclu
 
     if (sdkResponse.httpStatusCode !== StatusCodes.OK) {
         const errorMessage = `GET /acsps/${acspNumber}/memberships: ${sdkResponse.httpStatusCode}`;
-        acspLogger(req.session, errorMessage + stringifyApiErrors(sdkResponse));
+        acspLogger(req.session, errorMessage + stringifyApiErrors(sdkResponse), true);
         return Promise.reject(createError(sdkResponse.httpStatusCode, `${stringifyApiErrors(sdkResponse)} ${errorMessage}`));
     }
 
@@ -51,7 +51,7 @@ export const getMembershipForLoggedInUser = async (req: Request): Promise<AcspMe
 
     if (sdkResponse.httpStatusCode !== StatusCodes.OK) {
         const errorMessage = `GET /user/acsps/memberships for logged in user - ${sdkResponse.httpStatusCode}`;
-        acspLogger(req.session, errorMessage + stringifyApiErrors(sdkResponse));
+        acspLogger(req.session, errorMessage + stringifyApiErrors(sdkResponse), true);
         return Promise.reject(createError(sdkResponse.httpStatusCode, `${stringifyApiErrors(sdkResponse)} ${errorMessage}`));
     }
 
@@ -77,7 +77,7 @@ export const createAcspMembership = async (req: Request, acspNumber: string, use
 
     if (sdkResponse.httpStatusCode !== StatusCodes.CREATED) {
         const errorMessage = `POST /acsps/${acspNumber}/memberships- ${sdkResponse.httpStatusCode}`;
-        acspLogger(req.session, errorMessage + stringifyApiErrors(sdkResponse));
+        acspLogger(req.session, errorMessage + stringifyApiErrors(sdkResponse), true);
         return Promise.reject(createError(sdkResponse.httpStatusCode, `${stringifyApiErrors(sdkResponse)} ${errorMessage}`));
     }
 
@@ -104,7 +104,7 @@ export const updateOrRemoveUserAcspMembership = async (req: Request, acspMembers
 
     if (sdkResponse.httpStatusCode !== StatusCodes.OK) {
         const errorMessage = `PATCH /acsps/memberships/${acspMembershipId} - ${sdkResponse.httpStatusCode}`;
-        acspLogger(req.session, errorMessage + stringifyApiErrors(sdkResponse));
+        acspLogger(req.session, errorMessage + stringifyApiErrors(sdkResponse), true);
         return Promise.reject(createError(sdkResponse.httpStatusCode, `${stringifyApiErrors(sdkResponse)} ${errorMessage}`));
     } else {
         acspLogger(req.session, `PATCH /acsps/memberships/id: Successfull patch - updated ACSP member ${acspMembershipId}`);
@@ -125,7 +125,7 @@ export const membershipLookup = async (req: Request, acspNumber: string, email: 
 
     if (sdkResponse.httpStatusCode !== StatusCodes.OK) {
         const errorMessage = `POST /acsps/${acspNumber}/memberships/lookup- ${sdkResponse.httpStatusCode}`;
-        acspLogger(req.session, errorMessage + stringifyApiErrors(sdkResponse));
+        acspLogger(req.session, errorMessage + stringifyApiErrors(sdkResponse), true);
         return Promise.reject(createError(sdkResponse.httpStatusCode, `${stringifyApiErrors(sdkResponse)} ${errorMessage}`));
     }
 

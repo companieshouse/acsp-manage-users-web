@@ -16,7 +16,7 @@ export const tryAddingUserControllerPost = async (req: Request, res: Response): 
     const loggedInUserMembership: AcspMembership = getExtraData(req.session, constants.LOGGED_USER_ACSP_MEMBERSHIP);
     const { acspNumber, acspName } = loggedInUserMembership ?? {};
     if (!acspNumber || !acspName) {
-        acspLogger(req.session, `${tryAddingUserControllerPost.name}: Unable to retrieve ACSP number or name for the logged-in user`);
+        acspLogger(req.session, `${tryAddingUserControllerPost.name}: Unable to retrieve ACSP number or name for the logged-in user`, true);
         res.redirect(constants.CANNOT_ADD_USER_FULL_URL);
         return;
     }
