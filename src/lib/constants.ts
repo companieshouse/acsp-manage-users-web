@@ -15,6 +15,9 @@ export const ENV_NAME = getEnvironmentValue("ENV_NAME");
 export const INTERNAL_API_URL = getEnvironmentValue("INTERNAL_API_URL");
 export const MATOMO_ADD_USER_GOAL_ID = getEnvironmentValue("MATOMO_ADD_USER_GOAL_ID");
 export const MATOMO_REMOVE_USER_GOAL_ID = getEnvironmentValue("MATOMO_REMOVE_USER_GOAL_ID");
+export const OAUTH2_CLIENT_ID = getEnvironmentValue(`OAUTH2_CLIENT_ID`);
+export const OAUTH2_CLIENT_SECRET = getEnvironmentValue(`OAUTH2_CLIENT_SECRET`);
+export const API_URL = getEnvironmentValue("API_URL");
 
 // Error Constants
 export const ERRORS_EMAIL_INVALID = "errors_email_invalid";
@@ -98,6 +101,7 @@ export const FEATURE_FLAG_SHOW_FILE_AS_AUTHORISED_AGENT = "FEATURE_FLAG_SHOW_FIL
 export const FEATURE_FLAG_SHOW_UPDATE_AUTHORISED_AGENT_DETAILS = "FEATURE_FLAG_SHOW_UPDATE_AUTHORISED_AGENT_DETAILS";
 export const FEATURE_FLAG_SHOW_CLOSE_AUTHORISED_AGENT = "FEATURE_FLAG_SHOW_CLOSE_AUTHORISED_AGENT";
 export const FEATURE_FLAG_SHOW_TELL_US_YOUVE_VERIFIED_A_PERSONS_IDENTITY = "FEATURE_FLAG_SHOW_TELL_US_YOUVE_VERIFIED_A_PERSONS_IDENTITY";
+export const REFRESH_TOKEN_GRANT_TYPE = "refresh_token";
 
 // URL Base Paths and Helpers
 export const HEALTHCHECK = "/healthcheck";

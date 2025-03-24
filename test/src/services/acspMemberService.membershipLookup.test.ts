@@ -6,11 +6,15 @@ import { HttpError } from "http-errors";
 import { AcspMembership } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
 import { mockRequest } from "../../mocks/request.mock";
 import { accountOwnerAcspMembership } from "../../mocks/acsp.members.mock";
+import * as refreshTokenService from "../../../src/services/refreshTokenService";
 
 jest.mock("../../../src/services/apiClientService");
+jest.mock("../../../src/services/refreshTokenService");
+jest.mock("../../../src/lib/helpers/acspLogger");
 
 const mockCreateOauthPrivateApiClient = createOauthPrivateApiClient as jest.Mock;
 const mockMembershipLookupJestFn = jest.fn();
+const refreshTokenSpy: jest.SpyInstance = jest.spyOn(refreshTokenService, "refreshToken");
 const request = mockRequest();
 const mockAcspNumber = "abc123";
 const userEmail = "email@email.com";
@@ -48,13 +52,20 @@ describe("getAcspMembersService", () => {
                 .rejects.toThrow();
         });
 
-        it("should throw an HttpError error if status code is 401", async () => {
+        it("should call refreshToken if status code is 401", async () => {
+            // Given
+            const sdkResource: Resource<AcspMembership> = {
+                httpStatusCode: StatusCodes.OK,
+                resource: accountOwnerAcspMembership
+            };
             mockMembershipLookupJestFn.mockResolvedValueOnce({
                 httpStatusCode: StatusCodes.UNAUTHORIZED
-            } as Resource<AcspMembership>);
-
-            await expect(membershipLookup(request, mockAcspNumber, userEmail))
-                .rejects.toThrow(HttpError);
+            } as Resource<AcspMembership>)
+                .mockResolvedValueOnce(sdkResource);
+            // When
+            await membershipLookup(request, mockAcspNumber, userEmail);
+            // Then
+            expect(refreshTokenSpy).toHaveBeenCalledTimes(1);
         });
 
         it("Should error if no response resource returned from SDK", async () => {
