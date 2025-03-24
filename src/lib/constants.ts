@@ -27,7 +27,7 @@ export const VALIDATION_ERRORS = "VALIDATION_ERRORS";
 // External URLs
 export const CHS_SEARCH_REGISTER_PAGE = "https://find-and-update.company-information.service.gov.uk/";
 export const UPDATE_AUTHORISED_AGENTS_DETAILS_URL = "/placeholder-url-to-service-build-by-other-team";
-export const YOU_HAVE_VERIFIED_SOMEONES_IDENTITY_URL = "/placeholder-url-to-service-build-by-other-team";
+export const YOU_HAVE_VERIFIED_SOMEONES_IDENTITY_URL = "/update-this-please";
 export const SIGN_OUT_URL = `${CHS_URL}/signout`;
 
 // Translation and Template Keys
@@ -87,6 +87,7 @@ export const NOT_PROVIDED_CY = "Heb ei ddarparu";
 export const FEATURE_FLAG_SHOW_FILE_AS_AUTHORISED_AGENT = "FEATURE_FLAG_SHOW_FILE_AS_AUTHORISED_AGENT";
 export const FEATURE_FLAG_SHOW_UPDATE_AUTHORISED_AGENT_DETAILS = "FEATURE_FLAG_SHOW_UPDATE_AUTHORISED_AGENT_DETAILS";
 export const FEATURE_FLAG_SHOW_CLOSE_AUTHORISED_AGENT = "FEATURE_FLAG_SHOW_CLOSE_AUTHORISED_AGENT";
+export const FEATURE_FLAG_SHOW_TELL_US_YOUVE_VERIFIED_A_PERSONS_IDENTITY = "FEATURE_FLAG_SHOW_TELL_US_YOUVE_VERIFIED_A_PERSONS_IDENTITY";
 
 // URL Base Paths and Helpers
 export const HEALTHCHECK = "/healthcheck";
