@@ -13,23 +13,19 @@
             {{lang.you_cannot_tell_us}}{{companyName}}{{lang.has_been_suspended}}
         </p>
 
-    {% else if showTellUsYouveVerifiedAPersonsIdentity === true %}
-
-            <h2 class="govuk-heading-s">
-            {{lang.tell_companies_house_id}}
-            <strong class="govuk-tag govuk-tag--blue govuk-!-margin-top-2">
-                {{lang.coming_soon}}
-            </strong>
-        </h2>
-
-        <p class="govuk-body">
-            {{lang.in_future_youll_be_able_to_tell_us}}
-        </p>
-
     {% else %}
 
         <h2 class="govuk-heading-s">
+           {% if showTellUsYouveVerifiedAPersonsIdentity === true %}
+        <a class="govuk-link govuk-link--no-underline govuk-link--no-visited-state" 
+            href="{{youHaveVerifiedSomeonesIdentityLink}}"
+            >
             {{lang.tell_companies_house_id}}
+        </a>
+
+            {% else %}
+            {{lang.tell_companies_house_id}}
+            {% endif %}
             <strong class="govuk-tag govuk-tag--blue govuk-!-margin-top-2">
                 {{lang.coming_soon}}
             </strong>
