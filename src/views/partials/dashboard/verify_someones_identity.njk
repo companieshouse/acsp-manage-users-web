@@ -13,19 +13,23 @@
             {{lang.you_cannot_tell_us}}{{companyName}}{{lang.has_been_suspended}}
         </p>
 
-    {% else %}
+    {% elif showTellUsYouveVerifiedAPersonsIdentity === true %}
 
         <h2 class="govuk-heading-s">
-           {% if showTellUsYouveVerifiedAPersonsIdentity === true %}
         <a class="govuk-link govuk-link--no-underline govuk-link--no-visited-state" 
             href="{{youHaveVerifiedSomeonesIdentityLink}}"
             >
             {{lang.tell_companies_house_id}}
         </a>
+        </h2>
 
-            {% else %}
+        <p class="govuk-body">
+            {{lang.from_8_april}}
+        </p>
+
+    {% else %}
+        <h2 class="govuk-heading-s">
             {{lang.tell_companies_house_id}}
-            {% endif %}
             <strong class="govuk-tag govuk-tag--blue govuk-!-margin-top-2">
                 {{lang.coming_soon}}
             </strong>
