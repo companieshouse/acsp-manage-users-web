@@ -19,7 +19,7 @@ export const makeApiCallWithRetry = async (
 
     let response = await client[serviceName][fnName](...otherParams);
 
-    if (response && response.httpStatusCode === 401) {
+    if (response?.httpStatusCode === 401) {
 
         const responseMsg = `Retrying ${fnName} call on ${serviceName} service after unauthorised response`;
         acspLogger(session, makeApiCallWithRetry.name, `${responseMsg} - ${JSON.stringify(response)}`);
