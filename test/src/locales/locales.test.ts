@@ -111,14 +111,6 @@ describe("Check translation json files", () => {
         expect(findMissingKeys(englishContents, welshContents)).toEqual([]);
     });
 
-    // test.each(welshTranslationFiles)("Check english, welsh translation file %s has no values the same", file => {
-    //     const englishFile = fs.readFileSync(path.resolve(__dirname, englishDirectory + file), "utf-8");
-    //     const welshFile = fs.readFileSync(path.resolve(__dirname, welshDirectory + file), "utf-8");
-    //     const englishContents = JSON.parse(englishFile) as Record<string, unknown>;
-    //     const welshContents = JSON.parse(welshFile) as Record<string, unknown>;
-    //     expect(haveSameValueForAnyKey(welshContents, englishContents)).toEqual(false);
-    // });
-
     test.each(welshTranslationFiles)(
         "Check english, welsh translation file %s has no values the same",
         file => {
