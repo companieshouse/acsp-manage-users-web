@@ -20,7 +20,11 @@ export const getAcspMemberships = async (req: Request, acspNumber: string, inclu
         "getAcspMemberships",
         req,
         req.session as Session,
-        [acspNumber, includeRemoved, pageIndex, itemsPerPage, role]
+        acspNumber,
+        includeRemoved,
+        pageIndex,
+        itemsPerPage,
+        role
     ) as Resource<AcspMembers | Errors>;
 
     if (!sdkResponse) {
@@ -50,8 +54,7 @@ export const getMembershipForLoggedInUser = async (req: Request): Promise<AcspMe
         "acspManageUsersService",
         "getUserAcspMembership",
         req,
-        req.session as Session,
-        []
+        req.session as Session
     ) as Resource<AcspMembers | Errors>;
 
     if (!sdkResponse) {
@@ -82,7 +85,9 @@ export const createAcspMembership = async (req: Request, acspNumber: string, use
         "createAcspMembership",
         req,
         req.session as Session,
-        [acspNumber, userId, userRole]
+        acspNumber,
+        userId,
+        userRole
     ) as Resource<AcspMembership | Errors>;
 
     if (!sdkResponse) {
@@ -113,7 +118,8 @@ export const updateOrRemoveUserAcspMembership = async (req: Request, acspMembers
         "updateOrRemoveUserAcspMembership",
         req,
         req.session as Session,
-        [acspMembershipId, updateOrRemove]
+        acspMembershipId,
+        updateOrRemove
     ) as Resource<undefined | Errors>;
 
     if (!sdkResponse) {
@@ -138,7 +144,8 @@ export const membershipLookup = async (req: Request, acspNumber: string, email: 
         "membershipLookup",
         req,
         req.session as Session,
-        [acspNumber, email]
+        acspNumber,
+        email
     ) as Resource<AcspMembers | Errors>;
 
     if (!sdkResponse) {
@@ -169,7 +176,7 @@ export const getAcspMembershipForMemberId = async (req: Request, acspMembershipI
         "getAcspMembershipForMemberId",
         req,
         req.session as Session,
-        [acspMembershipId]
+        acspMembershipId
     ) as Resource<AcspMembership | Errors>;
 
     if (!sdkResponse) {
