@@ -19,6 +19,7 @@ import { tryEditMemberRolePost } from "./controllers/tryEditMemberRoleController
 import { cannotAddUserControllerGet } from "./controllers/cannotAddUserController";
 import { sanitizeMembershipIdMiddleware } from "../middleware/sanitize.membership.id.middleware";
 import { accessDeniedControllerGet } from "./controllers/accessDeniedController";
+import { accessibilityStatementAuthorisedAgentControllerGet } from "./controllers/accessibilityStatementAuthorisedAgentController";
 
 const router: Router = Router();
 
@@ -60,5 +61,7 @@ router.get(constants.HEALTHCHECK, healthCheckController);
 router.get(constants.SOMETHING_WENT_WRONG_URL, somethingWentWrongController);
 
 router.get(constants.ACCESS_DENIED_URL, accessDeniedControllerGet);
+
+router.get(constants.ACCESSIBILITY_STATEMENT_URL, accessibilityStatementAuthorisedAgentControllerGet);
 
 export default router;
