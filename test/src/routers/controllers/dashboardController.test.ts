@@ -264,4 +264,31 @@ describe(`GET ${url}`, () => {
         expect(decodedResponse).toContain("For information about your legal responsibilities and how to use this account");
     });
 
+    it("should display the link to tell companies house you have verified someones identity when feature enabled", async () => {
+        // Given
+        getLoggedUserAcspMembershipSpy.mockReturnValue(accountOwnerAcspMembership);
+        when(isFeatureEnabledSpy).calledWith(constants.FEATURE_FLAG_SHOW_TELL_US_YOUVE_VERIFIED_A_PERSONS_IDENTITY).mockReturnValue(true);
+        // When
+        const encodedResponse = await router.get(url);
+        const decodedResponse = encodedResponse.text.replace(/&#39;/g, "'");
+
+        // Then
+        expect(decodedResponse).toContain(
+            `href="/tell-companies-house-you-have-verified-someones-identity"`
+        );
+    });
+
+    it("should not display the link to tell companies house you have verified someones identity when feature not enabled", async () => {
+        // Given
+        getLoggedUserAcspMembershipSpy.mockReturnValue(accountOwnerAcspMembership);
+        when(isFeatureEnabledSpy).calledWith(constants.FEATURE_FLAG_SHOW_TELL_US_YOUVE_VERIFIED_A_PERSONS_IDENTITY).mockReturnValue(false);
+        // When
+        const encodedResponse = await router.get(url);
+        const decodedResponse = encodedResponse.text.replace(/&#39;/g, "'");
+
+        // Then
+        expect(decodedResponse).not.toContain(
+            `href="/tell-companies-house-you-have-verified-someones-identity"`
+        );
+    });
 });

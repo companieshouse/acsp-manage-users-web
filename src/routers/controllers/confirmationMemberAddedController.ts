@@ -6,6 +6,7 @@ import { getExtraData } from "../../lib/utils/sessionUtils";
 import { NewUserDetails } from "../../types/user";
 import { getUserRoleTag } from "../../lib/utils/viewUtils";
 import { AcspMembership, UserRole } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
+import { acspLogger } from "../../lib/helpers/acspLogger";
 
 interface ConfirmationMemberAddedGetViewData extends BaseViewData {
     newUserDetails: NewUserDetails,
@@ -17,7 +18,6 @@ interface ConfirmationMemberAddedGetViewData extends BaseViewData {
 export const confirmationMemberAddedControllerGet = async (req: Request, res: Response): Promise<void> => {
     const translations = getTranslationsForView(req.lang, constants.CONFIRMATION_MEMBER_ADDED_PAGE);
 
-    // Hardcoded data will be replaced once relevant API calls available
     const newUserDetails: NewUserDetails = getExtraData(req.session, constants.DETAILS_OF_USER_TO_ADD);
     const userRole = getUserRoleTag(newUserDetails.userRole as UserRole, req.lang, true);
 
@@ -32,6 +32,7 @@ export const confirmationMemberAddedControllerGet = async (req: Request, res: Re
         userRole,
         companyName
     };
+    acspLogger(req.session, confirmationMemberAddedControllerGet.name, ` rendering confirmation member added`);
 
     res.render(constants.CONFIRMATION_MEMBER_ADDED_PAGE, viewData);
 };

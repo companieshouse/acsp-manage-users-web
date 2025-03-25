@@ -5,6 +5,7 @@ import { MemberForRemoval } from "../../types/membership";
 import { getExtraData, getLoggedUserAcspMembership } from "../../lib/utils/sessionUtils";
 import { AcspMembership } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
 import { BaseViewData } from "../../types/utilTypes";
+import { acspLogger } from "../../lib/helpers/acspLogger";
 
 interface RemoveUserSuccessGet extends BaseViewData {
     companyName: string,
@@ -24,6 +25,7 @@ export const removeUserSuccessControllerGet = async (req: Request, res: Response
         buttonHref: constants.MANAGE_USERS_FULL_URL,
         templateName: constants.USER_REMOVE_CONFIRMATION_PAGE
     };
+    acspLogger(req.session, removeUserSuccessControllerGet.name, `rendering confirmation member removed`);
 
     res.render(constants.USER_REMOVE_CONFIRMATION_PAGE, viewData);
 };

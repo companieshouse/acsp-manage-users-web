@@ -27,7 +27,6 @@ export const VALIDATION_ERRORS = "VALIDATION_ERRORS";
 // External URLs
 export const CHS_SEARCH_REGISTER_PAGE = "https://find-and-update.company-information.service.gov.uk/";
 export const UPDATE_AUTHORISED_AGENTS_DETAILS_URL = "/placeholder-url-to-service-build-by-other-team";
-export const YOU_HAVE_VERIFIED_SOMEONES_IDENTITY_URL = "/placeholder-url-to-service-build-by-other-team";
 export const ABILITY_NET_ADVICE_URL = "https://mcmw.abilitynet.org.uk/";
 export const ACCESSIBILITY_SUPPORT_GUIDANCE_URL = "https://www.gov.uk/guidance/accessibility-support-for-companies-house-users";
 export const DIGITAL_ACCESSIBILITY_CENTRE_URL = "https://digitalaccessibilitycentre.org/auditandaccreditation.html";
@@ -37,6 +36,7 @@ export const USABILITY_BLOG_URL = "https://companieshouse.blog.gov.uk/category/u
 export const USER_PANEL_URL = "https://www.gov.uk/government/news/help-improve-companies-house";
 export const WCAG_URL = "https://www.w3.org/TR/WCAG22/";
 
+export const YOU_HAVE_VERIFIED_SOMEONES_IDENTITY_URL = "/tell-companies-house-you-have-verified-someones-identity";
 export const SIGN_OUT_URL = `${CHS_URL}/signout`;
 
 // Translation and Template Keys
@@ -97,6 +97,7 @@ export const NOT_PROVIDED_CY = "Heb ei ddarparu";
 export const FEATURE_FLAG_SHOW_FILE_AS_AUTHORISED_AGENT = "FEATURE_FLAG_SHOW_FILE_AS_AUTHORISED_AGENT";
 export const FEATURE_FLAG_SHOW_UPDATE_AUTHORISED_AGENT_DETAILS = "FEATURE_FLAG_SHOW_UPDATE_AUTHORISED_AGENT_DETAILS";
 export const FEATURE_FLAG_SHOW_CLOSE_AUTHORISED_AGENT = "FEATURE_FLAG_SHOW_CLOSE_AUTHORISED_AGENT";
+export const FEATURE_FLAG_SHOW_TELL_US_YOUVE_VERIFIED_A_PERSONS_IDENTITY = "FEATURE_FLAG_SHOW_TELL_US_YOUVE_VERIFIED_A_PERSONS_IDENTITY";
 
 // URL Base Paths and Helpers
 export const HEALTHCHECK = "/healthcheck";

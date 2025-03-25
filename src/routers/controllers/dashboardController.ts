@@ -6,6 +6,7 @@ import { getUserRoleTag } from "../../lib/utils/viewUtils";
 import { getLoggedUserAcspMembership } from "../../lib/utils/sessionUtils";
 import { BaseViewData } from "../../types/utilTypes";
 import { isFeatureEnabled } from "../../lib/utils/environmentValue";
+import { acspLogger } from "../../lib/helpers/acspLogger";
 
 interface DashboardGetViewData extends BaseViewData {
     agentNumber: string,
@@ -20,6 +21,7 @@ interface DashboardGetViewData extends BaseViewData {
     showFileAsAuthorisedAgent: boolean,
     showUpdateAuthorisedAgentDetails: boolean,
     showCloseAuthorisedAgent: boolean,
+    showTellUsYouveVerifiedAPersonsIdentity:boolean
 }
 
 export const dashboardControllerGet = async (req: Request, res: Response): Promise<void> => {
@@ -43,8 +45,9 @@ export const dashboardControllerGet = async (req: Request, res: Response): Promi
         userRoleTag: getUserRoleTag(loggedUserAcspMembership.userRole, req.lang, true),
         showFileAsAuthorisedAgent: isFeatureEnabled(constants.FEATURE_FLAG_SHOW_FILE_AS_AUTHORISED_AGENT),
         showUpdateAuthorisedAgentDetails: isFeatureEnabled(constants.FEATURE_FLAG_SHOW_UPDATE_AUTHORISED_AGENT_DETAILS),
-        showCloseAuthorisedAgent: isFeatureEnabled(constants.FEATURE_FLAG_SHOW_CLOSE_AUTHORISED_AGENT)
+        showCloseAuthorisedAgent: isFeatureEnabled(constants.FEATURE_FLAG_SHOW_CLOSE_AUTHORISED_AGENT),
+        showTellUsYouveVerifiedAPersonsIdentity: isFeatureEnabled(constants.FEATURE_FLAG_SHOW_TELL_US_YOUVE_VERIFIED_A_PERSONS_IDENTITY)
     };
-
+    acspLogger(req.session, dashboardControllerGet.name, `rendering dashboard page`);
     res.render(constants.DASHBOARD_PAGE, viewData);
 };

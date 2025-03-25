@@ -3,6 +3,7 @@ import * as constants from "../../lib/constants";
 import { getTranslationsForView } from "../../lib/utils/translationUtils";
 import { UserRoleChangeData, ViewDataWithBackLink } from "../../types/utilTypes";
 import { getExtraData, getLoggedUserAcspMembership } from "../../lib/utils/sessionUtils";
+import { acspLogger } from "../../lib/helpers/acspLogger";
 
 interface ConfirmationMemberRoleEditedGetViewData extends ViewDataWithBackLink {
     companyName: string,
@@ -25,6 +26,7 @@ export const confirmationMemberRoleEditedControllerGet = async (req: Request, re
         userRole: userRoleChangeData.userRole,
         backLinkUrl: constants.MANAGE_USERS_FULL_URL
     };
+    acspLogger(req.session, confirmationMemberRoleEditedControllerGet.name, `rendering confirmation member edited`);
 
     res.render(constants.CONFIRMATION_MEMBER_ROLE_EDITED_PAGE, viewData);
 };

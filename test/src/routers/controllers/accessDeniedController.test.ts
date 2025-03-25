@@ -25,10 +25,8 @@ describe("GET /authorised-agent/access-denied", () => {
             expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
             expect(response.status).toEqual(200);
             expect(response.text).toContain(lang.page_header);
-            expect(response.text).toContain(lang.you_are_not_authorized_to_access);
-            expect(response.text).toContain(lang.this_may_be_due_to_lack_of_association);
-            expect(response.text).toContain(lang.you_can_return_back_to);
-            expect(response.text).toContain(lang.search_company_page);
-            expect(response.text).toContain(lang.or_contact_companies_house);
+            expect(response.text).toContain(lang.apply_to_register_as_an_authorised_agent);
+            expect(response.text).toContain(lang.youll_need_to_ask_to_be_added);
+            expect(response.text).toContain(lang.if_theres_not_an_existing_account);
         });
 });
