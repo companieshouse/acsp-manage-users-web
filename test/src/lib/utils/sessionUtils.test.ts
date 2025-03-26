@@ -181,6 +181,15 @@ describe("Session Utils", () => {
             expect(existingAccessToken).toEqual(expectedExistingAccessToken);
             expect(newAccessToken).toEqual(accessToken);
         });
+
+        it("throw an error if signInInfo not available in session", () => {
+            // Given
+            const session: Session = new Session();
+            const accessToken = "asdfgzxcv12345";
+            // Then
+            expect(() => sessionUtils.setAccessToken(session, accessToken))
+                .toThrow("SignInInfo not present in the session");
+        });
     });
 
     describe("getRefreshToken", () => {
