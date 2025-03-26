@@ -53,10 +53,11 @@ export const setAccessToken = (session: Session, accessToken: string): void => {
     if (signInInfo) {
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         signInInfo[SignInInfoKeys.AccessToken]![AccessTokenKeys.AccessToken] = accessToken;
+    } else {
+        const errorMessage = "SignInInfo not present in the session";
+        acspLogger(session, setAccessToken.name, errorMessage, true);
+        throw new Error(errorMessage);
     }
-    const errorMessage = "SignInInfo not present in the session";
-    acspLogger(session, setAccessToken.name, errorMessage, true);
-    throw new Error(errorMessage);
 };
 
 export const getRefreshToken = (session: Session): string => {
