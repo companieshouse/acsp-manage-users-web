@@ -43,10 +43,10 @@ $govuk-font-url-function: "custom-url-handler";
     padding: 12px 0 8px 0;
 }
 
-.govuk-list--bullet-accessibility > li {
-    margin-bottom: 5px !important;
-  }
-  
+.link-list > li {
+  margin-bottom: 5px;
+}
+
 
 /* styling from https://github.com/companieshouse/find-update-company-info-prototype/blob/main/app/assets/sass/custom.scss */
 
