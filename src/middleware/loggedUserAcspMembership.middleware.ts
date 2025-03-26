@@ -6,7 +6,7 @@ import * as constants from "../lib/constants";
 import { isWhitelistedUrl } from "../lib/utils/urlUtils";
 
 export const loggedUserAcspMembershipMiddleware = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    if (isWhitelistedUrl(req.originalUrl)) {
+    if (isWhitelistedUrl(req.originalUrl) || req.originalUrl.startsWith(constants.ACCESS_DENIED_FULL_URL)) {
         return next();
     }
     const acspMembershipInSession: AcspMembership = getLoggedUserAcspMembership(req.session);
