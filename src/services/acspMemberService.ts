@@ -1,10 +1,11 @@
-import { createOauthPrivateApiClient } from "./apiClientService";
 import { Resource } from "@companieshouse/api-sdk-node";
 import { StatusCodes } from "http-status-codes";
 import createError from "http-errors";
 import { AcspMembers, AcspMembership, Errors, UserRole, UpdateOrRemove } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
 import { Request } from "express";
 import { acspLogger } from "../lib/helpers/acspLogger";
+import { makeApiCallWithRetry } from "./apiCallRetryService";
+import { Session } from "@companieshouse/node-session-handler";
 
 /*
     This service provides access to ACSP members
@@ -13,9 +14,18 @@ const stringifyApiErrors = (resource: Resource<AcspMembers | AcspMembership | Er
     return JSON.stringify((resource?.resource as Errors)?.errors || "No error list returned");
 };
 
-export const getAcspMemberships = async (req: Request, acspNumber: string, includeRemoved?:boolean, pageIndex?:number, itemsPerPage?:number, role?: UserRole[]): Promise<AcspMembers> => {
-    const apiClient = createOauthPrivateApiClient(req);
-    const sdkResponse: Resource<AcspMembers | Errors> = await apiClient.acspManageUsersService.getAcspMemberships(acspNumber, includeRemoved, pageIndex, itemsPerPage, role);
+export const getAcspMemberships = async (req: Request, acspNumber: string, includeRemoved?: boolean, pageIndex?: number, itemsPerPage?: number, role?: UserRole[]): Promise<AcspMembers> => {
+    const sdkResponse = await makeApiCallWithRetry(
+        "acspManageUsersService",
+        "getAcspMemberships",
+        req,
+        req.session as Session,
+        acspNumber,
+        includeRemoved,
+        pageIndex,
+        itemsPerPage,
+        role
+    ) as Resource<AcspMembers | Errors>;
 
     if (!sdkResponse) {
         const errMsg = `GET /acsps/${acspNumber}/memberships - no response received`;
@@ -40,8 +50,12 @@ export const getAcspMemberships = async (req: Request, acspNumber: string, inclu
 };
 
 export const getMembershipForLoggedInUser = async (req: Request): Promise<AcspMembers> => {
-    const apiClient = createOauthPrivateApiClient(req);
-    const sdkResponse: Resource<AcspMembers | Errors> = await apiClient.acspManageUsersService.getUserAcspMembership();
+    const sdkResponse = await makeApiCallWithRetry(
+        "acspManageUsersService",
+        "getUserAcspMembership",
+        req,
+        req.session as Session
+    ) as Resource<AcspMembers | Errors>;
 
     if (!sdkResponse) {
         const errMsg = `GET /user/acsps/memberships for logged in user - no response received`;
@@ -66,8 +80,15 @@ export const getMembershipForLoggedInUser = async (req: Request): Promise<AcspMe
 };
 
 export const createAcspMembership = async (req: Request, acspNumber: string, userId: string, userRole: UserRole): Promise<AcspMembership> => {
-    const apiClient = createOauthPrivateApiClient(req);
-    const sdkResponse: Resource<AcspMembership | Errors> = await apiClient.acspManageUsersService.createAcspMembership(acspNumber, userId, userRole);
+    const sdkResponse = await makeApiCallWithRetry(
+        "acspManageUsersService",
+        "createAcspMembership",
+        req,
+        req.session as Session,
+        acspNumber,
+        userId,
+        userRole
+    ) as Resource<AcspMembership | Errors>;
 
     if (!sdkResponse) {
         const errMsg = `POST /acsps/${acspNumber}/memberships - no response received`;
@@ -92,9 +113,14 @@ export const createAcspMembership = async (req: Request, acspNumber: string, use
 };
 
 export const updateOrRemoveUserAcspMembership = async (req: Request, acspMembershipId: string, updateOrRemove: UpdateOrRemove): Promise<void> => {
-    const apiClient = createOauthPrivateApiClient(req);
-
-    const sdkResponse: Resource<undefined | Errors> = await apiClient.acspManageUsersService.updateOrRemoveUserAcspMembership(acspMembershipId, updateOrRemove);
+    const sdkResponse = await makeApiCallWithRetry(
+        "acspManageUsersService",
+        "updateOrRemoveUserAcspMembership",
+        req,
+        req.session as Session,
+        acspMembershipId,
+        updateOrRemove
+    ) as Resource<undefined | Errors>;
 
     if (!sdkResponse) {
         const errMsg = `PATCH /acsps/memberships/${acspMembershipId} - no response received`;
@@ -113,9 +139,14 @@ export const updateOrRemoveUserAcspMembership = async (req: Request, acspMembers
 };
 
 export const membershipLookup = async (req: Request, acspNumber: string, email: string): Promise<AcspMembers> => {
-    const apiClient = createOauthPrivateApiClient(req);
-
-    const sdkResponse: Resource<AcspMembers | Errors> = await apiClient.acspManageUsersService.membershipLookup(acspNumber, email);
+    const sdkResponse = await makeApiCallWithRetry(
+        "acspManageUsersService",
+        "membershipLookup",
+        req,
+        req.session as Session,
+        acspNumber,
+        email
+    ) as Resource<AcspMembers | Errors>;
 
     if (!sdkResponse) {
         const errMsg = `POST /acsps/${acspNumber}/memberships/lookup - no response received`;
@@ -140,9 +171,13 @@ export const membershipLookup = async (req: Request, acspNumber: string, email: 
 };
 
 export const getAcspMembershipForMemberId = async (req: Request, acspMembershipId: string): Promise<AcspMembership> => {
-    const apiClient = createOauthPrivateApiClient(req);
-
-    const sdkResponse: Resource<AcspMembership | Errors> = await apiClient.acspManageUsersService.getAcspMembershipForMemberId(acspMembershipId);
+    const sdkResponse = await makeApiCallWithRetry(
+        "acspManageUsersService",
+        "getAcspMembershipForMemberId",
+        req,
+        req.session as Session,
+        acspMembershipId
+    ) as Resource<AcspMembership | Errors>;
 
     if (!sdkResponse) {
         const errMsg = `GET /acsps/memberships/${acspMembershipId} - no response received`;
