@@ -23,8 +23,15 @@ export const manageUsersControllerGet = async (req: Request, res: Response): Pro
 
 export const manageUsersControllerPost = async (req: Request, res: Response): Promise<void> => {
     const { userRole } = getLoggedUserAcspMembership(req.session);
-    const search = req.body.search.replace(/ /g, "");
-    const url = userRole === UserRole.STANDARD ? `${constants.VIEW_USERS_FULL_URL}?search=${search}` : `${constants.MANAGE_USERS_FULL_URL}?search=${search}`;
+
+    const originalSearch = req.body.search;
+    const trimmedSearch = originalSearch.replace(/ /g, "");
+    const cleanedSearch = trimmedSearch.toLowerCase();
+
+    const url = userRole === UserRole.STANDARD
+        ? `${constants.VIEW_USERS_FULL_URL}?search=${cleanedSearch}&display=${encodeURIComponent(originalSearch)}`
+        : `${constants.MANAGE_USERS_FULL_URL}?search=${cleanedSearch}&display=${encodeURIComponent(originalSearch)}`;
+
     const sanitizedUrl = sanitizeUrl(url);
     res.redirect(sanitizedUrl);
 };
@@ -40,6 +47,8 @@ export const getViewData = async (req: Request): Promise<AnyRecord> => {
     deleteExtraData(req.session, constants.IS_SELECT_USER_ROLE_ERROR);
     deleteExtraData(req.session, constants.DETAILS_OF_USER_TO_REMOVE);
     const search = req.query?.search as string;
+    const displaySearch = req.query?.display as string ?? search;
+    const searchLowercase = search?.toLowerCase();
     const { ownerPage, adminPage, standardPage } = getPageQueryParams(req);
     const activeTabId = getActiveTabId(req);
 
@@ -70,7 +79,7 @@ export const getViewData = async (req: Request): Promise<AnyRecord> => {
     };
 
     let errorMessage;
-    const isSearchValid = !search || validateEmailString(search);
+    const isSearchValid = !search || validateEmailString(searchLowercase);
 
     if (search && !isSearchValid) {
         errorMessage = constants.ERRORS_ENTER_AN_EMAIL_ADDRESS_IN_THE_CORRECT_FORMAT;
@@ -79,7 +88,7 @@ export const getViewData = async (req: Request): Promise<AnyRecord> => {
                 text: errorMessage
             }
         };
-        viewData.search = search;
+        viewData.search = displaySearch;
     }
 
     const formatMember = (member: AcspMembership) => ({
@@ -94,7 +103,7 @@ export const getViewData = async (req: Request): Promise<AnyRecord> => {
 
     if (isSearchValid && search) {
         try {
-            const foundUser = await membershipLookup(req, acspNumber, search);
+            const foundUser = await membershipLookup(req, acspNumber, searchLowercase);
             if (foundUser.items.length > 0) {
                 setTabIds(viewData, foundUser.items[0].userRole);
 
@@ -123,7 +132,7 @@ export const getViewData = async (req: Request): Promise<AnyRecord> => {
             acspLogger(req.session, getViewData.name, `/acsps/${acspNumber}/memberships/lookup Membership for email entered not found.`, true);
             viewData.manageUsersTabId = constants.ACCOUNT_OWNERS_TAB_ID;
         }
-        viewData.search = search;
+        viewData.search = displaySearch;
     } else {
         const [ownerMemberRawViewData, adminMemberRawViewData, standardMemberRawViewData] = await Promise.all([
             getMemberRawViewData(req, acspNumber, pageNumbers, UserRole.OWNER, constants.ACCOUNT_OWNERS_TAB_ID, translations, userRole),
