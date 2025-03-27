@@ -23,8 +23,14 @@ export const manageUsersControllerGet = async (req: Request, res: Response): Pro
 
 export const manageUsersControllerPost = async (req: Request, res: Response): Promise<void> => {
     const { userRole } = getLoggedUserAcspMembership(req.session);
-    const search = req.body.search.replace(/ /g, "").toLowerCase();
-    const url = userRole === UserRole.STANDARD ? `${constants.VIEW_USERS_FULL_URL}?search=${search}` : `${constants.MANAGE_USERS_FULL_URL}?search=${search}`;
+
+    const originalSearch = req.body.search;
+    const cleanedSearch = originalSearch.replace(/ /g, "").toLowerCase();
+
+    const url = userRole === UserRole.STANDARD
+        ? `${constants.VIEW_USERS_FULL_URL}?search=${cleanedSearch}`
+        : `${constants.MANAGE_USERS_FULL_URL}?search=${cleanedSearch}`;
+
     const sanitizedUrl = sanitizeUrl(url);
     res.redirect(sanitizedUrl);
 };
@@ -39,8 +45,8 @@ export const getViewData = async (req: Request): Promise<AnyRecord> => {
     deleteExtraData(req.session, constants.USER_ROLE_CHANGE_DATA);
     deleteExtraData(req.session, constants.IS_SELECT_USER_ROLE_ERROR);
     deleteExtraData(req.session, constants.DETAILS_OF_USER_TO_REMOVE);
-    const rawSearch = req.query?.search as string;
-    const search = rawSearch?.replace(/ /g, "").toLowerCase();
+    const search = req.query?.search as string;
+    const searchLowercase = search?.toLowerCase();
     const { ownerPage, adminPage, standardPage } = getPageQueryParams(req);
     const activeTabId = getActiveTabId(req);
 
@@ -71,7 +77,7 @@ export const getViewData = async (req: Request): Promise<AnyRecord> => {
     };
 
     let errorMessage;
-    const isSearchValid = !search || validateEmailString(search);
+    const isSearchValid = !search || validateEmailString(searchLowercase);
 
     if (search && !isSearchValid) {
         errorMessage = constants.ERRORS_ENTER_AN_EMAIL_ADDRESS_IN_THE_CORRECT_FORMAT;
@@ -95,7 +101,7 @@ export const getViewData = async (req: Request): Promise<AnyRecord> => {
 
     if (isSearchValid && search) {
         try {
-            const foundUser = await membershipLookup(req, acspNumber, search);
+            const foundUser = await membershipLookup(req, acspNumber, searchLowercase);
             if (foundUser.items.length > 0) {
                 setTabIds(viewData, foundUser.items[0].userRole);
 
