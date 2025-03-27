@@ -26,14 +26,14 @@ export const manageUsersControllerPost = async (req: Request, res: Response): Pr
 
     const originalSearch = req.body.search;
     const trimmedSearch = originalSearch.replace(/ /g, "");
-    const cleanedSearch = trimmedSearch.toLowerCase();
 
     const url = userRole === UserRole.STANDARD
-        ? `${constants.VIEW_USERS_FULL_URL}?search=${cleanedSearch}&display=${encodeURIComponent(originalSearch)}`
-        : `${constants.MANAGE_USERS_FULL_URL}?search=${cleanedSearch}&display=${encodeURIComponent(originalSearch)}`;
+        ? `${constants.VIEW_USERS_FULL_URL}?search=${encodeURIComponent(trimmedSearch)}`
+        : `${constants.MANAGE_USERS_FULL_URL}?search=${encodeURIComponent(trimmedSearch)}`;
 
     const sanitizedUrl = sanitizeUrl(url);
     res.redirect(sanitizedUrl);
+
 };
 
 export const getTitle = (translations: AnyRecord, loggedInUserRole: UserRole, isError: boolean): string => {
@@ -47,7 +47,6 @@ export const getViewData = async (req: Request): Promise<AnyRecord> => {
     deleteExtraData(req.session, constants.IS_SELECT_USER_ROLE_ERROR);
     deleteExtraData(req.session, constants.DETAILS_OF_USER_TO_REMOVE);
     const search = req.query?.search as string;
-    const displaySearch = req.query?.display as string ?? search;
     const searchLowercase = search?.toLowerCase();
     const { ownerPage, adminPage, standardPage } = getPageQueryParams(req);
     const activeTabId = getActiveTabId(req);
@@ -88,7 +87,7 @@ export const getViewData = async (req: Request): Promise<AnyRecord> => {
                 text: errorMessage
             }
         };
-        viewData.search = displaySearch;
+        viewData.search = search;
     }
 
     const formatMember = (member: AcspMembership) => ({
@@ -132,7 +131,7 @@ export const getViewData = async (req: Request): Promise<AnyRecord> => {
             acspLogger(req.session, getViewData.name, `/acsps/${acspNumber}/memberships/lookup Membership for email entered not found.`, true);
             viewData.manageUsersTabId = constants.ACCOUNT_OWNERS_TAB_ID;
         }
-        viewData.search = displaySearch;
+        viewData.search = search;
     } else {
         const [ownerMemberRawViewData, adminMemberRawViewData, standardMemberRawViewData] = await Promise.all([
             getMemberRawViewData(req, acspNumber, pageNumbers, UserRole.OWNER, constants.ACCOUNT_OWNERS_TAB_ID, translations, userRole),
