@@ -15,6 +15,9 @@ export const ENV_NAME = getEnvironmentValue("ENV_NAME");
 export const INTERNAL_API_URL = getEnvironmentValue("INTERNAL_API_URL");
 export const MATOMO_ADD_USER_GOAL_ID = getEnvironmentValue("MATOMO_ADD_USER_GOAL_ID");
 export const MATOMO_REMOVE_USER_GOAL_ID = getEnvironmentValue("MATOMO_REMOVE_USER_GOAL_ID");
+export const OAUTH2_CLIENT_ID = getEnvironmentValue(`OAUTH2_CLIENT_ID`);
+export const OAUTH2_CLIENT_SECRET = getEnvironmentValue(`OAUTH2_CLIENT_SECRET`);
+export const API_URL = getEnvironmentValue("API_URL");
 
 // Error Constants
 export const ERRORS_EMAIL_INVALID = "errors_email_invalid";
@@ -27,7 +30,16 @@ export const VALIDATION_ERRORS = "VALIDATION_ERRORS";
 // External URLs
 export const CHS_SEARCH_REGISTER_PAGE = "https://find-and-update.company-information.service.gov.uk/";
 export const UPDATE_AUTHORISED_AGENTS_DETAILS_URL = "/placeholder-url-to-service-build-by-other-team";
-export const YOU_HAVE_VERIFIED_SOMEONES_IDENTITY_URL = "/placeholder-url-to-service-build-by-other-team";
+export const ABILITY_NET_ADVICE_URL = "https://mcmw.abilitynet.org.uk/";
+export const ACCESSIBILITY_SUPPORT_GUIDANCE_URL = "https://www.gov.uk/guidance/accessibility-support-for-companies-house-users";
+export const DIGITAL_ACCESSIBILITY_CENTRE_URL = "https://digitalaccessibilitycentre.org/auditandaccreditation.html";
+export const EQUALITY_ADVISOR_SERVICE_URL = "https://www.equalityadvisoryservice.com/";
+export const GOV_ACCESSIBILITY_URL = "https://www.gov.uk/service-manual/helping-people-to-use-your-service/making-your-service-accessible-an-introduction#meeting-government-accessibility-requirements";
+export const USABILITY_BLOG_URL = "https://companieshouse.blog.gov.uk/category/user-research/";
+export const USER_PANEL_URL = "https://www.gov.uk/government/news/help-improve-companies-house";
+export const WCAG_URL = "https://www.w3.org/TR/WCAG22/";
+
+export const YOU_HAVE_VERIFIED_SOMEONES_IDENTITY_URL = "/tell-companies-house-you-have-verified-someones-identity";
 export const SIGN_OUT_URL = `${CHS_URL}/signout`;
 
 // Translation and Template Keys
@@ -62,6 +74,7 @@ export const TRY_EDIT_MEMBER_ROLE_PAGE = "try-edit-member-role";
 export const TRY_REMOVING_USER = "try-removing-user";
 export const USER_REMOVE_CONFIRMATION_PAGE = "confirmation-member-removed";
 export const VIEW_USERS_PAGE = "view-users";
+export const ACCESSIBILITY_STATEMENT_PAGE = "accessibility-statement";
 
 // Query Parameters
 export const ADMIN_PAGE_QUERY_PARAM = "adminPage";
@@ -87,6 +100,8 @@ export const NOT_PROVIDED_CY = "Heb ei ddarparu";
 export const FEATURE_FLAG_SHOW_FILE_AS_AUTHORISED_AGENT = "FEATURE_FLAG_SHOW_FILE_AS_AUTHORISED_AGENT";
 export const FEATURE_FLAG_SHOW_UPDATE_AUTHORISED_AGENT_DETAILS = "FEATURE_FLAG_SHOW_UPDATE_AUTHORISED_AGENT_DETAILS";
 export const FEATURE_FLAG_SHOW_CLOSE_AUTHORISED_AGENT = "FEATURE_FLAG_SHOW_CLOSE_AUTHORISED_AGENT";
+export const FEATURE_FLAG_SHOW_TELL_US_YOUVE_VERIFIED_A_PERSONS_IDENTITY = "FEATURE_FLAG_SHOW_TELL_US_YOUVE_VERIFIED_A_PERSONS_IDENTITY";
+export const REFRESH_TOKEN_GRANT_TYPE = "refresh_token";
 
 // URL Base Paths and Helpers
 export const HEALTHCHECK = "/healthcheck";
@@ -114,6 +129,7 @@ export const TRY_ADDING_USER_URL = `/${TRY_ADDING_USER}`;
 export const TRY_EDIT_MEMBER_ROLE_URL = `/${TRY_EDIT_MEMBER_ROLE_PAGE}`;
 export const TRY_REMOVING_USER_URL = `/${TRY_REMOVING_USER}`;
 export const VIEW_USERS_URL = `/${VIEW_USERS_PAGE}`;
+export const ACCESSIBILITY_STATEMENT_URL = `/${ACCESSIBILITY_STATEMENT_PAGE}`;
 
 // Full URLs
 export const getFullUrl = (url: string): string => `${LANDING_URL}${url}`;
@@ -137,3 +153,4 @@ export const TRY_ADDING_USER_FULL_URL = getFullUrl(TRY_ADDING_USER_URL);
 export const TRY_EDIT_MEMBER_ROLE_FULL_URL = getFullUrl(TRY_EDIT_MEMBER_ROLE_URL);
 export const TRY_REMOVING_USER_FULL_URL = getFullUrl(TRY_REMOVING_USER_URL);
 export const VIEW_USERS_FULL_URL = getFullUrl(VIEW_USERS_URL);
+export const ACCESSIBILITY_STATEMENT_FULL_URL = getFullUrl(ACCESSIBILITY_STATEMENT_URL);

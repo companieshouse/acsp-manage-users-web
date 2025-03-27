@@ -1,0 +1,111 @@
+{% extends "layouts/shell.njk" %}
+
+{% set title = lang.page_header + lang.title_end %}
+
+{% block main_content %}
+
+    <h1 class="govuk-heading-l">{{ lang.page_header }}</h1>
+
+    <ul id="accessibility-statement-index-list" class="govuk-list govuk-list--bullet">
+        <li>
+            <a href="#about">{{ lang.about_this_service }}</a>
+        </li>
+        <li>
+            <a href="#accessibility">{{ lang.how_accessible_this_service_is }}</a>
+        </li>
+        <li>
+            <a href="#feedback">{{ lang.feedback_and_contact_information }}</a>
+        </li>
+        <li>
+            <a href="#enforcement">{{ lang.enforcement_procedure }}</a>
+        </li>
+        <li>
+            <a href="#technical">{{ lang.technical_information }}</a>
+        </li>
+        <li>
+            <a href="#improvements">{{ lang.what_were_doing_to_improve }}</a>
+        </li>
+        <li>
+            <a href="#preparation">{{ lang.preparation_of_statement }}</a>
+        </li>
+    </ul>
+
+    <h2 id="about" class="govuk-heading-m">{{ lang.about_this_service }}</h2>
+    <p class="govuk-body">{{ lang.about_this_service_description }}</p>
+    <p class="govuk-body">
+        {{ lang.service_details_first_part }}
+        <a href="{{ lang.companies_house_url }}" class="govuk-link">{{ lang.companies_house_text }}</a>. 
+        {{ lang.service_details_second_part }}
+    </p>
+
+    <ul class="govuk-list govuk-list--bullet">
+        {% for feature in lang.accessibility_features %}
+            <li>{{ feature }}</li>
+        {% endfor %}
+    </ul>
+
+    <p class="govuk-body">{{ lang.simplified_text }}</p>
+    <p class="govuk-body">
+        <a href="{{ urls.ACCESSIBILITY_SUPPORT_GUIDANCE_URL }}" class="govuk-link">{{ lang.accessibility_support_link_text }}</a>
+    </p>
+
+    <div class="govuk-inset-text">
+        <a href="{{ urls.ABILITY_NET_ADVICE_URL }}" class="govuk-link">{{ lang.abilitynet_advice }}</a>
+    </div>
+
+    <h2 id="accessibility" class="govuk-heading-m">{{ lang.how_accessible_this_service_is }}</h2>
+    <p class="govuk-body">{{ lang.service_accessibility_status }}</p>
+
+    <h2 id="feedback" class="govuk-heading-m">{{ lang.feedback_and_contact_information }}</h2>
+    <p class="govuk-body">{{ lang.feedback_description }}</p>
+    <p class="govuk-body">
+        {{ lang.feedback_problem_instruction }}
+        <a href="{{ urls.ACCESSIBILITY_SUPPORT_GUIDANCE_URL }}" class="govuk-link">{{ lang.accessibility_support_guidance }}</a>
+    </p>
+
+    <h2 id="enforcement" class="govuk-heading-m">{{ lang.enforcement_procedure }}</h2>
+    <p class="govuk-body">
+        {{ lang.enforcement_details }}
+        <a href="{{ urls.EQUALITY_ADVISOR_SERVICE_URL }}" class="govuk-link">{{ lang.eass_details_second_part }}</a>
+    </p>
+
+    <h2 id="technical" class="govuk-heading-m">{{ lang.technical_information }}</h2>
+    <p class="govuk-body">{{ lang.technical_details }}</p>
+
+    <h3 class="govuk-heading-m">{{ lang.compliance_status }}</h3>
+    <p class="govuk-body">
+        {{ lang.compliance_description }}
+        <a href="{{ urls.WCAG_URL }}" class="govuk-link">{{ lang.compliance_description_second_part }}</a>
+        {{ lang.compliance_description_third_part }}
+    </p>
+
+    <h2 id="improvements" class="govuk-heading-m">{{ lang.what_were_doing_to_improve }}</h2>
+    <p class="govuk-body">{{ lang.to_improve_service_accessibility }}</p>
+    <ul class="govuk-list govuk-list--bullet">
+        {% for measure in lang.improvement_measures %}
+            <li>
+                {{ measure 
+                    | replace("{USER_PANEL_LINK}", '<a href="' + urls.USER_PANEL_URL + '" class="govuk-link">' + lang.user_panel_text + '</a>')
+                    | replace("{GOV_ACCESSIBILITY_LINK}", '<a href="' + urls.GOV_ACCESSIBILITY_URL + '" class="govuk-link">' + lang.gov_accessibility_text + '</a>')
+                    | safe 
+                }}
+            </li>
+        {% endfor %}
+    </ul>
+
+    <p class="govuk-body">
+        <a href="{{ urls.USABILITY_BLOG_URL }}" class="govuk-link">{{ lang.usability_blog_link_text }}</a>
+        {{ lang.usability_blog_text_second_part }}
+    </p>
+
+    <h2 id="preparation" class="govuk-heading-m">{{ lang.preparation_of_statement }}</h2>
+    <p class="govuk-body">{{ lang.preparation_date }}</p>
+    <p class="govuk-body">
+        {{ lang.last_tested 
+            | replace("{DIGITAL_ACCESSIBILITY_CENTRE_LINK}", 
+            '<a href="' + urls.DIGITAL_ACCESSIBILITY_CENTRE_URL + '" class="govuk-link">' + lang.digital_accessibility_centre_text + '</a>')
+            | safe 
+        }}
+    </p>
+
+{% endblock %}

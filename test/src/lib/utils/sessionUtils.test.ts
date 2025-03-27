@@ -1,5 +1,5 @@
 import { Session } from "@companieshouse/node-session-handler";
-import { getSessionRequestWithPermission, userMail } from "../../../mocks/session.mock";
+import { getSessionRequestWithPermission, standardUserSessionMock, userMail } from "../../../mocks/session.mock";
 import * as constants from "../../../../src/lib/constants";
 import { accountOwnerAcspMembership } from "../../../mocks/acsp.members.mock";
 import * as sessionUtils from "../../../../src/lib/utils/sessionUtils";
@@ -164,6 +164,42 @@ describe("Session Utils", () => {
             const result = sessionUtils.getLoggedUserAcspMembership(session);
             // Then
             expect(result).toBeUndefined();
+        });
+    });
+
+    describe("setAccessToken", () => {
+        it("should set access token in the session with the provided one", () => {
+            // Given
+            const session: Session = getSessionRequestWithPermission();
+            const expectedExistingAccessToken = session.data.signin_info?.access_token?.access_token;
+            const accessToken = "asdfgzxcv12345";
+            // When
+            const existingAccessToken = sessionUtils.getAccessToken(session);
+            sessionUtils.setAccessToken(session, accessToken);
+            const newAccessToken = sessionUtils.getAccessToken(session);
+            // Then
+            expect(existingAccessToken).toEqual(expectedExistingAccessToken);
+            expect(newAccessToken).toEqual(accessToken);
+        });
+
+        it("throw an error if signInInfo not available in session", () => {
+            // Given
+            const session: Session = new Session();
+            const accessToken = "asdfgzxcv12345";
+            // Then
+            expect(() => sessionUtils.setAccessToken(session, accessToken))
+                .toThrow("SignInInfo not present in the session");
+        });
+    });
+
+    describe("getRefreshToken", () => {
+        it("should get refresh token from the session", () => {
+            // Given
+            const expectedRefreshToken = standardUserSessionMock.data.signin_info?.access_token?.refresh_token;
+            // When
+            const refreshToken = sessionUtils.getRefreshToken(standardUserSessionMock);
+            // Then
+            expect(refreshToken).toEqual(expectedRefreshToken);
         });
     });
 });

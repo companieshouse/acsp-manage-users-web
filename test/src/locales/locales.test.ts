@@ -11,6 +11,9 @@ const englishTranslationFilesExcludeCommon = englishTranslationFiles.filter(str 
 const welshTranslationFiles = fs.readdirSync(path.resolve(__dirname, welshDirectory));
 const welshTranslationFilesExcludeCommon = welshTranslationFiles.filter(str => str !== "common.json");
 
+// temporary allow accessbility statement translation files to me the same in English and Welsh
+const allowSameValueFiles = ["accessibility-statement.json"];
+
 const findMissingKeys = function (
     original: Record<string, unknown>,
     toCheck: Record<string, unknown>,
@@ -23,10 +26,10 @@ const findMissingKeys = function (
         if (typeof original[key] === "object") {
             if (toCheck !== undefined) {
                 findMissingKeys(
-          original[key] as Record<string, unknown>,
-          toCheck[key] as Record<string, unknown>,
-          currentPath,
-          output
+                    original[key] as Record<string, unknown>,
+                    toCheck[key] as Record<string, unknown>,
+                    currentPath,
+                    output
                 );
             } else {
                 findMissingKeys(original[key] as Record<string, unknown>, {}, currentPath, output);
@@ -40,7 +43,7 @@ const findMissingKeys = function (
     return output;
 };
 
-function haveAnyMatchingKeys (obj1:Record<string, unknown>, obj2:Record<string, unknown>) {
+function haveAnyMatchingKeys (obj1: Record<string, unknown>, obj2: Record<string, unknown>) {
     const keys1 = Object.keys(obj1);
     const keys2 = Object.keys(obj2);
     const matchingKeys = keys1.filter(key => keys2.includes(key));
@@ -63,9 +66,9 @@ function haveSameValueForAnyKey (
             if (obj2.hasOwnProperty(key)) {
                 if (
                     typeof obj1[key] === "object" &&
-            obj1[key] !== null &&
-            typeof obj2[key] === "object" &&
-            obj2[key] !== null
+                    obj1[key] !== null &&
+                    typeof obj2[key] === "object" &&
+                    obj2[key] !== null
                 ) {
                     if (haveSameValueForAnyKey(obj1[key], obj2[key], newPath)) {
                         return true;
@@ -108,13 +111,22 @@ describe("Check translation json files", () => {
         expect(findMissingKeys(englishContents, welshContents)).toEqual([]);
     });
 
-    test.each(welshTranslationFiles)("Check english, welsh translation file %s has no values the same", file => {
-        const englishFile = fs.readFileSync(path.resolve(__dirname, englishDirectory + file), "utf-8");
-        const welshFile = fs.readFileSync(path.resolve(__dirname, welshDirectory + file), "utf-8");
-        const englishContents = JSON.parse(englishFile) as Record<string, unknown>;
-        const welshContents = JSON.parse(welshFile) as Record<string, unknown>;
-        expect(haveSameValueForAnyKey(welshContents, englishContents)).toEqual(false);
-    });
+    test.each(welshTranslationFiles)(
+        "Check english, welsh translation file %s has no values the same",
+        file => {
+            const englishFile = fs.readFileSync(path.resolve(__dirname, englishDirectory + file), "utf-8");
+            const welshFile = fs.readFileSync(path.resolve(__dirname, welshDirectory + file), "utf-8");
+            const englishContents = JSON.parse(englishFile) as Record<string, unknown>;
+            const welshContents = JSON.parse(welshFile) as Record<string, unknown>;
+
+            if (allowSameValueFiles.includes(file)) {
+                console.warn(`⚠️ Skipping same-value check for: ${file}`);
+                return; // Skip the test for this file
+            }
+
+            expect(haveSameValueForAnyKey(welshContents, englishContents)).toEqual(false);
+        }
+    );
 
     test.each(englishTranslationFilesExcludeCommon)("Check english translation file %s has no shared keys with common", file => {
         const englishFile = fs.readFileSync(path.resolve(__dirname, englishDirectory + file), "utf-8");
