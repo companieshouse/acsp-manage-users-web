@@ -3,7 +3,5 @@ export const getEnvironmentValue = (key: string, defaultValue = ""): string => {
 };
 
 export const isFeatureEnabled = (featureFlagKey: string): boolean => {
-    const result = getEnvironmentValue(featureFlagKey) === "true";
-    console.log("key", featureFlagKey, "value", result);
     return getEnvironmentValue(featureFlagKey) === "true";
 };
