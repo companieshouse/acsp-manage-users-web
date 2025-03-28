@@ -33,7 +33,6 @@ describe(`GET ${url}`, () => {
     it("should NOT display the link to tell companies house you have verified someones identity when feature not enabled", async () => {
         // Given
         getLoggedUserAcspMembershipSpy.mockReturnValue(accountOwnerAcspMembership);
-        // when(isFeatureEnabledSpy).calledWith(constants.FEATURE_FLAG_SHOW_TELL_US_YOUVE_VERIFIED_A_PERSONS_IDENTITY).mockReturnValue(false);
         // When
         const encodedResponse = await router.get(url);
         const decodedResponse = encodedResponse.text.replace(/&#39;/g, "'");
