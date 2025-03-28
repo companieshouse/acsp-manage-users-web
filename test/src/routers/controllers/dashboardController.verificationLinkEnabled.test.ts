@@ -30,14 +30,6 @@ describe(`GET ${url}`, () => {
         expect(mocks.mockEnsureSessionCookiePresentMiddleware).toHaveBeenCalled();
     });
 
-    it("should check session, user auth and ACSP membership before returning the page", async () => {
-        await router.get(url);
-        expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
-        expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
-        expect(mocks.mockLoggedUserAcspMembershipMiddleware).toHaveBeenCalled();
-        expect(mocks.mockEnsureSessionCookiePresentMiddleware).toHaveBeenCalled();
-    });
-
     it("should NOT display the link to tell companies house you have verified someones identity when feature not enabled", async () => {
         // Given
         getLoggedUserAcspMembershipSpy.mockReturnValue(accountOwnerAcspMembership);
