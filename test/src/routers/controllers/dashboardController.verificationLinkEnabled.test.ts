@@ -4,6 +4,7 @@ import mocks from "../../../mocks/all.middleware.mock";
 import supertest from "supertest";
 import app from "../../../../src/app";
 import * as sessionUtils from "../../../../src/lib/utils/sessionUtils";
+import * as en from "../../../../locales/en/dashboard.json";
 
 import {
     accountOwnerAcspMembership
@@ -37,7 +38,7 @@ describe(`GET ${url}`, () => {
         expect(mocks.mockEnsureSessionCookiePresentMiddleware).toHaveBeenCalled();
     });
 
-    it("should not display the link to tell companies house you have verified someones identity when feature not enabled", async () => {
+    it("should NOT display the link to tell companies house you have verified someones identity when feature not enabled", async () => {
         // Given
         getLoggedUserAcspMembershipSpy.mockReturnValue(accountOwnerAcspMembership);
         // when(isFeatureEnabledSpy).calledWith(constants.FEATURE_FLAG_SHOW_TELL_US_YOUVE_VERIFIED_A_PERSONS_IDENTITY).mockReturnValue(false);
@@ -49,6 +50,7 @@ describe(`GET ${url}`, () => {
         expect(decodedResponse).not.toContain(
             `href="/tell-companies-house-you-have-verified-someones-identity"`
         );
+        expect(decodedResponse).toContain(en.in_future_youll_be_able_to_tell_us);
+        expect(decodedResponse).not.toContain(en.from_8_april);
     });
-
 });
