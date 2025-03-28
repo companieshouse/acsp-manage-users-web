@@ -5,7 +5,6 @@ import { AcspMembership, UserRole } from "private-api-sdk-node/dist/services/acs
 import { getUserRoleTag } from "../../lib/utils/viewUtils";
 import { getLoggedUserAcspMembership } from "../../lib/utils/sessionUtils";
 import { BaseViewData } from "../../types/utilTypes";
-import { isFeatureEnabled } from "../../lib/utils/environmentValue";
 import { acspLogger } from "../../lib/helpers/acspLogger";
 
 interface DashboardGetViewData extends BaseViewData {
@@ -17,11 +16,7 @@ interface DashboardGetViewData extends BaseViewData {
     managePeopleLink: string,
     youHaveVerifiedSomeonesIdentityLink: string,
     updateAuthorisedAgentsDetailsLink: string,
-    viewUsersLink: string,
-    showFileAsAuthorisedAgent: boolean,
-    showUpdateAuthorisedAgentDetails: boolean,
-    showCloseAuthorisedAgent: boolean,
-    showTellUsYouveVerifiedAPersonsIdentity:boolean
+    viewUsersLink: string
 }
 
 export const dashboardControllerGet = async (req: Request, res: Response): Promise<void> => {
@@ -42,11 +37,7 @@ export const dashboardControllerGet = async (req: Request, res: Response): Promi
         companyName: loggedUserAcspMembership.acspName,
         agentStatus: loggedUserAcspMembership.acspStatus,
         userRole: loggedUserAcspMembership.userRole,
-        userRoleTag: getUserRoleTag(loggedUserAcspMembership.userRole, req.lang, true),
-        showFileAsAuthorisedAgent: isFeatureEnabled(constants.FEATURE_FLAG_SHOW_FILE_AS_AUTHORISED_AGENT),
-        showUpdateAuthorisedAgentDetails: isFeatureEnabled(constants.FEATURE_FLAG_SHOW_UPDATE_AUTHORISED_AGENT_DETAILS),
-        showCloseAuthorisedAgent: isFeatureEnabled(constants.FEATURE_FLAG_SHOW_CLOSE_AUTHORISED_AGENT),
-        showTellUsYouveVerifiedAPersonsIdentity: isFeatureEnabled(constants.FEATURE_FLAG_SHOW_TELL_US_YOUVE_VERIFIED_A_PERSONS_IDENTITY)
+        userRoleTag: getUserRoleTag(loggedUserAcspMembership.userRole, req.lang, true)
     };
     acspLogger(req.session, dashboardControllerGet.name, `rendering dashboard page`);
     res.render(constants.DASHBOARD_PAGE, viewData);

@@ -24,6 +24,7 @@ import { prepareCSPConfig } from "./middleware/content.security.policy.middlewar
 import nocache from "nocache";
 import { acspAuthMiddleware } from "./middleware/acsp.authentication.middleware";
 import { csrfProtectionMiddleware } from "./middleware/csrf.protection.middleware";
+import { isFeatureEnabled } from "./lib/utils/environmentValue";
 
 const app = express();
 
@@ -64,6 +65,10 @@ njk.addGlobal("Lang", Lang);
 njk.addGlobal("PIWIK_URL", process.env.PIWIK_URL);
 njk.addGlobal("PIWIK_SITE_ID", process.env.PIWIK_SITE_ID);
 njk.addGlobal("SERVICE_NAME", constants.SERVICE_NAME);
+njk.addGlobal("showFileAsAuthorisedAgent", isFeatureEnabled(constants.FEATURE_FLAG_SHOW_FILE_AS_AUTHORISED_AGENT));
+njk.addGlobal("showUpdateAuthorisedAgentDetails", isFeatureEnabled(constants.FEATURE_FLAG_SHOW_UPDATE_AUTHORISED_AGENT_DETAILS));
+njk.addGlobal("showCloseAuthorisedAgent", isFeatureEnabled(constants.FEATURE_FLAG_SHOW_CLOSE_AUTHORISED_AGENT));
+njk.addGlobal("showTellUsYouveVerifiedAPersonsIdentity", isFeatureEnabled(constants.FEATURE_FLAG_SHOW_TELL_US_YOUVE_VERIFIED_A_PERSONS_IDENTITY));
 
 // If app is behind a front-facing proxy, and to use the X-Forwarded-* headers to determine the connection and the IP address of the client
 app.enable("trust proxy");

@@ -14,3 +14,7 @@ process.env.COOKIE_NAME = "cookie_name";
 process.env.INTERNAL_API_URL = "api_url";
 process.env.CHS_INTERNAL_API_KEY = "key";
 process.env.ACCOUNT_URL = "account_url";
+process.env.FEATURE_FLAG_SHOW_TELL_US_YOUVE_VERIFIED_A_PERSONS_IDENTITY = "true";
+process.env.FEATURE_FLAG_SHOW_UPDATE_AUTHORISED_AGENT_DETAILS = "true";
+process.env.FEATURE_FLAG_SHOW_FILE_AS_AUTHORISED_AGENT = "true";
+process.env.FEATURE_FLAG_SHOW_CLOSE_AUTHORISED_AGENT = "true";
