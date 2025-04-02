@@ -44,9 +44,15 @@
         {% endfor %}
     </ul>
 
+    {% if locale == "cy" %}
+        {% set accessibilitySupportUrl = urls.ACCESSIBILITY_SUPPORT_GUIDANCE_URL + ".cy" %}
+    {% else %}
+        {% set accessibilitySupportUrl = urls.ACCESSIBILITY_SUPPORT_GUIDANCE_URL %}
+    {% endif %}
+
     <p class="govuk-body">{{ lang.simplified_text }}</p>
     <p class="govuk-body">
-        <a href="{{ urls.ACCESSIBILITY_SUPPORT_GUIDANCE_URL }}" class="govuk-link">{{ lang.accessibility_support_link_text }}</a>
+        <a href="{{ accessibilitySupportUrl }}" class="govuk-link">{{ lang.accessibility_support_link_text }}</a>
     </p>
 
     <div class="govuk-inset-text">
@@ -60,7 +66,7 @@
     <p class="govuk-body">{{ lang.feedback_description }}</p>
     <p class="govuk-body">
         {{ lang.feedback_problem_instruction }}
-        <a href="{{ urls.ACCESSIBILITY_SUPPORT_GUIDANCE_URL }}" class="govuk-link">{{ lang.accessibility_support_guidance }}</a>
+        <a href="{{ accessibilitySupportUrl }}" class="govuk-link">{{ lang.accessibility_support_guidance }}</a>
     </p>
 
     <h2 id="enforcement" class="govuk-heading-m">{{ lang.enforcement_procedure }}</h2>
