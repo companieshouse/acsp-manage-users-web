@@ -83,7 +83,7 @@ const getViewData = async (req: Request): Promise<EditMemberRoleViewData> => {
         email: userToChangeRole.userEmail,
         userRole: userToChangeRole.userRole,
         oldUserRole: userToChangeRole.userRole,
-        userDisplayName: userToChangeRole.userDisplayName === constants.NOT_PROVIDED ? undefined : userToChangeRole.userDisplayName,
+        userDisplayName: (userToChangeRole.userDisplayName === constants.NOT_PROVIDED || userToChangeRole.userDisplayName === constants.NOT_PROVIDED_CY) ? undefined : userToChangeRole.userDisplayName,
         backLinkUrl: constants.MANAGE_USERS_FULL_URL,
         templateName: constants.EDIT_MEMBER_ROLE_PAGE
     };

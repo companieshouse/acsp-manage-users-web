@@ -45,7 +45,8 @@ export const removeUserCheckDetailsControllerGet = async (req: Request, res: Res
 
     let displayNameInFirstParagraph;
     const { userDisplayName, userEmail } = userToRemove;
-    if (userDisplayName && userDisplayName !== constants.NOT_PROVIDED) {
+
+    if (userDisplayName && userDisplayName !== constants.NOT_PROVIDED && userDisplayName !== constants.NOT_PROVIDED_CY) {
         displayNameInFirstParagraph = `${userDisplayName} (${userEmail})`;
     } else {
         displayNameInFirstParagraph = `${userEmail}`;
