@@ -20,10 +20,13 @@
             {{ lang.verifying_someones_identity }}
         </h2>
 
+        {% set languageFlag = "?lang=cy" if locale == "cy" else 
+            "?lang=en" %}
+
         <p class="govuk-body">
             {{lang.use_our_service_to}}
             <a class="govuk-link govuk-link--no-visited-state" 
-            href="{{youHaveVerifiedSomeonesIdentityLink}}"
+            href="{{youHaveVerifiedSomeonesIdentityLink}}{{languageFlag}}"
             >
                 {{lang.tell_companies_house_link_text}}
             </a>
