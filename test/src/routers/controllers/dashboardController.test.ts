@@ -256,7 +256,7 @@ describe(`GET ${url}`, () => {
 
         // Then
         expect(decodedResponse).toContain(
-            `href="/tell-companies-house-you-have-verified-someones-identity"`
+            `href="/tell-companies-house-you-have-verified-someones-identity?lang=en"`
         );
     });
 });
