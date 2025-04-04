@@ -1,4 +1,4 @@
-import { DEFAULT_PASSWORD, MONGODB_URI, NO_USERS_TO_CREATE } from "./config.js";
+import { DEFAULT_PASSWORD, MONGODB_URI, NO_USERS_TO_CREATE, EMAIL_DOMAIN } from "./config.js";
 import { faker } from "@faker-js/faker";
 import { MongoClient } from "mongodb";
 
@@ -77,7 +77,7 @@ function createUserData (count) {
         const displayNameOptions = [null, `${forename} ${surname}`];
         persons.push({
             _id: faker.string.uuid().replace(/-/g, ""),
-            email: faker.internet.email({ firstName: `inugami_test_data_${forename}`, lastName: surname }).toLowerCase(),
+            email: faker.internet.email({ firstName: `inugami_test_data_${forename}`, lastName: surname, provider: EMAIL_DOMAIN }).toLowerCase(),
             password: DEFAULT_PASSWORD,
             display_name: displayNameOptions[Math.floor(Math.random() * 2)]
         });
