@@ -34,10 +34,11 @@ You can customize the script using these environment variables:
 - `MONGODB_URI`: Override the MongoDB connection string
 - `DEFAULT_PASSWORD`: Set a custom default password for generated users (default: "password")
 - `NO_USERS_TO_CREATE`: Specify the number of users to generate (default: 100)
+- `EMAIL_DOMAIN`: Set a custom domain for email addresses (default: `example.com`). See also https://www.iana.org/help/example-domains
 
 Example usage:
 ```bash
-USE_ENV=pheonix NO_USERS_TO_CREATE=50 DEFAULT_PASSWORD=custompass node index.js
+USE_ENV=pheonix NO_USERS_TO_CREATE=50 DEFAULT_PASSWORD=custompass EMAIL_DOMAIN=example.org node index.js
 ```
 
 ## Configuration
