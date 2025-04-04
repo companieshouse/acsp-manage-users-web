@@ -19,7 +19,10 @@
     "read_acsp_guidance": " read the guidance on being an ACSP (opens in a new tab)",
     "remove_users": "remove users",
     "suspended_warning_text": " has been suspended. You will not be able to file or tell us you have verified someone’s identity.",
+    "use_our_service_to": "Use our service to",
+    "verifying_someones_identity": "Verifying someone's identity",
     "tell_companies_house_id": "Tell Companies House you have verified someone’s identity",
+    "tell_companies_house_link_text": "Tell Companies House you have verified someone’s identity.",
     "tell_us_about_any_changes_within": "You must tell us about any changes within 14 days.",
     "tell_us_about_changes": "Tell us about changes to the:",
     "tell_us_if": "Tell us if ",
@@ -31,5 +34,5 @@
     "you_cannot_file_as": "You cannot file as an authorised agent because ",
     "you_cannot_tell_us": "You cannot tell us you’ve verified someone’s identity because ",
     "your_role": "Your role:",
-    "from_8_april":"From 8 April, you’ll be able to tell us you’ve verified a person’s identity."
+    "from_8_april": "From 8 April, you’ll be able to tell us you’ve verified a person’s identity."
 }

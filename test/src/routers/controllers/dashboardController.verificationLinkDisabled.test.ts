@@ -41,7 +41,6 @@ describe(`GET ${url}`, () => {
         expect(decodedResponse).not.toContain(
             `href="/tell-companies-house-you-have-verified-someones-identity"`
         );
-        expect(decodedResponse).toContain(en.in_future_youll_be_able_to_tell_us);
-        expect(decodedResponse).not.toContain(en.from_8_april);
+        expect(decodedResponse).toContain(en.tell_companies_house_link_text);
     });
 });
