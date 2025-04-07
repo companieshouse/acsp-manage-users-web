@@ -70,9 +70,9 @@ export const getViewData = async (req: Request, search: string | undefined = und
     };
 
     let errorMessage;
-    const isSearchValid = !search || validateEmailString(search);
+    const isSearchValid = search === undefined || validateEmailString(search);
 
-    if (search && !isSearchValid) {
+    if (typeof search === "string" && !isSearchValid) {
         errorMessage = constants.ERRORS_ENTER_AN_EMAIL_ADDRESS_IN_THE_CORRECT_FORMAT;
         viewData.errors = {
             search: {
