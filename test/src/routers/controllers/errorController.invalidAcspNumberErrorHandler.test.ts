@@ -10,6 +10,7 @@ import * as constants from "../../../../src/lib/constants";
 
 const mockGetTranslationsForView = jest.spyOn(getTranslationsForView, "getTranslationsForView");
 const getLoggedInUserEmailSpy: jest.SpyInstance = jest.spyOn(sessionUtils, "getLoggedInUserEmail");
+const getLoggedInUserIdSpy: jest.SpyInstance = jest.spyOn(sessionUtils, "getLoggedInUserId");
 
 logger.error = jest.fn();
 const request = mockRequest();
@@ -29,6 +30,8 @@ describe("invalidAcspNumberErrorHandler", () => {
         mockGetTranslationsForView.mockReturnValueOnce({});
         const loggedInEmail = "test@test.com";
         getLoggedInUserEmailSpy.mockReturnValue(loggedInEmail);
+        const userId = "abc1234567890";
+        getLoggedInUserIdSpy.mockReturnValue(userId);
         const err = new InvalidAcspNumberError();
         // When
         invalidAcspNumberErrorHandler(err, request, response, mockNext);
@@ -36,7 +39,7 @@ describe("invalidAcspNumberErrorHandler", () => {
         expect(response.redirect).toHaveBeenCalledWith(constants.ACCESS_DENIED_FULL_URL);
         expect(logger.error).toHaveBeenCalledTimes(1);
         expect(logger.error).toHaveBeenCalledWith(
-            expect.stringContaining(`Access denied - the user does not have a valid ACSP number in session.`)
+            expect.stringContaining(`Access denied - the user with ID ${userId} does not have a valid ACSP number in session.`)
         );
     });
 
