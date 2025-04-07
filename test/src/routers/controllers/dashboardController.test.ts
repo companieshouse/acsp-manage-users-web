@@ -201,9 +201,8 @@ describe(`GET ${url}`, () => {
 
         // Then
         expect(decodedResponse).toContain(en.authorised_agents_are_also_known_as);
-        expect(decodedResponse).toContain(
-            `<a href="https://www.gov.uk/guidance/being-an-authorised-corporate-service-provider" class="govuk-link" target="_blank" rel="noopener noreferrer">${en.read_acsp_guidance}</a>`
-        );
+        expect(decodedResponse).toContain(en.read_the_guidance_url);
+        expect(decodedResponse).toContain(en.read_acsp_guidance);
     });
 
     it("should display 'For information about your legal responsibilities and how to use this account'", async () => {
@@ -229,9 +228,8 @@ describe(`GET ${url}`, () => {
 
         // Then
         expect(decodedResponse).toContain(cy.authorised_agents_are_also_known_as);
-        expect(decodedResponse).toContain(
-            `<a href="https://www.gov.uk/guidance/being-an-authorised-corporate-service-provider" class="govuk-link" target="_blank" rel="noopener noreferrer">${cy.read_acsp_guidance}</a>`
-        );
+        expect(decodedResponse).toContain(cy.read_the_guidance_url);
+        expect(decodedResponse).toContain(cy.read_acsp_guidance);
     });
 
     it("should display 'For information about your legal responsibilities and how to use this account' in Enlgish when session language is English", async () => {
