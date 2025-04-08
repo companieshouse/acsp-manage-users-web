@@ -70,8 +70,9 @@ describe("manageUsersControllerPost - search", () => {
         // When
         const response = await router.post(url).send({ search: search });
         // Then
-        expect(setExtraDataSpy).toHaveBeenCalledTimes(1);
+        expect(setExtraDataSpy).toHaveBeenCalledTimes(2);
         expect(setExtraDataSpy).toHaveBeenCalledWith(expect.anything(), "manageUsersMembership", expect.anything());
+        expect(setExtraDataSpy).toHaveBeenCalledWith(expect.anything(), "searchStringEmail", expect.anything());
         expect(response.text).toContain(administratorAcspMembership.userEmail);
         expect(response.text).not.toContain(en.errors_enter_an_email_address_in_the_correct_format);
         expect(response.text).toContain(en.no_search_results);
@@ -85,8 +86,9 @@ describe("manageUsersControllerPost - search", () => {
         // When
         const response = await router.post(url).send({ search: search });
         // Then
-        expect(setExtraDataSpy).toHaveBeenCalledTimes(1);
+        expect(setExtraDataSpy).toHaveBeenCalledTimes(2);
         expect(setExtraDataSpy).toHaveBeenCalledWith(expect.anything(), "manageUsersMembership", expect.anything());
+        expect(setExtraDataSpy).toHaveBeenCalledWith(expect.anything(), "searchStringEmail", expect.anything());
 
         expect(response.text).toContain(standardUserAcspMembership.userEmail);
         expect(response.text).not.toContain(en.errors_enter_an_email_address_in_the_correct_format);
