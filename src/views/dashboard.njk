@@ -29,12 +29,15 @@
         <span class="govuk-!-font-weight-regular">{{userRoleTag}}</span>
     </p>
 
+    {% set insetText %}
+    {{lang.authorised_agents_are_also_known_as}}
+    <a href="{{lang.read_the_guidance_url}}" class="govuk-link" target="_blank" rel="noopener noreferrer">{{lang.read_acsp_guidance}}</a>
+    {% endset %}
+
     {{ govukInsetText({
-        html: lang.authorised_agents_are_also_known_as + 
-        ' <a href="https://www.gov.uk/guidance/being-an-authorised-corporate-service-provider" class="govuk-link" target="_blank" rel="noopener noreferrer">' + 
-        lang.read_acsp_guidance + 
-        '</a>'
-    }) }}
+        html: insetText
+        })
+    }}
 
     {% if agentStatus === AcspStatus.SUSPENDED %}
         {{ govukWarningText({
