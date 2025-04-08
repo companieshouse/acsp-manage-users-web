@@ -34,5 +34,6 @@
     "you_cannot_file_as": "You cannot file as an authorised agent because ",
     "you_cannot_tell_us": "You cannot tell us you’ve verified someone’s identity because ",
     "your_role": "Your role:",
-    "from_8_april": "From 8 April, you’ll be able to tell us you’ve verified a person’s identity."
+    "from_8_april": "From 8 April, you’ll be able to tell us you’ve verified a person’s identity.",
+    "read_the_guidance_url": "https://www.gov.uk/guidance/being-an-authorised-corporate-service-provider"
 }
