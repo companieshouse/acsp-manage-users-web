@@ -4,7 +4,7 @@ import { getTranslationsForView } from "../../lib/utils/translationUtils";
 import { AnyRecord, MemberRawViewData, PageNumbers, PageQueryParams } from "../../types/utilTypes";
 import { TableEntry } from "../../types/viewTypes";
 import { getHiddenText, getLink } from "../../lib/utils/viewUtils";
-import { setExtraData, getLoggedUserAcspMembership, deleteExtraData } from "../../lib/utils/sessionUtils";
+import { setExtraData, getLoggedUserAcspMembership, deleteExtraData, getExtraData } from "../../lib/utils/sessionUtils";
 import { AcspMembership, UserRole } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
 import { getAcspMemberships, membershipLookup } from "../../services/acspMemberService";
 import { validateEmailString } from "../../lib/validation/email.validation";
@@ -15,7 +15,10 @@ import { validateActiveTabId } from "../../lib/validation/string.validation";
 import { acspLogger } from "../../lib/helpers/acspLogger";
 
 export const manageUsersControllerGet = async (req: Request, res: Response): Promise<void> => {
-    const viewData = await getViewData(req);
+    const searchStringEmail: string | undefined = getExtraData(req.session, constants.SEARCH_STRING_EMAIL);
+
+    const viewData = await getViewData(req, searchStringEmail);
+
     acspLogger(req.session, manageUsersControllerGet.name, `Rendering manage users page`);
     res.render(constants.MANAGE_USERS_PAGE, { ...viewData });
 };
@@ -23,6 +26,8 @@ export const manageUsersControllerGet = async (req: Request, res: Response): Pro
 export const manageUsersControllerPost = async (req: Request, res: Response): Promise<void> => {
 
     const trimmedSearch = req.body.search.trim().toLowerCase();
+
+    setExtraData(req.session, constants.SEARCH_STRING_EMAIL, trimmedSearch);
 
     const viewData = await getViewData(req, trimmedSearch);
     acspLogger(req.session, manageUsersControllerPost.name, `Rendering post manage users page`);
@@ -59,7 +64,7 @@ export const getViewData = async (req: Request, search: string | undefined = und
         companyName: acspName,
         companyNumber: acspNumber,
         loggedInUserRole: userRole,
-        cancelSearchHref: getCancelSearchHref(userRole),
+        cancelSearchHref: constants.getFullUrl(constants.CANCEL_SEARCH_URL),
         accountOwnersTabId: constants.ACCOUNT_OWNERS_ID,
         administratorsTabId: constants.ADMINISTRATORS_ID,
         standardUsersTabId: constants.STANDARD_USERS_ID,

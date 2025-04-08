@@ -90,6 +90,7 @@ export const IS_SELECT_USER_ROLE_ERROR = "isSelectUserRoleError";
 export const LOGGED_USER_ACSP_MEMBERSHIP = "loggedUserAcspMembership";
 export const MANAGE_USERS_MEMBERSHIP = "manageUsersMembership";
 export const USER_ROLE_CHANGE_DATA = "userRoleChangeData";
+export const SEARCH_STRING_EMAIL = "searchStringEmail";
 
 // Miscellaneous Constants
 export const ITEMS_PER_PAGE_DEFAULT = 15;
@@ -130,6 +131,7 @@ export const TRY_EDIT_MEMBER_ROLE_URL = `/${TRY_EDIT_MEMBER_ROLE_PAGE}`;
 export const TRY_REMOVING_USER_URL = `/${TRY_REMOVING_USER}`;
 export const VIEW_USERS_URL = `/${VIEW_USERS_PAGE}`;
 export const ACCESSIBILITY_STATEMENT_URL = `/${ACCESSIBILITY_STATEMENT_PAGE}`;
+export const CANCEL_SEARCH_URL = `/cancel-search`;
 
 // Full URLs
 export const getFullUrl = (url: string): string => `${LANDING_URL}${url}`;
