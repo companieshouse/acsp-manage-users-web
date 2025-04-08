@@ -65,6 +65,6 @@ router.get(constants.ACCESS_DENIED_URL, accessDeniedControllerGet);
 
 router.get(constants.ACCESSIBILITY_STATEMENT_URL, accessibilityStatementAuthorisedAgentControllerGet);
 
-router.post(constants.CANCEL_SEARCH_URL, cancelSearchControllerGet);
+router.get(constants.CANCEL_SEARCH_URL, cancelSearchControllerGet);
 
 export default router;
