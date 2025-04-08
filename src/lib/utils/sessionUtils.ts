@@ -17,6 +17,11 @@ export const getLoggedInUserEmail = (session: Session | undefined): string => {
     return signInInfo?.[SignInInfoKeys.UserProfile]?.[UserProfileKeys.Email] as string;
 };
 
+export const getLoggedInUserId = (session: Session | undefined): string => {
+    const signInInfo = getSignInInfo(session);
+    return signInInfo?.[SignInInfoKeys.UserProfile]?.[UserProfileKeys.UserId] as string;
+};
+
 export const getLoggedUserAcspMembership = (session: Session | undefined): AcspMembership => {
     return getExtraData(session, constants.LOGGED_USER_ACSP_MEMBERSHIP);
 };

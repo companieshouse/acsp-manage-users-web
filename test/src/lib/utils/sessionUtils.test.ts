@@ -1,5 +1,5 @@
 import { Session } from "@companieshouse/node-session-handler";
-import { getSessionRequestWithPermission, standardUserSessionMock, userMail } from "../../../mocks/session.mock";
+import { getSessionRequestWithPermission, standardUserSessionMock, userId, userMail } from "../../../mocks/session.mock";
 import * as constants from "../../../../src/lib/constants";
 import { accountOwnerAcspMembership } from "../../../mocks/acsp.members.mock";
 import * as sessionUtils from "../../../../src/lib/utils/sessionUtils";
@@ -17,6 +17,21 @@ describe("Session Utils", () => {
 
         it("should return undefined instead of user email address if session data is missing", () => {
             expect(sessionUtils.getLoggedInUserEmail(new Session())).toBeUndefined;
+        });
+    });
+
+    describe("getLoggedInUserId", () => {
+        const testSessionWithPermission: Session = getSessionRequestWithPermission();
+        it("should return user ID if user is logged in", () => {
+            expect(sessionUtils.getLoggedInUserId(testSessionWithPermission)).toEqual(userId);
+        });
+
+        it("should return undefined instead of user ID if user is not logged in", () => {
+            expect(sessionUtils.getLoggedInUserId(undefined)).toBeUndefined;
+        });
+
+        it("should return undefined instead of user ID if session data is missing", () => {
+            expect(sessionUtils.getLoggedInUserId(new Session())).toBeUndefined;
         });
     });
 

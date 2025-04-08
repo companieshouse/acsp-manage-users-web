@@ -4,6 +4,7 @@ import { HttpError } from "http-errors";
 import * as constants from "../../lib/constants";
 import { CsrfError, InvalidAcspNumberError } from "@companieshouse/web-security-node";
 import { acspLogger } from "../../lib/helpers/acspLogger";
+import { getLoggedInUserId } from "../../lib/utils/sessionUtils";
 
 /*  This controller catches and logs HTTP errors from the http-errors module.
     It returns an error template back to the user.
@@ -39,7 +40,7 @@ export const httpErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
 export const invalidAcspNumberErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
     if (err instanceof InvalidAcspNumberError) {
         logger.error(
-            `Access denied - the user does not have a valid ACSP number in session. Message: ${err.message}, Stack: ${err.stack}`
+            `Access denied - the user with ID ${getLoggedInUserId(req.session)} does not have a valid ACSP number in session. Message: ${err.message}, Stack: ${err.stack}`
         );
         const lang = req.query?.lang;
         const queryString = lang ? `?lang=${lang as string}` : "";
