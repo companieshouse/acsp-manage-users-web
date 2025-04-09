@@ -15,6 +15,10 @@ import { validateActiveTabId } from "../../lib/validation/string.validation";
 import { acspLogger } from "../../lib/helpers/acspLogger";
 
 export const manageUsersControllerGet = async (req: Request, res: Response): Promise<void> => {
+
+    if (isCancelSearch(req)) {
+        deleteExtraData(req.session, constants.SEARCH_STRING_EMAIL);
+    }
     const searchStringEmail: string | undefined = getExtraData(req.session, constants.SEARCH_STRING_EMAIL);
 
     const viewData = await getViewData(req, searchStringEmail);
@@ -64,7 +68,7 @@ export const getViewData = async (req: Request, search: string | undefined = und
         companyName: acspName,
         companyNumber: acspNumber,
         loggedInUserRole: userRole,
-        cancelSearchHref: constants.getFullUrl(constants.CANCEL_SEARCH_URL),
+        cancelSearchHref: `${getCancelSearchHref(userRole)}?${constants.CANCEL_SEARCH}`,
         accountOwnersTabId: constants.ACCOUNT_OWNERS_ID,
         administratorsTabId: constants.ADMINISTRATORS_ID,
         standardUsersTabId: constants.STANDARD_USERS_ID,
@@ -247,3 +251,5 @@ const updatePageNumber = (pageNumber: number, pageNumbers: PageNumbers, userRole
         break;
     }
 };
+
+export const isCancelSearch = (req: Request): boolean => Object.hasOwn(req.query, constants.CANCEL_SEARCH);

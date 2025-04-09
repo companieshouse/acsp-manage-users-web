@@ -82,6 +82,7 @@ export const CLEAR_FORM_TRUE = "?cf=true";
 export const OWNER_PAGE_QUERY_PARAM = "ownerPage";
 export const STANDARD_PAGE_QUERY_PARAM = "standardPage";
 export const CSRF_ERRORS = "csrfErrors";
+export const CANCEL_SEARCH = "cancelSearch";
 
 // Session Data Keys
 export const DETAILS_OF_USER_TO_ADD = "detailsOfUserToAdd";
@@ -131,7 +132,6 @@ export const TRY_EDIT_MEMBER_ROLE_URL = `/${TRY_EDIT_MEMBER_ROLE_PAGE}`;
 export const TRY_REMOVING_USER_URL = `/${TRY_REMOVING_USER}`;
 export const VIEW_USERS_URL = `/${VIEW_USERS_PAGE}`;
 export const ACCESSIBILITY_STATEMENT_URL = `/${ACCESSIBILITY_STATEMENT_PAGE}`;
-export const CANCEL_SEARCH_URL = `/cancel-search`;
 
 // Full URLs
 export const getFullUrl = (url: string): string => `${LANDING_URL}${url}`;
