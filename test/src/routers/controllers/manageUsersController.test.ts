@@ -25,6 +25,7 @@ const router = supertest(app);
 const url = "/authorised-agent/manage-users";
 const getAcspMembershipsSpy: jest.SpyInstance = jest.spyOn(acspMemberService, "getAcspMemberships");
 const getLoggedUserAcspMembershipSpy: jest.SpyInstance = jest.spyOn(sessionUtils, "getLoggedUserAcspMembership");
+const deleteExtraDataSpy: jest.SpyInstance = jest.spyOn(sessionUtils, "deleteExtraData");
 
 getAcspMembershipsSpy
     .mockResolvedValue(getMockAcspMembersResource([accountOwnerAcspMembership]));
@@ -96,6 +97,15 @@ describe("GET /authorised-agent/manage-users", () => {
         expect(result.text).toContain(en.search);
         expect(result.text).toContain(en.cancel_search);
         expect(result.text).toContain(expectedTitle);
+    });
+    it("should delete email search string from session when url has cancel search query param", async () => {
+        // Given
+        getLoggedUserAcspMembershipSpy.mockReturnValue(standardUserAcspMembership);
+        // When
+        const response = await router.get(`${url}?${constants.CANCEL_SEARCH}`);
+        // Then
+        expect(response.text).toContain(en.page_header_standard);
+        expect(deleteExtraDataSpy).toHaveBeenCalledWith(expect.anything(), constants.SEARCH_STRING_EMAIL);
     });
 });
 

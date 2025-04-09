@@ -102,7 +102,7 @@ export const getViewData = async (req: Request, search: string | undefined = und
         displayNameOrEmail: getDisplayNameOrEmail(member)
     });
 
-    if (isSearchValid && search) {
+    if (isSearchValid && isSearchAString) {
         try {
             const foundUser = await membershipLookup(req, acspNumber, search);
             if (foundUser.items.length > 0) {
