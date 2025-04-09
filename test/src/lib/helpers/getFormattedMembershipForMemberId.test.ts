@@ -21,7 +21,7 @@ describe("fetchAndValidateMembership", () => {
             userEmail: accountOwnerAcspMembership.userEmail,
             acspNumber: accountOwnerAcspMembership.acspNumber,
             userRole: accountOwnerAcspMembership.userRole,
-            userDisplayName: "Not Provided",
+            userDisplayName: "not_provided",
             displayNameOrEmail: "james.morris@gmail.com"
         });
     });

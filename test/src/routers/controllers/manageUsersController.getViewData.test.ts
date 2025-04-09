@@ -25,7 +25,8 @@ describe("manageUsersController - getViewData", () => {
         getTranslationsForViewSpy.mockReturnValueOnce({
             remove: "Remove",
             change_role: "Change role",
-            for: "for"
+            for: "for",
+            not_provided: "Not Provided"
         });
         getLoggedUserAcspMembershipSpy.mockReturnValue(loggedAccountOwnerAcspMembership);
         when(getMembershipForLoggedInUserSpy)

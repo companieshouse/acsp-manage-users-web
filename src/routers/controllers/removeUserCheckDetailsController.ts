@@ -43,10 +43,10 @@ export const removeUserCheckDetailsControllerGet = async (req: Request, res: Res
     const removingThemselves = userId === userToRemove.userId;
     setExtraData(req.session, constants.DETAILS_OF_USER_TO_REMOVE, { ...userToRemove, removingThemselves } as MemberForRemoval);
 
-    let displayNameInFirstParagraph;
+    let displayNameInFirstParagraph: string;
     const { userDisplayName, userEmail } = userToRemove;
 
-    if (userDisplayName && userDisplayName !== constants.NOT_PROVIDED && userDisplayName !== constants.NOT_PROVIDED_CY) {
+    if (userDisplayName && userDisplayName !== constants.LANG_KEY_FOR_NOT_PROVIDED && userDisplayName !== constants.NOT_PROVIDED) {
         displayNameInFirstParagraph = `${userDisplayName} (${userEmail})`;
     } else {
         displayNameInFirstParagraph = `${userEmail}`;
