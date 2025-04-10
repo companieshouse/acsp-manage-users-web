@@ -17,11 +17,9 @@ import { acspLogger } from "../../lib/helpers/acspLogger";
 export const manageUsersControllerGet = async (req: Request, res: Response): Promise<void> => {
 
     if (isCancelSearch(req)) {
-        console.log("deleting search stirng email");
         deleteExtraData(req.session, constants.SEARCH_STRING_EMAIL);
     }
     const searchStringEmail: string | undefined = getExtraData(req.session, constants.SEARCH_STRING_EMAIL);
-    console.log("search string  is ", searchStringEmail);
 
     const viewData = await getViewData(req, searchStringEmail);
 
@@ -141,7 +139,6 @@ export const getViewData = async (req: Request, search: string | undefined = und
         }
         viewData.search = search;
     } else {
-        console.log("making calls to fetch memberships...");
         const [ownerMemberRawViewData, adminMemberRawViewData, standardMemberRawViewData] = await Promise.all([
             getMemberRawViewData(req, acspNumber, pageNumbers, UserRole.OWNER, constants.ACCOUNT_OWNERS_TAB_ID, translations, userRole),
             getMemberRawViewData(req, acspNumber, pageNumbers, UserRole.ADMIN, constants.ADMINISTRATORS_TAB_ID, translations, userRole),
