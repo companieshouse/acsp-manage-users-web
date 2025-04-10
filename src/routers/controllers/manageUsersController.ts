@@ -17,9 +17,11 @@ import { acspLogger } from "../../lib/helpers/acspLogger";
 export const manageUsersControllerGet = async (req: Request, res: Response): Promise<void> => {
 
     if (isCancelSearch(req)) {
+        console.log("deleting search stirng email");
         deleteExtraData(req.session, constants.SEARCH_STRING_EMAIL);
     }
     const searchStringEmail: string | undefined = getExtraData(req.session, constants.SEARCH_STRING_EMAIL);
+    console.log("search string  is ", searchStringEmail);
 
     const viewData = await getViewData(req, searchStringEmail);
 
@@ -33,9 +35,13 @@ export const manageUsersControllerPost = async (req: Request, res: Response): Pr
 
     setExtraData(req.session, constants.SEARCH_STRING_EMAIL, trimmedSearch);
 
-    const viewData = await getViewData(req, trimmedSearch);
-    acspLogger(req.session, manageUsersControllerPost.name, `Rendering post manage users page`);
-    res.render(constants.MANAGE_USERS_PAGE, viewData);
+    const { userRole } = getLoggedUserAcspMembership(req.session);
+
+    const url = userRole === UserRole.STANDARD
+        ? `${constants.VIEW_USERS_FULL_URL}`
+        : `${constants.MANAGE_USERS_FULL_URL}`;
+
+    res.redirect(url);
 };
 
 export const getTitle = (translations: AnyRecord, loggedInUserRole: UserRole, isError: boolean): string => {
@@ -135,6 +141,7 @@ export const getViewData = async (req: Request, search: string | undefined = und
         }
         viewData.search = search;
     } else {
+        console.log("making calls to fetch memberships...");
         const [ownerMemberRawViewData, adminMemberRawViewData, standardMemberRawViewData] = await Promise.all([
             getMemberRawViewData(req, acspNumber, pageNumbers, UserRole.OWNER, constants.ACCOUNT_OWNERS_TAB_ID, translations, userRole),
             getMemberRawViewData(req, acspNumber, pageNumbers, UserRole.ADMIN, constants.ADMINISTRATORS_TAB_ID, translations, userRole),
