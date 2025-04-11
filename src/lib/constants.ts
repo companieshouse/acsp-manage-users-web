@@ -82,6 +82,7 @@ export const CLEAR_FORM_TRUE = "?cf=true";
 export const OWNER_PAGE_QUERY_PARAM = "ownerPage";
 export const STANDARD_PAGE_QUERY_PARAM = "standardPage";
 export const CSRF_ERRORS = "csrfErrors";
+export const CANCEL_SEARCH = "cancelSearch";
 
 // Session Data Keys
 export const DETAILS_OF_USER_TO_ADD = "detailsOfUserToAdd";
@@ -90,6 +91,7 @@ export const IS_SELECT_USER_ROLE_ERROR = "isSelectUserRoleError";
 export const LOGGED_USER_ACSP_MEMBERSHIP = "loggedUserAcspMembership";
 export const MANAGE_USERS_MEMBERSHIP = "manageUsersMembership";
 export const USER_ROLE_CHANGE_DATA = "userRoleChangeData";
+export const SEARCH_STRING_EMAIL = "searchStringEmail";
 
 // Miscellaneous Constants
 export const ITEMS_PER_PAGE_DEFAULT = 15;

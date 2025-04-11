@@ -4,10 +4,9 @@ import { getTranslationsForView } from "../../lib/utils/translationUtils";
 import { AnyRecord, MemberRawViewData, PageNumbers, PageQueryParams } from "../../types/utilTypes";
 import { TableEntry } from "../../types/viewTypes";
 import { getHiddenText, getLink } from "../../lib/utils/viewUtils";
-import { setExtraData, getLoggedUserAcspMembership, deleteExtraData } from "../../lib/utils/sessionUtils";
+import { setExtraData, getLoggedUserAcspMembership, deleteExtraData, getExtraData } from "../../lib/utils/sessionUtils";
 import { AcspMembership, UserRole } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
 import { getAcspMemberships, membershipLookup } from "../../services/acspMemberService";
-import { sanitizeUrl } from "@braintree/sanitize-url";
 import { validateEmailString } from "../../lib/validation/email.validation";
 import { getChangeMemberRoleFullUrl, getRemoveMemberCheckDetailsFullUrl } from "../../lib/utils/urlUtils";
 import { buildPaginationElement, getCurrentPageNumber, setLangForPagination, stringToPositiveInteger } from "../../lib/helpers/buildPaginationHelper";
@@ -16,24 +15,31 @@ import { validateActiveTabId } from "../../lib/validation/string.validation";
 import { acspLogger } from "../../lib/helpers/acspLogger";
 
 export const manageUsersControllerGet = async (req: Request, res: Response): Promise<void> => {
-    const viewData = await getViewData(req);
+
+    if (isCancelSearch(req)) {
+        deleteExtraData(req.session, constants.SEARCH_STRING_EMAIL);
+    }
+    const searchStringEmail: string | undefined = getExtraData(req.session, constants.SEARCH_STRING_EMAIL);
+
+    const viewData = await getViewData(req, searchStringEmail);
+
     acspLogger(req.session, manageUsersControllerGet.name, `Rendering manage users page`);
     res.render(constants.MANAGE_USERS_PAGE, { ...viewData });
 };
 
 export const manageUsersControllerPost = async (req: Request, res: Response): Promise<void> => {
+
+    const trimmedSearch = req.body.search.trim().toLowerCase();
+
+    setExtraData(req.session, constants.SEARCH_STRING_EMAIL, trimmedSearch);
+
     const { userRole } = getLoggedUserAcspMembership(req.session);
 
-    const originalSearch = req.body.search;
-    const trimmedSearch = originalSearch.replace(/ /g, "");
-
     const url = userRole === UserRole.STANDARD
-        ? `${constants.VIEW_USERS_FULL_URL}?search=${encodeURIComponent(trimmedSearch)}`
-        : `${constants.MANAGE_USERS_FULL_URL}?search=${encodeURIComponent(trimmedSearch)}`;
+        ? `${constants.VIEW_USERS_FULL_URL}`
+        : `${constants.MANAGE_USERS_FULL_URL}`;
 
-    const sanitizedUrl = sanitizeUrl(url);
-    res.redirect(sanitizedUrl);
-
+    res.redirect(url);
 };
 
 export const getTitle = (translations: AnyRecord, loggedInUserRole: UserRole, isError: boolean): string => {
@@ -42,12 +48,11 @@ export const getTitle = (translations: AnyRecord, loggedInUserRole: UserRole, is
     return isError ? `${translations.title_error}${baseTitle}${titleEnd}` : `${baseTitle}${titleEnd}`;
 };
 
-export const getViewData = async (req: Request): Promise<AnyRecord> => {
+export const getViewData = async (req: Request, search: string | undefined = undefined): Promise<AnyRecord> => {
     deleteExtraData(req.session, constants.USER_ROLE_CHANGE_DATA);
     deleteExtraData(req.session, constants.IS_SELECT_USER_ROLE_ERROR);
     deleteExtraData(req.session, constants.DETAILS_OF_USER_TO_REMOVE);
-    const search = req.query?.search as string;
-    const searchLowercase = search?.toLowerCase();
+
     const { ownerPage, adminPage, standardPage } = getPageQueryParams(req);
     const activeTabId = getActiveTabId(req);
 
@@ -67,7 +72,7 @@ export const getViewData = async (req: Request): Promise<AnyRecord> => {
         companyName: acspName,
         companyNumber: acspNumber,
         loggedInUserRole: userRole,
-        cancelSearchHref: getCancelSearchHref(userRole),
+        cancelSearchHref: `${getCancelSearchHref(userRole)}?${constants.CANCEL_SEARCH}`,
         accountOwnersTabId: constants.ACCOUNT_OWNERS_ID,
         administratorsTabId: constants.ADMINISTRATORS_ID,
         standardUsersTabId: constants.STANDARD_USERS_ID,
@@ -78,9 +83,10 @@ export const getViewData = async (req: Request): Promise<AnyRecord> => {
     };
 
     let errorMessage;
-    const isSearchValid = !search || validateEmailString(searchLowercase);
+    const isSearchAString = typeof search === "string";
+    const isSearchValid = !isSearchAString || validateEmailString(search);
 
-    if (search && !isSearchValid) {
+    if (isSearchAString && !isSearchValid) {
         errorMessage = constants.ERRORS_ENTER_AN_EMAIL_ADDRESS_IN_THE_CORRECT_FORMAT;
         viewData.errors = {
             search: {
@@ -100,9 +106,9 @@ export const getViewData = async (req: Request): Promise<AnyRecord> => {
         displayNameOrEmail: getDisplayNameOrEmail(member)
     });
 
-    if (isSearchValid && search) {
+    if (isSearchValid && isSearchAString) {
         try {
-            const foundUser = await membershipLookup(req, acspNumber, searchLowercase);
+            const foundUser = await membershipLookup(req, acspNumber, search);
             if (foundUser.items.length > 0) {
                 setTabIds(viewData, foundUser.items[0].userRole);
 
@@ -249,3 +255,5 @@ const updatePageNumber = (pageNumber: number, pageNumbers: PageNumbers, userRole
         break;
     }
 };
+
+export const isCancelSearch = (req: Request): boolean => Object.hasOwn(req.query, constants.CANCEL_SEARCH);

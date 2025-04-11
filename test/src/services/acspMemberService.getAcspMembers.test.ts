@@ -2,7 +2,6 @@ import { Resource } from "@companieshouse/api-sdk-node";
 import { createOauthPrivateApiClient } from "../../../src/services/apiClientService";
 import { getAcspMemberships } from "../../../src/services/acspMemberService";
 import { StatusCodes } from "http-status-codes";
-import { HttpError } from "http-errors";
 import { AcspMembers } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
 import { mockRequest } from "../../mocks/request.mock";
 import { accountOwnerAcspMembership, getMockAcspMembersResource } from "../../mocks/acsp.members.mock";
