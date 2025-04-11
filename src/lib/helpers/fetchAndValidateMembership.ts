@@ -1,10 +1,10 @@
 import { getAcspMembershipForMemberId } from "../../services/acspMemberService";
-import { getDisplayNameOrEmail, getDisplayNameOrNotProvided } from "../../routers/controllers/manageUsersController";
 import { Membership } from "../../types/membership";
 import { Request } from "express";
 import { getLoggedInAcspNumber } from "../utils/sessionUtils";
+import { getDisplayNameOrEmail, getDisplayNameOrLangKeyForNotProvided } from "../../lib/utils/userDisplayUtils";
 
-export const fetchAndValidateMembership = async (req: Request, acspMembershipId: string):Promise<Membership> => {
+export const fetchAndValidateMembership = async (req: Request, acspMembershipId: string): Promise<Membership> => {
     const member = await getAcspMembershipForMemberId(req, acspMembershipId);
 
     const loggedInAcspNumber = getLoggedInAcspNumber(req.session);
@@ -17,7 +17,7 @@ export const fetchAndValidateMembership = async (req: Request, acspMembershipId:
         userEmail: member.userEmail,
         acspNumber: member.acspNumber,
         userRole: member.userRole,
-        userDisplayName: getDisplayNameOrNotProvided(req.lang, member),
+        userDisplayName: getDisplayNameOrLangKeyForNotProvided(member),
         displayNameOrEmail: getDisplayNameOrEmail(member)
     };
 };
