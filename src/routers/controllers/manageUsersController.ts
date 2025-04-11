@@ -109,18 +109,21 @@ export const getViewData = async (req: Request, search: string | undefined = und
 
     if (isSearchValid && isSearchAString) {
         try {
-            const foundUser = await membershipLookup(req, acspNumber, search);
-            if (foundUser.items.length > 0) {
-                setTabIds(viewData, foundUser.items[0].userRole);
+            const foundMembership = await membershipLookup(req, acspNumber, search);
+            if (foundMembership.items.length > 0) {
+                const foundMember = foundMembership.items[0];
+                setTabIds(viewData, foundMember.userRole);
 
-                const foundMember = [
-                    foundUser.items[0]
+                const formattedFoundMember = [
+                    foundMember
                 ].map(formatMember);
 
-                setExtraData(req.session, constants.MANAGE_USERS_MEMBERSHIP, foundMember);
+                setExtraData(req.session, constants.MANAGE_USERS_MEMBERSHIP, formattedFoundMember);
 
-                const memberData = getUserTableData(foundUser.items, translations, userRole !== UserRole.STANDARD, userRole !== UserRole.STANDARD);
-                switch (foundUser.items[0].userRole) {
+                const hasChangeRoleLink: boolean = foundMember.userRole === UserRole.OWNER ? userRole !== UserRole.ADMIN && userRole !== UserRole.STANDARD : userRole !== UserRole.STANDARD;
+                const hasRemoveLink: boolean = foundMember.userRole === UserRole.OWNER ? userRole !== UserRole.ADMIN && userRole !== UserRole.STANDARD : userRole !== UserRole.STANDARD;
+                const memberData = getUserTableData(foundMembership.items, translations, hasChangeRoleLink, hasRemoveLink);
+                switch (foundMember.userRole) {
                 case UserRole.OWNER:
                     viewData.accountOwnersTableData = memberData;
                     break;
