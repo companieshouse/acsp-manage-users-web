@@ -21,6 +21,7 @@ const url = "/authorised-agent/add-user";
 const mockUserAccService = jest.spyOn(userAccountService, "getUserDetails");
 
 const sessionUtilsSpy: jest.SpyInstance = jest.spyOn(sessionUtils, "getLoggedInUserEmail");
+const setExtraDataSpy: jest.SpyInstance = jest.spyOn(sessionUtils, "setExtraData");
 
 describe(`GET ${url}`, () => {
 
@@ -196,6 +197,19 @@ describe(`POST ${url}`, () => {
         const response = await router.post(url).send({ email: "abc", userRole: "standard" });
         expect(response.text).toContain(en.errors_email_invalid);
         expect(response.text).not.toContain(en.errors_select_user_role);
+    });
+
+    it("should ensure emails are trimmed and saved to session in lowercase", async () => {
+        mockUserAccService.mockResolvedValueOnce([{
+            forename: "Upper",
+            surname: "McCase",
+            email: "uppercase@example.com"
+        }]);
+        await router.post(url).send({ email: " UPPERCASE@EXAMPLE.COM  ", userRole: "standard" });
+        expect(setExtraDataSpy).toHaveBeenCalledWith(expect.anything(), constants.DETAILS_OF_USER_TO_ADD, {
+            email: "uppercase@example.com",
+            userRole: "standard"
+        });
     });
 
     it("should redirect to the check member details page when form inputs valid and user details found", async () => {
