@@ -108,40 +108,7 @@ export const getViewData = async (req: Request, search: string | undefined = und
     });
 
     if (isSearchValid && isSearchAString) {
-        try {
-            const foundMembership = await membershipLookup(req, acspNumber, search);
-            if (foundMembership.items.length > 0) {
-                const foundMember = foundMembership.items[0];
-                setTabIds(viewData, foundMember.userRole);
-
-                const formattedFoundMember = [
-                    foundMember
-                ].map(formatMember);
-
-                setExtraData(req.session, constants.MANAGE_USERS_MEMBERSHIP, formattedFoundMember);
-
-                const hasChangeRoleLink: boolean = foundMember.userRole === UserRole.OWNER ? userRole !== UserRole.ADMIN && userRole !== UserRole.STANDARD : userRole !== UserRole.STANDARD;
-                const hasRemoveLink: boolean = foundMember.userRole === UserRole.OWNER ? userRole !== UserRole.ADMIN && userRole !== UserRole.STANDARD : userRole !== UserRole.STANDARD;
-                const memberData = getUserTableData(foundMembership.items, translations, hasChangeRoleLink, hasRemoveLink);
-                switch (foundMember.userRole) {
-                case UserRole.OWNER:
-                    viewData.accountOwnersTableData = memberData;
-                    break;
-                case UserRole.ADMIN:
-                    viewData.administratorsTableData = memberData;
-                    break;
-                case UserRole.STANDARD:
-                    viewData.standardUsersTableData = memberData;
-                    break;
-                }
-            } else {
-                viewData.manageUsersTabId = constants.ACCOUNT_OWNERS_TAB_ID;
-            }
-        } catch (error) {
-            acspLogger(req.session, getViewData.name, `/acsps/${acspNumber}/memberships/lookup Membership for email entered not found.`, true);
-            viewData.manageUsersTabId = constants.ACCOUNT_OWNERS_TAB_ID;
-        }
-        viewData.search = search;
+        await handleSearch(req, acspNumber, search, formatMember, userRole, translations, viewData);
     } else {
         const [ownerMemberRawViewData, adminMemberRawViewData, standardMemberRawViewData] = await Promise.all([
             getMemberRawViewData(req, acspNumber, pageNumbers, UserRole.OWNER, constants.ACCOUNT_OWNERS_TAB_ID, translations, userRole),
@@ -258,3 +225,48 @@ const updatePageNumber = (pageNumber: number, pageNumbers: PageNumbers, userRole
 };
 
 export const isCancelSearch = (req: Request): boolean => Object.hasOwn(req.query, constants.CANCEL_SEARCH);
+
+const handleSearch = async (
+    req: Request,
+    acspNumber: string,
+    search: string,
+    formatMember: (value: AcspMembership, index: number, array: AcspMembership[]) => unknown,
+    userRole: UserRole,
+    translations: AnyRecord,
+    viewData: AnyRecord
+) => {
+    try {
+        const foundMembership = await membershipLookup(req, acspNumber, search);
+        if (foundMembership.items.length > 0) {
+            const foundMember = foundMembership.items[0];
+            setTabIds(viewData, foundMember.userRole);
+
+            const formattedFoundMember = [
+                foundMember
+            ].map(formatMember);
+
+            setExtraData(req.session, constants.MANAGE_USERS_MEMBERSHIP, formattedFoundMember);
+
+            const hasChangeRoleLink: boolean = foundMember.userRole === UserRole.OWNER ? userRole !== UserRole.ADMIN && userRole !== UserRole.STANDARD : userRole !== UserRole.STANDARD;
+            const hasRemoveLink: boolean = foundMember.userRole === UserRole.OWNER ? userRole !== UserRole.ADMIN && userRole !== UserRole.STANDARD : userRole !== UserRole.STANDARD;
+            const memberData = getUserTableData(foundMembership.items, translations, hasChangeRoleLink, hasRemoveLink);
+            switch (foundMember.userRole) {
+            case UserRole.OWNER:
+                viewData.accountOwnersTableData = memberData;
+                break;
+            case UserRole.ADMIN:
+                viewData.administratorsTableData = memberData;
+                break;
+            case UserRole.STANDARD:
+                viewData.standardUsersTableData = memberData;
+                break;
+            }
+        } else {
+            viewData.manageUsersTabId = constants.ACCOUNT_OWNERS_TAB_ID;
+        }
+    } catch (error) {
+        acspLogger(req.session, getViewData.name, `/acsps/${acspNumber}/memberships/lookup Membership for email entered not found.`, true);
+        viewData.manageUsersTabId = constants.ACCOUNT_OWNERS_TAB_ID;
+    }
+    viewData.search = search;
+};

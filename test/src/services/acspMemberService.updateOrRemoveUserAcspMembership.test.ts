@@ -2,7 +2,6 @@ import { Resource } from "@companieshouse/api-sdk-node";
 import { createOauthPrivateApiClient } from "../../../src/services/apiClientService";
 import { updateOrRemoveUserAcspMembership } from "../../../src/services/acspMemberService";
 import { StatusCodes } from "http-status-codes";
-import { HttpError } from "http-errors";
 import { UserRole } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
 import { mockRequest } from "../../mocks/request.mock";
 import * as refreshTokenService from "../../../src/services/refreshTokenService";
