@@ -62,7 +62,7 @@ interface AddUserPostViewData extends ViewDataWithBackLink {
 }
 
 export const addUserControllerPost = async (req: Request, res: Response): Promise<void> => {
-    const email = req.body.email.trim();
+    const email = req.body.email.trim().toLowerCase();
     const userRole = req.body.userRole;
     const acspMembership: AcspMembership = getExtraData(req.session, constants.LOGGED_USER_ACSP_MEMBERSHIP);
     const loggedInUserRole = acspMembership.userRole;
