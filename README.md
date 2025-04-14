@@ -29,7 +29,7 @@ Instructions can be found [here](https://companieshouse.atlassian.net/wiki/space
 
 Instructions for adding initial data for development and testing, can be found [here](https://companieshouse.atlassian.net/wiki/spaces/IDV/pages/4517724334/Inugami+Test+Data)
 
-In addition to the above there is a seed script is included, [with guidance here](./tools/seed-acsp-data-mongo/README.md).
+In addition to the above there is a seed script is included, [with guidance and configuration options here](./tools/seed-acsp-data-mongo/README.md).r
 
 ### Helmet
 
