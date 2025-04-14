@@ -5,7 +5,7 @@ import { NextFunction, Request, Response } from "express";
 import * as constants from "../../src/lib/constants";
 
 jest.mock("../../src/lib/Logger");
-
+jest.mock("ioredis");
 const router = supertest(app);
 const url = "/authorised-agent/";
 
