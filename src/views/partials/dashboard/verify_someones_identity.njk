@@ -2,12 +2,12 @@
     {# no link to verify someone's identity when ACSP is suspended #}
     {% if agentStatus === AcspStatus.SUSPENDED %}
 
-        <h2 class="govuk-heading-s">
+        <h3 class="govuk-heading-s">
             {{lang.tell_companies_house_id}}
             <strong class="govuk-tag govuk-tag--red govuk-!-margin-top-2">
                 {{lang.not_available}}
             </strong>
-        </h2>
+        </h3>
 
         <p class="govuk-body">
             {{lang.you_cannot_tell_us}}{{companyName}}{{lang.has_been_suspended}}
@@ -15,10 +15,10 @@
 
     {% elif showTellUsYouveVerifiedAPersonsIdentity %}
 
-        <h2 class="govuk-heading-s">
+        <h3 class="govuk-heading-s">
 
             {{ lang.verifying_someones_identity }}
-        </h2>
+        </h3>
 
         {% set languageFlag = "?lang=cy" if locale == "cy" else 
             "?lang=en" %}
@@ -33,10 +33,10 @@
         </p>
 
     {% else %}
-        <h2 class="govuk-heading-s">
+        <h3 class="govuk-heading-s">
 
             {{ lang.verifying_someones_identity }}
-        </h2>
+        </h3>
 
         <p class="govuk-body">
             {{lang.use_our_service_to}}
