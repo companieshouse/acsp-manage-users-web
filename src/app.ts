@@ -59,6 +59,7 @@ njk.addGlobal("cdnUrlJs", process.env.CDN_URL_JS);
 njk.addGlobal("cdnHost", process.env.ANY_PROTOCOL_CDN_HOST);
 njk.addGlobal("chsUrl", process.env.CHS_URL);
 njk.addGlobal("chsMonitorGuiUrl", process.env.CHS_MONITOR_GUI_URL);
+njk.addGlobal("accountUrl", process.env.ACCOUNT_URL);
 njk.addGlobal("UserRole", UserRole);
 njk.addGlobal("AcspStatus", AcspStatus);
 njk.addGlobal("Lang", Lang);

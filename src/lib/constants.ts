@@ -4,6 +4,7 @@ import { getEnvironmentValue } from "./utils/environmentValue";
 export const SERVICE_NAME = "ACSP Manage Users Web";
 export const ACCOUNTS_USER_INTERNAL_API_KEY = getEnvironmentValue("ACCOUNTS_USER_INTERNAL_API_KEY");
 export const ACCOUNT_URL = getEnvironmentValue("ACCOUNT_URL");
+export const ACCOUNTS_API_URL = getEnvironmentValue("ACCOUNTS_API_URL");
 export const CACHE_SERVER = getEnvironmentValue("CACHE_SERVER");
 export const CHS_URL = getEnvironmentValue("CHS_URL");
 export const COOKIE_DOMAIN = getEnvironmentValue("COOKIE_DOMAIN");
