@@ -47,7 +47,7 @@ describe(`GET ${url}`, () => {
         expect(decodedResponse).toContain(en.authorised_agent_status);
         expect(decodedResponse).toContain(en.authorised_agent_number);
         expect(decodedResponse).toContain(en.your_role);
-        expect(decodedResponse).toContain(en.account_settings);
+        expect(decodedResponse).toContain(en.authorised_agent_users_and_account_details);
         expect(decodedResponse).toContain(en.authorised_agents_are_also_known_as);
         expect(decodedResponse).toContain(en.read_acsp_guidance);
         expect(decodedResponse).toContain(en.coming_soon);
