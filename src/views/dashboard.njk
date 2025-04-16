@@ -17,27 +17,27 @@
     {% endif %}
 
     <dl class="govuk-body">
-        <div class="govuk-!-display-inline-block govuk-!-margin-right-3">
+        <div class="govuk-!-margin-bottom-2">
             <dt class="govuk-!-font-weight-bold govuk-!-display-inline">
-                {{lang.authorised_agent_status}}:
+                {{lang.authorised_agent_status}}
             </dt>
             <dd class="govuk-!-display-inline">
                 <span class="govuk-tag {{ statusColour }}">{{translateEnum(agentStatus)}}</span>
             </dd>
         </div>
 
-        <div class="govuk-!-display-inline-block govuk-!-margin-right-3">
+        <div class="govuk-!-margin-bottom-2">
             <dt class="govuk-!-font-weight-bold govuk-!-display-inline">
-                {{lang.authorised_agent_number}}:
+                {{lang.authorised_agent_number}}
             </dt>
             <dd class="govuk-!-display-inline govuk-!-font-weight-regular">
                 {{agentNumber}}
             </dd>
         </div>
 
-        <div class="govuk-!-display-inline-block">
+        <div>
             <dt class="govuk-!-font-weight-bold govuk-!-display-inline">
-                {{lang.your_role}}:
+                {{lang.your_role}}
             </dt>
             <dd class="govuk-!-display-inline govuk-!-font-weight-regular">
                 {{userRoleTag}}
