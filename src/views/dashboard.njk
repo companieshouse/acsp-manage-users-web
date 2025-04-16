@@ -16,18 +16,34 @@
         {% set statusColour = 'govuk-tag--red' %}
     {% endif %}
 
-    <p class="govuk-body govuk-!-margin-bottom-1 govuk-!-font-weight-bold">{{lang.authorised_agent_status}}
-        <span class="govuk-tag {{ statusColour }}">
-            {{translateEnum(agentStatus)}}
-        </span>
-    </p>
+    <dl class="govuk-body">
+        <div class="govuk-!-margin-bottom-1">
+            <dt class="govuk-!-font-weight-bold govuk-!-display-inline govuk-!-margin-right-2">
+                {{lang.authorised_agent_status}}
+            </dt>
+            <dd class="govuk-!-display-inline">
+                <span class="govuk-tag {{ statusColour }}">{{translateEnum(agentStatus)}}</span>
+            </dd>
+        </div>
 
-    <p class="govuk-body govuk-!-margin-bottom-1 govuk-!-font-weight-bold">{{lang.authorised_agent_number}}
-        <span class="govuk-!-font-weight-regular">{{agentNumber}}</span>
-    </p>
-    <p class="govuk-body govuk-!-margin-bottom-1 govuk-!-font-weight-bold">{{lang.your_role}}
-        <span class="govuk-!-font-weight-regular">{{userRoleTag}}</span>
-    </p>
+        <div class="govuk-!-margin-bottom-1">
+            <dt class="govuk-!-font-weight-bold govuk-!-display-inline govuk-!-margin-right-2">
+                {{lang.authorised_agent_number}}
+            </dt>
+            <dd class="govuk-!-display-inline govuk-!-font-weight-regular">
+                {{agentNumber}}
+            </dd>
+        </div>
+
+        <div class="govuk-!-margin-bottom-1">
+            <dt class="govuk-!-font-weight-bold govuk-!-display-inline govuk-!-margin-right-2">
+                {{lang.your_role}}
+            </dt>
+            <dd class="govuk-!-display-inline govuk-!-font-weight-regular">
+                {{userRoleTag}}
+            </dd>
+        </div>
+    </dl>
 
     {% set insetText %}
     {{lang.authorised_agents_are_also_known_as}}
