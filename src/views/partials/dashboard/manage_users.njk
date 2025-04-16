@@ -1,14 +1,7 @@
 {% set dataEventIdForManageUsers = "manage-users-" + convertUserRole(userRole) %}
 
 <div class="govuk-grid-column-one-third govuk-topic-block">
-    <h2 class="govuk-heading-s">
-        <a class="govuk-link govuk-link--no-underline govuk-link--no-visited-state" 
-            href="{{managePeopleLink}}"
-            data-event-id="{{dataEventIdForManageUsers}}"
-            >
-            {{lang.manage_users}}
-        </a>
-    </h2>
+    <h3 class="govuk-heading-s">{{lang.users_for_the_authorised_agent}}</h3>
     <p class="govuk-body">
         {{lang.you_can}}:
     </p>
@@ -17,4 +10,10 @@
         <li>{{lang.add_users_if_they_need_to_use_services_for}}</li>
         <li>{{lang.remove_users}}</li>
     </ul>
+    <a class="govuk-link govuk-link--no-visited-state" 
+            href="{{managePeopleLink}}"
+            data-event-id="{{dataEventIdForManageUsers}}"
+            >
+        {{lang.manage_users}}
+    </a>
 </div>
