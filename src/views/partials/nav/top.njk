@@ -1,6 +1,8 @@
 {% from "navbar.njk" import addPredefinedNavbar %}
 
-{{ addPredefinedNavbar(userEmailAddress, chsMonitorGuiUrl, lang, displayAuthorisedAgent) }}
+{% set noDisplayPlaceholder = "_" %}
+
+{{ addPredefinedNavbar(userEmailAddress, chsMonitorGuiUrl, lang, displayAuthorisedAgent, noDisplayPlaceholder, noDisplayPlaceholder, pageLanguage=locale, accountUrl) }}
 
 <nav class="govuk-language-select" role="navigation" aria-label="{{ lang.language_switcher }}">
     <ul class="govuk-language-select__list">
