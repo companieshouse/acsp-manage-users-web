@@ -158,11 +158,11 @@ ul.pager:after,
     }
 }
 
-@media (max-width: 959px) and (min-width: 700px) {
+@media (max-width: 959px) and (min-width: 641px) {
     #chs-customer-insights {
         padding-bottom: 0.5em;
         max-width: none;
-        width: auto;
+        width: auto !important;
     }
 }
 
@@ -182,5 +182,11 @@ ul.pager:after,
 @media screen and (max-width: 1019px) {
     .govuk-topic-block {
         width: auto;
+    }
+}
+
+@media (min-width: 641px) {
+    #global-nav nav li {
+        line-height: 1.6;
     }
 }
