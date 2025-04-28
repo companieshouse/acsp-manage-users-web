@@ -65,7 +65,9 @@ export const createAcspMembershipMock = (
     kind: "",
     links: {
         self: ""
-    }
+    },
+    invitedAt: "",
+    acceptedAt: ""
 });
 
 export const accountOwnerAcspMembership: AcspMembership = {
@@ -86,7 +88,9 @@ export const accountOwnerAcspMembership: AcspMembership = {
     kind: "acsp-association",
     links: {
         self: "/12345"
-    }
+    },
+    invitedAt: "",
+    acceptedAt: ""
 };
 
 export const loggedAccountOwnerAcspMembership: AcspMembership = {
@@ -107,7 +111,9 @@ export const loggedAccountOwnerAcspMembership: AcspMembership = {
     kind: "acsp-association",
     links: {
         self: "/12345"
-    }
+    },
+    invitedAt: "",
+    acceptedAt: ""
 };
 
 export const administratorAcspMembership: AcspMembership = {
@@ -128,7 +134,9 @@ export const administratorAcspMembership: AcspMembership = {
     kind: "acsp-association",
     links: {
         self: "/12345"
-    }
+    },
+    invitedAt: "",
+    acceptedAt: ""
 };
 
 export const administratorAcspMembershipWithDisplayName: AcspMembership = {
@@ -149,7 +157,9 @@ export const administratorAcspMembershipWithDisplayName: AcspMembership = {
     kind: "acsp-association",
     links: {
         self: "/12345"
-    }
+    },
+    invitedAt: "",
+    acceptedAt: ""
 };
 
 export const standardUserAcspMembership: AcspMembership = {
@@ -170,7 +180,9 @@ export const standardUserAcspMembership: AcspMembership = {
     kind: "acsp-association",
     links: {
         self: "/12345"
-    }
+    },
+    invitedAt: "",
+    acceptedAt: ""
 };
 export const getMockAcspMembersResource = (
     acspMemberships: AcspMembership[],

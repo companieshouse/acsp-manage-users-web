@@ -10,7 +10,7 @@ import { acspLogger } from "../../lib/helpers/acspLogger";
 export const tryEditMemberRolePost = async (req: Request, res: Response): Promise<void> => {
     const userRoleChangeData: UserRoleChangeData = getExtraData(req.session, constants.USER_ROLE_CHANGE_DATA);
     const userRoleToUpdate: Update = {
-        userRole: getUserRole(userRoleChangeData.userRole)
+        updateUser: { userRole: getUserRole(userRoleChangeData.userRole) }
     };
     acspLogger(req.session, tryEditMemberRolePost.name, `About to edit user role: calling PATCH /acsps/memberships/${userRoleChangeData.acspMembershipId}`);
 
