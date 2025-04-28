@@ -49,7 +49,6 @@ export const editMemberRoleControllerPost = async (req: Request, res: Response):
 
 interface EditMemberRoleViewData extends ViewDataWithBackLink {
     loggedInUserRole: UserRole,
-    companyName: string,
     email: string,
     userRole: string,
     oldUserRole: UserRole,
@@ -59,7 +58,7 @@ interface EditMemberRoleViewData extends ViewDataWithBackLink {
 
 const getViewData = async (req: Request): Promise<EditMemberRoleViewData> => {
     const translations = getTranslationsForView(req.lang, constants.EDIT_MEMBER_ROLE_PAGE);
-    const { acspName, userRole } = getLoggedUserAcspMembership(req.session);
+    const { userRole } = getLoggedUserAcspMembership(req.session);
 
     if (userRole === UserRole.STANDARD) {
         const errorMessage = `${getViewData.name} The logged in user is a standard user, not permitted to change another user role.`;
@@ -79,7 +78,6 @@ const getViewData = async (req: Request): Promise<EditMemberRoleViewData> => {
     const viewData: EditMemberRoleViewData = {
         lang: translations,
         loggedInUserRole: userRole,
-        companyName: acspName,
         email: userToChangeRole.userEmail,
         userRole: userToChangeRole.userRole,
         oldUserRole: userToChangeRole.userRole,
