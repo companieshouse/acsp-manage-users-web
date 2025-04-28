@@ -5,6 +5,7 @@
 
 {% extends "layouts/default.njk" %}
 
+{% set title = lang.page_header + lang.title_end %}
 {% set userNameOrEmail = userDisplayName if userDisplayName else 
     email %}
 
