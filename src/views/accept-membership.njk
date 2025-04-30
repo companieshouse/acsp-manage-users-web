@@ -1,0 +1,35 @@
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
+{% extends "layouts/default.njk" %}
+
+{% block main_content %}
+
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <form method="post">
+                {% include "partials/csrf_token.njk" %}
+
+                <span class="govuk-caption-xl">{{companyName}}</span>
+
+                    <h1 class="govuk-heading-xl">{{lang.accept}}</h1>
+                    <p class="govuk-body">{{lang.accept}}</p>
+
+                {% set button_attributes = {
+                        role: "button",
+                        id: "continue-button",
+                        "data-event-id": "continue-button"             
+                    }
+                %}
+
+                {{ govukButton({text: lang.continue,
+                        type: "submit",
+                        attributes: button_attributes,
+                        classes: 'govuk-!-margin-top-3'
+                    })
+                }}
+            </form>
+
+        </div>
+    </div>
+
+{% endblock %}

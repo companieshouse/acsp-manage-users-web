@@ -20,6 +20,7 @@ import { cannotAddUserControllerGet } from "./controllers/cannotAddUserControlle
 import { sanitizeMembershipIdMiddleware } from "../middleware/sanitize.membership.id.middleware";
 import { accessDeniedControllerGet } from "./controllers/accessDeniedController";
 import { accessibilityStatementAuthorisedAgentControllerGet } from "./controllers/accessibilityStatementAuthorisedAgentController";
+import { acceptMembershipControllerGet, acceptMembershipControllerPost } from "./controllers/acceptMembershipController";
 
 const router: Router = Router();
 
@@ -55,6 +56,10 @@ router.get(constants.CHECK_EDIT_MEMBER_ROLE_DETAILS_URL, checkEditMemberRoleDeta
 router.get(constants.CONFIRMATION_MEMBER_ROLE_EDITED_URL, confirmationMemberRoleEditedControllerGet);
 
 router.post(constants.TRY_EDIT_MEMBER_ROLE_URL, tryEditMemberRolePost);
+
+router.get(constants.ACCEPT_MEMBERSHIP_URL, acceptMembershipControllerGet);
+
+router.post(constants.ACCEPT_MEMBERSHIP_URL, acceptMembershipControllerPost);
 
 router.get(constants.HEALTHCHECK, healthCheckController);
 
