@@ -6,7 +6,8 @@ import {
 import { getExtraData } from "../../lib/utils/sessionUtils";
 import { getTranslationsForView } from "../../lib/utils/translationUtils";
 import { updateOrRemoveUserAcspMembership } from "../../services/acspMemberService";
-import logger from "lib/Logger";
+import logger from "../../lib/Logger";
+
 export const acceptMembershipControllerGet = async (req: Request, res: Response): Promise<void> => {
     const translations = getTranslationsForView(req.lang, constants.ACCEPT_MEMBERSHIP_PAGE);
     const viewData = {
@@ -18,7 +19,7 @@ export const acceptMembershipControllerGet = async (req: Request, res: Response)
 };
 
 export const acceptMembershipControllerPost = async (req: Request, res: Response): Promise<void> => {
-
+    console.log("###### acceptMembershipControllerPost ######");
     const acspMembershipId = getExtraData(req.session, "pendingMembershipId");
     // check if undefined
     logger.info("patching membership id from pending to approved " + acspMembershipId);

@@ -12,7 +12,7 @@
                 <span class="govuk-caption-xl">{{companyName}}</span>
 
                     <h1 class="govuk-heading-xl">{{lang.accept}}</h1>
-                    <p class="govuk-body">{{lang.accept}}</p>
+                    <p class="govuk-body">{{lang.p1}}</p>
 
                 {% set button_attributes = {
                         role: "button",
@@ -21,7 +21,8 @@
                     }
                 %}
 
-                {{ govukButton({text: lang.continue,
+                {{ govukButton({
+                        text: lang.accept_and_continue,
                         type: "submit",
                         attributes: button_attributes,
                         classes: 'govuk-!-margin-top-3'

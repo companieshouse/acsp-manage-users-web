@@ -121,7 +121,9 @@ export const updateOrRemoveUserAcspMembership = async (req: Request, acspMembers
         acspMembershipId,
         updateOrRemove
     ) as Resource<undefined | Errors>;
-
+    console.log(sdkResponse);
+    console.log("resource");
+    console.log(sdkResponse.resource);
     if (!sdkResponse) {
         const errMsg = `PATCH /acsps/memberships/${acspMembershipId} - no response received`;
         acspLogger(req.session, updateOrRemoveUserAcspMembership.name, errMsg, true);
