@@ -1,9 +1,6 @@
 <div class="govuk-grid-column-one-third govuk-topic-block">
     <h3 class="govuk-heading-s">
-        {{lang.update_authorised_agent}}
-        <strong class="govuk-tag govuk-tag--blue govuk-!-margin-top-2">
-            {{lang.coming_soon}}
-        </strong>
+        {{lang.authorised_agent_details}}
     </h3>
     <p class="govuk-body">
         {{lang.tell_us_about_changes}}
@@ -19,4 +16,10 @@
             {{lang.tell_us_about_any_changes_within}}
         </strong>
     </div>
+    <a class="govuk-link govuk-link--no-visited-state" 
+            href="{{updateAuthorisedAgentsDetailsLink}}"
+            data-event-id="{{update-authorised-agents-details}}"
+            >
+        {{lang.view_and_update_the_authorised_agent_details}}
+    </a>
 </div>

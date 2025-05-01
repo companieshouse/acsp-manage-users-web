@@ -61,7 +61,7 @@ describe(`GET ${url}`, () => {
         expect(decodedResponse).toContain(en.tell_us_about_changes);
         expect(decodedResponse).toContain(en.business_details);
         expect(decodedResponse).toContain(en.anti_money_laundering_registration_details_for);
-        expect(decodedResponse).toContain(en.update_authorised_agent);
+        expect(decodedResponse).toContain(en.authorised_agent_details);
         expect(decodedResponse).toContain(en.view_users_who_have_been_added);
         expect(decodedResponse).toContain(en.warning);
         expect(decodedResponse).toContain(enCommon.you_can);
