@@ -53,7 +53,7 @@ describe("removeUserCheckDetailsControllerGet", () => {
                 removingThemselves: false,
                 tryRemovingUserUrl: "/authorised-agent/try-removing-user",
                 userDetails: "James Morris",
-                displayNameInFirstParagraph: "James Morris (james.morris@gmail.com)",
+                displayNameInFirstParagraph: "James Morris (<strong>james.morris@gmail.com</strong>)",
                 templateName: constants.REMOVE_MEMBER_PAGE
             });
     });
@@ -120,7 +120,7 @@ describe("removeUserCheckDetailsControllerGet", () => {
                 removingThemselves: false,
                 tryRemovingUserUrl: "/authorised-agent/try-removing-user",
                 userDetails: "Jeremy Lloris",
-                displayNameInFirstParagraph: "Jeremy Lloris (user@email.com)",
+                displayNameInFirstParagraph: "Jeremy Lloris (<strong>user@email.com</strong>)",
                 templateName: constants.REMOVE_MEMBER_PAGE
             });
     });
@@ -164,7 +164,7 @@ describe("removeUserCheckDetailsControllerGet", () => {
                 removingThemselves: true,
                 tryRemovingUserUrl: "/authorised-agent/try-removing-user",
                 userDetails: loggedInUserMembership.displayNameOrEmail,
-                displayNameInFirstParagraph: "Jeremy Lloris (jeremy.lloris@gmail.com)",
+                displayNameInFirstParagraph: "Jeremy Lloris (<strong>jeremy.lloris@gmail.com</strong>)",
                 templateName: constants.REMOVE_MEMBER_PAGE
             });
     });

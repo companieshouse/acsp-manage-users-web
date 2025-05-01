@@ -47,9 +47,9 @@ export const removeUserCheckDetailsControllerGet = async (req: Request, res: Res
     const { userDisplayName, userEmail } = userToRemove;
 
     if (userDisplayName && userDisplayName !== constants.LANG_KEY_FOR_NOT_PROVIDED && userDisplayName !== constants.NOT_PROVIDED) {
-        displayNameInFirstParagraph = `${userDisplayName} (${userEmail})`;
+        displayNameInFirstParagraph = `${userDisplayName} (<strong>${userEmail}</strong>)`;
     } else {
-        displayNameInFirstParagraph = `${userEmail}`;
+        displayNameInFirstParagraph = `<strong>${userEmail}</strong>`;
     }
 
     const viewData: RemoveUserCheckDetailsGetViewData = {

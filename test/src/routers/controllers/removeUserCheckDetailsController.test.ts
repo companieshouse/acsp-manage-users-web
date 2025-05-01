@@ -59,11 +59,11 @@ describe("GET /authorised-agent/remove-member", () => {
                 expect(response.text).toContain(lang.youll_be_immediately_signed_out);
                 expect(response.text).toContain(lang.remove_and_sign_out);
             } else {
-                expect(response.text).toContain(`${lang.remove}${userData.displayNameOrEmail}`);
+                expect(response.text).toContain(`${lang.page_header}`);
                 if (isDisplayNameProvided === "provided") {
-                    expect(response.text).toContain(`${lang.if_you_remove}${`${userData.userDisplayName} (${userData.userEmail})`}${lang.they_will_not_be_able_to_use}${loggedAccountOwnerAcspMembership.acspName}.`);
+                    expect(response.text).toContain(`${lang.if_you_remove}${`${userData.userDisplayName} (<strong>${userData.userEmail}</strong>)`}${lang.they_will_not_be_able_to_use}${loggedAccountOwnerAcspMembership.acspName}.`);
                 } else {
-                    expect(response.text).toContain(`${lang.if_you_remove}${userData.userEmail}${lang.they_will_not_be_able_to_use}${loggedAccountOwnerAcspMembership.acspName}.`);
+                    expect(response.text).toContain(`${lang.if_you_remove}<strong>${userData.userEmail}</strong>${lang.they_will_not_be_able_to_use}${loggedAccountOwnerAcspMembership.acspName}.`);
                 }
 
             }

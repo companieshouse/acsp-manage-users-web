@@ -3,8 +3,6 @@
 
 {% extends "layouts/default.njk" %}
 
-{% set title = lang.remove + userDetails + lang.title_end %}
-
 {% block back_link %}
     {% include "partials/back_link.njk" %}
 {% endblock %}
@@ -34,8 +32,8 @@
                     <p class="govuk-body">{{lang.if_remove_yourself}}</p>
                     <p class="govuk-body">{{lang.youll_be_immediately_signed_out}}</p>
                 {% else %}
-                    <h1 class="govuk-heading-xl">{{lang.remove}}{{userDetails}}</h1>
-                    <p class="govuk-body">{{lang.if_you_remove}}{{displayNameInFirstParagraph}}{{lang.they_will_not_be_able_to_use}}{{companyName}}.</p>
+                    <h1 class="govuk-heading-xl">{{lang.page_header}}</h1>
+                    <p class="govuk-body">{{lang.if_you_remove}}{{displayNameInFirstParagraph | safe}}{{lang.they_will_not_be_able_to_use}}{{companyName}}.</p>
                 {% endif %}
 
                 <div class="govuk-button-group">
