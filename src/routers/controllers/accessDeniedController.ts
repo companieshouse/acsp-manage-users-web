@@ -12,11 +12,12 @@ interface AccessDeniedViewData extends BaseViewData {
 }
 
 export const accessDeniedControllerGet = async (req: Request, res: Response): Promise<void> => {
+    const langVersion = req.lang ?? Lang.EN;
     const viewData: AccessDeniedViewData = {
-        lang: getTranslationsForView(req.lang ?? Lang.EN, constants.ACCESS_DENIED_PAGE),
+        lang: getTranslationsForView(langVersion, constants.ACCESS_DENIED_PAGE),
         templateName: constants.ACCESS_DENIED_PAGE,
         userEmailAddress: getLoggedInUserEmail(req.session),
-        langVersion: req.lang ?? Lang.EN
+        langVersion
     };
     logger.info(`${accessDeniedControllerGet.name} Rendering access denied page`);
     res.render(constants.ACCESS_DENIED_PAGE, viewData);
