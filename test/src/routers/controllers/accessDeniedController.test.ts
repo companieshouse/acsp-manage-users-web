@@ -9,6 +9,7 @@ jest.mock("../../../../src/lib/Logger");
 const router = supertest(app);
 
 describe("GET /authorised-agent/access-denied", () => {
+    const href = "https://find-and-update.company-information.service.gov.uk/register-as-companies-house-authorised-agent?lang=";
     test.each([
         ["English", "en", en],
         ["English", undefined, en],
@@ -28,5 +29,6 @@ describe("GET /authorised-agent/access-denied", () => {
             expect(response.text).toContain(lang.apply_to_register_as_an_authorised_agent);
             expect(response.text).toContain(lang.youll_need_to_ask_to_be_added);
             expect(response.text).toContain(lang.if_theres_not_an_existing_account);
+            expect(response.text).toContain(`${href}${langVersion ?? "en"}`);
         });
 });
