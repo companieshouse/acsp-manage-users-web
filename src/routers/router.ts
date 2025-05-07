@@ -20,6 +20,8 @@ import { cannotAddUserControllerGet } from "./controllers/cannotAddUserControlle
 import { sanitizeMembershipIdMiddleware } from "../middleware/sanitize.membership.id.middleware";
 import { accessDeniedControllerGet } from "./controllers/accessDeniedController";
 import { accessibilityStatementAuthorisedAgentControllerGet } from "./controllers/accessibilityStatementAuthorisedAgentController";
+import { confirmationNewUserAcceptedInvitationControllerGet } from "./controllers/confirmationNewUserAcceptedInvitationController";
+import { confirmationNewUserDeclinedInvitationControllerGet } from "./controllers/confirmationNewUserDeclinedInvitationController";
 
 const router: Router = Router();
 
@@ -63,5 +65,9 @@ router.get(constants.SOMETHING_WENT_WRONG_URL, somethingWentWrongController);
 router.get(constants.ACCESS_DENIED_URL, accessDeniedControllerGet);
 
 router.get(constants.ACCESSIBILITY_STATEMENT_URL, accessibilityStatementAuthorisedAgentControllerGet);
+
+router.get(constants.CONFIRMATION_NEW_USER_ACCEPTED_INVITATION_URL, confirmationNewUserAcceptedInvitationControllerGet);
+
+router.get(constants.CONFIRMATION_NEW_USER_DECLINED_INVITATION_URL, confirmationNewUserDeclinedInvitationControllerGet);
 
 export default router;
