@@ -3,11 +3,13 @@
 
 {% extends "layouts/default.njk" %}
 
-{% set userRoleText = userRole === UserRole.standard
-    ? lang.a_standard_user
-    : userRole === UserRole.owner
-        ? lang.an_account_owner
-        : lang.an_administrator %}
+{% if userRole == UserRole.STANDARD %}
+    {% set userRoleText = lang.a_standard_user %}
+{% elif userRole == UserRole.OWNER %}
+    {% set userRoleText = lang.an_account_owner %}
+{% else %}
+    {% set userRoleText = lang.an_administrator %}
+{% endif %}
 
 {% set bannerText = lang.you_have_been_added_as + " " + userRoleText + " " + lang.for + " " + companyName + "." %}
 
