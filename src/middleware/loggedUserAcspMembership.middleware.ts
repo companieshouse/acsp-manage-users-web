@@ -8,7 +8,8 @@ import logger from "../lib/Logger";
 
 const excludePaths = [
     constants.ACCESS_DENIED_FULL_URL,
-    constants.ACCEPT_MEMBERSHIP_FULL_URL
+    constants.ACCEPT_MEMBERSHIP_FULL_URL,
+    constants.SOMETHING_WENT_WRONG_FULL_URL
 ];
 
 export const loggedUserAcspMembershipMiddleware = async (req: Request, res: Response, next: NextFunction): Promise<void> => {

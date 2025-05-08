@@ -1,5 +1,13 @@
 {
-    "accept":"Accept: Invitation to become a ACSP member",
-    "p1":"There will be an avenue to remove youself from the acsp once accepted",
-    "accept_and_continue":"Accept invite and continue"
+    "page_header":"What happens if you're added to an authorised agent account?",
+    "p1":"You’ll be able to use services for the authorised agent. This includes to:",
+    "p2":"Depending on your role, you may be able to make changes to the authorised agent's details, and add and remove other users.",
+    "bullet_1":"tell Companies House you’ve verified someone’s identity",
+    "bullet_2":"file on behalf of clients",
+    "details_summary":"What roles can a user have for an authorised agent?",
+    "details_p1":"When someone adds a user to an authorised agent account, they can choose which role they want the user to have. If you're added as an:",
+    "details_bullet_1":"account owner – you can update the authorised agent’s details, and add and remove all users",
+    "details_bullet_2":"administrator – you can add and remove administrators and standard users",
+    "details_bullet_3":"standard users – you cannot add and remove other users",
+    "details_text":"Accept invite and continue"
 }

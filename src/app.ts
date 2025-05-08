@@ -91,7 +91,7 @@ app.use(`${constants.LANDING_URL}*`, ensureSessionCookiePresentMiddleware);
 app.use(`${constants.LANDING_URL}*`, csrfProtectionMiddleware);
 
 app.use(`${constants.LANDING_URL}*`, authenticationMiddleware);
-// app.use(`${constants.LANDING_URL}*`, acspAuthMiddleware);
+app.use(`${constants.LANDING_URL}*`, acspAuthMiddleware);
 
 LocalesService.getInstance("locales", true);
 app.use(LocalesMiddleware());

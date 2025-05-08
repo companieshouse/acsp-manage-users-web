@@ -1,4 +1,5 @@
 {% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/details/macro.njk" import govukDetails %}
 
 {% extends "layouts/default.njk" %}
 
@@ -9,10 +10,28 @@
             <form method="post">
                 {% include "partials/csrf_token.njk" %}
 
-                <span class="govuk-caption-xl">{{companyName}}</span>
+                <h1 class="govuk-heading-l">{{lang.page_header}}</h1>
+                <p class="govuk-body">{{lang.p1}}</p>
+                <ul class="govuk-body govuk-list govuk-list--bullet">
+                    <li>{{lang.bullet_1}}</li>
+                    <li>{{lang.bullet_2}}</li>
+                </ul>
+                <p class="govuk-body">{{lang.p2}}</p>
 
-                    <h1 class="govuk-heading-xl">{{lang.accept}}</h1>
-                    <p class="govuk-body">{{lang.p1}}</p>
+                {% set detailsHtml %}
+                <p class="govuk-body">{{lang.details_p1}}</p>
+                <ul class="govuk-body govuk-list govuk-list--bullet">
+                    <li>{{lang.details_bullet_1}}</li>
+                    <li>{{lang.details_bullet_2}}</li>
+                    <li>{{lang.details_bullet_3}}</li>
+                </ul>
+                {% endset %}
+
+                {{ govukDetails({
+                    summaryText: lang.details_summary,
+                    html: detailsHtml
+                })
+             }}
 
                 {% set button_attributes = {
                         role: "button",
@@ -22,7 +41,7 @@
                 %}
 
                 {{ govukButton({
-                        text: lang.accept_and_continue,
+                        text: lang.continue,
                         type: "submit",
                         attributes: button_attributes,
                         classes: 'govuk-!-margin-top-3'
