@@ -76,8 +76,8 @@ export const TRY_REMOVING_USER = "try-removing-user";
 export const USER_REMOVE_CONFIRMATION_PAGE = "confirmation-member-removed";
 export const VIEW_USERS_PAGE = "view-users";
 export const ACCESSIBILITY_STATEMENT_PAGE = "accessibility-statement";
+export const ACCEPT_MEMBERSHIP_PAGE = "accept-membership";
 export const CONFIRMATION_NEW_USER_ACCEPTED_INVITATION_PAGE = "confirmation-new-user-accepted-invitation";
-export const CONFIRMATION_NEW_USER_DECLINED_INVITATION_PAGE = "confirmation-new-user-declined-invitation";
 
 // Query Parameters
 export const ADMIN_PAGE_QUERY_PARAM = "adminPage";
@@ -135,8 +135,8 @@ export const TRY_EDIT_MEMBER_ROLE_URL = `/${TRY_EDIT_MEMBER_ROLE_PAGE}`;
 export const TRY_REMOVING_USER_URL = `/${TRY_REMOVING_USER}`;
 export const VIEW_USERS_URL = `/${VIEW_USERS_PAGE}`;
 export const ACCESSIBILITY_STATEMENT_URL = `/${ACCESSIBILITY_STATEMENT_PAGE}`;
+export const ACCEPT_MEMBERSHIP_URL = `/${ACCEPT_MEMBERSHIP_PAGE}`;
 export const CONFIRMATION_NEW_USER_ACCEPTED_INVITATION_URL = `/${CONFIRMATION_NEW_USER_ACCEPTED_INVITATION_PAGE}`;
-export const CONFIRMATION_NEW_USER_DECLINED_INVITATION_URL = `/${CONFIRMATION_NEW_USER_DECLINED_INVITATION_PAGE}`;
 
 // Full URLs
 export const getFullUrl = (url: string): string => `${LANDING_URL}${url}`;
@@ -161,3 +161,5 @@ export const TRY_EDIT_MEMBER_ROLE_FULL_URL = getFullUrl(TRY_EDIT_MEMBER_ROLE_URL
 export const TRY_REMOVING_USER_FULL_URL = getFullUrl(TRY_REMOVING_USER_URL);
 export const VIEW_USERS_FULL_URL = getFullUrl(VIEW_USERS_URL);
 export const ACCESSIBILITY_STATEMENT_FULL_URL = getFullUrl(ACCESSIBILITY_STATEMENT_URL);
+export const ACCEPT_MEMBERSHIP_FULL_URL = getFullUrl(ACCEPT_MEMBERSHIP_URL);
+export const CONFIRMATION_NEW_USER_ACCEPTED_INVITATION_FULL_URL = getFullUrl(CONFIRMATION_NEW_USER_ACCEPTED_INVITATION_URL);

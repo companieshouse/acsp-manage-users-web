@@ -1,7 +1,9 @@
 {
+    "a_standard_user": "[CY] a standard user",
+    "an_account_owner": "[CY] an account owner",
+    "an_administrator": "[CY] an administrator",
     "go_to_the_account": "[CY] Go to the account",
     "page_header": "[CY] What happens now",
-    "user_for": "[CY] user for",
     "you_can_now_access": "[CY] You can now access the account and use services on behalf of the authorised agent.",
-    "you_have_been_added_as": "[CY] You have been added as "
+    "you_have_been_added_as": "[CY] You have been added as"
 }

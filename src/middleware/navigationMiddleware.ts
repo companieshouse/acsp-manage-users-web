@@ -15,7 +15,10 @@ export const NAVIGATION: Navigation = {
             constants.CANNOT_ADD_USER_FULL_URL
         ],
         redirectTo: constants.MANAGE_USERS_FULL_URL,
-        allowedUserRoles: [UserRole.OWNER, UserRole.ADMIN]
+        allowedUserRoles: [
+            UserRole.OWNER,
+            UserRole.ADMIN
+        ]
     },
     [constants.CONFIRMATION_MEMBER_ADDED_FULL_URL]: {
         allowedReferers: [
@@ -68,7 +71,10 @@ export const NAVIGATION: Navigation = {
             constants.CANNOT_ADD_USER_FULL_URL
         ],
         redirectTo: constants.MANAGE_USERS_FULL_URL,
-        allowedUserRoles: [UserRole.OWNER, UserRole.ADMIN]
+        allowedUserRoles: [
+            UserRole.OWNER,
+            UserRole.ADMIN
+        ]
     },
     [constants.STOP_PAGE_ADD_ACCOUNT_OWNER_FULL_URL]: {
         allowedReferers: [
@@ -138,6 +144,13 @@ export const NAVIGATION: Navigation = {
             UserRole.ADMIN,
             UserRole.OWNER
         ]
+    },
+    [constants.CONFIRMATION_NEW_USER_ACCEPTED_INVITATION_FULL_URL]: {
+        allowedReferers: [
+            constants.ACCEPT_MEMBERSHIP_FULL_URL
+        ],
+        redirectTo: constants.DASHBOARD_FULL_URL,
+        allowedUserRoles: []
     }
 };
 

@@ -94,12 +94,19 @@ describe("navigiationMiddleware", () => {
             url: "/authorised-agent/view-users",
             referer: "/authorised-agent/any-referer",
             user: adminUser
+        },
+        {
+            description: "should redirect to dashboard from confirmation new user accepted invitation if referrer is not accept-membership page",
+            url: "/authorised-agent/confirmation-new-user-accepted-invitation",
+            referer: "/authorised-agent/any-referer",
+            redirectTo: "/authorised-agent/",
+            user: ""
         }
     ];
 
     test.each(redirectedNavigationCases)(
         "$description",
-        ({ url, referer, user }) => {
+        ({ url, referer, user, redirectTo }) => {
 
             // Given
             const mockedNext = jest.fn();
@@ -115,7 +122,7 @@ describe("navigiationMiddleware", () => {
 
             // Then
             expect(mockedNext).not.toHaveBeenCalled();
-            expect(response.redirect).toHaveBeenCalledWith("/authorised-agent/manage-users");
+            expect(response.redirect).toHaveBeenCalledWith(redirectTo || "/authorised-agent/manage-users");
 
         }
     );
@@ -228,6 +235,11 @@ describe("navigiationMiddleware", () => {
             url: "/authorised-agent/manage-users",
             referer: "/authorised-agent/any-referer",
             user: adminUser
+        },
+        {
+            description: "should allow access confirmation-new-user-accepted-invitation if referrer is accept-membership page",
+            url: "/authorised-agent/confirmation-new-user-accepted-invitatio",
+            referer: "/authorised-agent/accept-membership"
         }
     ];
 
