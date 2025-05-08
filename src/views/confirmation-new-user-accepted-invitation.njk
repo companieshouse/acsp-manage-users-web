@@ -1,0 +1,43 @@
+{% from "govuk/components/notification-banner/macro.njk" import govukNotificationBanner %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
+{% extends "layouts/default.njk" %}
+
+{% if userRole == UserRole.STANDARD %}
+    {% set userRoleText = lang.a_standard_user %}
+{% elif userRole == UserRole.OWNER %}
+    {% set userRoleText = lang.an_account_owner %}
+{% else %}
+    {% set userRoleText = lang.an_administrator %}
+{% endif %}
+
+{% set bannerText = lang.you_have_been_added_as + " " + userRoleText + " " + lang.for + " " + companyName + "." %}
+
+{% block main_content %}
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+
+            {{ govukNotificationBanner({
+                    text: bannerText,
+                    type: "success",
+                    titleText: lang.success
+                })
+            }}
+
+            <h1 class="govuk-heading-l">{{lang.page_header}}</h1>
+
+            <p class="govuk-body">{{lang.you_can_now_access}}</p>
+
+            {{ govukButton({
+                    text: lang.go_to_the_account,
+                    href: buttonHref,
+                    role: "button",
+                    attributes: {
+                        "data-event-id": "go-to-the-account"
+                    }
+                })
+            }}
+
+        </div>
+    </div>
+{% endblock %}
