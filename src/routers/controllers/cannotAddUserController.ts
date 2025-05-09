@@ -8,7 +8,6 @@ import { acspLogger } from "../../lib/helpers/acspLogger";
 
 interface CannotAddUserGetViewData extends ViewDataWithBackLink {
     serviceName: string,
-    title: string,
     manageUsersLinkText: string,
     manageUsersLinkHref: string
 }
@@ -25,7 +24,6 @@ export const cannotAddUserControllerGet = async (req: Request, res: Response): P
         backLinkUrl: constants.CHECK_MEMBER_DETAILS_FULL_URL,
         manageUsersLinkHref: constants.MANAGE_USERS_FULL_URL,
         serviceName: translations.service_name as string,
-        title: translations.cannot_add_user_title as string,
         manageUsersLinkText: `${translations.manage_users_link_text} ${acspName}.`
     };
 
