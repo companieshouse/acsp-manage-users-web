@@ -26,6 +26,7 @@ export const ERRORS_EMAIL_REQUIRED = "errors_email_required";
 export const ERRORS_ENTER_AN_EMAIL_ADDRESS_IN_THE_CORRECT_FORMAT = "errors_enter_an_email_address_in_the_correct_format";
 export const ERRORS_SELECT_USER_ROLE = "errors_select_user_role";
 export const ERRORS_SELECT_USER_ROLE_TO_CHANGE_FOR_THE_USER = "errors_select_user_role_to_change_for_the_user";
+export const ERRORS_SELECT_AN_OPTION = "errors_select_an_option";
 export const VALIDATION_ERRORS = "VALIDATION_ERRORS";
 
 // External URLs

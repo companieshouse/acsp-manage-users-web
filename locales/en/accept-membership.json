@@ -1,5 +1,5 @@
 {
-    "page_header":"What happens if you're added to an authorised agent account?",
+    "page_header":"What happens if you're added to an authorised agent account",
     "p1":"You’ll be able to use services for the authorised agent. This includes to:",
     "p2":"Depending on your role, you may be able to make changes to the authorised agent's details, and add and remove other users.",
     "bullet_1":"tell Companies House you’ve verified someone’s identity",
@@ -9,5 +9,8 @@
     "details_bullet_1":"account owner – you can update the authorised agent’s details, and add and remove all users",
     "details_bullet_2":"administrator – you can add and remove administrators and standard users",
     "details_bullet_3":"standard users – you cannot add and remove other users",
-    "details_text":"Accept invite and continue"
+    "yes":"Yes",
+    "no":"No",
+    "radio_btns_header":"Do you want to be added to ",
+    "errors_select_an_option": "You must select an option to continue"
 }

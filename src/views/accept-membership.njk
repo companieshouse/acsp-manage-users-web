@@ -1,7 +1,19 @@
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "govuk/components/details/macro.njk" import govukDetails %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
 
 {% extends "layouts/default.njk" %}
+
+{% set message = null %}
+{% for key, value in errors %}
+    {% if key == "acceptMembership" %}
+        {% set message = {
+            text: lang[value.text],
+            visuallyHiddenText: lang.error
+        } %}
+        {% set title = lang.title_error + page_header + lang.title_end %}
+    {% endif %}
+{% endfor %}
 
 {% block main_content %}
 
@@ -33,20 +45,45 @@
                 })
              }}
 
-                {% set button_attributes = {
-                        role: "button",
-                        id: "continue-button",
-                        "data-event-id": "continue-button"             
-                    }
-                %}
+                
+                {{ govukRadios({
+                        name: "acceptMembership",
+                        fieldset: {
+                            legend: {
+                                text: lang.radio_btns_header + companyName + "?",
+                                classes: "govuk-fieldset__legend--m"
+                            },
+                            classes: "govuk-fieldset"
+                        },
+                        items: [
+                            {
+                                value: "yes",
+                                text: lang.yes,
+                                attributes: {
+                                    "data-event-id": "yes-option"
+                                }
+                            },
 
-                {{ govukButton({
-                        text: lang.continue,
-                        type: "submit",
-                        attributes: button_attributes,
-                        classes: 'govuk-!-margin-top-3'
+                            {
+                                value: "no",
+                                text: lang.no,
+                                attributes: {
+                                    "data-event-id": "no-option"
+                                }
+                            }
+                        ],
+                        errorMessage: message
                     })
                 }}
+
+                {% set button_attributes = {
+                    role: "button",
+                    id: "continue-button",
+                    "data-event-id": "continue-button"
+                } %}
+                
+                    {{ govukButton({text: lang.continue, type: "submit", attributes: button_attributes }) }}
+
             </form>
 
         </div>
