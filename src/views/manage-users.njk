@@ -111,6 +111,8 @@
         }, {
             text: lang.name
         }, {
+            text: lang.status
+        }, {
             html: changeOwnerRoleHiddenHeader
         }, {
             html: removeOwnerHiddenHeader
@@ -123,6 +125,8 @@
         }, {
             text: lang.name
         }, {
+            text: lang.status
+        }, {
             html: changeAdminRoleHiddenHeader
         }, {
             html: removeAdminHiddenHeader
@@ -134,6 +138,8 @@
             text: lang.email_address
         }, {
             text: lang.name
+        }, {
+            text: lang.status
         }, {
             html: changeStandardRoleHiddenHeader
         }, {
@@ -149,7 +155,7 @@
         }
     ] %}
 
-    {% set accountOwnersTableHeaders = ownerHeaders if loggedInUserRole === UserRole.OWNER else 
+    {% set accountOwnersTableHeaders = ownerHeaders if loggedInUserRole !== UserRole.STANDARD else 
         basicHeaders %}
 
     {% set adminTableHeaders = adminHeaders if loggedInUserRole !== UserRole.STANDARD else basicHeaders%}
@@ -285,10 +291,10 @@
         }
 
         function addGoalEventListeners() {
-                {% if loggedInUserRole !== UserRole.STANDARD %}
+            {% if loggedInUserRole !== UserRole.STANDARD %}
                 trackGoal("add-a-user-button", {{ MATOMO_ADD_USER_GOAL_ID }});
                 trackRemoveButtons({{ MATOMO_REMOVE_USER_GOAL_ID }});
-                {% endif %}
+            {% endif %}
         }
 
         if (document.readyState === "loading") {
@@ -298,7 +304,6 @@
         } else {
             addGoalEventListeners()
         }
-      
     </script>
 
 {% endblock %}

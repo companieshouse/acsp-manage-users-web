@@ -1,9 +1,10 @@
 import { Request, Response } from "express";
 import * as constants from "../../lib/constants";
 import { getTranslationsForView } from "../../lib/utils/translationUtils";
+import { getStatusTag, getHiddenText, getLink } from "../../lib/utils/viewUtils";
 import { AnyRecord, MemberRawViewData, PageNumbers, PageQueryParams } from "../../types/utilTypes";
 import { TableEntry } from "../../types/viewTypes";
-import { getHiddenText, getLink } from "../../lib/utils/viewUtils";
+
 import { setExtraData, getLoggedUserAcspMembership, deleteExtraData, getExtraData } from "../../lib/utils/sessionUtils";
 import { AcspMembership, UserRole } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
 import { getAcspMemberships, membershipLookup } from "../../services/acspMemberService";
@@ -143,29 +144,77 @@ const getActiveTabId = (req: Request): string => validateActiveTabId(req.query?.
 
 const getCancelSearchHref = (userRole: UserRole): string => userRole === UserRole.STANDARD ? constants.VIEW_USERS_FULL_URL : constants.MANAGE_USERS_FULL_URL;
 
-const getUserTableData = (membership: AcspMembership[], translations: AnyRecord, hasChangeRoleLink: boolean, hasRemoveLink: boolean): TableEntry[][] => {
-    const userTableDate: TableEntry[][] = [];
+// const getUserTableData = (membership: AcspMembership[], translations: AnyRecord, hasChangeRoleLink: boolean, hasRemoveLink: boolean): TableEntry[][] => {
+//     const userTableDate: TableEntry[][] = [];
+//     for (const member of membership) {
+//         const displayName = getDisplayNameOrLangKeyForNotProvided(member);
+//         const tableEntry: TableEntry[] = [
+//             { text: member.userEmail },
+//             { text: displayName === constants.LANG_KEY_FOR_NOT_PROVIDED ? String(translations.not_provided) : displayName },
+//             { html: getStatusTag(member.membershipStatus, translations) }
+//         ];
+
+//         const usernameOrEmail = member.userDisplayName === constants.NOT_PROVIDED ? member.userEmail : member.userDisplayName;
+
+//         if (hasChangeRoleLink) {
+//             const fullUrl = getChangeMemberRoleFullUrl(member.id);
+//             const hiddenText = getHiddenText(`${translations.for} ${usernameOrEmail}`);
+//             tableEntry[2] = { html: getLink(fullUrl, `${translations.change_role as string} ${hiddenText}`, "change-role") };
+//         }
+
+//         if (hasRemoveLink) {
+//             tableEntry[hasChangeRoleLink ? 3 : 2] = { html: getLink(getRemoveMemberCheckDetailsFullUrl(member.id), `${translations.remove as string} ${getHiddenText(usernameOrEmail)}`, "remove") };
+//         }
+//         userTableDate.push(tableEntry);
+//         if (hasRemoveLink) {
+//             const removeLink = getLink(getRemoveMemberCheckDetailsFullUrl(member.id), `${translations.remove as string} ${getHiddenText(usernameOrEmail)}`, "remove");
+//             tableEntry.push({ html: removeLink });
+//         }
+//     }
+//     return userTableDate;
+// };
+
+const getUserTableData = (
+    membership: AcspMembership[],
+    translations: AnyRecord,
+    hasChangeRoleLink: boolean,
+    hasRemoveLink: boolean
+): TableEntry[][] => {
+    const userTableData: TableEntry[][] = [];
+
     for (const member of membership) {
         const displayName = getDisplayNameOrLangKeyForNotProvided(member);
-        const tableEntry: TableEntry[] = [
-            { text: member.userEmail },
-            { text: displayName === constants.LANG_KEY_FOR_NOT_PROVIDED ? String(translations.not_provided) : displayName }
-        ];
-
         const usernameOrEmail = member.userDisplayName === constants.NOT_PROVIDED ? member.userEmail : member.userDisplayName;
+
+        const row: TableEntry[] = [
+            { text: member.userEmail },
+            {
+                text:
+                    displayName === constants.LANG_KEY_FOR_NOT_PROVIDED
+                        ? String(translations.not_provided)
+                        : displayName
+            },
+            { html: getStatusTag(member.membershipStatus, translations) }
+        ];
 
         if (hasChangeRoleLink) {
             const fullUrl = getChangeMemberRoleFullUrl(member.id);
             const hiddenText = getHiddenText(`${translations.for} ${usernameOrEmail}`);
-            tableEntry[2] = { html: getLink(fullUrl, `${translations.change_role as string} ${hiddenText}`, "change-role") };
+            row.push({
+                html: getLink(fullUrl, `${translations.change_role as string} ${hiddenText}`, "change-role")
+            });
         }
 
         if (hasRemoveLink) {
-            tableEntry[hasChangeRoleLink ? 3 : 2] = { html: getLink(getRemoveMemberCheckDetailsFullUrl(member.id), `${translations.remove as string} ${getHiddenText(usernameOrEmail)}`, "remove") };
+            row.push({
+                html: getLink(getRemoveMemberCheckDetailsFullUrl(member.id), `${translations.remove as string} ${getHiddenText(usernameOrEmail)}`, "remove")
+            });
         }
-        userTableDate.push(tableEntry);
+
+        userTableData.push(row);
     }
-    return userTableDate;
+
+    return userTableData;
 };
 
 const getPageQueryParams = (req: Request): PageQueryParams => {
