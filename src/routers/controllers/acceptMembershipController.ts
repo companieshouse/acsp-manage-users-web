@@ -25,17 +25,7 @@ export const acceptMembershipControllerGet = async (req: Request, res: Response)
 export const acceptMembershipControllerPost = async (req: Request, res: Response): Promise<void> => {
 
     const { acceptMembership } = req.body;
-    if (!acceptMembership) {
-        const translations = getTranslationsForView(req.lang, constants.ACCEPT_MEMBERSHIP_PAGE);
-        const membership = getLoggedUserAcspMembership(req.session);
-        const viewData = {
-            lang: translations,
-            templateName: constants.ACCEPT_MEMBERSHIP_PAGE,
-            companyName: membership?.acspName || ""
-        };
-        addErrorToViewData("acceptMembership", constants.ERRORS_SELECT_AN_OPTION, viewData);
-        return res.render(constants.ACCEPT_MEMBERSHIP_PAGE, viewData);
-    } else if (acceptMembership === "yes") {
+    if (acceptMembership === "yes") {
         console.log("###### acceptMembershipControllerPost  yes scenarios ######");
         const acspMembershipId = getExtraData(req.session, "pendingMembershipId");
         // check if undefined
@@ -60,5 +50,15 @@ export const acceptMembershipControllerPost = async (req: Request, res: Response
         await updateOrRemoveUserAcspMembership(req, acspMembershipId, userRoleToUpdate);
 
         res.redirect("authorised-agent/sign-out");
+    } else {
+        const translations = getTranslationsForView(req.lang, constants.ACCEPT_MEMBERSHIP_PAGE);
+        const membership = getLoggedUserAcspMembership(req.session);
+        const viewData = {
+            lang: translations,
+            templateName: constants.ACCEPT_MEMBERSHIP_PAGE,
+            companyName: membership?.acspName || ""
+        };
+        addErrorToViewData("acceptMembership", constants.ERRORS_SELECT_AN_OPTION, viewData);
+        return res.render(constants.ACCEPT_MEMBERSHIP_PAGE, viewData);
     }
 };

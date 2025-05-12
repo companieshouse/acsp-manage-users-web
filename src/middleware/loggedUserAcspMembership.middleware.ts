@@ -13,10 +13,6 @@ const excludePaths = [
 ];
 
 export const loggedUserAcspMembershipMiddleware = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    console.log("method");
-    console.log(req.method);
-    console.log("path");
-    console.log(req.path);
     if (isWhitelistedUrl(req.originalUrl) || excludePaths.some((path) => req.originalUrl.startsWith(path))) {
         return next();
     }
