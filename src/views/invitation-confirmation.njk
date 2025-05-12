@@ -1,0 +1,39 @@
+{% from "govuk/components/notification-banner/macro.njk" import govukNotificationBanner %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/details/macro.njk" import govukDetails %}
+{% extends "layouts/default.njk" %}
+
+{% set title = lang.no_ch_account_registered + lang.title_end %}
+{% block main_content %}
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <h1 class="govuk-heading-l">{{lang.no_ch_account_registered}}</h1>
+            <p class="govuk-body">{{lang.the_user_you_are_trying_to_add}}</p>
+            <p class="govuk-body">{{lang.to_access_the_authorised_agent}}
+                <span class="govuk-body">
+                    {{companyName}}</span>{{lang.theyll_need_to}}</p>
+
+            <p class="govuk-body">{{lang.we_have_emailed}}</p>
+
+            <p class="govuk-body">{{lang.they_will_have_to}}</p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>{{lang.information_confirmation_bullet_point_1}}</li>
+                <li>{{lang.invitation_confirmation_bullet_point_2}}</li>
+                <li>{{lang.invitation_confirmation_bullet_point_3}}</li>
+            </ul>
+
+            <p class="govuk-body">{{lang.until_they_have_followed}}</p>
+
+            {{ govukButton({
+                    text: lang.go_to_manage_users,
+                    href: buttonHref,
+                    role: "button",
+                    classes: 'govuk-!-margin-top-3',
+                    attributes: {
+                        "data-event-id": "go-to-manage-users"
+                    }
+                })
+            }}
+        </div>
+    </div>
+{% endblock %}

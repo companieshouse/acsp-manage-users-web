@@ -1,0 +1,12 @@
+{
+    "information_confirmation_bullet_point_1": "[CY] Create a CH account.",
+    "invitation_confirmation_bullet_point_2": "[CY] Log in for the first time.",
+    "invitation_confirmation_bullet_point_3": "[CY] Accept or decline the invitation.",
+    "no_ch_account_registered": "[CY] User does not have a CH account",
+    "the_user_you_are_trying_to_add": "[CY] The user you are trying to add does not currently have a registered CH account.",
+    "they_will_have_to": "[CY] They will have to:",
+    "theyll_need_to": "[CY], they’ll need to create a CH account.",
+    "to_access_the_authorised_agent": "[CY] To access the authorised agent for ",
+    "until_they_have_followed": "[CY] Until they have followed the steps in the email and accepted the invitation, they will appear as pending and won’t be able to file for the company.",
+    "we_have_emailed": "[CY] We have emailed an invitation to the email address provided outlining the steps the user will have to take."
+}

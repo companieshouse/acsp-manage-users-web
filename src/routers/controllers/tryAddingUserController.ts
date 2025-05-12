@@ -31,7 +31,7 @@ export const tryAddingUserControllerPost = async (req: Request, res: Response): 
     const userDetailsFromApi = await getUserDetails(newUserDetails.email);
     if (!userDetailsFromApi?.length) {
         acspLogger(req.session, tryAddingUserControllerPost.name, `GET /user/search - email not found, redirecting to cannot add user stop screen`);
-        return res.redirect(constants.CANNOT_ADD_USER_FULL_URL);
+        return res.redirect(constants.INVITATION_CONFIRMATION_FULL_URL);
     }
     acspLogger(req.session, tryAddingUserControllerPost.name, `GET /user/search - email was successfully found`);
     const firstUser = userDetailsFromApi[0];

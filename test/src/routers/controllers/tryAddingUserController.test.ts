@@ -77,7 +77,7 @@ describe("POST /authorised-agent/try-adding-user", () => {
         const response = await router.post(url);
 
         expect(response.status).toBe(302);
-        expect(response.header.location).toBe(constants.CANNOT_ADD_USER_FULL_URL);
+        expect(response.header.location).toBe(constants.INVITATION_CONFIRMATION_FULL_URL);
     });
 
     it("should redirect to cannot add user page when createAcspMembership throws an error", async () => {
