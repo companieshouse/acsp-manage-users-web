@@ -530,6 +530,15 @@ export const XmenDemoAcspMembership: AcspMembership = createAcspMembershipMock(
     MembershipStatus.ACTIVE
 );
 
+export const pendingAcspMembership: AcspMembership = createAcspMembershipMock(
+    "XME004",
+    demoUser.userId as string,
+    UserRole.STANDARD,
+    "XMEA001",
+    new Date(Date.now() - 15 * 365 * 24 * 60 * 60 * 1000),
+    MembershipStatus.PENDING
+);
+
 export const allAcspMemberships: AcspMembership[] = [
     ToyStoryBuzzAcspMembership,
     ToyStoryWoodyAcspMembership,

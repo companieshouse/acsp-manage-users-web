@@ -22,11 +22,11 @@ export const loggedUserAcspMembershipMiddleware = async (req: Request, res: Resp
         acspMembership = (await getMembershipForLoggedInUser(req)).items[0];
         setExtraData(req.session, constants.LOGGED_USER_ACSP_MEMBERSHIP, acspMembership);
     }
-    const { membershipStatus, id } = acspMembership;
+    const { membershipStatus } = acspMembership;
 
     if (membershipStatus === MembershipStatus.PENDING) {
         logger.info("User has a pending membership, redirecting to accept invite page");
-        setExtraData(req.session, "pendingMembershipId", id);
+        //   setExtraData(req.session, "pendingMembershipId", id);
         return res.redirect("/authorised-agent/accept-membership");
     } else if (membershipStatus === MembershipStatus.ACTIVE) {
         return next();
