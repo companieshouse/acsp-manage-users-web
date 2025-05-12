@@ -1,9 +1,7 @@
 {
-    "cannot_add_user_heading": "You cannot add this user",
-    "cannot_add_user_paragraph1": "We have not been able to add the user with the email address you provided.",
-    "cannot_add_user_paragraph2": "This could be because they don’t have a Companies House account that uses the email address. Or, they may have already been added to an authorised agent account.",
-    "cannot_add_user_paragraph3": "The user may need to create a Companies House account, or be removed from another authorised account before you can add them.",
-    "cannot_add_user_title": "You cannot add this user - Find and update company information - GOV.UK",
+    "page_header": "You cannot add this user",
+    "cannot_add_user_paragraph1": "We have not been able to add the user with the email address you provided, as they have already been added to an authorised agent account.",
+    "cannot_add_user_paragraph2": "You’ll need to provide a different email address, or ask them to remove themselves from the other account first.",
     "manage_users_link_text": "Manage users for",
     "service_name": "Companies House"
 }

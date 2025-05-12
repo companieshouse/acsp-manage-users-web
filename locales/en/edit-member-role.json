@@ -8,7 +8,7 @@
     "and_return_to": "and return to manage users",
     "back_link_to_manage_users": "Return to manage users",
     "errors_select_user_role_to_change_for_the_user": "You have not selected a new role. Select the new role or cancel if you do not need to change it.",
-    "select_the_new_role_for": "Select the new role for ",
+    "page_header": "Select their new role",
     "they_will_not_be_able_to": "They will not be able to add or remove users.",
     "theyll_be_able_to": "They’ll be able to:",
     "theyll_be_able_to_bullet_points": [

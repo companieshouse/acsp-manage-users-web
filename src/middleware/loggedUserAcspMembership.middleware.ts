@@ -16,12 +16,10 @@ export const loggedUserAcspMembershipMiddleware = async (req: Request, res: Resp
     if (isWhitelistedUrl(req.originalUrl) || excludePaths.some((path) => req.originalUrl.startsWith(path))) {
         return next();
     }
-    console.log("loggedUserAcspMembershipMiddleware");
+
     let acspMembership: AcspMembership = getLoggedUserAcspMembership(req.session);
-    if (!acspMembership || acspMembership?.membershipStatus === MembershipStatus.PENDING) {
-        console.log("fetching membership... ");
+    if (!acspMembership || acspMembership?.membershipStatus !== MembershipStatus.ACTIVE) {
         acspMembership = (await getMembershipForLoggedInUser(req)).items[0];
-        console.log(acspMembership);
         setExtraData(req.session, constants.LOGGED_USER_ACSP_MEMBERSHIP, acspMembership);
     }
     const { membershipStatus, id } = acspMembership;

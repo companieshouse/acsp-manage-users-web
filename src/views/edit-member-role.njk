@@ -5,10 +5,9 @@
 
 {% extends "layouts/default.njk" %}
 
+{% set title = lang.page_header + lang.title_end %}
 {% set userNameOrEmail = userDisplayName if userDisplayName else 
     email %}
-{% set page_header = lang.select_the_new_role_for + userNameOrEmail %}
-{% set title = page_header + lang.title_end %}
 
 {% set message = null %}
 {% for key, value in errors %}
@@ -17,7 +16,7 @@
             text: lang[value.text],
             visuallyHiddenText: lang.error
         } %}
-        {% set title = lang.title_error + page_header + lang.title_end %}
+        {% set title = lang.title_error + lang.page_header + lang.title_end %}
     {% endif %}
 {% endfor %}
 
@@ -126,14 +125,14 @@
 {% block main_content %}
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
-            <span class="govuk-caption-l">{{companyName}}</span>
+            <span class="govuk-caption-l">{{userNameOrEmail}}</span>
             <form method="post" novalidate="novalidate">
                 {% include "partials/csrf_token.njk" %}
                 {{ govukRadios({
                         name: "userRole",
                         fieldset: {
                             legend: {
-                                text: page_header,
+                                text: lang.page_header,
                                 isPageHeading: true,
                                 classes: "govuk-fieldset__legend--l"
                             }

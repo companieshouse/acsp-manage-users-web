@@ -72,9 +72,9 @@ describe("GET /authorised-agent/edit-member-role", () => {
                 expect(response.text).toContain("Found. Redirecting to /authorised-agent/stop-page-add-account-owner");
             } else {
                 if (loggedUserRole === UserRole.STANDARD) {
-                    expect(decodedResponseText).not.toContain(loggedUserMembership.acspName);
+                    expect(decodedResponseText).not.toContain(mockUserData.displayNameOrEmail);
                 } else {
-                    expect(decodedResponseText).toContain(loggedUserMembership.acspName);
+                    expect(decodedResponseText).toContain(mockUserData.displayNameOrEmail);
                 }
                 expect(containsContent(loggedUserRole, decodedResponseText, mockUserData, lang, langCommon)).toBeTruthy();
             }
@@ -159,7 +159,7 @@ const containsContent = (
 
     if (userRole === UserRole.STANDARD) {
         containsExpectedContent = !responseText.includes(`${lang.select_the_new_role_for}${mockUserData.userEmail}`) &&
-            !responseText.includes(`${lang.select_the_new_role_for}${mockUserData.userDisplayName}`) &&
+            !responseText.includes(`${lang.page_header}`) &&
             !responseText.includes(`${lang.user_role_tags.administrator}`) &&
             !responseText.includes(`${lang.theyll_be_able_to_view_all_users}`) &&
             !responseText.includes(`<li>${lang.theyll_be_able_to_view_all_users_bullet_points[0]}`) &&
@@ -187,7 +187,7 @@ const containsContent = (
 
     if (containsExpectedContent && (userRole === UserRole.OWNER || userRole === UserRole.ADMIN)) {
         containsExpectedContent = (responseText.includes(`${lang.select_the_new_role_for}${mockUserData.userEmail}`) ||
-            responseText.includes(`${lang.select_the_new_role_for}${mockUserData.userDisplayName}`)) &&
+            responseText.includes(`${lang.page_header}`)) &&
             responseText.includes(`${lang.user_role_tags.administrator}`) &&
             responseText.includes(`${lang.theyll_be_able_to_view_all_users}`) &&
             responseText.includes(`<li>${lang.theyll_be_able_to_view_all_users_bullet_points[0]}`) &&
