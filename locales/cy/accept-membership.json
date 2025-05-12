@@ -1,0 +1,16 @@
+{
+    "bullet_1": "[CY] tell Companies House you’ve verified someone’s identity",
+    "bullet_2": "[CY] file on behalf of clients",
+    "details_bullet_1": "[CY] account owner – you can update the authorised agent’s details, and add and remove all users",
+    "details_bullet_2": "[CY] administrator – you can add and remove administrators and standard users",
+    "details_bullet_3": "[CY] standard users – you cannot add and remove other users",
+    "details_p1": "[CY] When someone adds a user to an authorised agent account, they can choose which role they want the user to have. If you're added as an:",
+    "details_summary": "[CY] What roles can a user have for an authorised agent?",
+    "errors_select_an_option": "[CY] You must select an option to continue",
+    "no": "[CY] No",
+    "p1": "[CY] You’ll be able to use services for the authorised agent. This includes to:",
+    "p2": "[CY] Depending on your role, you may be able to make changes to the authorised agent's details, and add and remove other users.",
+    "page_header": "[CY] What happens if you're added to an authorised agent account",
+    "radio_btns_header": "[CY] Do you want to be added to ",
+    "yes": "[CY] Yes"
+}
