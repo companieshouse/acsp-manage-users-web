@@ -5,6 +5,7 @@ import app from "../../../../src/app";
 import * as en from "../../../../locales/en/accept-membership.json";
 import * as sessionUtils from "../../../../src/lib/utils/sessionUtils";
 import * as acspMemberService from "../../../../src/services/acspMemberService";
+import * as constants from "../../../../src/lib/constants";
 
 jest.mock("../../../../src/lib/Logger");
 jest.mock("../../../../src/services/acspMemberService");
@@ -65,7 +66,7 @@ describe("POST /authorised-agent/accept-membership", () => {
         );
         expect(sessionUtils.setExtraData).toHaveBeenCalledWith(expect.anything(), "loggedUserAcspMembership", expect.anything());
         expect(response.status).toBe(302);
-        expect(response.headers.location).toBe("authorised-agent/invite-confirmation");
+        expect(response.headers.location).toBe(constants.CONFIRMATION_NEW_USER_ACCEPTED_INVITATION_FULL_URL);
     });
 
     it("should handle 'no' scenario and redirect to sign-out", async () => {
@@ -84,7 +85,7 @@ describe("POST /authorised-agent/accept-membership", () => {
             { updateUser: { userStatus: "removed" } }
         );
         expect(response.status).toBe(302);
-        expect(response.headers.location).toBe("/authorised-agent/sign-out");
+        expect(response.headers.location).toBe(constants.SIGN_OUT_URL);
     });
 
     it("should handle invalid input and re-render the page with an error", async () => {

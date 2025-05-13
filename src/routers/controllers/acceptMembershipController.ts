@@ -27,12 +27,12 @@ export const acceptMembershipControllerPost = async (req: Request, res: Response
     const { acceptMembership } = req.body;
 
     if (acceptMembership === "yes") {
-        await handleMembershipAcceptance(req, res, UserStatus.ACTIVE, "/authorised-agent/invite-confirmation", "Yes has been selected");
+        await handleMembershipAcceptanceOrDecline(req, res, UserStatus.ACTIVE, constants.CONFIRMATION_NEW_USER_ACCEPTED_INVITATION_FULL_URL, "Yes has been selected");
         return;
     }
 
     if (acceptMembership === "no") {
-        await handleMembershipAcceptance(req, res, UserStatus.REMOVED, "/authorised-agent/sign-out", "No selected");
+        await handleMembershipAcceptanceOrDecline(req, res, UserStatus.REMOVED, constants.SIGN_OUT_URL, "No has been selected");
         return;
     }
 
@@ -50,7 +50,7 @@ export const acceptMembershipControllerPost = async (req: Request, res: Response
 
 };
 
-async function handleMembershipAcceptance (
+async function handleMembershipAcceptanceOrDecline (
     req: Request,
     res: Response,
     userStatus: UserStatus,
@@ -79,4 +79,5 @@ async function handleMembershipAcceptance (
 
     acspLogger(req.session, acceptMembershipControllerPost.name, `Redirecting to ${redirectUrl}`);
     res.redirect(redirectUrl);
+
 }
