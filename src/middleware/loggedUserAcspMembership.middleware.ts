@@ -12,27 +12,43 @@ const excludePaths = [
     constants.SOMETHING_WENT_WRONG_FULL_URL
 ];
 
-export const loggedUserAcspMembershipMiddleware = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    if (isWhitelistedUrl(req.originalUrl) || excludePaths.some((path) => req.originalUrl.startsWith(path))) {
+export const loggedUserAcspMembershipMiddleware = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+): Promise<void> => {
+
+    const originalUrl = req.originalUrl;
+
+    const isExcludedUrl = (url: string): boolean =>
+        isWhitelistedUrl(url) || excludePaths.some((path) => url.startsWith(path));
+
+    if (isExcludedUrl(originalUrl)) {
         return next();
     }
 
     let acspMembership: AcspMembership = getLoggedUserAcspMembership(req.session);
-    if (!acspMembership || acspMembership?.membershipStatus !== MembershipStatus.ACTIVE) {
-        acspMembership = (await getMembershipForLoggedInUser(req)).items[0];
-        setExtraData(req.session, constants.LOGGED_USER_ACSP_MEMBERSHIP, acspMembership);
+    if (!acspMembership || acspMembership.membershipStatus !== MembershipStatus.ACTIVE) {
+        const membershipResponse = await getMembershipForLoggedInUser(req);
+        if (membershipResponse?.items?.length > 0) {
+            acspMembership = membershipResponse.items[0];
+            setExtraData(req.session, constants.LOGGED_USER_ACSP_MEMBERSHIP, acspMembership);
+        } else {
+            throw new Error("Failed to fetch ACSP membership for the logged-in user.");
+        }
     }
+
     const { membershipStatus } = acspMembership;
 
-    if (membershipStatus === MembershipStatus.PENDING) {
+    switch (membershipStatus) {
+    case MembershipStatus.PENDING:
         logger.info("User has a pending membership, redirecting to accept invite page");
-        //   setExtraData(req.session, "pendingMembershipId", id);
         return res.redirect("/authorised-agent/accept-membership");
-    } else if (membershipStatus === MembershipStatus.ACTIVE) {
+    case MembershipStatus.ACTIVE:
         return next();
-    } else {
-        console.log("Error: status not allowed: ", membershipStatus);
-        throw new Error("Error: status not allowed: " + membershipStatus);
+    default:
+        logger.error(`Error: status not allowed: ${membershipStatus}`);
+        throw new Error(`Error: status not allowed: ${membershipStatus}`);
     }
 
 };

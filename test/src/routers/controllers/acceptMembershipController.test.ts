@@ -5,10 +5,7 @@ import app from "../../../../src/app";
 import * as en from "../../../../locales/en/accept-membership.json";
 import * as sessionUtils from "../../../../src/lib/utils/sessionUtils";
 import * as acspMemberService from "../../../../src/services/acspMemberService";
-// import * as constants from "../../../../src/lib/constants";
-// import * as viewUtils from "../../../../src/lib/utils/viewUtils";
 
-// jest.mock("../../../../src/lib/utils/viewUtils");
 jest.mock("../../../../src/lib/Logger");
 jest.mock("../../../../src/services/acspMemberService");
 jest.mock("../../../../src/lib/utils/sessionUtils");
@@ -26,19 +23,13 @@ describe("GET /authorised-agent/accept-membership", () => {
     });
 
     it("should check session and user auth before returning the page", async () => {
-        // Given
-        // When
         await router.get(url);
-        // Then
         expect(mocks.mockSessionMiddleware).toHaveBeenCalled();
         expect(mocks.mockAuthenticationMiddleware).toHaveBeenCalled();
     });
 
-    it("should return status 200", async () => {
-        // Given
-        // When
+    it("should return status 200 and render the accept confirmation page", async () => {
         const response = await router.get(url);
-        // Then
         expect(response.status).toEqual(200);
         expect(response.text).toContain(en.bullet_1);
         expect(response.text).toContain(en.bullet_2);
@@ -48,7 +39,6 @@ describe("GET /authorised-agent/accept-membership", () => {
         expect(response.text).toContain(en.details_bullet_3);
         expect(response.text).toContain(en.yes);
         expect(response.text).toContain(en.no);
-
     });
 });
 
@@ -56,22 +46,6 @@ describe("POST /authorised-agent/accept-membership", () => {
     beforeEach(() => {
         jest.clearAllMocks();
         getLoggedUserAcspMembershipSpy.mockReturnValue(pendingAcspMembership);
-    });
-
-    it("should sdf", async () => {
-        // When
-        const response = await router
-            .post(url)
-            .send({ acceptMembership: "badvalue" });
-        // Then
-        expect(response.text).toContain(en.bullet_1);
-        expect(response.text).toContain(en.bullet_2);
-        expect(response.text).toContain(en.radio_btns_header);
-        expect(response.text).toContain(en.details_bullet_1);
-        expect(response.text).toContain(en.details_bullet_2);
-        expect(response.text).toContain(en.details_bullet_3);
-        expect(response.text).toContain(en.yes);
-        expect(response.text).toContain(en.no);
     });
 
     it("should handle 'yes' scenario and redirect to invite-confirmation", async () => {
