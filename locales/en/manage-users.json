@@ -1,6 +1,7 @@
 {
     "a_standard_user": " a standard user",
     "account_owners": "Account owners",
+    "active": "Active",
     "add_a_user": "Add a user",
     "administrators": "Administrators",
     "an_account_owner": " an account owner",
@@ -15,6 +16,7 @@
     "no_search_results": "No search results",
     "page_header": "Manage users",
     "page_header_standard": "View users",
+    "pending": "Pending",
     "remove": "Remove",
     "remove_user": "Remove user",
     "s_role_english": "’s role",

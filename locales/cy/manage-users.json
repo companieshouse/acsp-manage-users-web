@@ -1,6 +1,7 @@
 {
     "a_standard_user": " defnyddiwr safonol",
     "account_owners": "Perchnogion cyfrifon",
+    "active": "Gweithredol",
     "add_a_user": "Ychwanegu defnyddiwr",
     "administrators": "Gweinyddwyr",
     "an_account_owner": " perchennog cyfrif",
@@ -15,13 +16,14 @@
     "no_search_results": "Dim canlyniadau chwilio",
     "page_header": "Rheoli defnyddwyr",
     "page_header_standard": "Gweld defnyddwyr",
+    "pending": "[CY] Pending",
     "remove": "Dileu",
     "remove_user": "Dileu defnyddiwr",
     "s_role_english": "",
     "search": "Chwilio",
     "search_for_a_user": "Chwilio am ddefnyddiwr",
     "standard_users": "Defnyddwyr safonol",
-    "status": "[CY] Status",
+    "status": "Statws",
     "you_have_no_account_owners_users": "Nid oes unrhyw perchnogion cyfrif gennych.",
     "you_have_no_admin_users": "Nid oes unrhyw ddefnyddwyr gweinyddol gennych.",
     "you_have_no_standard_users": "Nid oes unrhyw ddefnyddwyr safonol gennych."

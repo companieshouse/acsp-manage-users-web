@@ -4,9 +4,7 @@
 {% from "govuk/components/error-message/macro.njk" import govukErrorMessage %}
 {% from "govuk/components/pagination/macro.njk" import govukPagination %}
 {% from "govuk/components/back-link/macro.njk" import govukBackLink %}
-
 {% extends "layouts/default.njk" %}
-
 {% block back_link %}
     <div role="navigation" aria-label="{{lang.back_to_previous_page_link}}">
         {{ govukBackLink({
@@ -19,15 +17,12 @@
     }}
     </div>
 {% endblock %}
-
 {% block main_content %}
     <span class="govuk-caption-l">{{companyName}}</span>
-
     {% if loggedInUserRole === UserRole.STANDARD %}
         <h1 class="govuk-heading-l">{{ lang.page_header_standard }}</h1>
     {% else %}
         <h1 class="govuk-heading-l">{{ lang.page_header }}</h1>
-
         {{ govukButton({
             text: lang.add_a_user,
             href: addUserUrl,
@@ -36,23 +31,18 @@
                 "data-event-id": "add-a-user"
             }
         }) }}
-
         <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
     {% endif %}
     {% set message = null %}
-
     {% for key, value in errors %}
         {% if key == "search" %}
             {% set message = lang[value.text] %}
         {% endif %}
     {% endfor %}
-
     {% set formClasses = "govuk-form-group govuk-form-group--error" if message else "govuk-form-group" %}
     {% set inputClasses = "govuk-input govuk-input--error govuk-input--width-10 govuk-!-margin-right-1" if message else "govuk-input govuk-input--width-10 govuk-!-margin-right-1" %}
-
     <form method="post">
         {% include "partials/csrf_token.njk" %}
-
         <div class="{{formClasses}}">
             <label class="govuk-label govuk-label--m" for="search">
                 {{lang.search_for_a_user}}
@@ -75,36 +65,28 @@
             </div>
         </div>
     </form>
-
     {% set englishRoleEnding = null %}
     {% if locale == Lang.EN %}
         {% set englishRoleEnding = lang.s_role_english %}
     {% endif %}
-
     {% set changeOwnerRoleHiddenHeader %}
     <span class="govuk-visually-hidden">{{lang.change}}{{lang.an_account_owner}}{{englishRoleEnding}}</span>
     {% endset %}
-
     {% set removeOwnerHiddenHeader %}
     <span class="govuk-visually-hidden">{{lang.remove}}{{lang.an_account_owner}}</span>
     {% endset %}
-
     {% set changeAdminRoleHiddenHeader %}
     <span class="govuk-visually-hidden">{{lang.change}}{{lang.an_administrator}}{{englishRoleEnding}}</span>
     {% endset %}
-
     {% set removeAdminHiddenHeader %}
     <span class="govuk-visually-hidden">{{lang.remove}}{{lang.an_administrator}}</span>
     {% endset %}
-
     {% set changeStandardRoleHiddenHeader %}
     <span class="govuk-visually-hidden">{{lang.change}}{{lang.a_standard_user}}{{englishRoleEnding}}</span>
     {% endset %}
-
     {% set removeStandardUserHiddenHeader %}
     <span class="govuk-visually-hidden">{{lang.remove}}{{lang.a_standard_user}}</span>
     {% endset %}
-
     {% set ownerHeaders = [
         {
             text: lang.email_address
@@ -118,7 +100,6 @@
             html: removeOwnerHiddenHeader
         }
     ] %}
-
     {% set adminHeaders = [
         {
             text: lang.email_address
@@ -132,7 +113,6 @@
             html: removeAdminHiddenHeader
         }
     ] %}
-
     {% set standardHeaders = [
         {
             text: lang.email_address
@@ -146,7 +126,6 @@
             html: removeStandardUserHiddenHeader
         }
     ] %}
-
     {% set basicHeaders = [
         {
             text: lang.email_address
@@ -154,14 +133,10 @@
             text: lang.name
         }
     ] %}
-
-    {% set accountOwnersTableHeaders = ownerHeaders if loggedInUserRole !== UserRole.STANDARD else 
+    {% set accountOwnersTableHeaders = ownerHeaders if loggedInUserRole === UserRole.OWNER else 
         basicHeaders %}
-
     {% set adminTableHeaders = adminHeaders if loggedInUserRole !== UserRole.STANDARD else basicHeaders%}
-
     {% set standardTableHeaders = basicHeaders if loggedInUserRole === UserRole.STANDARD else standardHeaders%}
-
     {% set accountOwnersTabContent %}
     <h2 class="govuk-heading-l">{{lang.account_owners}}</h2>
     {% if accountOwnersTableData and accountOwnersTableData.length > 0 %}
@@ -173,7 +148,6 @@
                 rows: accountOwnersTableData
             })
         }}
-
         {% if accoutOwnerPadinationData and accoutOwnerPadinationData.items | length %}
             {{ govukPagination(accoutOwnerPadinationData) }}
         {% endif %}
@@ -185,7 +159,6 @@
         <p class="govuk-body">{{lang.you_have_no_account_owners_users}}</p>
     {% endif %}
     {% endset %}
-
     {% set administratorsTabContent %}
     <h2 class="govuk-heading-l">{{lang.administrators}}</h2>
     {% if administratorsTableData and administratorsTableData.length > 0 %}
@@ -197,7 +170,6 @@
                 rows: administratorsTableData
             })
         }}
-
         {% if adminPadinationData and adminPadinationData.items | length %}
             {{ govukPagination(adminPadinationData) }}
         {% endif %}
@@ -209,7 +181,6 @@
         <p class="govuk-body">{{lang.you_have_no_admin_users}}</p>
     {% endif %}
     {% endset %}
-
     {% set standardUsersTabContent %}
     <h2 class="govuk-heading-l">{{lang.standard_users}}</h2>
     {% if standardUsersTableData and standardUsersTableData.length > 0 %}
@@ -221,7 +192,6 @@
                 rows: standardUsersTableData
             })
         }}
-
         {% if standardUserPadinationData and standardUserPadinationData.items | length %}
             {{ govukPagination(standardUserPadinationData) }}
         {% endif %}
@@ -233,7 +203,6 @@
         <p class="govuk-body">{{lang.you_have_no_standard_users}}</p>
     {% endif %}
     {% endset %}
-
     {{ govukTabs({
             classes: "govuk-!-padding-top-6",
             items: [
@@ -270,7 +239,6 @@
             ]
         })
     }}
-
     <script nonce={{ nonce | dump | safe }}>
         function trackGoal(elementId, goalId) {
             document
@@ -279,24 +247,20 @@
                     _paq.push(["trackGoal", goalId]);
                 });
         }
-
         function trackRemoveButtons(goalId) {
             const removeBtns = document.querySelectorAll(`[data-event-id="remove"]`);
-
             removeBtns.forEach(function (elem) {
                 elem.addEventListener("click", () => {
                     _paq.push(["trackGoal", goalId]);
                 });
             });
         }
-
         function addGoalEventListeners() {
             {% if loggedInUserRole !== UserRole.STANDARD %}
                 trackGoal("add-a-user-button", {{ MATOMO_ADD_USER_GOAL_ID }});
                 trackRemoveButtons({{ MATOMO_REMOVE_USER_GOAL_ID }});
             {% endif %}
         }
-
         if (document.readyState === "loading") {
             document.addEventListener("DOMContentLoaded", function (e) {
                 addGoalEventListeners()
@@ -305,5 +269,4 @@
             addGoalEventListeners()
         }
     </script>
-
 {% endblock %}
