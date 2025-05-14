@@ -18,7 +18,7 @@ export const MATOMO_ADD_USER_GOAL_ID = getEnvironmentValue("MATOMO_ADD_USER_GOAL
 export const MATOMO_REMOVE_USER_GOAL_ID = getEnvironmentValue("MATOMO_REMOVE_USER_GOAL_ID");
 export const OAUTH2_CLIENT_ID = getEnvironmentValue(`OAUTH2_CLIENT_ID`);
 export const OAUTH2_CLIENT_SECRET = getEnvironmentValue(`OAUTH2_CLIENT_SECRET`);
-export const API_URL = getEnvironmentValue("API_URL");
+export const ACCOUNT_LOCAL_URL = getEnvironmentValue("ACCOUNT_LOCAL_URL");
 
 // Error Constants
 export const ERRORS_EMAIL_INVALID = "errors_email_invalid";
