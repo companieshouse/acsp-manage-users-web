@@ -10,13 +10,28 @@
     <div class="govuk-width-container">
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-two-thirds">
-                <h1 class="govuk-heading-l">{{ lang.cannot_add_user_heading }}</h1>
+                <h1 class="govuk-heading-l">{{ lang.page_header }}</h1>
 
-                <p class="govuk-body">{{ lang.cannot_add_user_paragraph1 }}</p>
+                <p class="govuk-body">{{ lang.this_could_be_because }}</p>
 
-                <p class="govuk-body">{{ lang.cannot_add_user_paragraph2 }}</p>
+                <h2 class="govuk-heading-m">{{ lang.if_they_do_not_have_a_companies_house_account }}</h2>
 
-                <p class="govuk-body">{{ lang.cannot_add_user_paragraph3 }}</p>
+                <p class="govuk-body">
+                    {{ lang.ask_them_to }}
+                    <a href="{{ linkHref }}" class="govuk-link" target="_blank" rel="noopener noreferrer" data-event-id="manage-users-you-cannot-add-this-user">{{ lang.create_sign_in_details_for_companies_house }}</a>.
+                    {{ lang.this_is_different_to_a_webfiling_account }}
+                </p>
+
+                <p class="govuk-body">{{ lang.the_user_will_need_to_do_this }}</p>
+
+                <h2 class="govuk-heading-m">{{ lang.if_theyve_already_been_added }}</h2>
+
+                <p class="govuk-body">{{ lang.you_can_either }}</p>
+                <ul class="govuk-list govuk-list--bullet govuk-!-margin-left-4">
+                    {% for item in lang.you_can_either_bullet_points %}
+                        <li>{{item}}</li>
+                    {% endfor %}
+                </ul>
 
                 <p class="govuk-body">
                     <a href="{{ manageUsersLinkHref }}" data-event-id="manage-users-you-cannot-add-this-user">{{ manageUsersLinkText }}</a>
