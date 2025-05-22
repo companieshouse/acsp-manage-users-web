@@ -20,6 +20,8 @@ import { cannotAddUserControllerGet } from "./controllers/cannotAddUserControlle
 import { sanitizeMembershipIdMiddleware } from "../middleware/sanitize.membership.id.middleware";
 import { accessDeniedControllerGet } from "./controllers/accessDeniedController";
 import { accessibilityStatementAuthorisedAgentControllerGet } from "./controllers/accessibilityStatementAuthorisedAgentController";
+import { before } from "node:test";
+import { beforeYouAddUserControllerGet } from "./controllers/beforeYouAddUserController";
 
 const router: Router = Router();
 
@@ -63,5 +65,7 @@ router.get(constants.SOMETHING_WENT_WRONG_URL, somethingWentWrongController);
 router.get(constants.ACCESS_DENIED_URL, accessDeniedControllerGet);
 
 router.get(constants.ACCESSIBILITY_STATEMENT_URL, accessibilityStatementAuthorisedAgentControllerGet);
+
+router.get(constants.BEFORE_YOU_ADD_USER_URL, beforeYouAddUserControllerGet as RequestHandler);
 
 export default router;

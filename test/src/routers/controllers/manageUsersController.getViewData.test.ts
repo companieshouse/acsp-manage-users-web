@@ -93,7 +93,7 @@ describe("manageUsersController - getViewData", () => {
                 }
 
             ]],
-            addUserUrl: "/authorised-agent/add-user",
+            addUserUrl: "/authorised-agent/before-you-add-user",
             backLinkUrl: "/authorised-agent/",
             companyName: "Acme ltd",
             companyNumber: "123456",
