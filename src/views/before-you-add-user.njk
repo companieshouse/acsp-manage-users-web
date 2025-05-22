@@ -1,0 +1,47 @@
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/details/macro.njk" import govukDetails %}
+
+{% extends "layouts/default.njk" %}
+
+{% set detailsHtml %}
+<p class="govuk-body">
+    {{ lang.ask_them_to }}
+    <a href="{{ linkHref }}" class="govuk-link" target="_blank" rel="noopener noreferrer" data-event-id="before-you-add-user">{{ lang.create_sign_in_details }}</a>.
+</p>
+<p class="govuk-body">{{lang.the_user_will_need_to_do_this}}</p>
+{% endset %}
+
+{% block back_link %}
+    {% include "partials/back_link.njk" %}
+{% endblock %}
+
+{% block main_content %}
+    <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-l">{{lang.page_header}}</h1>
+
+        <p class="govuk-body">{{lang.to_add_someone_as_a_user}}</p>
+
+        <p class="govuk-body">{{lang.a_companies_house_account_is_used_to_sign_in_to}}</p>
+        <ul class="govuk-list govuk-list--bullet govuk-!-margin-left-4">
+            {% for item in lang.a_companies_house_account_is_used_to_sign_in_to_bullet_points %}
+                <li>{{item}}</li>
+            {% endfor %}
+        </ul>
+
+        {{ govukDetails({
+                summaryText: lang.if_the_user_does_not_have_a_companies_house_account,
+                html: detailsHtml
+            })
+        }}
+
+        {{ govukButton({
+                text: lang.continue,
+                href: buttonHref,
+                classes: 'govuk-!-margin-top-3',
+                attributes: {
+                "data-event-id": "before-you-add-user"
+                }
+            })
+        }}
+    </div>
+{% endblock %}
