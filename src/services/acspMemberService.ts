@@ -86,8 +86,8 @@ export const createAcspMembership = async (req: Request, acspNumber: string, use
         req,
         req.session as Session,
         acspNumber,
-        userRole,
-        userId
+        userId,
+        userRole
     ) as Resource<AcspMembership | Errors>;
 
     if (!sdkResponse) {

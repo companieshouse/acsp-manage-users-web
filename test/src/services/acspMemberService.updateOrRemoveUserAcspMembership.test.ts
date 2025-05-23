@@ -50,7 +50,7 @@ describe("getAcspMembersService", () => {
             };
             mockUpdateOrRemoveUseJestFn.mockResolvedValueOnce(sdkResource);
             // When
-            const result = await updateOrRemoveUserAcspMembership(request, mockAcspMemberId, { updateUser: { userRole: UserRole.STANDARD } });
+            const result = await updateOrRemoveUserAcspMembership(request, mockAcspMemberId, { userRole: UserRole.STANDARD });
             // Then
             expect(result).toEqual(undefined);
         });
@@ -66,13 +66,13 @@ describe("getAcspMembersService", () => {
             } as Resource<undefined>)
                 .mockResolvedValueOnce(sdkResource);
             // When
-            await updateOrRemoveUserAcspMembership(request, mockAcspMemberId, { updateUser: { userRole: UserRole.STANDARD } });
+            await updateOrRemoveUserAcspMembership(request, mockAcspMemberId, { userRole: UserRole.STANDARD });
             // Then
             expect(refreshTokenSpy).toHaveBeenCalledTimes(1);
         });
 
         it("should throw an error if no sdk response returned", async () => {
-            await expect(updateOrRemoveUserAcspMembership(request, mockAcspMemberId, { updateUser: { userRole: UserRole.STANDARD } }))
+            await expect(updateOrRemoveUserAcspMembership(request, mockAcspMemberId, { userRole: UserRole.STANDARD }))
                 .rejects.toThrow(Error);
         });
     });
