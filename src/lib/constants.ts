@@ -42,6 +42,7 @@ export const WCAG_URL = "https://www.w3.org/TR/WCAG22/";
 
 export const YOU_HAVE_VERIFIED_SOMEONES_IDENTITY_URL = "/tell-companies-house-you-have-verified-someones-identity";
 export const SIGN_OUT_URL = `${CHS_URL}/signout`;
+export const SIGN_IN_URL = `${CHS_URL}/signin`;
 
 // Translation and Template Keys
 export const COMMON = "common";
