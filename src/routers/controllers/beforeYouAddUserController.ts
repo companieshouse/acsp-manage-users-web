@@ -1,4 +1,4 @@
-import { Request, RequestHandler, Response } from "express";
+import { Request, Response } from "express";
 import * as constants from "../../lib/constants";
 import { getTranslationsForView } from "../../lib/utils/translationUtils";
 import { ViewDataWithBackLink } from "../../types/utilTypes";
@@ -18,7 +18,7 @@ interface BeforeYouAddUserGetViewData extends ViewDataWithBackLink {
  * @param req - The request object
  * @param res - The response object
  */
-export const beforeYouAddUserControllerGet: RequestHandler = async (req: Request, res: Response) => {
+export const beforeYouAddUserControllerGet = async (req: Request, res: Response): Promise<void> => {
     const translations = getTranslationsForView(req.lang, constants.BEFORE_YOU_ADD_USER_PAGE);
     const viewData: BeforeYouAddUserGetViewData = {
         buttonHref: constants.ADD_USER_FULL_URL,
