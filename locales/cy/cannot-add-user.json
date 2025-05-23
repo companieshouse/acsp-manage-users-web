@@ -1,9 +1,16 @@
 {
-    "cannot_add_user_heading": "Ni allwch ychwanegu’r defnyddiwr hwn",
-    "cannot_add_user_paragraph1": "Nid ydym wedi gallu ychwanegu’r defnyddiwr gyda’r cyfeiriad e-bost rydych wedi ei ddarparu.",
-    "cannot_add_user_paragraph2": "Gallai hyn fod oherwydd nad oes ganddynt gyfrif Tŷ’r Cwmnïau sy’n defnyddio’r cyfeiriad e-bost. Neu, efallai ei bod eisoes wedi’i hychwanegu at gyfrif asiant awdurdodedig.",
-    "cannot_add_user_paragraph3": "Efallai y bydd angen i’r defnyddiwr greu cyfrif Tŷ’r Cwmnïau, neu gael ei dileu o gyfrif awdurdodedig arall cyn y gallwch ei hychwanegu.",
-    "cannot_add_user_title": "Ni allwch ychwanegu’r defnyddiwr hwn - Dod o hyd i a diweddaru gwybodaeth cwmni - GOV.UK",
-    "manage_users_link_text": "Rheoli defnyddwyr ar gyfer",
-    "service_name": "Tŷ’r Cwmnïau"
+    "ask_them_to": "[CY] Ask them to",
+    "create_sign_in_details_for_companies_house": "[CY] create sign in details for Companies House (opens in a new tab)",
+    "if_they_do_not_have_a_companies_house_account": "[CY] If they do not have a Companies House account",
+    "if_theyve_already_been_added": "[CY] If they’ve already been added to another authorised agent account",
+    "manage_users_for": "Rheoli defnyddwyr ar gyfer",
+    "page_header": "[CY] We cannot add the user with the email address you provided",
+    "the_user_will_need_to_do_this": "[CY] The user will need to do this before you can add them.",
+    "this_could_be_because": "[CY] This could be because they do not have a Companies House account that uses the email address. Or, they may have already been added to another authorised agent account.",
+    "this_is_different_to_a_webfiling_account": "[CY] This is different to a WebFiling account.",
+    "you_can_either": "[CY] You can either:",
+    "you_can_either_bullet_points": [
+        "[CY] add the user once they’ve been removed from the other account",
+        "[CY] provide a different email address"
+    ]
 }

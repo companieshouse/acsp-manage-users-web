@@ -7,10 +7,10 @@ import { ViewDataWithBackLink } from "../../types/utilTypes";
 import { acspLogger } from "../../lib/helpers/acspLogger";
 
 interface CannotAddUserGetViewData extends ViewDataWithBackLink {
-    serviceName: string,
-    title: string,
-    manageUsersLinkText: string,
-    manageUsersLinkHref: string
+    acspName: string;
+    manageUsersLinkHref: string;
+    manageUsersLinkText: string;
+    linkHref: string;
 }
 
 export const cannotAddUserControllerGet = async (req: Request, res: Response): Promise<void> => {
@@ -24,9 +24,9 @@ export const cannotAddUserControllerGet = async (req: Request, res: Response): P
         templateName: constants.CANNOT_ADD_USER,
         backLinkUrl: constants.CHECK_MEMBER_DETAILS_FULL_URL,
         manageUsersLinkHref: constants.MANAGE_USERS_FULL_URL,
-        serviceName: translations.service_name as string,
-        title: translations.cannot_add_user_title as string,
-        manageUsersLinkText: `${translations.manage_users_link_text} ${acspName}.`
+        manageUsersLinkText: `${translations.manage_users_for} ${acspName}`,
+        acspName,
+        linkHref: constants.SIGN_IN_URL
     };
 
     acspLogger(req.session, cannotAddUserControllerGet.name, `Rendering cannot add user screen`);
