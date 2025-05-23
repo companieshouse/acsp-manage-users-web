@@ -26,7 +26,7 @@ export const cannotAddUserControllerGet = async (req: Request, res: Response): P
         manageUsersLinkHref: constants.MANAGE_USERS_FULL_URL,
         manageUsersLinkText: `${translations.manage_users_for} ${acspName}`,
         acspName,
-        linkHref: ""
+        linkHref: constants.SIGN_IN_URL
     };
 
     acspLogger(req.session, cannotAddUserControllerGet.name, `Rendering cannot add user screen`);
