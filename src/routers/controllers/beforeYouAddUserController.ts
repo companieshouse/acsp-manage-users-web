@@ -23,7 +23,7 @@ export const beforeYouAddUserControllerGet: RequestHandler = async (req: Request
     const viewData: BeforeYouAddUserGetViewData = {
         buttonHref: constants.ADD_USER_FULL_URL,
         lang: translations,
-        linkHref: "",
+        linkHref: constants.SIGN_IN_URL,
         backLinkUrl: constants.MANAGE_USERS_FULL_URL,
         templateName: constants.BEFORE_YOU_ADD_USER_PAGE
     };

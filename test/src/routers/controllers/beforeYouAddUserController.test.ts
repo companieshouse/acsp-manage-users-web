@@ -3,13 +3,14 @@ import supertest from "supertest";
 import app from "../../../../src/app";
 import * as en from "../../../../locales/en/before-you-add-user.json";
 import * as cy from "../../../../locales/cy/before-you-add-user.json";
+import * as constants from "../../../../src/lib/constants";
 
 jest.mock("../../../../src/lib/Logger");
 
 const router = supertest(app);
 
 describe("GET /authorised-agent/before-you-add-user", () => {
-    const href = ""; // This is a placeholder for the actual href value
+    const href = constants.SIGN_IN_URL; // This is a placeholder for the actual href value
     test.each([
         ["English", "en", en],
         ["English", undefined, en],
