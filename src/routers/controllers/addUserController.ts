@@ -22,11 +22,11 @@ export const addUserControllerGet = async (req: Request, res: Response): Promise
     const loggedInUserMembership: AcspMembership = getExtraData(req.session, constants.LOGGED_USER_ACSP_MEMBERSHIP);
     const loggedInUserRole = loggedInUserMembership.userRole;
     const referrer: string | undefined = req.get("Referrer");
-    const hrefA = constants.MANAGE_USERS_FULL_URL;
+    const hrefA = constants.BEFORE_YOU_ADD_USER_FULL_URL;
 
     let viewData: AddUserGetViewData = {
         lang: getTranslationsForView(req.lang, constants.ADD_USER_PAGE),
-        backLinkUrl: constants.MANAGE_USERS_FULL_URL,
+        backLinkUrl: constants.BEFORE_YOU_ADD_USER_FULL_URL,
         loggedInUserRole,
         templateName: constants.ADD_USER_PAGE,
         companyName: loggedInUserMembership.acspName
@@ -70,7 +70,7 @@ export const addUserControllerPost = async (req: Request, res: Response): Promis
     const viewData: AddUserPostViewData = {
         lang: getTranslationsForView(req.lang, constants.ADD_USER_PAGE),
         templateName: constants.ADD_USER_PAGE,
-        backLinkUrl: constants.MANAGE_USERS_FULL_URL,
+        backLinkUrl: constants.BEFORE_YOU_ADD_USER_FULL_URL,
         email,
         userRole,
         loggedInUserRole,
