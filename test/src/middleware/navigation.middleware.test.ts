@@ -54,6 +54,12 @@ describe("navigiationMiddleware", () => {
             user: ""
         },
         {
+            description: "should redirect when referer is not in the allowed list for the add a user page",
+            url: "/authorised-agent/add-user",
+            referer: "/authorised-agent/cannot",
+            user: ""
+        },
+        {
             description: "should redirect when referer is not in the allowed list for the cannot add a user page",
             url: "/authorised-agent/cannot-add-user",
             referer: "/authorised-agent/cannot",
@@ -126,6 +132,12 @@ describe("navigiationMiddleware", () => {
             url: "/authorised-agent/add-account-owner",
             referer: "/authorised-agent/add-user",
             user: ""
+        },
+        {
+            description: "should allow admin user to add a user page when before you add a user is the referer",
+            url: "/authorised-agent/before-you-add-user",
+            referer: "/authorised-agent/add-user",
+            user: adminUser
         },
         {
             description: "should allow admin user to check member details page when add a user is the referer",

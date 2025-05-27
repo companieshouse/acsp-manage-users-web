@@ -83,8 +83,12 @@ export const NAVIGATION: Navigation = {
         ]
     },
     [constants.ADD_USER_FULL_URL]: {
-        allowedReferers: [],
-        redirectTo: constants.VIEW_USERS_FULL_URL,
+        allowedReferers: [
+            constants.ADD_USER_FULL_URL,
+            constants.BEFORE_YOU_ADD_USER_FULL_URL,
+            constants.CHECK_MEMBER_DETAILS_FULL_URL
+        ],
+        redirectTo: constants.MANAGE_USERS_FULL_URL,
         allowedUserRoles: [
             UserRole.OWNER,
             UserRole.ADMIN
@@ -148,6 +152,11 @@ export const navigationMiddleware = (req: Request, res: Response, next: NextFunc
 
     if (currentPath === constants.ACCESS_DENIED_FULL_URL && acspMembership?.userRole) {
         return res.redirect(constants.DASHBOARD_FULL_URL);
+    }
+
+    // an additional rule for add user page
+    if (currentPath === constants.ADD_USER_FULL_URL && acspMembership?.userRole === UserRole.STANDARD) {
+        return res.redirect(constants.VIEW_USERS_FULL_URL);
     }
 
     // this is to strip the path parameter which is redundant in this context

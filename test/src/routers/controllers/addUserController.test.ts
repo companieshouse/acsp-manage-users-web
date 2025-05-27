@@ -104,7 +104,7 @@ describe(`GET ${url}`, () => {
         expect(response.text).toContain(invalidEmail);
     });
 
-    it("should not display saved session values when the referrer is the manage-users url", async () => {
+    it("should not display saved session values when the referrer is the before-you-add-user url", async () => {
         // Given
         sessionUtilsSpy.mockReturnValue("demo@ch.gov.uk");
         const emailStoredInSession = "bob@bob.com";
@@ -113,7 +113,7 @@ describe(`GET ${url}`, () => {
         });
 
         mocks.mockSessionMiddleware.mockImplementationOnce((req: Request, res: Response, next: NextFunction) => {
-            req.headers = { referrer: "/authorised-agent/manage-users" };
+            req.headers = { referrer: "/authorised-agent/before-you-add-user" };
             req.session = session;
             next();
         });

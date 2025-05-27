@@ -53,6 +53,7 @@ export const getViewData = async (req: Request, search: string | undefined = und
     deleteExtraData(req.session, constants.USER_ROLE_CHANGE_DATA);
     deleteExtraData(req.session, constants.IS_SELECT_USER_ROLE_ERROR);
     deleteExtraData(req.session, constants.DETAILS_OF_USER_TO_REMOVE);
+    deleteExtraData(req.session, constants.DETAILS_OF_USER_TO_ADD);
 
     const { ownerPage, adminPage, standardPage } = getPageQueryParams(req);
     const activeTabId = getActiveTabId(req);
@@ -69,7 +70,7 @@ export const getViewData = async (req: Request, search: string | undefined = und
     const viewData: AnyRecord = {
         lang: translations,
         backLinkUrl: constants.DASHBOARD_FULL_URL,
-        addUserUrl: constants.ADD_USER_FULL_URL,
+        addUserUrl: constants.BEFORE_YOU_ADD_USER_FULL_URL,
         companyName: acspName,
         companyNumber: acspNumber,
         loggedInUserRole: userRole,
