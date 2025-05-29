@@ -1,16 +1,16 @@
 {
-    "ask_them_to": "[CY] Ask them to",
-    "create_sign_in_details_for_companies_house": "[CY] create sign in details for Companies House (opens in a new tab)",
-    "if_they_do_not_have_a_companies_house_account": "[CY] If they do not have a Companies House account",
-    "if_theyve_already_been_added": "[CY] If they’ve already been added to another authorised agent account",
+    "ask_them_to": "Gofynnwch iddynt",
+    "create_sign_in_details_for_companies_house": "greu manylion mewngofnodi ar gyfer Tŷ‘r Cwmnïau (yn agor mewn tab newydd)",
+    "if_they_do_not_have_a_companies_house_account": "Os nad oes ganddynt gyfrif Tŷ‘r Cwmnïau",
+    "if_theyve_already_been_added": "Os ydynt eisoes wedi‘u hychwanegu i gyfrif asiant awdurdodedig arall",
     "manage_users_for": "Rheoli defnyddwyr ar gyfer",
-    "page_header": "[CY] We cannot add the user with the email address you provided",
-    "the_user_will_need_to_do_this": "[CY] The user will need to do this before you can add them.",
-    "this_could_be_because": "[CY] This could be because they do not have a Companies House account that uses the email address. Or, they may have already been added to another authorised agent account.",
-    "this_is_different_to_a_webfiling_account": "[CY] This is different to a WebFiling account.",
-    "you_can_either": "[CY] You can either:",
+    "page_header": "Ni allwn ychwanegu‘r defnyddiwr gyda‘r cyfeiriad e-bost a ddarparwyd gennych.",
+    "the_user_will_need_to_do_this": "Bydd angen i‘r defnyddiwr wneud hwn cyn y gallwch eu hychwanegu.",
+    "this_could_be_because": "Gallai hyn fod oherwydd nad oes ganddynt gyfrif Tŷ‘r Cwmnïau sy‘n defnyddio‘r cyfeiriad e-bost. Neu, efallai eu bod eisoes wedi‘u hychwanegu i gyfrif asiant awdurdodedig arall.",
+    "this_is_different_to_a_webfiling_account": "Mae hyn yn wahanol i gyfrif WebFiling.",
+    "you_can_either": "Gallwch naill ai:",
     "you_can_either_bullet_points": [
-        "[CY] add the user once they’ve been removed from the other account",
-        "[CY] provide a different email address"
+        "ychwanegu‘r defnyddiwr unwaith y byddant wedi‘u dileu o‘r cyfrif arall.",
+        "darparu cyfeiriad e-bost gwahanol"
     ]
 }

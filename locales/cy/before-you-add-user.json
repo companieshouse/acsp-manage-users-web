@@ -1,13 +1,13 @@
 {
-    "a_companies_house_account_is_used_to_sign_in_to": "[CY] A Companies House account is used to sign in to:",
+    "a_companies_house_account_is_used_to_sign_in_to": "Mae cyfrif Tŷ‘r Cwmnïau yn cael ei ddefnyddio i fewngofnodi i:",
     "a_companies_house_account_is_used_to_sign_in_to_bullet_points": [
-        "[CY] the Companies House register - sometimes known as ‘Find and update company information’, or the ‘Companies House service’",
-        "[CY] some of our online services, such as ‘Upload a document to Companies House’"
+        "gofrestr Tŷ‘r Cwmnïau - weithiau‘n cael ei adnabod fel ‘Dod od hyd i wybodaeth cwmni a‘i diwddaru‘, neu‘r ‘gwasanaeth Tŷ‘r Cwmnïau‘",
+        "rhai o‘n gwasanaethau ar-lein, fel ‘Uwchlwytho dogfen i Dŷ‘r Cwmnïau’"
     ],
-    "ask_them_to": "[CY] Ask them to",
-    "create_sign_in_details": "[CY] create sign in details for Companies House (opens in a new tab)",
-    "if_the_user_does_not_have_a_companies_house_account": "[CY] If the user does not have a Companies House account",
-    "page_header": "[CY] Before you add a user",
-    "the_user_will_need_to_do_this": "[CY] The user will need to do this before you add them.",
-    "to_add_someone_as_a_user": "[CY] To add someone as a user, they must already have a Companies House account. This is different to a WebFiling account."
+    "ask_them_to": "Gofynnwch iddynt",
+    "create_sign_in_details": "greu manylion mewngofnodi ar gyfer Tŷ‘r Cwmnïau (yn agor mewn tab newydd)",
+    "if_the_user_does_not_have_a_companies_house_account": "Os nad oes gan y defnyddiwr gyfrif Tŷ‘r Cwmnïau",
+    "page_header": "Cyn i chi ychwanegu defnyddiwr",
+    "the_user_will_need_to_do_this": "Bydd angen i‘r defnyddiwr wneud hwn cyn i chi eu hychwanegu.",
+    "to_add_someone_as_a_user": "I ychwanegu rhywun fel defnyddiwr, rhaid iddynt fod eisoes â chyfrif Tŷ‘r Cwmnïau. Mae hyn yn wahanol i gyfrif WebFiling."
 }
