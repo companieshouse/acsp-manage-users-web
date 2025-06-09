@@ -16,6 +16,7 @@ interface DashboardGetViewData extends BaseViewData {
     managePeopleLink: string,
     youHaveVerifiedSomeonesIdentityLink: string,
     updateAuthorisedAgentsDetailsLink: string,
+    closeAuthorisedAgentAccountLink: string,
     viewUsersLink: string
 }
 
@@ -32,6 +33,7 @@ export const dashboardControllerGet = async (req: Request, res: Response): Promi
         managePeopleLink: constants.MANAGE_USERS_FULL_URL,
         youHaveVerifiedSomeonesIdentityLink: constants.YOU_HAVE_VERIFIED_SOMEONES_IDENTITY_URL,
         updateAuthorisedAgentsDetailsLink: `${constants.UPDATE_AUTHORISED_AGENTS_DETAILS_URL}?lang=${req.lang}`,
+        closeAuthorisedAgentAccountLink: `${constants.CLOSE_AUTHORISED_AGENT_ACCOUNT_URL}?lang=${req.lang}`,
         viewUsersLink: constants.VIEW_USERS_FULL_URL,
         agentNumber: loggedUserAcspMembership.acspNumber,
         companyName: loggedUserAcspMembership.acspName,
