@@ -1,15 +1,17 @@
-{% if agentStatus === AcspStatus.ACTIVE %}
+{% if agentStatus === AcspStatus.ACTIVE or agentStatus === AcspStatus.SUSPENDED %}
     <div class="govuk-grid-column-one-third govuk-topic-block">
         <h3 class="govuk-heading-s">
-            {{lang.close_the_authorised_agent}}
-            <strong class="govuk-tag govuk-tag--blue govuk-!-margin-top-2">
-                {{lang.coming_soon}}
-            </strong>
+            {{lang.tell_us_if_you_need_to_close}}
         </h3>
         <div>
             <p class="govuk-body">
-                {{lang.tell_us_if}}{{companyName}}{{lang.is_no_longer_an_authorised_agent}}
+                {{lang.if_you_close_this_account}}{{companyName}}{{lang.will_no_longer_be_registered}}
             </p>
+            <a class="govuk-link govuk-link--no-visited-state" 
+             href="{{closeAuthorisedAgentAccountLink}}"
+            >
+           {{lang.close_the_authorised_agent_account}}
+            </a>
         </div>
     </div>
 {% endif %}

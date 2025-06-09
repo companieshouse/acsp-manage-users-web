@@ -65,9 +65,9 @@ describe(`GET ${url}`, () => {
         expect(decodedResponse).toContain(en.view_users_who_have_been_added);
         expect(decodedResponse).toContain(en.warning);
         expect(decodedResponse).toContain(enCommon.you_can);
-        expect(decodedResponse).toContain(en.close_the_authorised_agent);
-        expect(decodedResponse).toContain(en.tell_us_if);
-        expect(decodedResponse).toContain(en.is_no_longer_an_authorised_agent);
+        expect(decodedResponse).toContain(en.tell_us_if_you_need_to_close);
+        expect(decodedResponse).toContain(en.if_you_close_this_account);
+        expect(decodedResponse).toContain(en.will_no_longer_be_registered);
     });
 
     it("should have a page title and 3 boxes, file as an auth agent, manage users, and verify when administrator logged in", async () => {

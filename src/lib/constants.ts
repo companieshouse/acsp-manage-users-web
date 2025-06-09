@@ -31,6 +31,7 @@ export const VALIDATION_ERRORS = "VALIDATION_ERRORS";
 // External URLs
 export const CHS_SEARCH_REGISTER_PAGE = "https://find-and-update.company-information.service.gov.uk/";
 export const UPDATE_AUTHORISED_AGENTS_DETAILS_URL = "/view-and-update-the-authorised-agents-details";
+export const CLOSE_AUTHORISED_AGENT_ACCOUNT_URL = "/close-authorised-agent";
 export const ABILITY_NET_ADVICE_URL = "https://mcmw.abilitynet.org.uk/";
 export const ACCESSIBILITY_SUPPORT_GUIDANCE_URL = "https://www.gov.uk/guidance/accessibility-support-for-companies-house-users";
 export const DIGITAL_ACCESSIBILITY_CENTRE_URL = "https://digitalaccessibilitycentre.org/auditandaccreditation.html";
