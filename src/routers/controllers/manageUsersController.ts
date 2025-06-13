@@ -90,7 +90,8 @@ export const getViewData = async (req: Request, search: string | undefined = und
         templateName: constants.MANAGE_USERS_PAGE,
         manageUsersTabId: activeTabId,
         MATOMO_ADD_USER_GOAL_ID: constants.MATOMO_ADD_USER_GOAL_ID,
-        MATOMO_REMOVE_USER_GOAL_ID: constants.MATOMO_REMOVE_USER_GOAL_ID
+        MATOMO_REMOVE_USER_GOAL_ID: constants.MATOMO_REMOVE_USER_GOAL_ID,
+        isSearchPerformed: false
     };
 
     let errorMessage;
@@ -287,5 +288,6 @@ const handleSearch = async (
         viewData.manageUsersTabId = constants.ACCOUNT_OWNERS_TAB_ID;
         viewData.companyName = acspName;
     }
+    viewData.isSearchPerformed = true;
     viewData.search = search;
 };
