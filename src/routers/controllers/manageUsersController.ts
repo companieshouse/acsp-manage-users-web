@@ -49,7 +49,13 @@ export const getTitle = (translations: AnyRecord, loggedInUserRole: UserRole, is
     return isError ? `${translations.title_error}${baseTitle}${titleEnd}` : `${baseTitle}${titleEnd}`;
 };
 
-const handleAcspDetailUpdates = async (req: Request, res:Response, companyNameInSession: string, firstMemberAcspName: string, acspStatus: AcspStatus) => {
+const handleAcspDetailUpdates = async (
+    req: Request,
+    res: Response,
+    companyNameInSession: string,
+    firstMemberAcspName: string,
+    acspStatus: AcspStatus
+): Promise<void> => {
 
     if (acspStatus === AcspStatus.CEASED) {
         res.set("Referrer-Policy", "origin");
@@ -57,8 +63,11 @@ const handleAcspDetailUpdates = async (req: Request, res:Response, companyNameIn
     }
 
     if (companyNameInSession !== firstMemberAcspName) {
-        const membership = (await getMembershipForLoggedInUser(req)).items[0];
-        setExtraData(req.session, constants.LOGGED_USER_ACSP_MEMBERSHIP, membership);
+        const membershipResponse = await getMembershipForLoggedInUser(req);
+        if (!membershipResponse?.items?.[0]) {
+            throw new Error("No membership found for logged in user");
+        }
+        setExtraData(req.session, constants.LOGGED_USER_ACSP_MEMBERSHIP, membershipResponse.items[0]);
     }
 
 };
@@ -146,10 +155,14 @@ export const getViewData = async (req: Request, res:Response, search: string | u
 
         setExtraData(req.session, constants.MANAGE_USERS_MEMBERSHIP, allMembersForThisAcsp);
 
-        const acspNameFromFirstMember = ownerMemberRawViewData.memberships[0].acspName;
-
-        await handleAcspDetailUpdates(req, res, acspName, acspNameFromFirstMember, ownerMemberRawViewData.memberships[0].acspStatus);
-        viewData.companyName = acspNameFromFirstMember;
+        const firstOwnerMember = ownerMemberRawViewData.memberships[0];
+        if (firstOwnerMember) {
+            const acspNameFromFirstMember = firstOwnerMember.acspName;
+            await handleAcspDetailUpdates(req, res, acspName, acspNameFromFirstMember, firstOwnerMember.acspStatus);
+            viewData.companyName = acspNameFromFirstMember;
+        } else {
+            viewData.companyName = acspName;
+        }
     }
 
     const title = getTitle(translations, userRole, !!errorMessage);
