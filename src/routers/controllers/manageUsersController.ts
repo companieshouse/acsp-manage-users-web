@@ -5,7 +5,7 @@ import { AnyRecord, MemberRawViewData, PageNumbers, PageQueryParams } from "../.
 import { TableEntry } from "../../types/viewTypes";
 import { getHiddenText, getLink } from "../../lib/utils/viewUtils";
 import { setExtraData, getLoggedUserAcspMembership, deleteExtraData, getExtraData } from "../../lib/utils/sessionUtils";
-import { AcspMembership, UserRole } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
+import { AcspMembership, AcspStatus, UserRole } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
 import { getAcspMemberships, getMembershipForLoggedInUser, membershipLookup } from "../../services/acspMemberService";
 import { validateEmailString } from "../../lib/validation/email.validation";
 import { getChangeMemberRoleFullUrl, getRemoveMemberCheckDetailsFullUrl } from "../../lib/utils/urlUtils";
@@ -22,7 +22,7 @@ export const manageUsersControllerGet = async (req: Request, res: Response): Pro
     }
     const searchStringEmail: string | undefined = getExtraData(req.session, constants.SEARCH_STRING_EMAIL);
 
-    const viewData = await getViewData(req, searchStringEmail);
+    const viewData = await getViewData(req, res, searchStringEmail);
 
     acspLogger(req.session, manageUsersControllerGet.name, `Rendering manage users page`);
     res.render(constants.MANAGE_USERS_PAGE, { ...viewData });
@@ -49,7 +49,12 @@ export const getTitle = (translations: AnyRecord, loggedInUserRole: UserRole, is
     return isError ? `${translations.title_error}${baseTitle}${titleEnd}` : `${baseTitle}${titleEnd}`;
 };
 
-const checkForAcspDetailUpdates = async (req: Request, companyNameInSession: string, firstMemberAcspName: string) => {
+const handleAcspDetailUpdates = async (req: Request, res:Response, companyNameInSession: string, firstMemberAcspName: string, acspStatus: AcspStatus) => {
+
+    if (acspStatus === AcspStatus.CEASED) {
+        res.set("Referrer-Policy", "origin");
+        return res.redirect(constants.SIGN_OUT_URL);
+    }
 
     if (companyNameInSession !== firstMemberAcspName) {
         const membership = (await getMembershipForLoggedInUser(req)).items[0];
@@ -58,7 +63,7 @@ const checkForAcspDetailUpdates = async (req: Request, companyNameInSession: str
 
 };
 
-export const getViewData = async (req: Request, search: string | undefined = undefined): Promise<AnyRecord> => {
+export const getViewData = async (req: Request, res:Response, search: string | undefined = undefined): Promise<AnyRecord> => {
     deleteExtraData(req.session, constants.USER_ROLE_CHANGE_DATA);
     deleteExtraData(req.session, constants.IS_SELECT_USER_ROLE_ERROR);
     deleteExtraData(req.session, constants.DETAILS_OF_USER_TO_REMOVE);
@@ -80,7 +85,6 @@ export const getViewData = async (req: Request, search: string | undefined = und
         lang: translations,
         backLinkUrl: constants.DASHBOARD_FULL_URL,
         addUserUrl: constants.BEFORE_YOU_ADD_USER_FULL_URL,
-        //  companyName: acspName,
         companyNumber: acspNumber,
         loggedInUserRole: userRole,
         cancelSearchHref: `${getCancelSearchHref(userRole)}?${constants.CANCEL_SEARCH}`,
@@ -119,7 +123,7 @@ export const getViewData = async (req: Request, search: string | undefined = und
     });
 
     if (isSearchValid && isSearchAString) {
-        await handleSearch(req, acspNumber, search, formatMember, userRole, translations, viewData, acspName);
+        await handleSearch(req, res, acspNumber, search, formatMember, userRole, translations, viewData, acspName);
     } else {
 
         const ownerMemberRawViewData = await getMemberRawViewData(req, acspNumber, pageNumbers, UserRole.OWNER, constants.ACCOUNT_OWNERS_TAB_ID, translations, userRole);
@@ -144,7 +148,7 @@ export const getViewData = async (req: Request, search: string | undefined = und
 
         const acspNameFromFirstMember = ownerMemberRawViewData.memberships[0].acspName;
 
-        await checkForAcspDetailUpdates(req, acspName, acspNameFromFirstMember);
+        await handleAcspDetailUpdates(req, res, acspName, acspNameFromFirstMember, ownerMemberRawViewData.memberships[0].acspStatus);
         viewData.companyName = acspNameFromFirstMember;
     }
 
@@ -243,6 +247,7 @@ export const isCancelSearch = (req: Request): boolean => Object.hasOwn(req.query
 
 const handleSearch = async (
     req: Request,
+    res: Response,
     acspNumber: string,
     search: string,
     formatMember: (value: AcspMembership, index: number, array: AcspMembership[]) => unknown,
@@ -257,7 +262,7 @@ const handleSearch = async (
             const foundMember = foundMembership.items[0];
             setTabIds(viewData, foundMember.userRole);
 
-            await checkForAcspDetailUpdates(req, acspName, foundMember.acspName);
+            await handleAcspDetailUpdates(req, res, acspName, foundMember.acspName, foundMember.acspStatus);
             viewData.companyName = foundMember.acspName;
 
             const formattedFoundMember = [

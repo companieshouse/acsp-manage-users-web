@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { getLoggedUserAcspMembership, setExtraData } from "../lib/utils/sessionUtils";
 import { getMembershipForLoggedInUser } from "../services/acspMemberService";
-import { AcspMembership } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
+import { AcspMembership, AcspStatus } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
 import * as constants from "../lib/constants";
 import { isWhitelistedUrl } from "../lib/utils/urlUtils";
 import * as url from "node:url";
@@ -17,6 +17,10 @@ export const loggedUserAcspMembershipMiddleware = async (req: Request, res: Resp
 
     if (!acspMembershipInSession || onDashboard) {
         const membership = (await getMembershipForLoggedInUser(req)).items[0];
+        if (membership.acspStatus === AcspStatus.CEASED) {
+            res.set("Referrer-Policy", "origin");
+            return res.redirect(constants.SIGN_OUT_URL);
+        }
         setExtraData(req.session, constants.LOGGED_USER_ACSP_MEMBERSHIP, membership);
     }
     next();
