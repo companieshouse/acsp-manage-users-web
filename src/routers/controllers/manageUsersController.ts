@@ -6,7 +6,7 @@ import { TableEntry } from "../../types/viewTypes";
 import { getHiddenText, getLink } from "../../lib/utils/viewUtils";
 import { setExtraData, getLoggedUserAcspMembership, deleteExtraData, getExtraData } from "../../lib/utils/sessionUtils";
 import { AcspMembership, UserRole } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
-import { getAcspMemberships, membershipLookup } from "../../services/acspMemberService";
+import { getAcspMemberships, getMembershipForLoggedInUser, membershipLookup } from "../../services/acspMemberService";
 import { validateEmailString } from "../../lib/validation/email.validation";
 import { getChangeMemberRoleFullUrl, getRemoveMemberCheckDetailsFullUrl } from "../../lib/utils/urlUtils";
 import { buildPaginationElement, getCurrentPageNumber, setLangForPagination, stringToPositiveInteger } from "../../lib/helpers/buildPaginationHelper";
@@ -49,6 +49,15 @@ export const getTitle = (translations: AnyRecord, loggedInUserRole: UserRole, is
     return isError ? `${translations.title_error}${baseTitle}${titleEnd}` : `${baseTitle}${titleEnd}`;
 };
 
+const checkForAcspDetailUpdates = async (req: Request, companyNameInSession: string, firstMemberAcspName: string) => {
+
+    if (companyNameInSession !== firstMemberAcspName) {
+        const membership = (await getMembershipForLoggedInUser(req)).items[0];
+        setExtraData(req.session, constants.LOGGED_USER_ACSP_MEMBERSHIP, membership);
+    }
+
+};
+
 export const getViewData = async (req: Request, search: string | undefined = undefined): Promise<AnyRecord> => {
     deleteExtraData(req.session, constants.USER_ROLE_CHANGE_DATA);
     deleteExtraData(req.session, constants.IS_SELECT_USER_ROLE_ERROR);
@@ -71,7 +80,7 @@ export const getViewData = async (req: Request, search: string | undefined = und
         lang: translations,
         backLinkUrl: constants.DASHBOARD_FULL_URL,
         addUserUrl: constants.BEFORE_YOU_ADD_USER_FULL_URL,
-        companyName: acspName,
+        //  companyName: acspName,
         companyNumber: acspNumber,
         loggedInUserRole: userRole,
         cancelSearchHref: `${getCancelSearchHref(userRole)}?${constants.CANCEL_SEARCH}`,
@@ -109,7 +118,7 @@ export const getViewData = async (req: Request, search: string | undefined = und
     });
 
     if (isSearchValid && isSearchAString) {
-        await handleSearch(req, acspNumber, search, formatMember, userRole, translations, viewData);
+        await handleSearch(req, acspNumber, search, formatMember, userRole, translations, viewData, acspName);
     } else {
 
         const ownerMemberRawViewData = await getMemberRawViewData(req, acspNumber, pageNumbers, UserRole.OWNER, constants.ACCOUNT_OWNERS_TAB_ID, translations, userRole);
@@ -131,6 +140,11 @@ export const getViewData = async (req: Request, search: string | undefined = und
         ].map(formatMember);
 
         setExtraData(req.session, constants.MANAGE_USERS_MEMBERSHIP, allMembersForThisAcsp);
+
+        const acspNameFromFirstMember = ownerMemberRawViewData.memberships[0].acspName;
+
+        await checkForAcspDetailUpdates(req, acspName, acspNameFromFirstMember);
+        viewData.companyName = acspNameFromFirstMember;
     }
 
     const title = getTitle(translations, userRole, !!errorMessage);
@@ -233,13 +247,17 @@ const handleSearch = async (
     formatMember: (value: AcspMembership, index: number, array: AcspMembership[]) => unknown,
     userRole: UserRole,
     translations: AnyRecord,
-    viewData: AnyRecord
+    viewData: AnyRecord,
+    acspName: string
 ) => {
     try {
         const foundMembership = await membershipLookup(req, acspNumber, search);
         if (foundMembership.items.length > 0) {
             const foundMember = foundMembership.items[0];
             setTabIds(viewData, foundMember.userRole);
+
+            await checkForAcspDetailUpdates(req, acspName, foundMember.acspName);
+            viewData.companyName = foundMember.acspName;
 
             const formattedFoundMember = [
                 foundMember
@@ -267,6 +285,7 @@ const handleSearch = async (
     } catch (error) {
         acspLogger(req.session, getViewData.name, `/acsps/${acspNumber}/memberships/lookup Membership for email entered not found.`, true);
         viewData.manageUsersTabId = constants.ACCOUNT_OWNERS_TAB_ID;
+        viewData.companyName = acspName;
     }
     viewData.search = search;
 };
