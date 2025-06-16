@@ -58,11 +58,13 @@ export const handleAcspDetailUpdates = async (
 ): Promise<void> => {
 
     if (acspStatus === AcspStatus.CEASED) {
+        acspLogger(req.session, handleAcspDetailUpdates.name, `ACSP status is ceased. Redirecting to sign out.`);
         res.set("Referrer-Policy", "origin");
         return res.redirect(constants.SIGN_OUT_URL);
     }
 
     if (companyNameInSession !== firstMemberAcspName) {
+        acspLogger(req.session, handleAcspDetailUpdates.name, `Company name in session (${companyNameInSession}) does not match fetched member's ACSP name (${firstMemberAcspName}). Updating session data.`);
         const membershipResponse = await getMembershipForLoggedInUser(req);
         if (!membershipResponse?.items?.[0]) {
             throw new Error("No membership found for logged in user");
