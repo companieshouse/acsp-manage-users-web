@@ -49,7 +49,7 @@ export const getTitle = (translations: AnyRecord, loggedInUserRole: UserRole, is
     return isError ? `${translations.title_error}${baseTitle}${titleEnd}` : `${baseTitle}${titleEnd}`;
 };
 
-const handleAcspDetailUpdates = async (
+export const handleAcspDetailUpdates = async (
     req: Request,
     res: Response,
     companyNameInSession: string,
