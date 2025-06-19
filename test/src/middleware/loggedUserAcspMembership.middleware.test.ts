@@ -6,6 +6,7 @@ import { loggedUserAcspMembershipMiddleware } from "../../../src/middleware/logg
 import { Session } from "@companieshouse/node-session-handler";
 import { getMockAcspMembersResource, loggedAccountOwnerAcspMembership } from "../../mocks/acsp.members.mock";
 import { AcspStatus } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
+import { SignOutError } from "../../../src/lib/utils/errors/sign-out-error";
 
 const setExtraDataSpy: jest.SpyInstance = jest.spyOn(sessionUtils, "setExtraData");
 const getLoggedUserAcspMembershipSpy: jest.SpyInstance = jest.spyOn(sessionUtils, "getLoggedUserAcspMembership");
@@ -66,7 +67,7 @@ describe("loggedUserAcspMembershipMiddleware", () => {
         expect(next).toHaveBeenCalled();
     });
 
-    it("should redirect to sign out when user membership status is CEASED", async () => {
+    it("should throw a SignOutError when user membership status is CEASED", async () => {
         const ceasedMembership = {
             ...loggedAccountOwnerAcspMembership,
             acspStatus: AcspStatus.CEASED
@@ -75,11 +76,11 @@ describe("loggedUserAcspMembershipMiddleware", () => {
         getMembershipForLoggedInUserSpy.mockReturnValue(getMockAcspMembersResource([ceasedMembership]));
 
         // When
-        await loggedUserAcspMembershipMiddleware(req, res, next);
+        await expect(loggedUserAcspMembershipMiddleware(req, res, next))
+            .rejects
+            .toThrow(SignOutError);
 
         // Then
-        expect(res.set).toHaveBeenCalledWith("Referrer-Policy", "origin");
-        expect(res.redirect).toHaveBeenCalledWith(constants.SIGN_OUT_URL);
         expect(next).not.toHaveBeenCalled();
     });
 

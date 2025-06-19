@@ -6,6 +6,7 @@ import * as constants from "../lib/constants";
 import { isWhitelistedUrl } from "../lib/utils/urlUtils";
 import * as url from "node:url";
 import logger from "../lib/Logger";
+import { SignOutError } from "../lib/utils/errors/sign-out-error";
 
 export const loggedUserAcspMembershipMiddleware = async (
     req: Request,
@@ -32,8 +33,7 @@ export const loggedUserAcspMembershipMiddleware = async (
 
         if (membership.acspStatus === AcspStatus.CEASED) {
             logger.info("User's ACSP membership has ceased, redirecting to sign out");
-            res.set("Referrer-Policy", "origin");
-            return res.redirect(constants.SIGN_OUT_URL);
+            throw new SignOutError("User's ACSP membership has ceased, redirecting to sign out");
         }
 
         setExtraData(req.session, constants.LOGGED_USER_ACSP_MEMBERSHIP, membership);

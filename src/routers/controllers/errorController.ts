@@ -5,6 +5,7 @@ import * as constants from "../../lib/constants";
 import { CsrfError, InvalidAcspNumberError } from "@companieshouse/web-security-node";
 import { acspLogger } from "../../lib/helpers/acspLogger";
 import { getLoggedInUserId } from "../../lib/utils/sessionUtils";
+import { SignOutError } from "../../lib/utils/errors/sign-out-error";
 
 /*  This controller catches and logs HTTP errors from the http-errors module.
     It returns an error template back to the user.
@@ -61,4 +62,16 @@ export const csrfErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
     }
 };
 
-export default [httpErrorHandler, invalidAcspNumberErrorHandler, csrfErrorHandler];
+export const signOutErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
+    if (err instanceof SignOutError) {
+        logger.error(
+            `Sign Out Error occured, redirecting to signout Stack: ${err.stack}`
+        );
+        res.set("Referrer-Policy", "origin");
+        return res.redirect(constants.SIGN_OUT_URL);
+    } else {
+        next(err);
+    }
+};
+
+export default [httpErrorHandler, invalidAcspNumberErrorHandler, csrfErrorHandler, signOutErrorHandler];

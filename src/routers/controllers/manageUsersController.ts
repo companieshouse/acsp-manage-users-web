@@ -14,6 +14,7 @@ import { validatePageNumber } from "../../lib/validation/page.number.validation"
 import { validateActiveTabId } from "../../lib/validation/string.validation";
 import { acspLogger } from "../../lib/helpers/acspLogger";
 import { getDisplayNameOrEmail, getDisplayNameOrLangKeyForNotProvided } from "../../lib/utils/userDisplayUtils";
+import { SignOutError } from "../../lib/utils/errors/sign-out-error";
 
 export const manageUsersControllerGet = async (req: Request, res: Response): Promise<void> => {
 
@@ -51,16 +52,14 @@ export const getTitle = (translations: AnyRecord, loggedInUserRole: UserRole, is
 
 export const handleAcspDetailUpdates = async (
     req: Request,
-    res: Response,
     companyNameInSession: string,
     firstMemberAcspName: string,
     acspStatus: AcspStatus
 ): Promise<void> => {
 
     if (acspStatus === AcspStatus.CEASED) {
-        acspLogger(req.session, handleAcspDetailUpdates.name, `ACSP status is ceased. Redirecting to sign out.`);
-        res.set("Referrer-Policy", "origin");
-        return res.redirect(constants.SIGN_OUT_URL);
+        acspLogger(req.session, handleAcspDetailUpdates.name, `ACSP status is ceased, throwing a SignOutError`);
+        throw new SignOutError("ACSP status is ceased, throwing a SignOutError");
     }
 
     if (companyNameInSession !== firstMemberAcspName) {
@@ -134,7 +133,7 @@ export const getViewData = async (req: Request, res:Response, search: string | u
     });
 
     if (isSearchValid && isSearchAString) {
-        await handleSearch(req, res, acspNumber, search, formatMember, userRole, translations, viewData, acspName);
+        await handleSearch(req, acspNumber, search, formatMember, userRole, translations, viewData, acspName);
     } else {
 
         const ownerMemberRawViewData = await getMemberRawViewData(req, acspNumber, pageNumbers, UserRole.OWNER, constants.ACCOUNT_OWNERS_TAB_ID, translations, userRole);
@@ -160,7 +159,7 @@ export const getViewData = async (req: Request, res:Response, search: string | u
         const firstOwnerMember = ownerMemberRawViewData.memberships[0];
         if (firstOwnerMember) {
             const acspNameFromFirstMember = firstOwnerMember.acspName;
-            await handleAcspDetailUpdates(req, res, acspName, acspNameFromFirstMember, firstOwnerMember.acspStatus);
+            await handleAcspDetailUpdates(req, acspName, acspNameFromFirstMember, firstOwnerMember.acspStatus);
             viewData.companyName = acspNameFromFirstMember;
         } else {
             viewData.companyName = acspName;
@@ -262,7 +261,6 @@ export const isCancelSearch = (req: Request): boolean => Object.hasOwn(req.query
 
 const handleSearch = async (
     req: Request,
-    res: Response,
     acspNumber: string,
     search: string,
     formatMember: (value: AcspMembership, index: number, array: AcspMembership[]) => unknown,
@@ -277,7 +275,7 @@ const handleSearch = async (
             const foundMember = foundMembership.items[0];
             setTabIds(viewData, foundMember.userRole);
 
-            await handleAcspDetailUpdates(req, res, acspName, foundMember.acspName, foundMember.acspStatus);
+            await handleAcspDetailUpdates(req, acspName, foundMember.acspName, foundMember.acspStatus);
             viewData.companyName = foundMember.acspName;
 
             const formattedFoundMember = [
@@ -304,6 +302,9 @@ const handleSearch = async (
             viewData.manageUsersTabId = constants.ACCOUNT_OWNERS_TAB_ID;
         }
     } catch (error) {
+        if (error instanceof SignOutError) {
+            throw error;
+        }
         acspLogger(req.session, getViewData.name, `/acsps/${acspNumber}/memberships/lookup Membership for email entered not found.`, true);
         viewData.manageUsersTabId = constants.ACCOUNT_OWNERS_TAB_ID;
         viewData.companyName = acspName;

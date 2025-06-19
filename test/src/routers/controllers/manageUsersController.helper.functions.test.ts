@@ -9,6 +9,7 @@ import * as acspMemberService from "../../../../src/services/acspMemberService";
 import { getMockAcspMembersResource, loggedAccountOwnerAcspMembership } from "../../../mocks/acsp.members.mock";
 import * as sessionUtils from "../../../../src/lib/utils/sessionUtils";
 import * as constants from "../../../../src/lib/constants";
+import { SignOutError } from "../../../../src/lib/utils/errors/sign-out-error";
 
 describe("getTitle", () => {
     const allTranslations = {
@@ -57,7 +58,7 @@ describe("handleAcspDetailUpdates", () => {
         getMembershipForLoggedInUserSpy.mockReturnValue(getMockAcspMembersResource([loggedAccountOwnerAcspMembership]));
 
         // When
-        await handleAcspDetailUpdates(req, res, companyNameInSession, firstMemberAcspName, AcspStatus.ACTIVE);
+        await handleAcspDetailUpdates(req, companyNameInSession, firstMemberAcspName, AcspStatus.ACTIVE);
 
         // Then
         expect(getMembershipForLoggedInUserSpy).toHaveBeenCalledWith(req);
@@ -70,11 +71,9 @@ describe("handleAcspDetailUpdates", () => {
         const firstMemberAcspName = "Test Company";
 
         // When
-        await handleAcspDetailUpdates(req, res, companyNameInSession, firstMemberAcspName, AcspStatus.CEASED);
-
+        await expect(handleAcspDetailUpdates(req, companyNameInSession, firstMemberAcspName, AcspStatus.CEASED))
+            .rejects.toThrow(SignOutError);
         // Then
-        expect(res.redirect).toHaveBeenCalledWith(constants.SIGN_OUT_URL);
-        expect(res.set).toHaveBeenCalledWith("Referrer-Policy", "origin");
 
         expect(setExtraDataSpy).not.toHaveBeenCalled();
         expect(getMembershipForLoggedInUserSpy).not.toHaveBeenCalled();
@@ -87,7 +86,7 @@ describe("handleAcspDetailUpdates", () => {
         getMembershipForLoggedInUserSpy.mockReturnValue(getMockAcspMembersResource([loggedAccountOwnerAcspMembership]));
 
         // When
-        await handleAcspDetailUpdates(req, res, companyNameInSession, firstMemberAcspName, AcspStatus.ACTIVE);
+        await handleAcspDetailUpdates(req, companyNameInSession, firstMemberAcspName, AcspStatus.ACTIVE);
 
         // Then
         expect(getMembershipForLoggedInUserSpy).not.toHaveBeenCalled();
@@ -102,7 +101,7 @@ describe("handleAcspDetailUpdates", () => {
         getMembershipForLoggedInUserSpy.mockReturnValue({ items: [] });
 
         // When
-        await expect(handleAcspDetailUpdates(req, res, companyNameInSession, firstMemberAcspName, AcspStatus.ACTIVE))
+        await expect(handleAcspDetailUpdates(req, companyNameInSession, firstMemberAcspName, AcspStatus.ACTIVE))
             .rejects.toThrow("No membership found for logged in user");
         // Then
         expect(getMembershipForLoggedInUserSpy).toHaveBeenCalledWith(req);
