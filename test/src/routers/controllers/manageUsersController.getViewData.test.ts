@@ -1,5 +1,6 @@
 import { getViewData } from "../../../../src/routers/controllers/manageUsersController";
 import { mockRequest } from "../../../mocks/request.mock";
+import { mockResponse } from "../../../mocks/response.mock";
 import * as getTranslationsForView from "../../../../src/lib/utils/translationUtils";
 import * as acspMemberService from "../../../../src/services/acspMemberService";
 import {
@@ -22,6 +23,7 @@ describe("manageUsersController - getViewData", () => {
     it("should return the correct view data object", async () => {
         // Given
         const request = mockRequest();
+        const response = mockResponse();
         getTranslationsForViewSpy.mockReturnValueOnce({
             remove: "Remove",
             change_role: "Change role",
@@ -42,7 +44,7 @@ describe("manageUsersController - getViewData", () => {
             .calledWith(expect.anything(), expect.anything(), expect.anything(), expect.anything(), expect.anything(), [UserRole.STANDARD])
             .mockResolvedValue(getMockAcspMembersResource([standardUserAcspMembership]));
         // When
-        const result = await getViewData(request);
+        const result = await getViewData(request, response);
         // Then
         expect(result).toMatchObject({
             accountOwnersTableData: [[
@@ -105,11 +107,12 @@ describe("manageUsersController - getViewData", () => {
 
     it("should thow an error when acsp details not fetched", async () => {
         const request = mockRequest();
+        const response = mockResponse();
         getTranslationsForViewSpy.mockReturnValueOnce({
             remove: "Remove"
         });
         getLoggedUserAcspMembershipSpy.mockReturnValue(undefined);
-        await expect(getViewData(request))
+        await expect(getViewData(request, response))
             .rejects.toThrow();
     });
 });
