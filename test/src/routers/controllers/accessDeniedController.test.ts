@@ -9,7 +9,7 @@ jest.mock("../../../../src/lib/Logger");
 const router = supertest(app);
 
 describe("GET /authorised-agent/access-denied", () => {
-    const href = "https://find-and-update.company-information.service.gov.uk/register-as-companies-house-authorised-agent?lang=";
+    const href = "/register-as-companies-house-authorised-agent?lang=";
     test.each([
         ["English", "en", en],
         ["English", undefined, en],
