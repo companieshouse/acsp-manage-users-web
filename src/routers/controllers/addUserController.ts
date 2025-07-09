@@ -80,7 +80,12 @@ export const addUserControllerPost = async (req: Request, res: Response): Promis
     validateAndSetErrors(email, userRole, viewData);
 
     if (viewData.errors) {
-        setExtraData(req.session, constants.DETAILS_OF_USER_TO_ADD, { email, userRole, isValid: false } as unknown as NewUserDetails);
+        const newUserDetails: NewUserDetails = {
+            email,
+            userRole,
+            isValid: false
+        };
+        setExtraData(req.session, constants.DETAILS_OF_USER_TO_ADD, newUserDetails);
 
         acspLogger(req.session, addUserControllerPost.name, `Invalid add user details: Re-rendering add user page`);
         return res.render(constants.ADD_USER_PAGE, viewData);

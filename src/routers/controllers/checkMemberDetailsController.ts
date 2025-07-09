@@ -19,6 +19,11 @@ interface CheckMemberDetailsGetViewData extends ViewDataWithBackLink {
 export const checkMemberDetailsControllerGet = async (req: Request, res: Response): Promise<void> => {
     const translations = getTranslationsForView(req.lang, constants.CHECK_MEMBER_DETAILS_PAGE);
     const newUserDetails: NewUserDetails = getExtraData(req.session, constants.DETAILS_OF_USER_TO_ADD);
+    if (!newUserDetails) {
+        const errorMessage = "New user details missing in session data";
+        acspLogger(req.session, checkMemberDetailsControllerGet.name, errorMessage, true);
+        throw new Error(errorMessage);
+    }
     const userRoleTag = getUserRoleTag(newUserDetails.userRole as UserRole, req.lang, false);
 
     const loggedInUserMembership: AcspMembership = getExtraData(req.session, constants.LOGGED_USER_ACSP_MEMBERSHIP);
