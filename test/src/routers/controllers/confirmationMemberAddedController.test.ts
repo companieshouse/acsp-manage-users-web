@@ -12,6 +12,11 @@ import { UserRole } from "private-api-sdk-node/dist/services/acsp-manage-users/t
 import { loggedAccountOwnerAcspMembership } from "../../../mocks/acsp.members.mock";
 import { getUserRoleTag } from "../../../../src/lib/utils/viewUtils";
 import { session } from "../../../mocks/session.middleware.mock";
+import { Request, Response } from "express";
+import { mockRequest } from "../../../mocks/request.mock";
+import { mockResponse } from "../../../mocks/response.mock";
+import { confirmationMemberAddedControllerGet } from "../../../../src/routers/controllers/confirmationMemberAddedController";
+import * as getTranslationsForView from "../../../../src/lib/utils/translationUtils";
 
 jest.mock("../../../../src/lib/Logger");
 
@@ -109,4 +114,17 @@ describe("GET /authorised-agent/confirmation-member-added", () => {
             expect(response.text).toContain(`${langCommon.go_to_manage_users}`);
         });
 
+});
+
+describe("confirmationMemberAddedControllerGet", () => {
+    it("should throw an exception if details of user to add not present in the session extra data",
+        async () => {
+            // Given
+            const req: Request = mockRequest();
+            const res: Response = mockResponse();
+            const mockGetTranslationsForView = jest.spyOn(getTranslationsForView, "getTranslationsForView");
+            mockGetTranslationsForView.mockReturnValue({});
+            // Then
+            await expect(confirmationMemberAddedControllerGet(req, res)).rejects.toThrow("New user details missing in session data");
+        });
 });
