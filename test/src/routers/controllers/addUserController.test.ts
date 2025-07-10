@@ -104,54 +104,6 @@ describe(`GET ${url}`, () => {
         expect(response.text).toContain(invalidEmail);
     });
 
-    it("should not display saved session values when the referrer is the before-you-add-user url", async () => {
-        // Given
-        sessionUtilsSpy.mockReturnValue("demo@ch.gov.uk");
-        const emailStoredInSession = "bob@bob.com";
-        session.setExtraData(constants.DETAILS_OF_USER_TO_ADD, {
-            email: emailStoredInSession
-        });
-
-        mocks.mockSessionMiddleware.mockImplementationOnce((req: Request, res: Response, next: NextFunction) => {
-            req.headers = { referrer: "/authorised-agent/before-you-add-user" };
-            req.session = session;
-            next();
-        });
-
-        // When
-        const response = await router.get(`${url}`);
-
-        // Then
-        expect(response.text).not.toContain(emailStoredInSession);
-        expect(response.text).not.toContain("Enter an email address in the correct format");
-        expect(response.text).toContain(en.page_header);
-        expect(response.text).toContain(en.option_1);
-    });
-
-    it("should not display saved session values when the referrer is undefined", async () => {
-        // Given
-        sessionUtilsSpy.mockReturnValue("demo@ch.gov.uk");
-        const emailStoredInSession = "bob@bob.com";
-        session.setExtraData(constants.DETAILS_OF_USER_TO_ADD, {
-            email: emailStoredInSession
-        });
-
-        mocks.mockSessionMiddleware.mockImplementationOnce((req: Request, res: Response, next: NextFunction) => {
-            req.headers = { referrer: undefined };
-            req.session = session;
-            next();
-        });
-
-        // When
-        const response = await router.get(`${url}`);
-
-        // Then
-        expect(response.text).not.toContain(emailStoredInSession);
-        expect(response.text).not.toContain("Enter an email address in the correct format");
-        expect(response.text).toContain(en.page_header);
-        expect(response.text).toContain(en.option_1);
-    });
-
     it("should display page with error message instead of clearing session data if referrer url contains hrefB (user has switched languages)", async () => {
         // Given
         const invalidEmail = "bad email";

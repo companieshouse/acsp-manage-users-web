@@ -1,6 +1,4 @@
 import { z } from "zod";
-import { deleteExtraData } from "../utils/sessionUtils";
-import { Request } from "express";
 
 export function validateClearForm (clearForm: string): boolean {
 
@@ -12,9 +10,3 @@ export function validateClearForm (clearForm: string): boolean {
         return false;
     }
 }
-
-export const clearFormSessionValues = (req: Request, sessionKey: string, referrer: string | undefined, hrefA: string): void => {
-    if (referrer?.includes(hrefA) || referrer === undefined) {
-        deleteExtraData(req.session, sessionKey);
-    }
-};

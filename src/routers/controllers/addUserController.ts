@@ -3,7 +3,6 @@ import * as constants from "../../lib/constants";
 import { getTranslationsForView } from "../../lib/utils/translationUtils";
 import { getExtraData, setExtraData } from "../../lib/utils/sessionUtils";
 import { ViewDataWithBackLink } from "../../types/utilTypes";
-import { clearFormSessionValues } from "../../lib/validation/clear.form.validation";
 import { validateAndSetErrors } from "../../lib/validation/add.user.validation";
 import { NewUserDetails } from "../../types/user";
 import { AcspMembership, UserRole } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
@@ -21,8 +20,6 @@ interface AddUserGetViewDataSavedNewUserDetails extends AddUserGetViewData {
 export const addUserControllerGet = async (req: Request, res: Response): Promise<void> => {
     const loggedInUserMembership: AcspMembership = getExtraData(req.session, constants.LOGGED_USER_ACSP_MEMBERSHIP);
     const loggedInUserRole = loggedInUserMembership.userRole;
-    const referrer: string | undefined = req.get("Referrer");
-    const hrefA = constants.BEFORE_YOU_ADD_USER_FULL_URL;
 
     let viewData: AddUserGetViewData = {
         lang: getTranslationsForView(req.lang, constants.ADD_USER_PAGE),
@@ -32,7 +29,6 @@ export const addUserControllerGet = async (req: Request, res: Response): Promise
         companyName: loggedInUserMembership.acspName
     };
 
-    clearFormSessionValues(req, constants.DETAILS_OF_USER_TO_ADD, referrer, hrefA);
     const savedNewUserDetails: NewUserDetails = getExtraData(
         req.session,
         constants.DETAILS_OF_USER_TO_ADD
