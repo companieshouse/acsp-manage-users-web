@@ -13,7 +13,7 @@ import { createApiClient } from "@companieshouse/api-sdk-node";
 import ApiClient from "@companieshouse/api-sdk-node/dist/client";
 
 export const createPrivateApiKeyClient = (): PrivateApiClient => {
-    return createPrivateApiClient(ACCOUNTS_USER_INTERNAL_API_KEY, undefined, undefined, ACCOUNT_PRIVATE_URL);
+    return createPrivateApiClient(ACCOUNTS_USER_INTERNAL_API_KEY, undefined, undefined, ACCOUNTS_API_URL);
 };
 
 export function createOauthPrivateApiClient (req: Request): PrivateApiClient {
