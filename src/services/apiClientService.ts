@@ -1,5 +1,10 @@
 import { createPrivateApiClient } from "private-api-sdk-node";
-import { ACCOUNTS_API_URL, ACCOUNTS_USER_INTERNAL_API_KEY, INTERNAL_API_URL, ACCOUNT_LOCAL_URL } from "../lib/constants";
+import {
+    ACCOUNTS_API_URL,
+    ACCOUNTS_USER_INTERNAL_API_KEY,
+    INTERNAL_API_URL,
+    ACCOUNT_PRIVATE_URL
+} from "../lib/constants";
 import PrivateApiClient from "private-api-sdk-node/dist/client";
 import { getAccessToken } from "../lib/utils/sessionUtils";
 import { Request } from "express";
@@ -17,5 +22,5 @@ export function createOauthPrivateApiClient (req: Request): PrivateApiClient {
 }
 
 export const createOAuthApiClient = (session: Session | undefined): ApiClient => {
-    return createApiClient(undefined, getAccessToken(session), undefined, ACCOUNT_LOCAL_URL);
+    return createApiClient(undefined, getAccessToken(session), undefined, ACCOUNT_PRIVATE_URL);
 };
