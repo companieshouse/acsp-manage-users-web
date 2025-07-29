@@ -19,6 +19,11 @@ export const confirmationMemberAddedControllerGet = async (req: Request, res: Re
     const translations = getTranslationsForView(req.lang, constants.CONFIRMATION_MEMBER_ADDED_PAGE);
 
     const newUserDetails: NewUserDetails = getExtraData(req.session, constants.DETAILS_OF_USER_TO_ADD);
+    if (!newUserDetails) {
+        const errorMessage = "New user details missing in session data";
+        acspLogger(req.session, confirmationMemberAddedControllerGet.name, errorMessage, true);
+        throw new Error(errorMessage);
+    }
     const userRole = getUserRoleTag(newUserDetails.userRole as UserRole, req.lang, true);
 
     const loggedInUserMembership: AcspMembership = getExtraData(req.session, constants.LOGGED_USER_ACSP_MEMBERSHIP);

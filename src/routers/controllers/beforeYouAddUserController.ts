@@ -3,6 +3,7 @@ import * as constants from "../../lib/constants";
 import { getTranslationsForView } from "../../lib/utils/translationUtils";
 import { ViewDataWithBackLink } from "../../types/utilTypes";
 import { acspLogger } from "../../lib/helpers/acspLogger";
+import { deleteExtraData } from "../../lib/utils/sessionUtils";
 
 interface BeforeYouAddUserGetViewData extends ViewDataWithBackLink {
     buttonHref: string;
@@ -19,6 +20,7 @@ interface BeforeYouAddUserGetViewData extends ViewDataWithBackLink {
  * @param res - The response object
  */
 export const beforeYouAddUserControllerGet = async (req: Request, res: Response): Promise<void> => {
+    deleteExtraData(req.session, constants.DETAILS_OF_USER_TO_ADD);
     const translations = getTranslationsForView(req.lang, constants.BEFORE_YOU_ADD_USER_PAGE);
     const viewData: BeforeYouAddUserGetViewData = {
         buttonHref: constants.ADD_USER_FULL_URL,

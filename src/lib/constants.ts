@@ -82,7 +82,6 @@ export const BEFORE_YOU_ADD_USER_PAGE = "before-you-add-user";
 
 // Query Parameters
 export const ADMIN_PAGE_QUERY_PARAM = "adminPage";
-export const CLEAR_FORM_TRUE = "?cf=true";
 export const OWNER_PAGE_QUERY_PARAM = "ownerPage";
 export const STANDARD_PAGE_QUERY_PARAM = "standardPage";
 export const CSRF_ERRORS = "csrfErrors";
