@@ -31,7 +31,7 @@ export const tryRemovingUserControllerPost = async (req: Request, res: Response)
     await updateOrRemoveUserAcspMembership(req, memberForRemoval.id, { removeUser: true });
 
     if (removingThemselves) {
-        acspLogger(req.session, tryRemovingUserControllerPost.name, "User has removed themselves, redirecting to sign out now ... ");
+        acspLogger(req.session, tryRemovingUserControllerPost.name, "User has removed themselves, redirecting to sign out now ... ", true);
 
         throw new SignOutError("User has removed themselves, throwing SignOutError to redirect to sign out page");
 
