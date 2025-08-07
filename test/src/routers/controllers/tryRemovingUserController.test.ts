@@ -72,7 +72,7 @@ describe("POST /authorised-agent/try-removing-user", () => {
         getLoggedUserAcspMembershipSpy.mockReturnValue({ ...userAdamBrownRemoveDetails });
         mockUpdateOrRemoveUserAcspMembership.mockResolvedValue();
         mockGetAcspMemberships.mockResolvedValue(getMockAcspMembersResource([accountOwnerAcspMembership]));
-        const expectedPageHeading = "Found. Redirecting to http://chsurl.co/signout";
+        const expectedPageHeading = "Found. Redirecting to account_url/signout";
         // When
         const response = await router.post(url);
         // Then
