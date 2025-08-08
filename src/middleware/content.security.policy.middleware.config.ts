@@ -1,5 +1,4 @@
 import { HelmetOptions } from "helmet";
-import { CHS_URL, ACCOUNT_URL } from "../lib/constants";
 
 export const prepareCSPConfig = (nonce: string): HelmetOptions => {
     const CDN = process.env.CDN_HOST as string;
@@ -20,9 +19,7 @@ export const prepareCSPConfig = (nonce: string): HelmetOptions => {
                 connectSrc: [SELF, PIWIK_URL, CDN],
                 formAction: [
                     SELF,
-                    PIWIK_CHS_DOMAIN,
-                    CHS_URL,
-                    ACCOUNT_URL
+                    PIWIK_CHS_DOMAIN
                 ],
                 scriptSrc: [
                     NONCE,
