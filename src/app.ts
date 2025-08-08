@@ -83,7 +83,6 @@ app.use(cookieParser());
 const nonce: string = uuidv4();
 
 app.use(nocache());
-// app.use(helmet(prepareCSPConfig(nonce)));
 
 app.use((req, res, next) => {
     if (req.path !== constants.TRY_REMOVING_USER_FULL_URL) {
