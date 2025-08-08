@@ -5,7 +5,6 @@ import { getExtraData, getLoggedUserAcspMembership } from "../../lib/utils/sessi
 import { MemberForRemoval } from "../../types/membership";
 import { getAcspMemberships, updateOrRemoveUserAcspMembership } from "../../services/acspMemberService";
 import { acspLogger } from "../../lib/helpers/acspLogger";
-import { SignOutError } from "../../lib/utils/errors/sign-out-error";
 
 export const tryRemovingUserControllerPost = async (req: Request, res: Response): Promise<void> => {
     const memberForRemoval: MemberForRemoval = getExtraData(req.session, constants.DETAILS_OF_USER_TO_REMOVE);
@@ -31,9 +30,10 @@ export const tryRemovingUserControllerPost = async (req: Request, res: Response)
     await updateOrRemoveUserAcspMembership(req, memberForRemoval.id, { removeUser: true });
 
     if (removingThemselves) {
-        acspLogger(req.session, tryRemovingUserControllerPost.name, "User has removed themselves, redirecting to sign out now ... ", true);
-
-        throw new SignOutError("User has removed themselves, throwing SignOutError to redirect to sign out page");
+        acspLogger(req.session, tryRemovingUserControllerPost.name, "User has removed themselves, redirecting to sign out now ... ");
+        res.set("Referrer-Policy", "origin");
+        res.set("Content-Security-Policy", "form-action *;");
+        return res.redirect(constants.SIGN_OUT_URL);
 
     } else {
         acspLogger(req.session, tryRemovingUserControllerPost.name, `Successfully removed member ${memberForRemoval.id}, redirecting to confirmation member removed`);
