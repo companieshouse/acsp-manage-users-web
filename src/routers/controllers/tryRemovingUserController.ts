@@ -33,7 +33,6 @@ export const tryRemovingUserControllerPost = async (req: Request, res: Response)
         acspLogger(req.session, tryRemovingUserControllerPost.name, "User has removed themselves, redirecting to sign out now ... ");
 
         res.set("Referrer-Policy", "origin");
-        res.removeHeader("Content-Security-Policy");
         return res.redirect(constants.SIGN_OUT_URL);
 
     } else {
