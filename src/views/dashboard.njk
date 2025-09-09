@@ -1,5 +1,4 @@
 {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
-{% from "govuk/components/inset-text/macro.njk" import govukInsetText %}
 {% from "govuk/components/warning-text/macro.njk" import govukWarningText %}
 
 {% extends "layouts/default.njk" %}
@@ -43,17 +42,9 @@
                 {{userRoleTag}}
             </dd>
         </div>
+
+        <p class="govuk-body">{{lang.authorised_agents_are_also_known_as}}</p>
     </dl>
-
-    {% set insetText %}
-    {{lang.authorised_agents_are_also_known_as}}
-    <a href="{{lang.read_the_guidance_url}}" class="govuk-link" target="_blank" rel="noopener noreferrer">{{lang.read_acsp_guidance}}</a>
-    {% endset %}
-
-    {{ govukInsetText({
-        html: insetText
-        })
-    }}
 
     {% if agentStatus === AcspStatus.SUSPENDED %}
         {{ govukWarningText({

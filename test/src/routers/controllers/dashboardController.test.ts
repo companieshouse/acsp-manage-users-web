@@ -48,7 +48,6 @@ describe(`GET ${url}`, () => {
         expect(decodedResponse).toContain(en.authorised_agent_number);
         expect(decodedResponse).toContain(en.your_role);
         expect(decodedResponse).toContain(en.authorised_agents_are_also_known_as);
-        expect(decodedResponse).toContain(en.read_acsp_guidance);
         expect(decodedResponse).toContain(en.coming_soon);
         expect(decodedResponse).toContain(en.file_as_an_authorised_agent);
         expect(decodedResponse).toContain(en.in_future);
@@ -205,20 +204,6 @@ describe(`GET ${url}`, () => {
 
         // Then
         expect(decodedResponse).toContain(en.authorised_agents_are_also_known_as);
-        expect(decodedResponse).toContain(en.read_the_guidance_url);
-        expect(decodedResponse).toContain(en.read_acsp_guidance);
-    });
-
-    it("should display 'For information about your legal responsibilities and how to use this account'", async () => {
-        // Given
-        getLoggedUserAcspMembershipSpy.mockReturnValue(accountOwnerAcspMembership);
-
-        // When
-        const encodedResponse = await router.get(url);
-        const decodedResponse = encodedResponse.text.replace(/&#39;/g, "'");
-
-        // Then
-        expect(decodedResponse).toContain("For information about your legal responsibilities and how to use this account");
     });
 
     it("should display the authorised agents inset text in Welsh when session language is Welsh", async () => {
@@ -232,25 +217,11 @@ describe(`GET ${url}`, () => {
 
         // Then
         expect(decodedResponse).toContain(cy.authorised_agents_are_also_known_as);
-        expect(decodedResponse).toContain(cy.read_the_guidance_url);
-        expect(decodedResponse).toContain(cy.read_acsp_guidance);
-    });
-
-    it("should display 'For information about your legal responsibilities and how to use this account' in Enlgish when session language is English", async () => {
-        // Given
-        session.setExtraData("lang", "en");
-        getLoggedUserAcspMembershipSpy.mockReturnValue(accountOwnerAcspMembership);
-
-        // When
-        const encodedResponse = await router.get(url);
-        const decodedResponse = encodedResponse.text.replace(/&#39;/g, "'");
-
-        // Then
-        expect(decodedResponse).toContain("For information about your legal responsibilities and how to use this account");
     });
 
     it("should display the link to tell companies house you have verified someones identity when feature enabled", async () => {
         // Given
+        session.setExtraData("lang", "en");
         getLoggedUserAcspMembershipSpy.mockReturnValue(accountOwnerAcspMembership);
         // When
         const encodedResponse = await router.get(url);
