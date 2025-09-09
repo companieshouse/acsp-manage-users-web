@@ -7,6 +7,8 @@ export const prepareCSPConfig = (nonce: string): HelmetOptions => {
     const SELF = `'self'`;
     const NONCE = `'nonce-${nonce}'`;
     const ONE_YEAR_SECONDS = 31536000;
+    const CHS_URL = process.env.CHS_URL as string;
+    const HTTP_CHS_URL: string = CHS_URL.replace(/^https:\/\//, "http://");
 
     return {
         contentSecurityPolicy: {
@@ -20,7 +22,10 @@ export const prepareCSPConfig = (nonce: string): HelmetOptions => {
                 formAction: [
                     SELF,
                     PIWIK_CHS_DOMAIN,
-                    "https://*.gov.uk", "*"],
+                    "https://*.gov.uk",
+                    CHS_URL,
+                    HTTP_CHS_URL
+                ],
                 scriptSrc: [
                     NONCE,
                     CDN,

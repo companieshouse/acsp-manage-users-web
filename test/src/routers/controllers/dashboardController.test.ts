@@ -47,7 +47,6 @@ describe(`GET ${url}`, () => {
         expect(decodedResponse).toContain(en.authorised_agent_status);
         expect(decodedResponse).toContain(en.authorised_agent_number);
         expect(decodedResponse).toContain(en.your_role);
-        expect(decodedResponse).toContain(en.authorised_agent_users_and_account_details);
         expect(decodedResponse).toContain(en.authorised_agents_are_also_known_as);
         expect(decodedResponse).toContain(en.coming_soon);
         expect(decodedResponse).toContain(en.file_as_an_authorised_agent);
@@ -67,6 +66,7 @@ describe(`GET ${url}`, () => {
         expect(decodedResponse).toContain(en.tell_us_if_you_need_to_close);
         expect(decodedResponse).toContain(en.if_you_close_this_account);
         expect(decodedResponse).toContain(en.will_no_longer_be_registered);
+        expect(decodedResponse).toContain(en.users_for_the_authorised_agent);
     });
 
     it("should have a page title and 3 boxes, file as an auth agent, manage users, and verify when administrator logged in", async () => {
@@ -91,6 +91,7 @@ describe(`GET ${url}`, () => {
         expect(decodedResponse).toContain(en.view_users_who_have_been_added);
         expect(decodedResponse).toContain(enCommon.you_can);
         expect(decodedResponse).toContain(en.your_role);
+        expect(decodedResponse).toContain(en.users_for_the_authorised_agent);
     });
 
     it("should have a page title and 3 boxes, file as an auth agent, view users, and verify when standard user logged in", async () => {
@@ -112,6 +113,7 @@ describe(`GET ${url}`, () => {
         expect(decodedResponse).toContain(en.page_header);
         expect(decodedResponse).toContain(en.tell_companies_house_id);
         expect(decodedResponse).toContain(en.your_role);
+        expect(decodedResponse).toContain(en.users_for_the_authorised_agent);
     });
 
     it("should have a page title and 2 boxes manage users and verify when account owner logged in, and feature flags set to false", async () => {
