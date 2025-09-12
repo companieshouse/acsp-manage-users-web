@@ -42,9 +42,9 @@
                 {{userRoleTag}}
             </dd>
         </div>
-
-        <p class="govuk-body">{{lang.authorised_agents_are_also_known_as}}</p>
     </dl>
+
+    <p class="govuk-body">{{lang.authorised_agents_are_also_known_as}}</p>
 
     {% if agentStatus === AcspStatus.SUSPENDED %}
         {{ govukWarningText({
