@@ -1,7 +1,15 @@
 {% set dataEventIdForManageUsers = "manage-users-" + convertUserRole(userRole) %}
 
-<div class="govuk-grid-column-one-third govuk-topic-block govuk-!-padding-bottom-7">
+{% set usersTitleCardTextHtml %}
+{% if userRole === UserRole.OWNER %}
+    <h3 class="govuk-heading-s">{{lang.users_for_the_authorised_agent}}</h3>
+{% else %}
     <h2 class="govuk-heading-m">{{lang.users_for_the_authorised_agent}}</h2>
+{% endif %}
+{% endset %}
+
+<div class="govuk-grid-column-one-third govuk-topic-block govuk-!-padding-bottom-7">
+    {{usersTitleCardTextHtml | safe}}
     <p class="govuk-body">
         {{lang.you_can}}:
     </p>
