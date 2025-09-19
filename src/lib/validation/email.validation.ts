@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 export function validateEmailString (emailString: string): boolean {
-    const regex = new RegExp("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~\\-]+@([^.@][^@\\s]+)$");
+    const regex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@([^.@][^@\s]+)$/;
 
     const emailSchema = z.string().regex(regex);
 
