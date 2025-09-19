@@ -19,6 +19,16 @@ This is a web frontend for the ACSP Manage Users journey. It was created based o
 - [express-async-errors](https://www.npmjs.com/package/express-async-errors)
 - [Helmet](https://helmetjs.github.io/)
 
+## Using the application with Docker CHS
+1. Clone [Docker CHS Development](https://github.com/companieshouse/docker-chs-development) and follow the steps in the README.
+2. Run `chs-dev services enable acsp-manage-users-web`
+3. Run `chs-dev development enable acsp-manage-users-web` (this will allow you to make changes in real time).
+4. In the acsp-manage-users-web directory, run `npm install` && `npm run build` (otherwise the docker development build fails due to permissions problems within the container).
+5. Run docker using `chs-dev up` in the docker-chs-development directory.
+6. Use `docker_chs logs -f acsp-manage-users-web`, Docker Desktop or another tool such as Dockermon to view logs. Alternatively, run `chs-dev logs acsp-manage-users-web`.
+7. Open your browser and go to page http://chs.local/authorised-agent/
+
+Environment variables used to configure this service in docker are located in the file services/modules/acsp-manage-users/acsp-manage-users-web.docker-compose.yaml
 
 ## Running locally outside of Docker
 
