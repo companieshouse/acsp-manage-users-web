@@ -1,12 +1,11 @@
 {
-    "account_settings": "[CY] Account settings",
     "add_users_if_they_need_to_use_services_for": "ychwanegu defnyddwyr newydd os oes angen iddynt ddefnyddio gwasanaethau ar gyfer yr asiant awdurdodedig",
     "anti_money_laundering_registration_details_for": "manylion cofrestru Atal Gwyngalchu Arian (AML) ar gyfer y busnes hwn",
     "authorised_agent_details": "Manylion asiant awdurdodedig",
     "authorised_agent_number": "Rhif asiant awdurdodedig:",
     "authorised_agent_services": "Gwasanaethau asiant awdurdodedig",
     "authorised_agent_status": "Statws asiant awdurdodedig:",
-    "authorised_agent_users_and_account_details": "Authorised agent users and account details ",
+    "authorised_agent_users_and_account_details": "Defnyddwyr asiant awdurdodedig a manylion cyfrif",
     "authorised_agents_are_also_known_as": "Gelwir asiantau awdurdodedig hefyd yn Ddarparwyr Gwasanaeth Corfforaethol Awdurdodedig (ACSP).",
     "business_details": "manylion busnes",
     "close_the_authorised_agent_account": "Cau cyfrif yr asiant awdurdodedig",
