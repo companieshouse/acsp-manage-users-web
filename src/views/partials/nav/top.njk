@@ -1,22 +1,22 @@
 {% from "navbar.njk" import addPredefinedNavbar %}
 
 {% set noDisplayPlaceholder = "_" %}
-
-{{ addPredefinedNavbar(userEmailAddress, chsMonitorGuiUrl, lang, displayAuthorisedAgent, noDisplayPlaceholder, noDisplayPlaceholder, pageLanguage=locale, accountUrl) }}
-
-<nav class="govuk-language-select" role="navigation" aria-label="{{ lang.language_switcher }}">
-    <ul class="govuk-language-select__list">
-        {% for langCode, langData in languageConfig.supportedLanguages %}
-            <li class="govuk-language-select__list-item">
-                {% if locale == langCode %}
-                    <span aria-current="true">{{ langData.nativeName }}</span>
-                {% else %}
-                    <a href="{{ addLangToUrl(langCode) }}" lang="{{ langCode }}" rel="alternate" class="govuk-link">
-                        <span class="govuk-visually-hidden">{{ langData.visuallyHiddenText }}</span>
-                        <span aria-hidden="true">{{ langData.nativeName }}</span>
-                    </a>
-                {% endif %}
-            </li>
-        {% endfor %}
-    </ul>
-</nav>
+<div class="govuk-width-container ">
+    {{ addPredefinedNavbar(userEmailAddress, chsMonitorGuiUrl, lang, displayAuthorisedAgent, noDisplayPlaceholder, noDisplayPlaceholder, pageLanguage=locale, accountUrl) }}
+    <nav class="govuk-language-select" role="navigation" aria-label="{{ lang.language_switcher }}">
+        <ul class="govuk-language-select__list">
+            {% for langCode, langData in languageConfig.supportedLanguages %}
+                <li class="govuk-language-select__list-item">
+                    {% if locale == langCode %}
+                        <span aria-current="true">{{ langData.nativeName }}</span>
+                    {% else %}
+                        <a href="{{ addLangToUrl(langCode) }}" lang="{{ langCode }}" rel="alternate" class="govuk-link">
+                            <span class="govuk-visually-hidden">{{ langData.visuallyHiddenText }}</span>
+                            <span aria-hidden="true">{{ langData.nativeName }}</span>
+                        </a>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    </nav>
+</div>

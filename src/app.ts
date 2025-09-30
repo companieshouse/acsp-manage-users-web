@@ -17,7 +17,7 @@ import { Lang, LANGUAGE_CONFIG } from "./types/language";
 import { convertUserRole } from "./lib/utils/userRoleUtils";
 import { getLoggedInUserEmail } from "./lib/utils/sessionUtils";
 import { navigationMiddleware } from "./middleware/navigationMiddleware";
-import { LocalesMiddleware, LocalesService } from "@companieshouse/ch-node-utils";
+import { getGOVUKFrontendVersion, LocalesMiddleware, LocalesService } from "@companieshouse/ch-node-utils";
 import helmet from "helmet";
 import { v4 as uuidv4 } from "uuid";
 import { prepareCSPConfig } from "./middleware/content.security.policy.middleware.config";
@@ -70,6 +70,8 @@ njk.addGlobal("showFileAsAuthorisedAgent", isFeatureEnabled(constants.FEATURE_FL
 njk.addGlobal("showUpdateAuthorisedAgentDetails", isFeatureEnabled(constants.FEATURE_FLAG_SHOW_UPDATE_AUTHORISED_AGENT_DETAILS));
 njk.addGlobal("showCloseAuthorisedAgent", isFeatureEnabled(constants.FEATURE_FLAG_SHOW_CLOSE_AUTHORISED_AGENT));
 njk.addGlobal("showTellUsYouveVerifiedAPersonsIdentity", isFeatureEnabled(constants.FEATURE_FLAG_SHOW_TELL_US_YOUVE_VERIFIED_A_PERSONS_IDENTITY));
+njk.addGlobal("govukFrontendVersion", getGOVUKFrontendVersion());
+njk.addGlobal("govukRebrand", true);
 
 // If app is behind a front-facing proxy, and to use the X-Forwarded-* headers to determine the connection and the IP address of the client
 app.enable("trust proxy");
