@@ -2,18 +2,20 @@
 
 {% block main_content %}
 
-    <div class="govuk-grid-column-two-thirds">
-        <h1 class="govuk-heading-l">{{lang.page_header}}</h1>
-        <p class="govuk-body">
-            {{lang.if_you_typed_the_web_address}}
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <h1 class="govuk-heading-l">{{lang.page_header}}</h1>
+            <p class="govuk-body">
+                {{lang.if_you_typed_the_web_address}}
+            </p>
+            <p class="govuk-body">
+                {{lang.if_you_pasted_the_web_address}}
+            </p>
+            <p class="govuk-body">
+                {{lang.if_the_web_address_is_correct}}
+                <a href="https://www.gov.uk/contact-companies-house" class="govuk-link">{{lang.contact_companies_house}}</a>.
         </p>
-        <p class="govuk-body">
-            {{lang.if_you_pasted_the_web_address}}
-        </p>
-        <p class="govuk-body">
-            {{lang.if_the_web_address_is_correct}}
-            <a href="https://www.gov.uk/contact-companies-house" class="govuk-link">{{lang.contact_companies_house}}</a>.
-        </p>
+        </div>
     </div>
 
 {% endblock %}
