@@ -10,12 +10,15 @@
 {% block header %}
     {% include "partials/__header.njk" %}
     {% include "partials/nav/top.njk" %}
+    <div class="govuk-width-container ">
+        {% block back_link %}{% endblock %}
+    </div>
 {% endblock %}
 {% block bodyStart %}
     {% include "partials/cookie_consent_banner.njk" %}
 {% endblock %}
 {% block content %}
-    {% block back_link %}{% endblock %}
+    {% include "partials/error_summary.njk" %}
     {% block main_content %}{% endblock %}
 {% endblock %}
 {% block footer %}
