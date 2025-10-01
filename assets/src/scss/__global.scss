@@ -1,11 +1,5 @@
 $govuk-global-styles: true;
 
-@function custom-url-handler($filename) {
-    @return url("/fonts/#{$filename}");
-}
-
-$govuk-font-url-function: "custom-url-handler";
-
 @import "node_modules/govuk-frontend/dist/govuk/base";
 @import "./govuk-language-select";
 
