@@ -1,6 +1,6 @@
 {% extends "ch-node-utils/templates/layouts/template.njk" %}
 {% block pageTitle %}
-    {{ title if title else lang.page_header + lang.title_end }}
+    {{- title if title else lang.page_header + lang.title_end -}}
 {% endblock %}
 {% block head %}
     {{ super() }}

@@ -1,6 +1,6 @@
 {% extends "ch-node-utils/templates/layouts/template.njk" %}
 {% block pageTitle %}
-    {{ title if title else lang.page_header + lang.title_end }}
+    {{- title if title else lang.page_header + lang.title_end -}}
 {% endblock %}
 {% block head %}
     {{ super() }}
@@ -10,6 +10,8 @@
 {% block header %}
     {% include "partials/__header.njk" %}
     {% include "partials/nav/top.njk" %}
+{% endblock %}
+{% block beforeContent %}
     <div class="govuk-width-container ">
         {% block back_link %}{% endblock %}
     </div>
