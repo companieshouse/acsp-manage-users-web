@@ -28,30 +28,31 @@
 {% endblock %}
 
 {% block main_content %}
-    <div class="govuk-grid-column-two-thirds">
-        <span class="govuk-caption-xl">{{companyName}}</span>
-        <h1 class="govuk-heading-l">{{pageHeader}}</h1>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <span class="govuk-caption-xl">{{companyName}}</span>
+            <h1 class="govuk-heading-l">{{pageHeader}}</h1>
 
-        {% if isRemoval %}
-            <p class="govuk-body">
-                {{lang.you_cannot_remove_yourself}}
-            </p>
-        {% else %}
-            <p class="govuk-body">
-                {{lang.you_cannot_change_your_role}}
-            </p>
-            <p class="govuk-body">
-                {{lang.you_need_to_add}}{{companyName}}{{lang.before_you_change_your_role}}
-            </p>
-        {% endif %}
+            {% if isRemoval %}
+                <p class="govuk-body">
+                    {{lang.you_cannot_remove_yourself}}
+                </p>
+            {% else %}
+                <p class="govuk-body">
+                    {{lang.you_cannot_change_your_role}}
+                </p>
+                <p class="govuk-body">
+                    {{lang.you_need_to_add}}{{companyName}}{{lang.before_you_change_your_role}}
+                </p>
+            {% endif %}
 
-        {{ govukDetails({
+            {{ govukDetails({
                 summaryText: lang.details.why_the_authorised_agent_must,
                 html: detailsHtml
             })
         }}
 
-        {{ govukButton({
+            {{ govukButton({
                 text: lang.go_to_manage_users,
                 href: backLinkUrl,
                 classes: 'govuk-!-margin-top-3',
@@ -60,5 +61,6 @@
                 }
             })
         }}
+        </div>
     </div>
 {% endblock %}
