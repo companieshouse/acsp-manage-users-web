@@ -86,6 +86,7 @@ export const OWNER_PAGE_QUERY_PARAM = "ownerPage";
 export const STANDARD_PAGE_QUERY_PARAM = "standardPage";
 export const CSRF_ERRORS = "csrfErrors";
 export const CANCEL_SEARCH = "cancelSearch";
+export const SEARCH = "search";
 
 // Session Data Keys
 export const DETAILS_OF_USER_TO_ADD = "detailsOfUserToAdd";

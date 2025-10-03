@@ -22,8 +22,7 @@ interface AcspData {
 }
 
 export const manageUsersControllerGet = async (req: Request, res: Response): Promise<void> => {
-
-    if (isCancelSearch(req)) {
+    if (isCancelSearch(req) || !isSearch(req)) {
         deleteExtraData(req.session, constants.SEARCH_STRING_EMAIL);
     }
     const searchStringEmail: string | undefined = getExtraData(req.session, constants.SEARCH_STRING_EMAIL);
@@ -43,8 +42,8 @@ export const manageUsersControllerPost = async (req: Request, res: Response): Pr
     const { userRole } = getLoggedUserAcspMembership(req.session);
 
     const url = userRole === UserRole.STANDARD
-        ? `${constants.VIEW_USERS_FULL_URL}`
-        : `${constants.MANAGE_USERS_FULL_URL}`;
+        ? `${constants.VIEW_USERS_FULL_URL}?${constants.SEARCH}`
+        : `${constants.MANAGE_USERS_FULL_URL}?${constants.SEARCH}`;
 
     res.redirect(url);
 };
@@ -265,6 +264,8 @@ const updatePageNumber = (pageNumber: number, pageNumbers: PageNumbers, userRole
         break;
     }
 };
+
+export const isSearch = (req: Request): boolean => Object.hasOwn(req.query, constants.SEARCH);
 
 export const isCancelSearch = (req: Request): boolean => Object.hasOwn(req.query, constants.CANCEL_SEARCH);
 
