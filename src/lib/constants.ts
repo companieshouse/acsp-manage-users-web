@@ -40,6 +40,7 @@ export const GOV_ACCESSIBILITY_URL = "https://www.gov.uk/service-manual/helping-
 export const USABILITY_BLOG_URL = "https://companieshouse.blog.gov.uk/category/user-research/";
 export const USER_PANEL_URL = "https://www.gov.uk/government/news/help-improve-companies-house";
 export const WCAG_URL = "https://www.w3.org/TR/WCAG22/";
+export const CHANGE_SOMEONES_IDENTITY_VERIFICATION_DETAILS_URL = "https://submit.forms.service.gov.uk/preview-draft/8629/change-someone-s-identity-verification-details/33128";
 
 export const YOU_HAVE_VERIFIED_SOMEONES_IDENTITY_URL = "/tell-companies-house-you-have-verified-someones-identity";
 export const SIGN_OUT_URL = `${ACCOUNT_URL}/signout`;
