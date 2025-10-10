@@ -9,11 +9,12 @@
 {% endblock %}
 
 {% block main_content %}
-    <div class="govuk-grid-column-two-thirds">
-        <span class="govuk-caption-l">{{companyName}}</span>
-        <h1 class="govuk-heading-l">{{lang.page_header}}</h1>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <span class="govuk-caption-l">{{companyName}}</span>
+            <h1 class="govuk-heading-l">{{lang.page_header}}</h1>
 
-        {{ govukSummaryList({
+            {{ govukSummaryList({
             rows: [
                     {
                         key: {
@@ -35,18 +36,18 @@
             })
         }}
 
-        <div class="govuk-inset-text">
-            <p class="govuk-body">
-                {{lang.well_send_an_email_to}}
-                <strong>{{newUserEmailAddress}}
-                </strong>{{lang.to_let_them_know}}
-            </p>
-        </div>
+            <div class="govuk-inset-text">
+                <p class="govuk-body">
+                    {{lang.well_send_an_email_to}}
+                    <strong>{{newUserEmailAddress}}
+                    </strong>{{lang.to_let_them_know}}
+                </p>
+            </div>
 
-        <form action="{{ tryAddingUserUrl }}" method="POST">
-            {% include "partials/csrf_token.njk" %}
+            <form action="{{ tryAddingUserUrl }}" method="POST">
+                {% include "partials/csrf_token.njk" %}
 
-            {{ govukButton({
+                {{ govukButton({
                 text: lang.confirm_and_add_user,
                 attributes: {
                     id: "confirm-and-add-user-button",
@@ -54,12 +55,13 @@
                     "data-event-id": "confirm-and-add-user"
                 }
             }) }}
-        </form>
+            </form>
 
-        <p class="govuk-body">
-            <a class="govuk-link" data-event-id="change-details" href="{{backLinkUrl}}">{{lang.change_details}}</a>
-            <span class="govuk-visually-hidden">{{lang.for}}
-                {{newUserEmailAddress}}</span>
-        </p>
+            <p class="govuk-body">
+                <a class="govuk-link" data-event-id="change-details" href="{{backLinkUrl}}">{{lang.change_details}}</a>
+                <span class="govuk-visually-hidden">{{lang.for}}
+                    {{newUserEmailAddress}}</span>
+            </p>
+        </div>
     </div>
 {% endblock %}

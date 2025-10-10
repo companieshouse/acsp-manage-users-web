@@ -16,25 +16,26 @@
 {% endblock %}
 
 {% block main_content %}
-    <div class="govuk-grid-column-two-thirds">
-        <h1 class="govuk-heading-l">{{lang.page_header}}</h1>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <h1 class="govuk-heading-l">{{lang.page_header}}</h1>
 
-        <p class="govuk-body">{{lang.to_add_someone_as_a_user}}</p>
+            <p class="govuk-body">{{lang.to_add_someone_as_a_user}}</p>
 
-        <p class="govuk-body">{{lang.a_companies_house_account_is_used_to_sign_in_to}}</p>
-        <ul class="govuk-list govuk-list--bullet govuk-!-margin-left-4">
-            {% for item in lang.a_companies_house_account_is_used_to_sign_in_to_bullet_points %}
-                <li>{{item}}</li>
-            {% endfor %}
-        </ul>
+            <p class="govuk-body">{{lang.a_companies_house_account_is_used_to_sign_in_to}}</p>
+            <ul class="govuk-list govuk-list--bullet govuk-!-margin-left-4">
+                {% for item in lang.a_companies_house_account_is_used_to_sign_in_to_bullet_points %}
+                    <li>{{item}}</li>
+                {% endfor %}
+            </ul>
 
-        {{ govukDetails({
+            {{ govukDetails({
                 summaryText: lang.if_the_user_does_not_have_a_companies_house_account,
                 html: detailsHtml
             })
         }}
 
-        {{ govukButton({
+            {{ govukButton({
                 text: lang.continue,
                 href: buttonHref,
                 classes: 'govuk-!-margin-top-3',
@@ -43,5 +44,6 @@
                 }
             })
         }}
+        </div>
     </div>
 {% endblock %}

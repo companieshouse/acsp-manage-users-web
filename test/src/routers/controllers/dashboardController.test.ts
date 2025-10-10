@@ -141,7 +141,7 @@ describe(`GET ${url}`, () => {
 
     it("should display Welsh content when language preference in session is Welsh", async () => {
         // Given
-        session.setExtraData("lang", "cy");
+        session.setLanguage("cy");
 
         getLoggedUserAcspMembershipSpy.mockReturnValue(standardUserAcspMembership);
         // When
@@ -164,7 +164,7 @@ describe(`GET ${url}`, () => {
 
     it("should display suspended messages in English when the acsp has a status of suspended", async () => {
         // Given
-        session.setExtraData("lang", "en");
+        session.setLanguage("en");
         const ownerWithSuspendedAcsp = {
             ...accountOwnerAcspMembership,
             acspStatus: "suspended"
@@ -208,7 +208,7 @@ describe(`GET ${url}`, () => {
 
     it("should display the authorised agents inset text in Welsh when session language is Welsh", async () => {
         // Given
-        session.setExtraData("lang", "cy");
+        session.setLanguage("cy");
         getLoggedUserAcspMembershipSpy.mockReturnValue(accountOwnerAcspMembership);
 
         // When
@@ -221,7 +221,7 @@ describe(`GET ${url}`, () => {
 
     it("should display the link to tell companies house you have verified someones identity when feature enabled", async () => {
         // Given
-        session.setExtraData("lang", "en");
+        session.setLanguage("en");
         getLoggedUserAcspMembershipSpy.mockReturnValue(accountOwnerAcspMembership);
         // When
         const encodedResponse = await router.get(url);

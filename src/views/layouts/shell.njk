@@ -1,35 +1,27 @@
-<!DOCTYPE html>
-<!--[if lt IE 9]><html class="lte-ie8" lang="en"><![endif]-->
-<!--[(if gt IE 8) | (!IE)]><!-->
-<html lang="en" class="govuk-template">
-    <!--<![endif]-->
-
-    {% include "partials/__meta_header.njk" %}
-
-    <body class="govuk-template__body" >
-
-        <script nonce={{ nonce | dump | safe }}>
-            document.body.className += ' js-enabled' + (
-                'noModule' in HTMLScriptElement.prototype
-                ? ' govuk-frontend-supported'
-                : '');
-        </script>
-        {% include "partials/cookie_consent_banner.njk" %}
-        <a href="#main-page-content" class="govuk-skip-link">{{lang.skip_to_main_content}}</a>
-        {% include "partials/__header.njk" %}
-
-        <div class="govuk-width-container ">
-            {% include "partials/nav/top.njk" %}
-            <main role="main" class="govuk-main-wrapper " id="main-page-content">
-                <div class="govuk-grid-row">
-                    {% block main_content %}{% endblock %}
-                </div>
-            </main>
-        </div>
-
-        {% include "partials/customer_insights.njk" %}
-        <div class="blue-footer-border"></div>
-        {% include "partials/__footer.njk" %}
-
-    </body>
-</html>
+{% extends "ch-node-utils/templates/layouts/template.njk" %}
+{% block pageTitle %}
+    {{- title if title else lang.page_header + lang.title_end -}}
+{% endblock %}
+{% block head %}
+    {{ super() }}
+    <link href="{{ cdnUrlCss }}/app.css" rel="stylesheet" media="all"/>
+    <link href="{{ cdnHost }}/stylesheets/ch.gov.uk.css" rel="stylesheet"/>
+{% endblock %}
+{% block header %}
+    {% include "partials/__header.njk" %}
+    {% include "partials/nav/top.njk" %}
+{% endblock %}
+{% block bodyStart %}
+    {% include "partials/cookie_consent_banner.njk" %}
+{% endblock %}
+{% block content %}
+    {% block main_content %}{% endblock %}
+{% endblock %}
+{% block footer %}
+    {% include "partials/customer_insights.njk" %}
+    {% include "partials/__footer.njk" %}
+{% endblock %}
+{% block bodyEnd %}
+    {{ super() }}
+    {% include "partials/__meta_footer.njk" %}
+{% endblock %}

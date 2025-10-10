@@ -78,7 +78,7 @@ describe("GET /authorised-agent/confirmation-member-removed", () => {
     it("should return expected Welsh content if person has been removed and userName is provided", async () => {
 
         // Given
-        session.setExtraData("lang", "cy");
+        session.setLanguage("cy");
 
         getLoggedUserAcspMembershipSpy.mockReturnValue(loggedInUserMembership);
         setExtraData(session, constants.DETAILS_OF_USER_TO_REMOVE, userDetails);
@@ -110,7 +110,7 @@ describe("GET /authorised-agent/confirmation-member-removed", () => {
         };
         getLoggedUserAcspMembershipSpy.mockReturnValue(loggedInUserMembership);
 
-        session.setExtraData("lang", "en");
+        session.setLanguage("en");
 
         setExtraData(session, constants.DETAILS_OF_USER_TO_REMOVE, userDetails);
 
