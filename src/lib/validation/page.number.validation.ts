@@ -6,7 +6,7 @@ export function validatePageNumber (pageNum: number, maxNumOfPages: number): boo
     try {
         pageNoSchema.parse(pageNum);
         return true;
-    } catch (e) {
+    } catch {
         return false;
     }
 }

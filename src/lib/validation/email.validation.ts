@@ -8,7 +8,7 @@ export function validateEmailString (emailString: string): boolean {
     try {
         emailSchema.parse(emailString);
         return true;
-    } catch (e) {
+    } catch {
         return false;
     }
 }
