@@ -87,6 +87,7 @@ const nonce: string = uuidv4();
 app.use(nocache());
 
 app.use(helmet(prepareCSPConfig(nonce)));
+app.use(helmet.noSniff());
 
 app.use(`${constants.LANDING_URL}*`, sessionMiddleware);
 app.use(`${constants.LANDING_URL}*`, ensureSessionCookiePresentMiddleware);
@@ -115,6 +116,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
     res.locals.convertUserRole = convertUserRole;
     res.locals.translateEnum = translateEnum(res.locals.locale);
     res.locals.nonce = nonce;
+    res.setHeader('Cache-Control', 'private, no-cache');
     next();
 });
 
