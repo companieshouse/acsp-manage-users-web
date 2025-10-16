@@ -116,7 +116,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
     res.locals.convertUserRole = convertUserRole;
     res.locals.translateEnum = translateEnum(res.locals.locale);
     res.locals.nonce = nonce;
-    res.setHeader('Cache-Control', 'private, no-cache');
+    res.setHeader("Cache-Control", "private, no-cache");
     next();
 });
 
