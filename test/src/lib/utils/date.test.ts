@@ -1,5 +1,3 @@
-/* eslint-disable import/first */
-
 jest.mock("../../../../src/lib/Logger");
 
 import {
@@ -44,7 +42,7 @@ describe("Date tests", () => {
             try {
                 // When
                 toReadableFormat(badDate);
-            } catch (e) {
+            } catch {
                 // Then
                 expect(mockCreateAndLogError).toHaveBeenCalledWith(
                     expect.stringContaining(badDate)

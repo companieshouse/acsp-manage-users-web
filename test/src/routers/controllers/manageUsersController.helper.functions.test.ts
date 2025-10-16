@@ -8,7 +8,6 @@ import { Request, Response } from "express";
 import * as acspMemberService from "../../../../src/services/acspMemberService";
 import { getMockAcspMembersResource, loggedAccountOwnerAcspMembership } from "../../../mocks/acsp.members.mock";
 import * as sessionUtils from "../../../../src/lib/utils/sessionUtils";
-import * as constants from "../../../../src/lib/constants";
 import { SignOutError } from "../../../../src/lib/utils/errors/sign-out-error";
 
 describe("getTitle", () => {

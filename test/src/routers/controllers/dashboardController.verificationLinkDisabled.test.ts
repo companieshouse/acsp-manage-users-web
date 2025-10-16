@@ -1,4 +1,3 @@
-/* eslint-disable import/first */
 process.env.FEATURE_FLAG_SHOW_TELL_US_YOUVE_VERIFIED_A_PERSONS_IDENTITY = "false";
 import mocks from "../../../mocks/all.middleware.mock";
 import supertest from "supertest";

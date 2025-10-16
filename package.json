@@ -13,7 +13,7 @@
     "build:server": "tsc && cp -r src/views dist/ && cp -r locales dist/",
     "build": "npm run build:assets && npm run build:server",
     "lint": "eslint 'src/*.ts' 'src/**/*.ts' 'test/src/**/*.ts'",
-    "lint:fix": "eslint 'src/*.ts' 'src/**/*.ts' 'test/src/**/*.ts' --fix",
+    "lint:fix": "eslint --fix",
     "test": "jest",
     "coverage": "jest --coverage --passWithNoTests",
     "sonarqube-base-branch": "sonar-scanner",
@@ -22,10 +22,6 @@
     "start": "npm run build && node dist/server.js",
     "start:watch": "nodemon",
     "chs-dev": "nodemon --legacy-watch"
-  },
-  "resolutions": {
-    "**/@typescript-eslint/eslint-plugin": "^4.1.1",
-    "**/@typescript-eslint/parser": "^4.1.1"
   },
   "husky": {
     "hooks": {
@@ -72,15 +68,13 @@
     "@types/nunjucks": "3.2.6",
     "@types/supertest": "^6.0.2",
     "@types/uuid": "10.0.0",
-    "@typescript-eslint/eslint-plugin": "4.1.1",
-    "@typescript-eslint/parser": "4.1.1",
+    "@typescript-eslint/eslint-plugin": "^8.46.1",
+    "@typescript-eslint/parser": "^8.46.1",
     "cheerio": "^1.0.0-rc.3",
-    "eslint": "6.8.0",
-    "eslint-config-standard": "14.1.1",
-    "eslint-plugin-import": "2.20.2",
-    "eslint-plugin-node": "11.1.0",
-    "eslint-plugin-promise": "4.2.1",
-    "eslint-plugin-standard": "4.0.1",
+    "eslint": "^9.37.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-import": "^2.32.0",
+    "eslint-plugin-node": "^11.1.0",
     "gulp": "^5.0.0",
     "gulp-clean": "^0.4.0",
     "gulp-concat": "^2.6.1",

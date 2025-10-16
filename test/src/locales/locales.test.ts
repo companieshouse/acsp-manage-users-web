@@ -55,14 +55,14 @@ function haveAnyMatchingKeys (obj1: Record<string, unknown>, obj2: Record<string
 }
 
 function haveSameValueForAnyKey (
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+     
     obj1: Record<string, any>, obj2: Record<string, any>, path = ""): boolean {
     for (const key in obj1) {
-        // eslint-disable-next-line no-prototype-builtins
+         
         if (obj1.hasOwnProperty(key)) {
             const newPath = path ? `${path}.${key}` : key; // Track the key path
 
-            // eslint-disable-next-line no-prototype-builtins
+             
             if (obj2.hasOwnProperty(key)) {
                 if (
                     typeof obj1[key] === "object" &&
