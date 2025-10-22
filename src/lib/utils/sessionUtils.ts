@@ -56,7 +56,7 @@ export const getAccessToken = (session: Session | undefined): string | undefined
 export const setAccessToken = (session: Session, accessToken: string): void => {
     const signInInfo = getSignInInfo(session);
     if (signInInfo) {
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+         
         signInInfo[SignInInfoKeys.AccessToken]![AccessTokenKeys.AccessToken] = accessToken;
     } else {
         const errorMessage = "SignInInfo not present in the session";

@@ -6,7 +6,7 @@ export function validateIdParam (id: string): boolean {
     try {
         idSchema.parse(id);
         return true;
-    } catch (e) {
+    } catch {
         return false;
     }
 }
@@ -20,7 +20,7 @@ export function validateActiveTabId (id: string): boolean {
     try {
         idSchema.parse(id);
         return true;
-    } catch (e) {
+    } catch {
         return false;
     }
 }
