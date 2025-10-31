@@ -19,6 +19,8 @@ interface DashboardGetViewData extends BaseViewData {
     closeAuthorisedAgentAccountLink: string,
     viewUsersLink: string
     changeIdentityVerificationDetailsUrl: string;
+    addOrRemoveAcspsDetailsUrl: string;
+    guidanceOnBeingAcspUrl: string;
 }
 
 export const dashboardControllerGet = async (req: Request, res: Response): Promise<void> => {
@@ -41,7 +43,9 @@ export const dashboardControllerGet = async (req: Request, res: Response): Promi
         agentStatus: loggedUserAcspMembership.acspStatus,
         userRole: loggedUserAcspMembership.userRole,
         userRoleTag: getUserRoleTag(loggedUserAcspMembership.userRole, req.lang, true),
-        changeIdentityVerificationDetailsUrl: constants.CHANGE_SOMEONES_IDENTITY_VERIFICATION_DETAILS_URL
+        changeIdentityVerificationDetailsUrl: constants.CHANGE_SOMEONES_IDENTITY_VERIFICATION_DETAILS_URL,
+        addOrRemoveAcspsDetailsUrl: constants.ADD_OR_REMOVE_ACSPS_DETAILS_URL,
+        guidanceOnBeingAcspUrl: constants.BEING_AN_ACSP_GUIDANCE_URL
     };
     acspLogger(req.session, dashboardControllerGet.name, `rendering dashboard page`);
     res.render(constants.DASHBOARD_PAGE, viewData);

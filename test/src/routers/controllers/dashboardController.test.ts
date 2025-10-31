@@ -13,6 +13,7 @@ import {
     standardUserAcspMembership
 } from "../../../mocks/acsp.members.mock";
 import { session } from "../../../mocks/session.middleware.mock";
+import { ADD_OR_REMOVE_ACSPS_DETAILS_URL, BEING_AN_ACSP_GUIDANCE_URL } from "../../../../src/lib/constants";
 
 jest.mock("../../../../src/lib/Logger");
 
@@ -47,6 +48,10 @@ describe(`GET ${url}`, () => {
         expect(decodedResponse).toContain(en.authorised_agent_number);
         expect(decodedResponse).toContain(en.your_role);
         expect(decodedResponse).toContain(en.authorised_agents_are_also_known_as);
+        expect(decodedResponse).toContain(en.add_or_remove_the_acsps_details);
+        expect(decodedResponse).toContain(en.guidance_on_being_an_acsp);
+        expect(decodedResponse).toContain(ADD_OR_REMOVE_ACSPS_DETAILS_URL);
+        expect(decodedResponse).toContain(BEING_AN_ACSP_GUIDANCE_URL);
         expect(decodedResponse).toContain(en.coming_soon);
         expect(decodedResponse).toContain(en.file_as_an_authorised_agent);
         expect(decodedResponse).toContain(en.in_future);
@@ -136,6 +141,10 @@ describe(`GET ${url}`, () => {
         expect(decodedResponse).toContain(enCommon.you_can);
         expect(decodedResponse).toContain(en.your_role);
         expect(decodedResponse).toContain(en.authorised_agents_are_also_known_as);
+        expect(decodedResponse).toContain(en.add_or_remove_the_acsps_details);
+        expect(decodedResponse).toContain(en.guidance_on_being_an_acsp);
+        expect(decodedResponse).toContain(ADD_OR_REMOVE_ACSPS_DETAILS_URL);
+        expect(decodedResponse).toContain(BEING_AN_ACSP_GUIDANCE_URL);
     });
 
     it("should display Welsh content when language preference in session is Welsh", async () => {
@@ -195,7 +204,7 @@ describe(`GET ${url}`, () => {
 
     it("should display the authorised agents inset text with the correct link", async () => {
         // Given
-        getLoggedUserAcspMembershipSpy.mockReturnValue(accountOwnerAcspMembership);
+        getLoggedUserAcspMembershipSpy.mockReturnValue(administratorAcspMembership);
 
         // When
         const encodedResponse = await router.get(url);
@@ -208,7 +217,7 @@ describe(`GET ${url}`, () => {
     it("should display the authorised agents inset text in Welsh when session language is Welsh", async () => {
         // Given
         session.setLanguage("cy");
-        getLoggedUserAcspMembershipSpy.mockReturnValue(accountOwnerAcspMembership);
+        getLoggedUserAcspMembershipSpy.mockReturnValue(administratorAcspMembership);
 
         // When
         const encodedResponse = await router.get(url);

@@ -41,6 +41,8 @@ export const USABILITY_BLOG_URL = "https://companieshouse.blog.gov.uk/category/u
 export const USER_PANEL_URL = "https://www.gov.uk/government/news/help-improve-companies-house";
 export const WCAG_URL = "https://www.w3.org/TR/WCAG22/";
 export const CHANGE_SOMEONES_IDENTITY_VERIFICATION_DETAILS_URL = "https://submit.forms.service.gov.uk/preview-draft/8629/change-someone-s-identity-verification-details/33128";
+export const ADD_OR_REMOVE_ACSPS_DETAILS_URL = "https://submit.forms.service.gov.uk/form/262336/confirm-if-you-want-to-be-shown-on-the-public-list-of-authorised-corporate-service-providers-acsps/1050813";
+export const BEING_AN_ACSP_GUIDANCE_URL = "https://www.gov.uk/guidance/being-an-authorised-corporate-service-provider";
 
 export const YOU_HAVE_VERIFIED_SOMEONES_IDENTITY_URL = "/tell-companies-house-you-have-verified-someones-identity";
 export const SIGN_OUT_URL = `${ACCOUNT_URL}/signout`;
