@@ -47,14 +47,14 @@
     <p class="govuk-body">{{lang.authorised_agents_are_also_known_as}}</p>
 
     {% if userRole === UserRole.OWNER %}
-        <h3 class="govuk-heading-s">
+        <h2 class="govuk-heading-s">
             <a class="govuk-link" data-event-id="add-or-remove-acsps-details" href="{{addOrRemoveAcspsDetailsUrl}}">{{lang.add_or_remove_the_acsps_details}}</a>
-        </h3>
+        </h2>
         <p class="govuk-body">{{lang.to_include_the_acsps_details}}</p>
 
-        <h3 class="govuk-heading-s">
+        <h2 class="govuk-heading-s">
             <a class="govuk-link" data-event-id="guidance-on-being-an-acsp" href="{{guidanceOnBeingAcspUrl}}">{{lang.guidance_on_being_an_acsp}}</a>
-        </h3>
+        </h2>
         <p class="govuk-body">{{lang.read_the_guidance}}</p>
     {% endif %}
 
