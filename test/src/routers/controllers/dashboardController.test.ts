@@ -5,6 +5,7 @@ import app from "../../../../src/app";
 import * as en from "../../../../locales/en/dashboard.json";
 import * as enCommon from "../../../../locales/en/common.json";
 import * as cy from "../../../../locales/cy/dashboard.json";
+import * as cyCommon from "../../../../locales/cy/common.json";
 import * as sessionUtils from "../../../../src/lib/utils/sessionUtils";
 
 import {
@@ -13,7 +14,7 @@ import {
     standardUserAcspMembership
 } from "../../../mocks/acsp.members.mock";
 import { session } from "../../../mocks/session.middleware.mock";
-import { ADD_OR_REMOVE_ACSPS_DETAILS_URL, BEING_AN_ACSP_GUIDANCE_URL } from "../../../../src/lib/constants";
+import * as constants from "../../../../src/lib/constants";
 
 jest.mock("../../../../src/lib/Logger");
 
@@ -50,15 +51,15 @@ describe(`GET ${url}`, () => {
         expect(decodedResponse).toContain(en.authorised_agents_are_also_known_as);
         expect(decodedResponse).toContain(en.add_or_remove_the_acsps_details);
         expect(decodedResponse).toContain(en.guidance_on_being_an_acsp);
-        expect(decodedResponse).toContain(ADD_OR_REMOVE_ACSPS_DETAILS_URL);
-        expect(decodedResponse).toContain(BEING_AN_ACSP_GUIDANCE_URL);
+        expect(decodedResponse).toContain(constants.ADD_OR_REMOVE_ACSPS_DETAILS_ENGLISH_URL);
+        expect(decodedResponse).toContain(constants.BEING_AN_ACSP_GUIDANCE_ENGLISH_URL);
         expect(decodedResponse).toContain(en.coming_soon);
         expect(decodedResponse).toContain(en.file_as_an_authorised_agent);
         expect(decodedResponse).toContain(en.in_future);
         expect(decodedResponse).toContain(en.manage_users);
         expect(decodedResponse).toContain(en.page_header);
         expect(decodedResponse).toContain(en.remove_users);
-        expect(decodedResponse).toContain(en.tell_companies_house_id);
+        expect(decodedResponse).toContain(en.tell_companies_house_link_text);
         expect(decodedResponse).toContain(en.tell_us_about_any_changes_within);
         expect(decodedResponse).toContain(en.tell_us_about_changes);
         expect(decodedResponse).toContain(en.business_details);
@@ -91,7 +92,7 @@ describe(`GET ${url}`, () => {
         expect(decodedResponse).toContain(en.manage_users);
         expect(decodedResponse).toContain(en.page_header);
         expect(decodedResponse).toContain(en.remove_users);
-        expect(decodedResponse).toContain(en.tell_companies_house_id);
+        expect(decodedResponse).toContain(en.tell_companies_house_link_text);
         expect(decodedResponse).toContain(en.view_users_who_have_been_added);
         expect(decodedResponse).toContain(enCommon.you_can);
         expect(decodedResponse).toContain(en.your_role);
@@ -115,7 +116,7 @@ describe(`GET ${url}`, () => {
         expect(decodedResponse).toContain(en.view_users);
         expect(decodedResponse).toContain(en.you_can_view_all_users_who);
         expect(decodedResponse).toContain(en.page_header);
-        expect(decodedResponse).toContain(en.tell_companies_house_id);
+        expect(decodedResponse).toContain(en.tell_companies_house_link_text);
         expect(decodedResponse).toContain(en.your_role);
         expect(decodedResponse).toContain(en.users_for_the_authorised_agent);
     });
@@ -136,15 +137,43 @@ describe(`GET ${url}`, () => {
         expect(decodedResponse).toContain(en.manage_users);
         expect(decodedResponse).toContain(en.page_header);
         expect(decodedResponse).toContain(en.remove_users);
-        expect(decodedResponse).toContain(en.tell_companies_house_id);
+        expect(decodedResponse).toContain(en.tell_companies_house_link_text);
         expect(decodedResponse).toContain(en.view_users_who_have_been_added);
         expect(decodedResponse).toContain(enCommon.you_can);
         expect(decodedResponse).toContain(en.your_role);
         expect(decodedResponse).toContain(en.authorised_agents_are_also_known_as);
         expect(decodedResponse).toContain(en.add_or_remove_the_acsps_details);
         expect(decodedResponse).toContain(en.guidance_on_being_an_acsp);
-        expect(decodedResponse).toContain(ADD_OR_REMOVE_ACSPS_DETAILS_URL);
-        expect(decodedResponse).toContain(BEING_AN_ACSP_GUIDANCE_URL);
+        expect(decodedResponse).toContain(constants.ADD_OR_REMOVE_ACSPS_DETAILS_ENGLISH_URL);
+        expect(decodedResponse).toContain(constants.BEING_AN_ACSP_GUIDANCE_ENGLISH_URL);
+    });
+
+    it("should have a page title and 2 boxes manage users and verify when account owner logged in, and feature flags set to false, and lang set to cy", async () => {
+        // Given
+        getLoggedUserAcspMembershipSpy.mockReturnValue(accountOwnerAcspMembership);
+        session.setLanguage("cy");
+        // When
+        const encodedResponse = await router.get(url);
+        const decodedResponse = encodedResponse.text.replace(/&#39;/g, "'");
+        // Then
+        expect(encodedResponse.status).toEqual(200);
+        expect(decodedResponse).toContain(cy.add_users_if_they_need_to_use_services_for);
+        expect(decodedResponse).toContain(cy.authorised_agent_number);
+        expect(decodedResponse).toContain(cy.authorised_agent_services);
+        expect(decodedResponse).toContain(cy.authorised_agent_status);
+        expect(decodedResponse).toContain(cy.coming_soon);
+        expect(decodedResponse).toContain(cy.manage_users);
+        expect(decodedResponse).toContain(cy.page_header);
+        expect(decodedResponse).toContain(cy.remove_users);
+        expect(decodedResponse).toContain(cy.tell_companies_house_link_text);
+        expect(decodedResponse).toContain(cy.view_users_who_have_been_added);
+        expect(decodedResponse).toContain(cyCommon.you_can);
+        expect(decodedResponse).toContain(cy.your_role);
+        expect(decodedResponse).toContain(cy.authorised_agents_are_also_known_as);
+        expect(decodedResponse).toContain(cy.add_or_remove_the_acsps_details);
+        expect(decodedResponse).toContain(cy.guidance_on_being_an_acsp);
+        expect(decodedResponse).toContain(constants.ADD_OR_REMOVE_ACSPS_DETAILS_WELSH_URL);
+        expect(decodedResponse).toContain(constants.BEING_AN_ACSP_GUIDANCE_WELSH_URL);
     });
 
     it("should display Welsh content when language preference in session is Welsh", async () => {
