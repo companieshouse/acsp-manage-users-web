@@ -14,7 +14,6 @@ This is a web frontend for the ACSP Manage Users journey. It was created based o
 - [SuperTest](https://www.npmjs.com/package/supertest)
 - [Sonarqube](https://www.sonarqube.org)
 - [Docker](https://www.docker.com/)
-- [Tilt](https://tilt.dev/)
 - [Git](https://git-scm.com/downloads)
 - [express-async-errors](https://www.npmjs.com/package/express-async-errors)
 - [Helmet](https://helmetjs.github.io/)
