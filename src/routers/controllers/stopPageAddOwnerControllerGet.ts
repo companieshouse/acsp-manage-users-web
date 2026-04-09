@@ -15,7 +15,7 @@ interface StopPageAddOwnerGetViewData extends ViewDataWithBackLink {
     isRemoval: boolean
 }
 
-export const stopPageAddOwnerControllerGet: RequestHandler = async (req: Request, res: Response) => {
+export const stopPageAddOwnerControllerGet: RequestHandler = async (req: Request, res: Response): Promise<void> => {
     const loggedUserAcspMembership: AcspMembership = getLoggedUserAcspMembership(req.session);
     const userToRemove: MemberForRemoval | undefined = getExtraData(req.session, constants.DETAILS_OF_USER_TO_REMOVE);
     const userToChangeRole: UserRoleChangeData | undefined = getExtraData(req.session, constants.USER_ROLE_CHANGE_DATA);
