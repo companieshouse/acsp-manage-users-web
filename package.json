@@ -4,8 +4,8 @@
   "description": "A web application for ACSP Manage Users journey",
   "main": "dist/server.js",
   "engines": {
-    "node": ">=20.0.0",
-    "npm": "^10"
+    "node": ">=24.0.0",
+    "npm": "^=11"
   },
   "scripts": {
     "prebuild": "rm -rf ./dist",
@@ -33,9 +33,9 @@
     "@braintree/sanitize-url": "^7.1.2",
     "@companieshouse/api-sdk-node": "^2.0.328",
     "@companieshouse/ch-node-utils": "^2.1.13",
-    "@companieshouse/node-session-handler": "^5.2.10",
-    "@companieshouse/structured-logging-node": "^2.0.7",
-    "@companieshouse/web-security-node": "^4.4.15",
+    "@companieshouse/node-session-handler": "^5.2.12",
+    "@companieshouse/structured-logging-node": "^2.0.11",
+    "@companieshouse/web-security-node": "^4.4.16",
     "@types/luxon": "^3.4.2",
     "cookie-parser": "^1.4.7",
     "dotenv": "^16.4.7",
@@ -98,8 +98,9 @@
   },
   "overrides": {
     "chokidar": "3.5.3",
+    "glob": "^12.0.0",
     "glob-parent": "6.0.2",
-    "minimatch": "10.2.4",
+    "minimatch": "10.2.5",
     "qs": "6.14.2"
   },
   "nodemonConfig": {
