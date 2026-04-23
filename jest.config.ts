@@ -102,7 +102,8 @@ const config: Config = {
     // notifyMode: "failure-change",
 
     // A preset that is used as a base for Jest's configuration
-    preset: "ts-jest",
+    // Use babel-jest for ESM support in node_modules (uuid@14+)
+    preset: undefined,
 
     // Run tests from one or more projects
     // projects: undefined,
@@ -177,14 +178,15 @@ const config: Config = {
 
     // A map from regular expressions to paths to transformers
     transform: {
-        "^.+\\.(ts|tsx)?$": "ts-jest"
-    }
+        "^.+\\.[tj]sx?$": "babel-jest"
+    },
 
     // An array of regexp pattern strings that are matched against all source file paths, matched files will skip transformation
-    // transformIgnorePatterns: [
-    //   "/node_modules/",
-    //   "\\.pnp\\.[^\\/]+$"
-    // ],
+    // By default, node_modules are ignored, but we need to transform uuid (ESM-only in v14+)
+    transformIgnorePatterns: [
+        "/node_modules/(?!(uuid)/)",
+        "\\.pnp\\.[^\\/]+$"
+    ],
 
     // An array of regexp pattern strings that are matched against all modules before the module loader will automatically return a mock for them
     // unmockedModulePathPatterns: undefined,
