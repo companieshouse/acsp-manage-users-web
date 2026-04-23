@@ -1,5 +1,5 @@
 {
-    "exec": "ts-node ./src/bin/nodemon-entry.ts",
+    "exec": "node --inspect=0.0.0.0:9229 -r ts-node/register src/bin/nodemon-entry.ts",
     "ext": "ts,html,js,njk,json",
     "watch": ["./src", "./locales", "package.json"],
     "events": {
@@ -7,4 +7,3 @@
       "crash": "echo '💥 '  Nodemon Crashed!"
     }
   }
-  
