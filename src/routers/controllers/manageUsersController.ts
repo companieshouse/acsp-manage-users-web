@@ -4,7 +4,7 @@ import { getTranslationsForView } from "../../lib/utils/translationUtils";
 import { AnyRecord, MemberRawViewData, PageNumbers, PageQueryParams } from "../../types/utilTypes";
 import { TableEntry } from "../../types/viewTypes";
 import { getHiddenText, getLink } from "../../lib/utils/viewUtils";
-import { setExtraData, getLoggedUserAcspMembership, deleteExtraData, getExtraData } from "../../lib/utils/sessionUtils";
+import { setExtraData, getLoggedUserAcspMembership, deleteExtraData, getExtraData, userHasPermission } from "../../lib/utils/sessionUtils";
 import { AcspMembership, AcspStatus, UserRole } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
 import { getAcspMemberships, getMembershipForLoggedInUser, membershipLookup } from "../../services/acspMemberService";
 import { validateEmailString } from "../../lib/validation/email.validation";
@@ -148,9 +148,15 @@ export const getViewData = async (req: Request, res: Response, search: string | 
         const adminMemberRawViewData = await getMemberRawViewData(req, acspNumber, pageNumbers, UserRole.ADMIN, constants.ADMINISTRATORS_TAB_ID, translations, userRole);
         const standardMemberRawViewData = await getMemberRawViewData(req, acspNumber, pageNumbers, UserRole.STANDARD, constants.STANDARD_USERS_TAB_ID, translations, userRole);
 
-        viewData.accountOwnersTableData = getUserTableData(ownerMemberRawViewData.memberships, translations, userRole === UserRole.OWNER, userRole === UserRole.OWNER);
-        viewData.administratorsTableData = getUserTableData(adminMemberRawViewData.memberships, translations, userRole !== UserRole.STANDARD, userRole !== UserRole.STANDARD);
-        viewData.standardUsersTableData = getUserTableData(standardMemberRawViewData.memberships, translations, userRole !== UserRole.STANDARD, userRole !== UserRole.STANDARD);
+        // Disable change role and remove links for internal admins as they should only be able to add new users
+        const userIsInternalAdmin = userHasPermission(req.session, "/admin/acsp/manage");
+        const accountOwnersPrivilege = userRole === UserRole.OWNER && !userIsInternalAdmin;
+        const administratorsPrivilege = userRole !== UserRole.STANDARD && !userIsInternalAdmin;
+        const standardUsersPrivilege = userRole !== UserRole.STANDARD && !userIsInternalAdmin;
+
+        viewData.accountOwnersTableData = getUserTableData(ownerMemberRawViewData.memberships, translations, accountOwnersPrivilege, accountOwnersPrivilege);
+        viewData.administratorsTableData = getUserTableData(adminMemberRawViewData.memberships, translations, administratorsPrivilege, administratorsPrivilege);
+        viewData.standardUsersTableData = getUserTableData(standardMemberRawViewData.memberships, translations, standardUsersPrivilege, standardUsersPrivilege);
 
         viewData.accoutOwnerPadinationData = ownerMemberRawViewData.pagination;
         viewData.adminPadinationData = adminMemberRawViewData.pagination;
@@ -293,9 +299,11 @@ const handleSearch = async (
 
             setExtraData(req.session, constants.MANAGE_USERS_MEMBERSHIP, formattedFoundMember);
 
+            // Disable change role and remove links for internal admins as they should only be able to add new users
+            const userIsInternalAdmin = userHasPermission(req.session, "/admin/acsp/manage");
             const hasChangeRoleLink: boolean = foundMember.userRole === UserRole.OWNER ? userRole !== UserRole.ADMIN && userRole !== UserRole.STANDARD : userRole !== UserRole.STANDARD;
-            const hasRemoveLink: boolean = foundMember.userRole === UserRole.OWNER ? userRole !== UserRole.ADMIN && userRole !== UserRole.STANDARD : userRole !== UserRole.STANDARD;
-            const memberData = getUserTableData(foundMembership.items, translations, hasChangeRoleLink, hasRemoveLink);
+            const hasRemoveLink: boolean =  foundMember.userRole === UserRole.OWNER ? userRole !== UserRole.ADMIN && userRole !== UserRole.STANDARD : userRole !== UserRole.STANDARD;
+            const memberData = getUserTableData(foundMembership.items, translations, hasChangeRoleLink && !userIsInternalAdmin, hasRemoveLink && !userIsInternalAdmin);
             switch (foundMember.userRole) {
             case UserRole.OWNER:
                 viewData.accountOwnersTableData = memberData;
