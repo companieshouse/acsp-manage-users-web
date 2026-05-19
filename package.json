@@ -37,7 +37,7 @@
     "@companieshouse/structured-logging-node": "^2.0.11",
     "@companieshouse/web-security-node": "^4.4.18",
     "@opentelemetry/api": "^1.9.1",
-    "@opentelemetry/auto-instrumentations-node": "^0.56.1",
+    "@opentelemetry/auto-instrumentations-node": "^0.76.0",
     "@opentelemetry/baggage-span-processor": "^0.4.2",
     "@types/luxon": "^3.4.2",
     "cookie-parser": "^1.4.7",
@@ -107,7 +107,9 @@
     "glob": "^12.0.0",
     "glob-parent": "6.0.2",
     "minimatch": "10.2.5",
-    "qs": "6.14.2"
+    "qs": "6.14.2",
+    "@opentelemetry/exporter-prometheus" : "^0.218.0",
+    "@opentelemetry/sdk-node" : "^0.218.0"
   },
   "nodemonConfig": {
     "watch": [
