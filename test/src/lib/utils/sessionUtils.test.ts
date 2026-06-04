@@ -50,6 +50,49 @@ describe("Session Utils", () => {
         });
     });
 
+    describe("userHasPermission", () => {
+        it("should return true when user has the required permission", () => {
+            // Given
+            const session: Session = new Session();
+            (session.data.signin_info as unknown) = {
+                user_profile: {
+                    permissions: {
+                        [constants.ADMIN_ACSP_USER_CREATE]: true
+                    }
+                }
+            };
+            // When
+            const result = sessionUtils.userHasPermission(session, constants.ADMIN_ACSP_USER_CREATE);
+            // Then
+            expect(result).toBeTruthy();
+        });
+
+        it("should return false when user does not have the required permission", () => {
+            // Given
+            const session: Session = new Session();
+            (session.data.signin_info as unknown) = {
+                user_profile: {
+                    permissions: {
+                        some_other_permission: true
+                    }
+                }
+            };
+            // When
+            const result = sessionUtils.userHasPermission(session, constants.ADMIN_ACSP_USER_CREATE);
+            // Then
+            expect(result).toBeFalsy();
+        });
+
+        it("should return false when permissions are missing", () => {
+            // Given
+            const session: Session = new Session();
+            // When
+            const result = sessionUtils.userHasPermission(session, constants.ADMIN_ACSP_USER_CREATE);
+            // Then
+            expect(result).toBeFalsy();
+        });
+    });
+
     describe("setExtraData", () => {
         it("should set extra data to session if provided", () => {
             // Given
