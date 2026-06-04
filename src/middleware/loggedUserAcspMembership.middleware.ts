@@ -7,6 +7,7 @@ import { isWhitelistedUrl } from "../lib/utils/urlUtils";
 import * as url from "node:url";
 import logger from "../lib/Logger";
 import { SignOutError } from "../lib/utils/errors/sign-out-error";
+import { isFeatureEnabled } from "../lib/utils/environmentValue";
 
 export const loggedUserAcspMembershipMiddleware = async (
     req: Request,
@@ -26,9 +27,11 @@ export const loggedUserAcspMembershipMiddleware = async (
         const membershipResponse = await getMembershipForLoggedInUser(req);
         let membership = membershipResponse?.items?.[0];
 
-        if (userHasPermission(req.session, constants.ADMIN_ACSP_USER_CREATE)) {
-            logger.info("User has CH internal admin permissions, setting admin ACSP membership in session");
-            membership = await constructChAdminAcspMembership(req);
+        if (isFeatureEnabled(constants.FEATURE_FLAG_PERMIT_CH_ADMIN_TO_UNLOCK_ACCOUNTS)) {
+            if (userHasPermission(req.session, constants.ADMIN_ACSP_USER_CREATE)) {
+                logger.info("User has CH internal admin permissions, setting admin ACSP membership in session");
+                membership = await constructChAdminAcspMembership(req);
+            }
         }
 
         if (!membership) {

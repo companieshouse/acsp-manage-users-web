@@ -7,12 +7,14 @@ import { Session } from "@companieshouse/node-session-handler";
 import { getMockAcspMembersResource, loggedAccountOwnerAcspMembership } from "../../mocks/acsp.members.mock";
 import { AcspStatus } from "private-api-sdk-node/dist/services/acsp-manage-users/types";
 import { SignOutError } from "../../../src/lib/utils/errors/sign-out-error";
+import * as environmentValueUtils from "../../../src/lib/utils/environmentValue";
 
 const setExtraDataSpy: jest.SpyInstance = jest.spyOn(sessionUtils, "setExtraData");
 const getLoggedUserAcspMembershipSpy: jest.SpyInstance = jest.spyOn(sessionUtils, "getLoggedUserAcspMembership");
 const userHasPermissionSpy: jest.SpyInstance = jest.spyOn(sessionUtils, "userHasPermission");
 const getMembershipForLoggedInUserSpy: jest.SpyInstance = jest.spyOn(acspMemberService, "getMembershipForLoggedInUser");
 const getAcspMembershipsSpy: jest.SpyInstance = jest.spyOn(acspMemberService, "getAcspMemberships");
+const isFeatureEnabledSpy: jest.SpyInstance = jest.spyOn(environmentValueUtils, "isFeatureEnabled");
 
 let session: Session;
 let req: Request;
@@ -22,6 +24,7 @@ const next = jest.fn();
 describe("loggedUserAcspMembershipMiddleware", () => {
     beforeEach(() => {
         jest.clearAllMocks();
+        isFeatureEnabledSpy.mockReturnValue(true);
         session = new Session();
         req = {
             session,
@@ -196,5 +199,23 @@ describe("loggedUserAcspMembershipMiddleware", () => {
 
         expect(getAcspMembershipsSpy).toHaveBeenCalledWith(req, "ABC123", false);
         expect(next).not.toHaveBeenCalled();
+    });
+
+    it("should not construct CH admin membership when feature flag is disabled", async () => {
+        // Given
+        isFeatureEnabledSpy.mockReturnValue(false);
+        getLoggedUserAcspMembershipSpy.mockReturnValue(undefined);
+        userHasPermissionSpy.mockReturnValue(true);
+        getMembershipForLoggedInUserSpy.mockReturnValue(getMockAcspMembersResource([loggedAccountOwnerAcspMembership]));
+
+        // When
+        await loggedUserAcspMembershipMiddleware(req, res, next);
+
+        // Then
+        expect(isFeatureEnabledSpy).toHaveBeenCalledWith(constants.FEATURE_FLAG_PERMIT_CH_ADMIN_TO_UNLOCK_ACCOUNTS);
+        expect(userHasPermissionSpy).not.toHaveBeenCalled();
+        expect(getAcspMembershipsSpy).not.toHaveBeenCalled();
+        expect(setExtraDataSpy).toHaveBeenCalledWith(req.session, constants.LOGGED_USER_ACSP_MEMBERSHIP, loggedAccountOwnerAcspMembership);
+        expect(next).toHaveBeenCalled();
     });
 });
