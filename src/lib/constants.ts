@@ -103,6 +103,9 @@ export const MANAGE_USERS_MEMBERSHIP = "manageUsersMembership";
 export const USER_ROLE_CHANGE_DATA = "userRoleChangeData";
 export const SEARCH_STRING_EMAIL = "searchStringEmail";
 
+// CHS Permissions
+export const ADMIN_ACSP_USER_CREATE = "/admin/acsp/user-create";
+
 // Miscellaneous Constants
 export const ITEMS_PER_PAGE_DEFAULT = 15;
 export const UNCAUGHT_EXCEPTION = "uncaughtException";
