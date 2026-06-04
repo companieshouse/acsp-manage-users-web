@@ -22,6 +22,12 @@ export const getLoggedInUserId = (session: Session | undefined): string => {
     return signInInfo?.[SignInInfoKeys.UserProfile]?.[UserProfileKeys.UserId] as string;
 };
 
+export const userHasPermission = (session: Session | undefined, requiredPermission: string): boolean => {
+    const signInInfo = getSignInInfo(session);
+    const permissions = signInInfo?.[SignInInfoKeys.UserProfile]?.[UserProfileKeys.Permissions];
+    return !!permissions && !!permissions[requiredPermission];
+};
+
 export const getLoggedUserAcspMembership = (session: Session | undefined): AcspMembership => {
     return getExtraData(session, constants.LOGGED_USER_ACSP_MEMBERSHIP);
 };
