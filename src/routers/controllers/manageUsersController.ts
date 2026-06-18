@@ -152,9 +152,9 @@ export const getViewData = async (req: Request, res: Response, search: string | 
         viewData.administratorsTableData = getUserTableData(adminMemberRawViewData.memberships, translations, userRole !== UserRole.STANDARD, userRole !== UserRole.STANDARD);
         viewData.standardUsersTableData = getUserTableData(standardMemberRawViewData.memberships, translations, userRole !== UserRole.STANDARD, userRole !== UserRole.STANDARD);
 
-        viewData.accoutOwnerPadinationData = ownerMemberRawViewData.pagination;
-        viewData.adminPadinationData = adminMemberRawViewData.pagination;
-        viewData.standardUserPadinationData = standardMemberRawViewData.pagination;
+        viewData.accountOwnerPaginationData = ownerMemberRawViewData.pagination;
+        viewData.adminPaginationData = adminMemberRawViewData.pagination;
+        viewData.standardUserPaginationData = standardMemberRawViewData.pagination;
 
         const allMembersForThisAcsp = [
             ...ownerMemberRawViewData.memberships,
