@@ -21,6 +21,7 @@ const url = "/authorised-agent/manage-users";
 const getAcspMembershipsSpy: jest.SpyInstance = jest.spyOn(acspMemberService, "getAcspMemberships");
 const getLoggedUserAcspMembershipSpy: jest.SpyInstance = jest.spyOn(sessionUtils, "getLoggedUserAcspMembership");
 const deleteExtraDataSpy: jest.SpyInstance = jest.spyOn(sessionUtils, "deleteExtraData");
+const userHasPermissionSpy: jest.SpyInstance = jest.spyOn(sessionUtils, "userHasPermission");
 
 getAcspMembershipsSpy
     .mockResolvedValue(getMockAcspMembersResource([accountOwnerAcspMembership]));
@@ -101,5 +102,18 @@ describe("GET /authorised-agent/manage-users", () => {
         // Then
         expect(response.text).toContain(en.page_header_standard);
         expect(deleteExtraDataSpy).toHaveBeenCalledWith(expect.anything(), constants.SEARCH_STRING_EMAIL);
+    });
+
+    it("should not show change role or remove links when user is an internal admin (OWNER role)", async () => {
+        // Given
+        getLoggedUserAcspMembershipSpy.mockReturnValue(loggedAccountOwnerAcspMembership);
+        userHasPermissionSpy.mockReturnValue(true);
+        getAcspMembershipsSpy.mockResolvedValue(getMockAcspMembersResource([accountOwnerAcspMembership]));
+        // When
+        const result = await router.get(url);
+        // Then
+        expect(result.status).toEqual(200);
+        expect(result.text).not.toContain("<a data-event-id=\"change-role\"");
+        expect(result.text).not.toContain("<a data-event-id=\"remove\"");
     });
 });
