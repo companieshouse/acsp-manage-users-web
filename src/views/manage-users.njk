@@ -168,8 +168,8 @@
             })
         }}
 
-        {% if accoutOwnerPadinationData and accoutOwnerPadinationData.items | length %}
-            {{ govukPagination(accoutOwnerPadinationData) }}
+        {% if accountOwnerPaginationData and accountOwnerPaginationData.items | length %}
+            {{ govukPagination(accountOwnerPaginationData) }}
         {% endif %}
     {% elif search and(standardUsersTableData.length > 0 or administratorsTableData.length > 0) %}
         <p class="govuk-body">{{lang.no_search_results}}.</p>
@@ -192,8 +192,8 @@
             })
         }}
 
-        {% if adminPadinationData and adminPadinationData.items | length %}
-            {{ govukPagination(adminPadinationData) }}
+        {% if adminPaginationData and adminPaginationData.items | length %}
+            {{ govukPagination(adminPaginationData) }}
         {% endif %}
     {% elif search and(standardUsersTableData.length > 0 or accountOwnersTableData.length > 0) %}
         <p class="govuk-body">{{lang.no_search_results}}.</p>
@@ -216,8 +216,8 @@
             })
         }}
 
-        {% if standardUserPadinationData and standardUserPadinationData.items | length %}
-            {{ govukPagination(standardUserPadinationData) }}
+        {% if standardUserPaginationData and standardUserPaginationData.items | length %}
+            {{ govukPagination(standardUserPaginationData) }}
         {% endif %}
     {% elif search and(administratorsTableData.length > 0 or accountOwnersTableData.length > 0) %}
         <p class="govuk-body">{{lang.no_search_results}}.</p>

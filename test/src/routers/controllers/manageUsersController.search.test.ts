@@ -23,6 +23,7 @@ const membershipLookupSpy = jest.spyOn(acspMemberService, "membershipLookup");
 const getLoggedUserAcspMembershipSpy: jest.SpyInstance = jest.spyOn(sessionUtils, "getLoggedUserAcspMembership");
 const setExtraDataSpy: jest.SpyInstance = jest.spyOn(sessionUtils, "setExtraData");
 const getExtraDataSpy: jest.SpyInstance = jest.spyOn(sessionUtils, "getExtraData");
+const userHasPermissionSpy: jest.SpyInstance = jest.spyOn(sessionUtils, "userHasPermission");
 
 describe("manageUsersControllerGet - search", () => {
 
@@ -123,6 +124,38 @@ describe("manageUsersControllerGet - search", () => {
         // Then
         expect(response.text).not.toContain(en.errors_enter_an_email_address_in_the_correct_format);
         expect(response.text).toContain(en.no_search_results);
+    });
+
+    it("should not show change role or remove links when user is an internal admin and a user is found via search", async () => {
+        // Given
+        const search = "james.morris@gmail.com";
+        getExtraDataSpy.mockReturnValue(search);
+        getLoggedUserAcspMembershipSpy.mockReturnValue(loggedAccountOwnerAcspMembership);
+        userHasPermissionSpy.mockReturnValue(true);
+        membershipLookupSpy.mockResolvedValue(getMockAcspMembersResource([accountOwnerAcspMembership]));
+        // When
+        const response = await router.get(url);
+        // Then
+        expect(response.status).toEqual(200);
+        expect(response.text).toContain(accountOwnerAcspMembership.userEmail);
+        expect(response.text).not.toContain("<a data-event-id=\"change-role\"");
+        expect(response.text).not.toContain("<a data-event-id=\"remove\"");
+    });
+
+    it("should not show change role or remove links when user is an internal admin and an admin user is found via search", async () => {
+        // Given
+        const search = "jeremy.lloris@gmail.com";
+        getExtraDataSpy.mockReturnValue(search);
+        getLoggedUserAcspMembershipSpy.mockReturnValue(loggedAccountOwnerAcspMembership);
+        userHasPermissionSpy.mockReturnValue(true);
+        membershipLookupSpy.mockResolvedValue(getMockAcspMembersResource([administratorAcspMembership]));
+        // When
+        const response = await router.get(url);
+        // Then
+        expect(response.status).toEqual(200);
+        expect(response.text).toContain(administratorAcspMembership.userEmail);
+        expect(response.text).not.toContain("<a data-event-id=\"change-role\"");
+        expect(response.text).not.toContain("<a data-event-id=\"remove\"");
     });
 });
 
